@@ -2511,6 +2511,45 @@ function fvseop_mrt_mkarry()
 	//echo "<div class='updated fade' style='background-color:green;border-color:green;'><p><strong>Updating FV All in One SEO Pack configuration options in database</strong></p></div>";
 }
 
+function fvseop_nav_menu($content)
+{
+	$url = preg_replace(array('/\//', '/\./', '/\-/'), array('\/', '\.', '\-'), get_option('siteurl'));
+	$pattern = '/<li id=\"menu-item-(\d+)\" class="menu-item(.*?)menu-item-(\d+)([^\"]*)"><a href=\"([^\"]+)"[^>]*?>([^<]+)<\/a>/i';
+  /// db optimization
+  preg_match_all( '~id=\"menu-item-(\d+)\"~', $content, $ids );  
+  if( function_exists( 'update_meta_cache' ) && count( $ids[1] ) > 0 ) { update_meta_cache( 'post', $ids[1] ); }
+  
+  $menu_ids = array();
+  foreach ($ids[1] as $id) {    
+    $menu_ids[] = get_post_meta($id, '_menu_item_object_id', true); 
+  }
+  if( function_exists( 'update_meta_cache' ) && count( $menu_ids ) > 0 ) { update_meta_cache( 'post', $menu_ids ); }
+  
+  return preg_replace_callback($pattern, "fvseop_filter_menu_callback", $content);  
+}
+
+function fvseop_filter_menu_callback($matches)
+{                      
+  $postID = get_post_meta($matches[1], '_menu_item_object_id', true);      
+  $my_post = get_post( $postID );      
+           	
+	if (empty($postID))
+		$postID = get_option("page_on_front");
+				       
+  if ($my_post->post_title == $matches[6]) {
+    $menulabel = stripslashes(get_post_meta($postID, '_aioseop_menulabel', true));
+  }    
+	
+	if (empty($menulabel))
+		$menulabel = $matches[6];    
+                          
+  $menulabel = __( $menulabel );  
+  
+  $filtered = '<li id="menu-item-' . $matches[1] . '" class="menu-item ' . $matches[2] . 'menu-item-' . $matches[1] . '"><a href="' . esc_attr($matches[5]) . '">' . esc_html($menulabel) . '</a>';	
+	
+	return $filtered;
+}
+
 function fvseop_list_pages($content)
 {
 	$url = preg_replace(array('/\//', '/\./', '/\-/'), array('\/', '\.', '\-'), get_option('siteurl'));
@@ -2523,7 +2562,7 @@ function fvseop_list_pages($content)
 }
 
 function fvseop_filter_callback($matches)
-{
+{        
   preg_match( '~title="([^\"]+)"~', $matches[0], $match_title );
   if( $match_title ) {
     $matches[4] = $match_title[1];
@@ -2559,7 +2598,7 @@ function fvseop_filter_callback($matches)
   /// End of addition
 	else :
     	$filtered = '<li class="page_item page-item-' . $postID.$matches[2] . '"><a href="' . esc_attr($matches[3]) . '" title="' . esc_attr($matches[4]) . '">' . esc_html($menulabel) . '</a>';
-	endif;
+	endif;    
 	
 	return $filtered;
 }
@@ -2788,6 +2827,7 @@ if ($fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] == 'on')
 
 add_action('admin_menu', 'fvseo_meta_box_add');
 add_action('wp_list_pages', 'fvseop_list_pages');
+add_action('wp_nav_menu', 'fvseop_nav_menu');
 
 $fvseo = new FV_Simpler_SEO_Pack();
 
