@@ -1180,7 +1180,7 @@ class FV_Simpler_SEO_Pack
 		}
 		elseif (is_single())
 		{
-			$title = $this->internationalize( /*wp_title('', false)*/ get_the_title() );
+			$title = $this->internationalize( /*wp_title('', false)*/ get_the_title($post->ID) );
 		}
 		elseif (is_search() && isset($s) && !empty($s))
 		{
