@@ -2820,7 +2820,7 @@ function fvseo_meta_box_add()
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
 }
 
-if ($fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] == 'on')
+if ($fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] === 'on')
 {
 	remove_action('wp_head', 'rel_canonical');
 }
