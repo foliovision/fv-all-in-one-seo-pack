@@ -1407,7 +1407,7 @@ class FV_Simpler_SEO_Pack
 				
 				if (!$title)
 				{
-					$title = $this->internationalize( /*wp_title('', false)*/ get_the_title() );
+					$title = $this->internationalize( /*wp_title('', false)*/ get_the_title($post->ID) );
 				}
                                 
                                 if( $fvseop_options['aiosp_rewrite_titles'] ) {
