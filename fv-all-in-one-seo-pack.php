@@ -2689,7 +2689,7 @@ function FVSimplerSEO_updateTitleFromWPTitle()
 }
 function FVSimplerSEO_updateMeta()
 {
-  meta = jQuery("#fvseo_description_input").val();
+  meta = FVSimplerSEO_getLocalized(jQuery("#fvseo_description_input"));
   meta_add_dots = '';
   if( meta.length > <?php echo $fvseo->maximum_description_length; ?> ) {
     meta_add_dots = ' ...';
@@ -2702,7 +2702,7 @@ function FVSimplerSEO_updateMeta()
 }
 function FVSimplerSEO_updateTitle()
 {
-  title = jQuery("#fvseo_title_input").val();
+  title = FVSimplerSEO_getLocalized(jQuery("#fvseo_title_input"));  
   title_add_dots = '';
   if( title.length > <?php echo $fvseo->maximum_title_length; ?> ) {
     title_add_dots = ' ...';
@@ -2717,6 +2717,23 @@ function FVSimplerSEO_updateTitle()
   }
   url = jQuery("#sample-permalink").text();
   jQuery("h2#fvseo_title").html( '<a href="'+url+'">'+title+'</a>');
+}
+function FVSimplerSEO_getLocalized(input)
+{
+  var language = '<?php if (function_exists("qtrans_getLanguage")) echo qtrans_getLanguage(); else echo "default" ?>';
+  if (language == 'default') {
+    string = input.val();    
+  }
+  else {
+    var language_code =  '<!--:'+language+'-->';
+    strings_array = input.val().split('<!--:-->');        
+    for (i = 0; i < strings_array.length; i++) {
+      if (strings_array[i].substr(0, language_code.length) == language_code) {
+        string = strings_array[i].substr(language_code.length);
+      }  
+    } 
+  }
+  return string;
 }
 jQuery(document).ready(function($) {
   window.setTimeout("fvseo_timeout();", 500);
