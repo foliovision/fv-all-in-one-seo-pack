@@ -2715,7 +2715,6 @@ function fvseo_timeout() {
   FVSimplerSEO_updateTitleFromWPTitle();
   FVSimplerSEO_updateMeta();
   FVSimplerSEO_updateLink();
-  console.log(fvseop_active_lang);
   window.setTimeout("fvseo_timeout();", 1000);
 }
 function FVSimplerSEO_updateLink()
