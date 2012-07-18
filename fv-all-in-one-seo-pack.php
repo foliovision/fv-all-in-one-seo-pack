@@ -2652,10 +2652,11 @@ function fvseo_meta()
 	
 ?>
 <script type="text/javascript">
-var language = '<?php if (function_exists("qtrans_getLanguage")) echo qtrans_getLanguage(); else echo "default"; ?>';
-var languages;
+var fvseop_language = '<?php if (function_exists("qtrans_getLanguage")) echo qtrans_getLanguage(); else echo "default"; ?>';
+var fvseop_languages;
+var fvseop_active_lang = fvseop_language;
 <?php if (function_exists("qtrans_getSortedLanguages")) { ?>
-languages =  <?php echo json_encode(qtrans_getSortedLanguages()); ?>;
+fvseop_languages =  <?php echo json_encode(qtrans_getSortedLanguages()); ?>;
 <?php } ?>
 
 function countChars(field, cntfield, lang)
@@ -2714,6 +2715,7 @@ function fvseo_timeout() {
   FVSimplerSEO_updateTitleFromWPTitle();
   FVSimplerSEO_updateMeta();
   FVSimplerSEO_updateLink();
+  console.log(fvseop_active_lang);
   window.setTimeout("fvseo_timeout();", 1000);
 }
 function FVSimplerSEO_updateLink()
@@ -2726,15 +2728,15 @@ function FVSimplerSEO_updateLink()
 }
 function FVSimplerSEO_updateTitleFromWPTitle()
 {  
-  if (language == 'default') {
+  if (fvseop_language == 'default') {
     if( jQuery( "#fvseo_title_input" ).hasClass( 'linked-to-wp-title' ) ) {
       jQuery( "#fvseo_title_input" ).val( jQuery( "#title" ).val() );
     }
   }
   else {
-    for (i = 0; i < languages.length; i++) {
-      if (jQuery( "#fvseo_title_input_" + languages[i] ).hasClass( 'linked-to-wp-title') ) {
-        jQuery( "#fvseo_title_input_" + languages[i] ).val( jQuery( "#qtrans_title_" + languages[i] ).val() );
+    for (i = 0; i < fvseop_languages.length; i++) {
+      if (jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).hasClass( 'linked-to-wp-title') ) {
+        jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).val( jQuery( "#qtrans_title_" + fvseop_languages[i] ).val() );
       }  
     }
   }
@@ -2772,17 +2774,17 @@ function FVSimplerSEO_updateTitle()
 }
 function FVSimplerSEO_getLocalized(input)
 {
-  if (language == 'default') {
+  if (fvseop_language == 'default') {
     string = jQuery("#" + input).val();    
   }
   else {
-    string = jQuery('#' + input + '_' + language).val();
+    string = jQuery('#' + input + '_' + fvseop_active_lang).val();
   }    
   return string;
 }
 jQuery(document).ready(function($) {
   window.setTimeout("fvseo_timeout();", 500);  
-  if (language == 'default') {
+  if (fvseop_language == 'default') {
     <?php if( !$title ) : ?>
     if( jQuery( "#title" ).length > 0 ) {
       //jQuery( "#fvseo_title_input" ).val( jQuery( "#title" ).val() );
@@ -2793,12 +2795,18 @@ jQuery(document).ready(function($) {
     <?php endif; ?>
   }
   else {
-    for (i = 0; i < languages.length; i++) {
-      if( jQuery( "#qtrans_title_" + languages[i] ).val() == jQuery( "#fvseo_title_input_" + languages[i] ).val() ) {
-        jQuery( "#fvseo_title_input_" + languages[i] ).css( 'color', '#bbb' );
-        jQuery( "#fvseo_title_input_" + languages[i] ).addClass( 'linked-to-wp-title' );
+    for (i = 0; i < fvseop_languages.length; i++) {
+      if( jQuery( "#qtrans_title_" + fvseop_languages[i] ).val() == jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).val() ) {
+        jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).css( 'color', '#bbb' );
+        jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).addClass( 'linked-to-wp-title' );
       }
-      jQuery( "#fvseo_title_input_" + languages[i] ).click( function() { jQuery( this ).removeClass( 'linked-to-wp-title' ); jQuery( this ).css( 'color', '#000' ); } );
+      jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).click( function() {
+        jQuery( this ).removeClass( 'linked-to-wp-title' ); jQuery( this ).css( 'color', '#000' );
+        fvseop_active_lang = jQuery( this ).attr("id").substr('fvseo_title_input_'.length);
+      } );
+      jQuery( "#fvseo_description_input_" + fvseop_languages[i] ).click( function() {
+        fvseop_active_lang = jQuery( this ).attr("id").substr('fvseo_description_input_'.length);
+      } );      
     }
   }  
 });
