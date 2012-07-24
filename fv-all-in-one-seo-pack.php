@@ -1794,7 +1794,7 @@ class FV_Simpler_SEO_Pack
 	 */
 	function admin_menu()
 	{
-		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fvseo'), __('FV Simpler SEO', 'fvseo'), 'administrator', __FILE__, array($this, 'options_panel'));
+		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fvseo'), __('FV Simpler SEO', 'fvseo'), 'edit_dashboard', __FILE__, array($this, 'options_panel'));
 	}
 
 	function options_panel()
