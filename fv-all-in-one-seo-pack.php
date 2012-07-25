@@ -2790,7 +2790,10 @@ jQuery(document).ready(function($) {
       jQuery( "#fvseo_title_input" ).css( 'color', '#bbb' );
       jQuery( "#fvseo_title_input" ).addClass( 'linked-to-wp-title' );
     }
-    jQuery( "#fvseo_title_input" ).click( function() { jQuery( this ).removeClass( 'linked-to-wp-title' ); jQuery( this ).css( 'color', '#000' ); } );
+    jQuery( "#fvseo_title_input" ).focus( function() {
+      jQuery( this ).removeClass( 'linked-to-wp-title' );
+      jQuery( this ).css( 'color', '#000' );
+    } );
     <?php endif; ?>
   }
   else {
@@ -2799,11 +2802,11 @@ jQuery(document).ready(function($) {
         jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).css( 'color', '#bbb' );
         jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).addClass( 'linked-to-wp-title' );
       }
-      jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).click( function() {
+      jQuery( "#fvseo_title_input_" + fvseop_languages[i] ).focus( function() {
         jQuery( this ).removeClass( 'linked-to-wp-title' ); jQuery( this ).css( 'color', '#000' );
         fvseop_active_lang = jQuery( this ).attr("id").substr('fvseo_title_input_'.length);
       } );
-      jQuery( "#fvseo_description_input_" + fvseop_languages[i] ).click( function() {
+      jQuery( "#fvseo_description_input_" + fvseop_languages[i] ).focus( function() {
         fvseop_active_lang = jQuery( this ).attr("id").substr('fvseo_description_input_'.length);
       } );      
     }
