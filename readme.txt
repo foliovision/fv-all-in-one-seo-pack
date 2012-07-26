@@ -37,6 +37,7 @@ Some features:
 * For advanced users, you can fine-tune everything
 * You can override any title and set any META description and any META keywords you want.
 * Backward-Compatibility with many other plugins, like Auto Meta, Ultimate Tag Warrior and others.
+* Support for qTranslate
 
 **FV extra features**:
 
