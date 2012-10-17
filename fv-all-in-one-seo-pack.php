@@ -2969,4 +2969,42 @@ add_action('save_post', array($fvseo, 'post_meta_tags'));
 add_action('edit_page_form', array($fvseo, 'post_meta_tags'));
 add_action('admin_menu', array($fvseo, 'admin_menu'));
 
+//this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
+function sanitize_title_no_final_period ($title) {
+        $title = strip_tags($title);
+        // Preserve escaped octets.
+        $title = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $title);
+        // Remove percent signs that are not part of an octet.
+        $title = str_replace('%', '', $title);
+        // Restore octets.
+        $title = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $title);
+
+        $title = remove_accents($title);
+        if (seems_utf8($title)) {
+                if (function_exists('mb_strtolower')) {
+                        $title = mb_strtolower($title, 'UTF-8');
+                }
+                $title = utf8_uri_encode($title);
+        }
+
+        $title = strtolower($title);
+        $title = preg_replace('/&.+?;/', '', $title); // kill entities
+        $title = preg_replace('/[^%a-z0-9\. _-]/', '', $title);
+        $title = preg_replace('/\s+/', '-', $title);
+        $title = preg_replace('|-+|', '-', $title);
+        $title = trim($title, '-\.');
+
+        return $title;
+}
+
+function replace_title_sanitization() {
+	if ( has_filter( 'sanitize_title', 'sanitize_title_with_dashes_and_period' ) ) {
+		remove_filter ('sanitize_title', 'sanitize_title_with_dashes_and_period');
+		add_filter ('sanitize_title', 'sanitize_title_no_final_period');
+	}
+}
+
+replace_title_sanitization();
+add_action( 'plugins_loaded', 'replace_title_sanitization' );
+
 ?>
