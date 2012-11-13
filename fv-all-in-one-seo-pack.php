@@ -1930,9 +1930,18 @@ class FV_Simpler_SEO_Pack
 <?php endif; ?>
   <div id="dropmessage" class="updated" style="display:none;"></div>
   <div class="wrap">
-    <h2>
-      <?php _e('FV All in One SEO Pack Plugin Options', 'fvseo'); ?>
-    </h2>
+  
+        <div style="position: absolute; top: 10px; right: 10px;">
+            <a href="https://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack" target="_blank" title="Documentation"><img alt="visit foliovision" src="http://foliovision.com/shared/fv-logo.png" /></a>
+		    </div>
+ 
+        <div>
+            <div id="icon-options-general" class="icon32"><br /></div>       
+            <h2>
+              <?php _e('FV All in One SEO Pack Plugin Options', 'fvseo'); ?>
+            </h2>
+        </div>
+              
     <div style="clear:both;"></div>
 <script type="text/javascript">
 function toggleVisibility(id)
