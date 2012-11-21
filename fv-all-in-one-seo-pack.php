@@ -3,7 +3,7 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php">Options configuration panel</a>
-Version: 1.6.15
+Version: 1.6.16
 Author: Foliovision
 Author URI: http://foliovision.com
 */
@@ -613,6 +613,121 @@ class FV_Simpler_SEO_Pack
 	//-------------------------------
 	// ACTIONS
 	//-------------------------------
+
+   function SortByLength( $strA, $strB ){
+      return strlen( $strB ) - strlen( $strA );
+   }
+
+   function GeneratePostSlug( $strSlug, $idPost ){
+      global $wpdb;
+
+      $aSlug = explode( '-', $strSlug );
+
+      if( 3 >= count( $aSlug ) ) return $strSlug;
+      if( 4 == count( $aSlug ) && preg_match( '~^\d+$~', $aSlug[3] ) ) return $strSlug;
+      if( 20 >= strlen( $strSlug ) ) return $strSlug;
+
+      $aSortSlug = $aSlug;
+      usort( $aSortSlug, array( $this, 'SortByLength' ) );
+      $aSortSlug = array_slice( $aSortSlug, 0, 3 );
+
+      $aSlug = array_intersect( $aSlug, $aSortSlug );
+      $strSlug = implode( '-', $aSlug );
+
+      if( $idPost ){
+         $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strSlug )."' AND `ID` != {$idPost}" );
+         $i = 0;
+
+         while( count( $aPosts ) ){
+            if( $i ) $strNewSlug = $strSlug . '-' . ($i+1);
+            else $strNewSlug = $strSlug . '-1';
+
+            $i++;
+            $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strNewSlug )."' AND `ID` != {$idPost}" );
+         }
+
+         if( $strNewSlug ) $strSlug = $strNewSlug;
+      }
+
+      return $strSlug;
+   }
+
+   function EditPostSlug( $strSlug, $idPost, $strPostStatus, $strPostType, $idPostParent ){
+      global $fvseop_options, $wpdb;
+
+      if( !$idPost ){
+         if( isset( $_GET['post'] ) )
+            $idPost = intval( $_GET['post'] );
+         if( isset( $_POST['post_id'] ) )
+            $idPost = intval( $_POST['post_id'] );
+         if( isset( $_POST['post_ID'] ) )
+            $idPost = intval( $_POST['post_ID'] );
+      }
+
+      $strDate = get_option( 'aiosp-shorten-link-install' );
+
+      $bCustomLink =
+         isset( $_POST['action'] )
+         && 'sample-permalink' == $_POST['action']
+         && isset( $_POST['new_slug'] );
+      $bSimplerSeo = $fvseop_options['aiosp_shorten_name'];
+
+      if( $idPost ){
+         $objPost = get_post( $idPost );
+         $bSimplerSeo = $bSimplerSeo && ($strDate < $objPost->post_date);
+      }
+
+      if( ($bCustomLink || !$bSimplerSeo) && $idPost ){
+         add_post_meta( $idPost, 'aiosp-custom-link', 'yes', true );
+         return $strSlug;
+      }
+
+      if( $idPost && 'yes' == current( get_post_meta( $idPost, 'aiosp-custom-link' ) ) )
+         return $strSlug;
+
+      $strOldSlug = $strSlug;
+      $strSlug = $this->GeneratePostSlug( $strSlug, $idPost );
+
+      if( 'inline-save' == $_POST['action'] && $strOldSlug != $strSlug ){
+         add_post_meta( $idPost, 'aiosp-custom-link', 'yes', true );
+         return $strOldSlug;
+      }
+
+      return $strSlug;
+   }
+
+   function SavePostSlug( $aData, $aPostArg ){
+      global $fvseop_options;
+      if( !$fvseop_options['aiosp_shorten_name'] ) return $aData;
+
+      if( isset( $aPostArg['post_id'] ) )
+         $idPost = intval( $aPostArg['post_id'] );
+      if( isset( $aPostArg['post_ID'] ) )
+         $idPost = intval( $aPostArg['post_ID'] );
+      if( isset( $aPostArg['ID'] ) )
+         $idPost = intval( $aPostArg['ID'] );
+      if( isset( $aData['ID'] ) )
+         $idPost = intval( $aData['ID'] );
+
+      $strDate = get_option( 'aiosp-shorten-link-install' );
+
+      if( $idPost ){
+         $objPost = get_post( $idPost );
+         $strCustom = current( get_post_meta( $idPost, 'aiosp-custom-link' ) );
+
+         if( 'yes' == $strCustom || $strDate >= $objPost->post_date )
+            return $aData;
+      }
+
+      if( 'auto-draft' == substr( $aData['post_name'], 0, 10 ) )
+         $aData['post_name'] = sanitize_title( $aData['post_title'] );
+      if( !$aData['post_name'] )
+         $aData['post_name'] = sanitize_title( $aData['post_title'] );
+
+      $aData['post_name'] = $this->GeneratePostSlug( $aData['post_name'], $idPost );
+
+      return $aData;
+   }
 
 	/**
 	 * Runs after WordPress admin has finished loading but before any headers are sent.
@@ -1848,15 +1963,14 @@ class FV_Simpler_SEO_Pack
 				"aiosp_home_meta_tags"=>'',
 				'home_google_site_verification_meta_tag' => '',
 				'aiosp_use_tags_as_keywords' => 1,
-				///	Addition
-        'aiosp_search_noindex'=>1,
+            'aiosp_search_noindex'=>1,
 				'aiosp_dont_use_excerpt'=>0,
-				'aiosp_show_keywords'=>0,				
+				'aiosp_show_keywords'=>0,
 				'aiosp_show_titleattribute'=>0,
 				'aiosp_show_disable'=>0,
-				'aiosp_show_custom_canonical'=>0				
-				);
-				///	End of addition
+				'aiosp_show_custom_canonical'=>0,
+            'aiosp_shorten_name' => false
+			);
 				
 			update_option('aioseop_options', $res_fvseop_options);
 		}
@@ -1903,12 +2017,13 @@ class FV_Simpler_SEO_Pack
 			$fvseop_options['aiosp_ex_pages'] = isset( $_POST['fvseo_ex_pages'] ) ? $_POST['fvseo_ex_pages'] : NULL;
 			$fvseop_options['aiosp_use_tags_as_keywords'] = isset( $_POST['fvseo_use_tags_as_keywords'] ) ? $_POST['fvseo_use_tags_as_keywords'] : NULL;
 			///	Addition
-      $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
+         $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
 			$fvseop_options['aiosp_dont_use_excerpt'] = isset( $_POST['fvseo_dont_use_excerpt'] ) ? $_POST['fvseo_dont_use_excerpt'] : NULL;
 			$fvseop_options['aiosp_show_keywords'] = isset( $_POST['fvseo_show_keywords'] ) ? $_POST['fvseo_show_keywords'] : NULL;
 			$fvseop_options['aiosp_show_custom_canonical'] = isset( $_POST['fvseo_show_custom_canonical'] ) ? $_POST['fvseo_show_custom_canonical'] : NULL;
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
+         $fvseop_options['aiosp_shorten_name'] = isset( $_POST['fvseo_shorten_name'] ) ? true : false;
 			///	End of addition
 
 			update_option('aioseop_options', $fvseop_options);
@@ -1930,18 +2045,9 @@ class FV_Simpler_SEO_Pack
 <?php endif; ?>
   <div id="dropmessage" class="updated" style="display:none;"></div>
   <div class="wrap">
-  
-        <div style="position: absolute; top: 10px; right: 10px;">
-            <a href="https://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack" target="_blank" title="Documentation"><img alt="visit foliovision" src="http://foliovision.com/shared/fv-logo.png" /></a>
-		    </div>
- 
-        <div>
-            <div id="icon-options-general" class="icon32"><br /></div>       
-            <h2>
-              <?php _e('FV All in One SEO Pack Plugin Options', 'fvseo'); ?>
-            </h2>
-        </div>
-              
+    <h2>
+      <?php _e('FV All in One SEO Pack Plugin Options', 'fvseo'); ?>
+    </h2>
     <div style="clear:both;"></div>
 <script type="text/javascript">
 function toggleVisibility(id)
@@ -2070,6 +2176,16 @@ function toggleVisibility(id)
                 <div style="max-width:500px; text-align:left; display:none" id="fvseo_can_tip">
                   <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
                 </div>
+            </p>
+
+            <p>
+               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_name');">
+                  <?php _e('Shorten Post / Page name:', 'fv_seo')?>
+               </a>
+               <input type="checkbox" name="fvseo_shorten_name" <?php if ($fvseop_options['aiosp_shorten_name']) echo 'checked="checked"'; ?>/>
+               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_name">
+                  <?php _e("This option will automatically shorten a link to post / page upon first save.", 'fv_seo')?>
+               </div>
             </p>
 
             <p>
@@ -2955,6 +3071,9 @@ function fvseo_meta_box_add()
 {
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post');
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
+   
+   if( false === get_option( 'aiosp-shorten-link-install' ) )
+      add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
 }
 
 if ($fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] === 'on')
@@ -2977,6 +3096,9 @@ add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
 add_action('edit_page_form', array($fvseo, 'post_meta_tags'));
 add_action('admin_menu', array($fvseo, 'admin_menu'));
+
+add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99 );
+add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
 function sanitize_title_no_final_period ($title) {
@@ -3016,4 +3138,4 @@ function replace_title_sanitization() {
 replace_title_sanitization();
 add_action( 'plugins_loaded', 'replace_title_sanitization' );
 
-?>
+
