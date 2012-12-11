@@ -3072,7 +3072,9 @@ function fvseo_meta_box_add()
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post');
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
    
-   if( false === get_option( 'aiosp-shorten-link-install' ) )
+   add_action('admin_head', 'check_empty_clientside', 1);
+
+if( false === get_option( 'aiosp-shorten-link-install' ) )
       add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
 }
 
@@ -3166,5 +3168,13 @@ jQuery(document).ready(function() {
 <?php
 }
 
-add_action('admin_head', 'check_empty_clientside', 1);
+function removetitlechecker() {
+   if ( has_action( 'admin_head', 'check_empty_clientside' ) ) {
+      remove_action( 'admin_head', 'check_empty_clientside' );
+   }
+}
+
+if( is_admin() ){
+   register_deactivation_hook( __FILE__, 'removetitlechecker' );
+}
 ?>
