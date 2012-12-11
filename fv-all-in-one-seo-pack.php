@@ -3138,4 +3138,33 @@ function replace_title_sanitization() {
 replace_title_sanitization();
 add_action( 'plugins_loaded', 'replace_title_sanitization' );
 
+function check_empty_clientside() {
+?>
+<script language="javascript" type="text/javascript">
+jQuery(document).ready(function() {
+   var target = null;
+    jQuery('#post :input, #post-preview').focus(function() {
+        target = this;
+        // console.log(target);
+    });
+      
+   jQuery("#post").submit(function(){
+    
+      if(jQuery(target).is(':input') && jQuery(target).val() == 'Publish' && jQuery("#title").val() == '') {
+         //console.log(target);
+         alert('Your post\'s TITLE is empty, so it cannot be published!\nTo ensure that your data doesn\'t get lost, please, save the post as Draft first if you haven\'t done so yet.\nAlso, don\'t forget to update your permalink if it\'s only numbers due to its having been saved as Draft without title.'  );
+         
+         jQuery('#ajax-loading').removeAttr('style');
+         jQuery('#save-post').removeClass('button-disabled');
+         jQuery('#publish').removeClass('button-primary-disabled');
+//         target = null;
+         return false;
+      } 
+   });
+});
+</script>
+<?php
+}
 
+add_action('admin_head', 'check_empty_clientside', 1);
+?>
