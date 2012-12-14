@@ -1969,7 +1969,8 @@ class FV_Simpler_SEO_Pack
 				'aiosp_show_titleattribute'=>0,
 				'aiosp_show_disable'=>0,
 				'aiosp_show_custom_canonical'=>0,
-            'aiosp_shorten_name' => false
+            'aiosp_shorten_name' => false,
+            'fvseo_publ_warnings'=>1
 			);
 				
 			update_option('aioseop_options', $res_fvseop_options);
@@ -2024,6 +2025,7 @@ class FV_Simpler_SEO_Pack
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
          $fvseop_options['aiosp_shorten_name'] = isset( $_POST['fvseo_shorten_name'] ) ? true : false;
+         $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
 			///	End of addition
 
 			update_option('aioseop_options', $fvseop_options);
@@ -2092,6 +2094,20 @@ function toggleVisibility(id)
                 <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_keywords_tip">
                   <?php _e("A comma separated list of your most important keywords for your site that will be written as META keywords on your homepage. Don't stuff everything in here.", 'fv_seo')?>
                 </div>
+            </p>
+            
+            <p>
+               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_warnings_tip');">
+                  <?php _e('Warn me when publishing without a title or description:', 'fv_seo')?>
+               </a>
+
+               <label for="fvseo_publ_warnings">&nbsp;&nbsp;</label>            
+               <input type="checkbox" name="fvseo_publ_warnings" id="fvseo_publ_warnings" <?php if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) echo 'checked="yes"'; ?> value="1">
+               <label for="fvseo_publ_warnings">&nbsp;&nbsp;</label>
+
+               <div style="max-width:500px; text-align:left; display:none" id="fvseo_warnings_tip">
+                  <?php _e("Uncheck this if you don't want to be warned in case you are publishing without a title or description. Default: checked.", 'fv_seo')?>
+               </div>
             </p>
             
             <p>
@@ -2625,7 +2641,8 @@ function fvseop_mrt_mkarry()
 		'aiosp_dont_use_excerpt'=>0,
 		'aiosp_show_keywords'=>0,
 		'aiosp_show_titleattribute'=>0,
-		'aiosp_show_disable'=>0
+		'aiosp_show_disable'=>0,
+      'fvseo_publ_warnings'=>1
 		);
 		///	End of addition
 
@@ -3072,7 +3089,12 @@ function fvseo_meta_box_add()
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post');
 	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
    
-   add_action('admin_head', 'check_empty_clientside', 1);
+   global $fvseop_options;
+   if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
+      add_action('admin_head', 'check_empty_clientside', 1);
+   } else {
+      removetitlechecker();
+   }
 
 if( false === get_option( 'aiosp-shorten-link-install' ) )
       add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
@@ -3152,7 +3174,7 @@ jQuery(document).ready(function() {
       
    jQuery("#post").submit(function(){
     
-      if(jQuery(target).is(':input') && jQuery(target).val() == 'Publish' && jQuery("#title").val() == '') {
+      if(jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#title").val() == '') {
          //console.log(target);
          alert('Your post\'s TITLE is empty, so it cannot be published!'  );
          
@@ -3169,6 +3191,11 @@ jQuery(document).ready(function() {
             "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's TITLE is empty!</b></div>"
          ));
       } 
+      if (jQuery("#fvseo_description_input").val() == '') {
+         jQuery("#major-publishing-actions").append(jQuery(
+            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's DESCRIPTION is empty!</b></div>"
+         ));
+      }
    }, function() {
       jQuery(".hovered-warning").remove();
    });
@@ -3177,6 +3204,11 @@ jQuery(document).ready(function() {
       if (jQuery("#title").val() == '') {
          jQuery(this).append(jQuery(
             "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's TITLE is empty!</b></div>"
+         ));
+      }
+      if (jQuery("#fvseo_description_input").val() == '') {
+         jQuery(this).append(jQuery(
+            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's DESCRIPTION is empty!</b></div>"
          ));
       }
    }, function() {
