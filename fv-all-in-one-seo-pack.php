@@ -3,7 +3,7 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php">Options configuration panel</a>
-Version: 1.6.16
+Version: 1.6.17
 Author: Foliovision
 Author URI: http://foliovision.com
 */
@@ -473,6 +473,8 @@ class FV_Simpler_SEO_Pack
 	 */
 	var $minimum_description_length = 1;
 
+	var $idEmptyPostName = null;
+	var $strTitleForReference = null;
 	//-------------------------------
 	// CONSTRUCTORSaioseop_
 	//-------------------------------
@@ -655,6 +657,9 @@ class FV_Simpler_SEO_Pack
    function EditPostSlug( $strSlug, $idPost, $strPostStatus, $strPostType, $idPostParent ){
       global $fvseop_options, $wpdb;
 
+      if( !$fvseop_options['aiosp_shorten_name'] )
+         return $strSlug;
+
       if( !$idPost ){
          if( isset( $_GET['post'] ) )
             $idPost = intval( $_GET['post'] );
@@ -664,33 +669,12 @@ class FV_Simpler_SEO_Pack
             $idPost = intval( $_POST['post_ID'] );
       }
 
-      $strDate = get_option( 'aiosp-shorten-link-install' );
-
-      $bCustomLink =
-         isset( $_POST['action'] )
-         && 'sample-permalink' == $_POST['action']
-         && isset( $_POST['new_slug'] );
-      $bSimplerSeo = $fvseop_options['aiosp_shorten_name'];
-
-      if( $idPost ){
-         $objPost = get_post( $idPost );
-         $bSimplerSeo = $bSimplerSeo && ($strDate < $objPost->post_date);
-      }
-
-      if( ($bCustomLink || !$bSimplerSeo) && $idPost ){
-         add_post_meta( $idPost, 'aiosp-custom-link', 'yes', true );
-         return $strSlug;
-      }
-
-      if( $idPost && 'yes' == current( get_post_meta( $idPost, 'aiosp-custom-link' ) ) )
-         return $strSlug;
-
-      $strOldSlug = $strSlug;
-      $strSlug = $this->GeneratePostSlug( $strSlug, $idPost );
-
-      if( 'inline-save' == $_POST['action'] && $strOldSlug != $strSlug ){
-         add_post_meta( $idPost, 'aiosp-custom-link', 'yes', true );
-         return $strOldSlug;
+      if( !$idPost )
+         $strSlug = $this->GeneratePostSlug( $strSlug, false );
+      else{
+         $strName = $wpdb->get_var( "SELECT `post_name` FROM `{$wpdb->posts}` WHERE `ID` = $idPost" );
+         if( !$strName )
+            $strSlug = $this->GeneratePostSlug( $strSlug, $idPost );
       }
 
       return $strSlug;
@@ -698,7 +682,8 @@ class FV_Simpler_SEO_Pack
 
    function SavePostSlug( $aData, $aPostArg ){
       global $fvseop_options;
-      if( !$fvseop_options['aiosp_shorten_name'] ) return $aData;
+      if( !$fvseop_options['aiosp_shorten_name'] )
+         return $aData;
 
       if( isset( $aPostArg['post_id'] ) )
          $idPost = intval( $aPostArg['post_id'] );
@@ -709,25 +694,32 @@ class FV_Simpler_SEO_Pack
       if( isset( $aData['ID'] ) )
          $idPost = intval( $aData['ID'] );
 
-      $strDate = get_option( 'aiosp-shorten-link-install' );
-
-      if( $idPost ){
-         $objPost = get_post( $idPost );
-         $strCustom = current( get_post_meta( $idPost, 'aiosp-custom-link' ) );
-
-         if( 'yes' == $strCustom || $strDate >= $objPost->post_date )
-            return $aData;
+      if( !$aData['post_name'] ){
+         $this->idEmptyPostName = $idPost;
+         $this->strTitleForReference = $aData['post_title'];
       }
-
-      if( 'auto-draft' == substr( $aData['post_name'], 0, 10 ) )
-         $aData['post_name'] = sanitize_title( $aData['post_title'] );
-      if( !$aData['post_name'] )
-         $aData['post_name'] = sanitize_title( $aData['post_title'] );
-
-      $aData['post_name'] = $this->GeneratePostSlug( $aData['post_name'], $idPost );
 
       return $aData;
    }
+
+   function SanitizeTitleForShortening( $strTitle, $strRawTitle, $strContext ){
+      global $fvseop_options;
+
+      if( !$fvseop_options['aiosp_shorten_name'] 
+         || !$this->idEmptyPostName
+         || 'save' !== $strContext
+         || $strRawTitle != $this->strTitleForReference
+      ){
+         return $strTitle;
+      }
+
+      $strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
+      return $strTitle;
+   }
+
+
+
+
 
 	/**
 	 * Runs after WordPress admin has finished loading but before any headers are sent.
@@ -2727,7 +2719,7 @@ function fvseop_list_pages($content)
 }
 
 function fvseop_filter_callback($matches)
-{        
+{
   preg_match( '~title="([^\"]+)"~', $matches[0], $match_title );
   if( $match_title ) {
     $matches[4] = $match_title[1];
@@ -2755,15 +2747,15 @@ function fvseop_filter_callback($matches)
     $matches[4] = __( $matches[4] );
   }
 		
-	if (!empty($title_attrib)) :
+	if (!empty($title_attrib)){
 		$filtered = '<li class="page_item page-item-' . $postID.$matches[2] . '"><a href="' . esc_attr($matches[3]) . '" title="' . esc_attr($title_attrib) . '">' . esc_html($menulabel) . '</a>';
   /// Addition
-  elseif (!empty($longtitle)) :
+  }elseif (!empty($longtitle)){
           $filtered = '<li class="page_item page-item-' . $postID.$matches[2] . '"><a href="' . esc_attr($matches[3]) . '" title="' . esc_attr($longtitle) . '">' . esc_html($menulabel) . '</a>';
   /// End of addition
-	else :
+	}else{
     	$filtered = '<li class="page_item page-item-' . $postID.$matches[2] . '"><a href="' . esc_attr($matches[3]) . '" title="' . esc_attr($matches[4]) . '">' . esc_html($menulabel) . '</a>';
-	endif;    
+	}    
 	
 	return $filtered;
 }
@@ -3129,6 +3121,7 @@ add_action('admin_menu', array($fvseo, 'admin_menu'));
 
 add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99 );
 add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
+add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99, 3 );
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
 function sanitize_title_no_final_period ($title) {
