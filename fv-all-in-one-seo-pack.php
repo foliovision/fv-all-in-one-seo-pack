@@ -626,9 +626,10 @@ class FV_Simpler_SEO_Pack
       $aSlug = explode( '-', $strSlug );
 
       if( 3 >= count( $aSlug ) ) return $strSlug;
-      if( 4 == count( $aSlug ) && preg_match( '~^\d+$~', $aSlug[3] ) ) return $strSlug;
+      if( 4 == count( $aSlug ) && preg_match( '~\d+$~', $aSlug[3] ) ) return $strSlug;
       if( 20 >= strlen( $strSlug ) ) return $strSlug;
 
+      $aSlug = array_unique( $aSlug );
       $aSortSlug = $aSlug;
       usort( $aSortSlug, array( $this, 'SortByLength' ) );
       $aSortSlug = array_slice( $aSortSlug, 0, 3 );
