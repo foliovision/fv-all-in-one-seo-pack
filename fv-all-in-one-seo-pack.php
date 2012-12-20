@@ -654,7 +654,7 @@ class FV_Simpler_SEO_Pack
       return $strSlug;
    }
 
-   function EditPostSlug( $strSlug, $idPost, $strPostStatus, $strPostType, $idPostParent ){
+   function EditPostSlug( $strSlug, $idPost = null, $strPostStatus = null, $strPostType = null, $idPostParent = null ){
       global $fvseop_options, $wpdb;
 
       if( !$fvseop_options['aiosp_shorten_name'] )
