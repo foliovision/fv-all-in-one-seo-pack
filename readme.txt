@@ -46,6 +46,12 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.17 - 7 Jan 2013 =
+* Added Shortening of URL based on longest words in link
+
+= Version 1.6.16 - 21 Dec 2012 =
+* Added warnings when post doesn't have title or description while updating or publishing
+
 = Version 1.6.15 - 26 Jul 2012 =
 * better support for qTranslate - separate title and meta description fields!
 * Wordpress Menus now use Short Title (Menu Label)
