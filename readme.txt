@@ -46,7 +46,7 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.17 - 9 Jan 2013 =
+= Version 1.6.18 - 9 Jan 2013 =
 * Fixed warnings from incomplete WP filter calls
 
 = Version 1.6.17 - 7 Jan 2013 =
