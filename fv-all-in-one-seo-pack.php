@@ -3228,4 +3228,13 @@ function removetitlechecker() {
 if( is_admin() ){
    register_deactivation_hook( __FILE__, 'removetitlechecker' );
 }
+
+function remove_category_list_rel( $output ) {
+    // Remove rel attribute from the category list
+    return str_replace( ' rel="category tag"', '', $output );
+}
+ 
+add_filter( 'wp_list_categories', 'remove_category_list_rel' );
+add_filter( 'the_category', 'remove_category_list_rel' );
+
 ?>
