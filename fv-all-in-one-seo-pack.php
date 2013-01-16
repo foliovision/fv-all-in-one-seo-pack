@@ -1945,6 +1945,7 @@ class FV_Simpler_SEO_Pack
 				"aiosp_paged_format"=>' - Part %page%',
 				"aiosp_use_categories"=>1,
 				"aiosp_dynamic_postspage_keywords"=>1,
+        "aiosp_remove_category_rel"=>1,
 				"aiosp_category_noindex"=>0,
 				"aiosp_archive_noindex"=>0,
 				"aiosp_tags_noindex"=>0,
@@ -1996,6 +1997,7 @@ class FV_Simpler_SEO_Pack
 			$fvseop_options['aiosp_paged_format'] = isset( $_POST['fvseo_paged_format'] ) ? $_POST['fvseo_paged_format'] : NULL;
 			$fvseop_options['aiosp_use_categories'] = isset( $_POST['fvseo_category_noindex'] ) ? $_POST['fvseo_category_noindex'] : NULL;
 			$fvseop_options['aiosp_dynamic_postspage_keywords'] = $_POST['fvseo_dynamic_postspage_keywords'];
+      $fvseop_options['aiosp_remove_category_rel'] = $_POST['fvseo_remove_category_rel'];
 			$fvseop_options['aiosp_category_noindex'] = isset( $_POST['fvseo_category_noindex'] ) ? $_POST['fvseo_category_noindex'] : NULL;
 			$fvseop_options['aiosp_archive_noindex'] = isset( $_POST['fvseo_archive_noindex'] ) ? $_POST['fvseo_archive_noindex'] : NULL;
 			$fvseop_options['aiosp_tags_noindex'] = isset( $_POST['fvseo_tags_noindex'] ) ? $_POST['fvseo_tags_noindex'] : NULL;
@@ -2411,6 +2413,16 @@ function toggleVisibility(id)
                   <?php _e('Check this if you want your keywords on a custom posts page (set it in options->reading) to be dynamically generated from the keywords of the posts showing on that page.  If unchecked, it will use the keywords set in the edit page screen for the posts page.', 'fv_seo') ?>
                 </div>
             </p>
+            
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_remove_category_rel_tip');">
+                  <?php _e('Remove Category rel attribute for validation:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_remove_category_rel" <?php if ($fvseop_options['aiosp_remove_category_rel']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_remove_category_rel_tip">
+                  <?php _e('Check this if you want to remove attribute rel from links to categories. Useful for validation.', 'fv_seo') ?>
+                </div>
+            </p>            
 
             <p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_category_noindex_tip');">
@@ -2624,6 +2636,7 @@ function fvseop_mrt_mkarry()
 		"aiosp_paged_format"=>' - Part %page%',
 		"aiosp_use_categories"=>1,
 		"aiosp_dynamic_postspage_keywords"=>1,
+    "aiosp_remove_category_rel"=>1,
 		"aiosp_category_noindex"=>0,
 		"aiosp_archive_noindex"=>0,
 		"aiosp_tags_noindex"=>0,
@@ -3233,8 +3246,10 @@ function remove_category_list_rel( $output ) {
     // Remove rel attribute from the category list
     return str_replace( ' rel="category tag"', '', $output );
 }
- 
-add_filter( 'wp_list_categories', 'remove_category_list_rel' );
-add_filter( 'the_category', 'remove_category_list_rel' );
+
+if ($fvseop_options['aiosp_remove_category_rel']) {  
+    add_filter( 'wp_list_categories', 'remove_category_list_rel' );
+    add_filter( 'the_category', 'remove_category_list_rel' );
+}
 
 ?>
