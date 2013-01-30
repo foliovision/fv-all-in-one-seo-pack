@@ -3,7 +3,7 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php">Options configuration panel</a>
-Version: 1.6.18
+Version: 1.6.19
 Author: Foliovision
 Author URI: http://foliovision.com
 */
@@ -832,6 +832,19 @@ class FV_Simpler_SEO_Pack
 			{
 				return;
 			}
+			
+			$post_noindex = get_post_meta($post->ID, '_aioseop_noindex', true);
+			$post_nofollow = get_post_meta($post->ID, '_aioseop_nofollow', true);
+			if( $post_noindex ) {
+				$meta_robots[] = 'noindex';
+			}
+			if( $post_nofollow ) {
+				$meta_robots[] = 'nofollow';
+			}	
+			if( $meta_robots ) {
+				$meta_string .= '<meta name="robots" content="'.implode(',',$meta_robots).'" />'."\n";
+			}
+			
 		}
 
 		if ($this->fvseop_mrt_exclude_this_page())
@@ -1846,14 +1859,18 @@ class FV_Simpler_SEO_Pack
 			$fvseo_disable = isset( $_POST["fvseo_disable"] ) ? $_POST["fvseo_disable"] : NULL;
 			$fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? $_POST["fvseo_titleatr"] : NULL;
 			$fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? $_POST["fvseo_menulabel"] : NULL;
-			$custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? $_POST["fvseo_custom_canonical"] : NULL;		
+			$custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? $_POST["fvseo_custom_canonical"] : NULL;	
+			$noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;				
+			$nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;							
 				
 			delete_post_meta($id, '_aioseop_keywords');
 			delete_post_meta($id, '_aioseop_description');
 			delete_post_meta($id, '_aioseop_title');
 			delete_post_meta($id, '_aioseop_titleatr');
 			delete_post_meta($id, '_aioseop_menulabel');
-			delete_post_meta($id, '_aioseop_custom_canonical');			
+			delete_post_meta($id, '_aioseop_custom_canonical');		
+			delete_post_meta($id, '_aioseop_noindex');		
+			delete_post_meta($id, '_aioseop_nofollow');					
 		
 			if ($this->is_admin())
 			{
@@ -1894,6 +1911,14 @@ class FV_Simpler_SEO_Pack
 			{
 				add_post_meta($id, '_aioseop_custom_canonical', str_replace(" ","%20", $custom_canonical ) );
 			}			
+			if (isset($noindex) && !empty($noindex))
+			{
+				add_post_meta($id, '_aioseop_noindex', true );
+			}		
+			if (isset($nofollow) && !empty($nofollow))
+			{
+				add_post_meta($id, '_aioseop_nofollow', true );
+			}					
 		}
 	}
 
@@ -2016,6 +2041,7 @@ class FV_Simpler_SEO_Pack
          $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
 			$fvseop_options['aiosp_dont_use_excerpt'] = isset( $_POST['fvseo_dont_use_excerpt'] ) ? $_POST['fvseo_dont_use_excerpt'] : NULL;
 			$fvseop_options['aiosp_show_keywords'] = isset( $_POST['fvseo_show_keywords'] ) ? $_POST['fvseo_show_keywords'] : NULL;
+			$fvseop_options['aiosp_show_noindex'] = isset( $_POST['fvseo_show_noindex'] ) ? $_POST['fvseo_show_noindex'] : NULL;			
 			$fvseop_options['aiosp_show_custom_canonical'] = isset( $_POST['fvseo_show_custom_canonical'] ) ? $_POST['fvseo_show_custom_canonical'] : NULL;
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
@@ -2129,6 +2155,17 @@ function toggleVisibility(id)
                                  ?>
                                 </div>
                             </p>
+                            <p>
+                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_noindex_tip');">
+                                <?php _e('Add no index checkbox to post editing screen:', 'fv_seo')?>
+                                </a>
+                                <input type="checkbox" name="fvseo_show_noindex" <?php if ($fvseop_options['aiosp_show_noindex']) echo "checked=\"1\""; ?>/>
+                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_noindex_tip">
+                                <?php
+                                _e("Adds a powerful checkbox to post editing screens which let's you exclude the post from search engine indexing. <strong>Warning:</strong> only use if you really know what you are doing.", 'fv_seo');
+                                 ?>
+                                </div>
+                            </p>                            
                             
                             <p>
                                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_custom_canonical_tip');">
@@ -2707,7 +2744,7 @@ function fvseop_filter_menu_callback($matches)
 	if (empty($postID))
 		$postID = get_option("page_on_front");
 				       
-  if ($my_post->post_title == $matches[6]) {
+  if ( wptexturize($my_post->post_title) == $matches[6]) {
     $menulabel = stripslashes(get_post_meta($postID, '_aioseop_menulabel', true));
   }    
 	
@@ -2794,6 +2831,8 @@ function fvseo_meta()
 	$fvseo_disable = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_disable', true))));
 	$fvseo_titleatr = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_titleatr', true))));
 	$fvseo_menulabel = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_menulabel', true))));
+	$noindex = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_noindex', true))));	
+	$nofollow = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_nofollow', true))));	
 	
 	if( $title ) {
 	  $title_preview = 	$title;
@@ -2870,6 +2909,10 @@ function fvseo_timeout() {
   FVSimplerSEO_updateMeta();
   FVSimplerSEO_updateLink();
   window.setTimeout("fvseo_timeout();", 1000);
+}
+function FVSimplerSEO_noindex_toggle() {
+	jQuery('.fvseo-noindex').toggle();
+	return true;
 }
 function FVSimplerSEO_updateLink()
 {
@@ -2971,6 +3014,7 @@ jQuery(document).ready(function($) {
 #fvsimplerseopack th { font-size: 90%; } 
 #fvsimplerseopack .inputcounter { font-size: 85%; padding: 0px; text-align: center; background: white; color: #000;  }
 #fvsimplerseopack .input { width: 99%; }
+#fvsimplerseopack .input[type=checkbox] { width: auto; }
 #fvsimplerseopack small { color: #999; }
 #fvsimplerseopack abbr { color: #999; margin-right: 10px;}
 #fvsimplerseopack small.link {color:#36C;font-size:13px;cursor:pointer;}
@@ -2983,6 +3027,7 @@ jQuery(document).ready(function($) {
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
 
+			<div class="fvseo-noindex" <?php if( $noindex ) echo 'style="display:none;"'; ?>>
         <?php if (function_exists('qtrans_getSortedLanguages')) { ?>
         <?php
           $languages = qtrans_getSortedLanguages();          
@@ -3032,11 +3077,11 @@ jQuery(document).ready(function($) {
         </p>
         <?php } ?>
         <div>
-            <p><?php _e('SERP Preview:', 'fv_seo') ?> <abbr title="Preview of Search Engine Results Page">(?)</abbr></p>
+            <p><?php _e('SERP Preview:', 'fv_seo') ?> <abbr title="Preview of Search Engine Results Page">(?)</abbr></p>        
             <h2 id="fvseo_title"><a href="<?php the_permalink(); ?>" target="_blank"><?php echo $title_preview; ?></a></h2>
             <p id="fvseo_meta"><?php echo ($description) ? $description : "Fill in your meta description" ?></p>
             <small id="fvseo_href"><?php echo $url; ?></small> - <small class="link">Cached</small> - <small class="link">Similar</small>
-            <br /><br />
+            <br />
         </div>
 
     <?php if ($fvseop_options['aiosp_show_keywords']) : ?>
@@ -3045,6 +3090,7 @@ jQuery(document).ready(function($) {
             <input class="input" value="<?php echo $keywords ?>" type="text" name="fvseo_keywords" />
         </p>    
     <?php endif; ?>
+
     
     <?php if ($fvseop_options['aiosp_show_custom_canonical']) : ?>
         <p>
@@ -3052,6 +3098,13 @@ jQuery(document).ready(function($) {
             <input class="input" value="<?php echo $custom_canonical ?>" type="text" name="fvseo_custom_canonical" />
         </p>    
     <?php endif; ?>    
+    
+    </div><!--	.fvseo-noindex	-->
+		<?php if ( $fvseop_options['aiosp_show_noindex'] || $noindex ) : ?>
+			<div class="fvseo-noindex" <?php if( $noindex ) { echo 'style="display:block;"'; } else { echo 'style="display:none;"'; } ?>>
+				<strong>Post won't be indexed by Search Engines.</strong>
+			</div>
+		<?php endif; ?>    
 
 <?php if($post->post_type == 'page') { ?>
     
@@ -3075,6 +3128,17 @@ jQuery(document).ready(function($) {
             <input type="checkbox" name="fvseo_disable" <?php if ($fvseo_disable) echo 'checked="checked"'; ?>/>
         </p>
     <?php endif; ?>
+    
+    
+    <?php if ( $fvseop_options['aiosp_show_noindex'] || $noindex || $nofollow) : ?>
+        <p>
+            <?php _e('Disable post indexing:', 'fv_seo') ?> <abbr title="Only use if you are sure you don't want this post to be indexed in search engines!">(Warning)</abbr><br />
+            <input id="fvseo_noindex" class="input" value="1" <?php if( $noindex ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_noindex" onclick="FVSimplerSEO_noindex_toggle(); return true" />
+            <label for="fvseo_noindex">Add noindex</label><br />
+            <input id="fvseo_nofollow" class="input" value="1" <?php if( $nofollow ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_nofollow" />
+            <label for="fvseo_nofollow">Add nofollow</label>
+        </p>    
+    <?php endif; ?>       
     
     <?php if (!function_exists('qtrans_getSortedLanguages')) { ?>
       <script type="text/javascript">
