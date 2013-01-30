@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 2.7
-Tested up to: 3.4.2
+Tested up to: 3.5.1
 Stable tag: trunk 
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -38,6 +38,7 @@ Some features:
 * You can override any title and set any META description and any META keywords you want.
 * Backward-Compatibility with many other plugins, like Auto Meta, Ultimate Tag Warrior and others.
 * Support for qTranslate
+* noindex and nofollow for each post
 
 **FV extra features**:
 
@@ -45,6 +46,10 @@ Some features:
 * Usage of WP post excerpts can be turned off
 
 == Changelog ==
+
+= Version 1.6.19 - 30 Jan 2013 =
+* Added option for noindex and nofollow. Enable in plugin settings extra options first!
+* Fix for replacing of menu item labels
 
 = Version 1.6.18 - 9 Jan 2013 =
 * Fixed warnings from incomplete WP filter calls
