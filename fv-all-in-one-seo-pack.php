@@ -2642,6 +2642,52 @@ function toggleVisibility(id)
   </div>
   <?php
 	} // options_panel
+	
+	
+	
+	function get_adjacent_post_where( $sql ) {
+		global $post;
+		
+		$affected_post_types = apply_filters( 'fv_get_adjacent_post_where_post_types', array( 'page' ) );
+		
+		if( array_search( $post->post_type, $affected_post_types ) !== FALSE && $ids = $this->get_noindex_posts() ) {
+			$ids = implode( ',', $ids );
+			$sql .= ' AND p.ID NOT IN ('.$ids.')';
+		}
+		//echo '<!--sql '.$sql.'-->';
+		return $sql;
+	}
+	
+	
+	
+	function get_noindex_posts() {
+		global $wpdb;
+		$res = $wpdb->get_col( "SELECT ID FROM $wpdb->posts AS p JOIN $wpdb->postmeta AS m ON p.ID = m.post_id WHERE meta_key = '_aioseop_noindex' AND meta_value = '1' " );
+		//echo '<!--res '.var_export($res, true).'-->';
+		return $res;
+	}
+	
+	
+
+	function pre_get_posts($query) {
+    if ( !$query->is_admin && $query->is_search) {    	
+    		if( $ids = $this->get_noindex_posts() ) {
+        	$query->set('post__not_in', $ids ); // id of page or post
+        }
+    }
+    return $query;
+	}
+	
+	
+	
+	function wp_list_pages_excludes( $exclude_array ) {
+		if( $ids = $this->get_noindex_posts() ) {
+			$exclude_array = array_merge( $exclude_array, $ids );
+		}
+		return $exclude_array;
+	}
+	
+	
 } // end fv_seo class
 
 global $fvseop_options;
@@ -3102,7 +3148,7 @@ jQuery(document).ready(function($) {
     </div><!--	.fvseo-noindex	-->
 		<?php if ( $fvseop_options['aiosp_show_noindex'] || $noindex ) : ?>
 			<div class="fvseo-noindex" <?php if( $noindex ) { echo 'style="display:block;"'; } else { echo 'style="display:none;"'; } ?>>
-				<strong>Post won't be indexed by Search Engines.</strong>
+				<strong>Post won't be indexed by Search Engines and it won't show up in internal site search.</strong>
 			</div>
 		<?php endif; ?>    
 
@@ -3167,9 +3213,9 @@ function fvseo_meta_box_add()
    
    global $fvseop_options;
    if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
-      add_action('admin_head', 'check_empty_clientside', 1);
+      add_action('admin_head', 'fvseo_check_empty_clientside', 1);
    } else {
-      removetitlechecker();
+      fvseo_removetitlechecker();
    }
 
 if( false === get_option( 'aiosp-shorten-link-install' ) )
@@ -3200,6 +3246,12 @@ add_action('admin_menu', array($fvseo, 'admin_menu'));
 add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99 );
 add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
 add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99, 3 );
+
+add_filter( 'get_previous_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
+add_filter( 'get_next_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
+add_filter( 'pre_get_posts', array( $fvseo, 'pre_get_posts' ) );	//	make sure noindex posts don't turn up in the search
+add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
+
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
 function sanitize_title_no_final_period ($title) {
@@ -3239,7 +3291,7 @@ function replace_title_sanitization() {
 replace_title_sanitization();
 add_action( 'plugins_loaded', 'replace_title_sanitization' );
 
-function check_empty_clientside() {
+function fvseo_check_empty_clientside() {
 ?>
 <script language="javascript" type="text/javascript">
 jQuery(document).ready(function() {
@@ -3296,24 +3348,24 @@ jQuery(document).ready(function() {
 <?php
 }
 
-function removetitlechecker() {
-   if ( has_action( 'admin_head', 'check_empty_clientside' ) ) {
-      remove_action( 'admin_head', 'check_empty_clientside' );
+function fvseo_removetitlechecker() {
+   if ( has_action( 'admin_head', 'fvseo_check_empty_clientside' ) ) {
+      remove_action( 'admin_head', 'fvseo_check_empty_clientside' );
    }
 }
 
 if( is_admin() ){
-   register_deactivation_hook( __FILE__, 'removetitlechecker' );
+   register_deactivation_hook( __FILE__, 'fvseo_removetitlechecker' );
 }
 
-function remove_category_list_rel( $output ) {
+function fvseo_remove_category_list_rel( $output ) {
     // Remove rel attribute from the category list
     return str_replace( ' rel="category tag"', '', $output );
 }
 
 if ($fvseop_options['aiosp_remove_category_rel']) {  
-    add_filter( 'wp_list_categories', 'remove_category_list_rel' );
-    add_filter( 'the_category', 'remove_category_list_rel' );
+    add_filter( 'wp_list_categories', 'fvseo_remove_category_list_rel' );
+    add_filter( 'the_category', 'fvseo_remove_category_list_rel' );
 }
 
 ?>

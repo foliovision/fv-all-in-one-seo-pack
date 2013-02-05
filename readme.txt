@@ -48,7 +48,7 @@ Some features:
 == Changelog ==
 
 = Version 1.6.19 - 30 Jan 2013 =
-* Added option for noindex and nofollow. Enable in plugin settings extra options first!
+* Added option for noindex and nofollow. Enable in plugin settings extra options first! This option also removes the page from basic WP page menus (not the hand built WP Nav Menus!), link rel prev/next attributes and search.
 * Fix for replacing of menu item labels
 
 = Version 1.6.18 - 9 Jan 2013 =
