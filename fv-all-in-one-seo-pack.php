@@ -3250,7 +3250,7 @@ add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99,
 add_filter( 'get_previous_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'get_next_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'pre_get_posts', array( $fvseo, 'pre_get_posts' ) );	//	make sure noindex posts don't turn up in the search
-add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
+//add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function

@@ -38,7 +38,7 @@ Some features:
 * You can override any title and set any META description and any META keywords you want.
 * Backward-Compatibility with many other plugins, like Auto Meta, Ultimate Tag Warrior and others.
 * Support for qTranslate
-* noindex and nofollow for each post
+* noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 **FV extra features**:
 
@@ -48,7 +48,7 @@ Some features:
 == Changelog ==
 
 = Version 1.6.19 - 30 Jan 2013 =
-* Added option for noindex and nofollow. Enable in plugin settings extra options first! This option also removes the page from basic WP page menus (not the hand built WP Nav Menus!), link rel prev/next attributes and search.
+* Added option for noindex and nofollow. Enable in plugin settings extra options first! This option also removes the page from link rel prev/next attributes and WP search.
 * Fix for replacing of menu item labels
 
 = Version 1.6.18 - 9 Jan 2013 =
