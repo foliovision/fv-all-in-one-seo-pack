@@ -1,7 +1,7 @@
 === FV Simpler SEO ===
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
-Requires at least: 2.7
+Requires at least: 3.4
 Tested up to: 3.5.1
 Stable tag: trunk 
 
