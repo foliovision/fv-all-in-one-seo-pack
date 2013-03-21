@@ -12,7 +12,7 @@ $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
 	"Ôº∑" => "ÔΩó",	"Ôº∂" => "ÔΩñ",	"Ôºµ" => "ÔΩï",
 	"Ôº¥" => "ÔΩî",	"Ôº≥" => "ÔΩì",	"Ôº≤" => "ÔΩí",
-	"Ôº±" => "ÔΩë",	"Ôº∞" => "ÔΩê",	"ÔºØ" => "ÔΩè",
+	"Ôº±" => "ÔΩë",	"Ôº∞" => "ÔΩê",	"ÔºØ" => "ÔΩè",g
 	"ÔºÆ" => "ÔΩé",	"Ôº≠" => "ÔΩç",	"Ôº¨" => "ÔΩå",
 	"Ôº´" => "ÔΩã",	"Ôº™" => "ÔΩä",	"Ôº©" => "ÔΩâ",
 	"Ôº®" => "ÔΩà",	"Ôºß" => "ÔΩá",	"Ôº¶" => "ÔΩÜ",
@@ -2769,8 +2769,9 @@ function fvseop_nav_menu($content)
 {
 	$url = preg_replace(array('/\//', '/\./', '/\-/'), array('\/', '\.', '\-'), get_option('siteurl'));
 	$pattern = '/<li id=\"menu-item-(\d+)\" class="menu-item(.*?)menu-item-(\d+)([^\"]*)"><a href=\"([^\"]+)"[^>]*?>([^<]+)<\/a>/i';
-  /// db optimization
-  preg_match_all( '~id=\"menu-item-(\d+)\"~', $content, $ids );  
+  
+  /// db optimization, only process what's a menu item for post type
+  preg_match_all( '~id=\"menu-item-(\d+)\" class=\"[^"]*?menu-item-type-post_type[^"]*?\"~', $content, $ids );
   if( function_exists( 'update_meta_cache' ) && count( $ids[1] ) > 0 ) { update_meta_cache( 'post', $ids[1] ); }
   
   $menu_ids = array();
@@ -2783,7 +2784,12 @@ function fvseop_nav_menu($content)
 }
 
 function fvseop_filter_menu_callback($matches)
-{                      
+{      
+  // only process menu items for pages!
+  if( strpos( $matches[0], 'menu-item-type-post_type' ) === FALSE ) {
+    return $matches[0];
+  } 	
+	
   $postID = get_post_meta($matches[1], '_menu_item_object_id', true);      
   $my_post = get_post( $postID );      
            	
