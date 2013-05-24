@@ -2724,6 +2724,43 @@ function toggleVisibility(id)
 	}
 	
 	
+	function yarpp_results( $posts ) {	
+		
+		if( !function_exists( 'yarpp_related' ) ) {
+			return $posts;
+		}
+		
+		global $fvseop_options;
+		if( !$fvseop_options['aiosp_show_noindex'] ) {			
+			return $posts;
+		}
+				
+		global $wpdb;
+		$no_index = $wpdb->get_col( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_aioseop_noindex' " );
+		if( $no_index ) {
+			$new_posts = array();
+			foreach( $posts AS $key => $item ) {
+				$found = false;
+				foreach( $no_index AS $id ) {
+					if( $id == $item->ID ) {
+						$found = true;
+						break;
+					}
+				}
+				if( !$found ) {
+					$new_posts[] = $item;
+				}
+			}
+			
+			global $wp_query;
+			$wp_query->post_count = count( $new_posts );			
+			$posts = $new_posts;
+		}
+		
+		return $posts;
+	}	
+	
+	
 } // end fv_seo class
 
 global $fvseop_options;
@@ -3304,6 +3341,7 @@ add_filter( 'pre_get_posts', array( $fvseo, 'pre_get_posts' ) );	//	make sure no
 //add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
 
 add_filter( 'get_sidebar', array( $fvseo, 'initiate_the_title_change' ) );
+add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
