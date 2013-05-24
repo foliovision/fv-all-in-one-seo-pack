@@ -52,6 +52,7 @@ Some features:
 * Bugfixes for automatic URL shortening when doing Quick Edit
 * Fix for extra DB queries when using page menu label in WP Nav Menus
 * Fix for missing localization hook for title rewrite for posts
+* Noindex now also excludes from YARPP related posts plugin
 
 = Version 1.6.19 - 30 Jan 2013 =
 * Added option for noindex and nofollow. Enable in plugin settings extra options first! This option also removes the page from link rel prev/next attributes and WP search.
