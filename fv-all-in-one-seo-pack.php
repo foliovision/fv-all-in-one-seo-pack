@@ -658,7 +658,7 @@ class FV_Simpler_SEO_Pack
    function EditPostSlug( $strSlug, $idPost = null, $strPostStatus = null, $strPostType = null, $idPostParent = null ){
       global $fvseop_options, $wpdb;
 
-      if( !$fvseop_options['aiosp_shorten_name'] )
+      if( !$fvseop_options['aiosp_shorten_name'] || $strPostType == 'revision' )
          return $strSlug;
 
       if( !$idPost ){
@@ -683,7 +683,8 @@ class FV_Simpler_SEO_Pack
 
    function SavePostSlug( $aData, $aPostArg ){
       global $fvseop_options;
-      if( !$fvseop_options['aiosp_shorten_name'] )
+      
+      if( !$fvseop_options['aiosp_shorten_name'] || $aPostArg['post_type'] == 'revision' )
          return $aData;
 
       if( isset( $aPostArg['post_id'] ) )
@@ -704,7 +705,7 @@ class FV_Simpler_SEO_Pack
    }
 
    function SanitizeTitleForShortening( $strTitle, $strRawTitle = '', $strContext = false ){
-      global $fvseop_options;
+      global $fvseop_options;    
 
       if( !$fvseop_options['aiosp_shorten_name'] 
          || !$this->idEmptyPostName
@@ -3293,7 +3294,7 @@ add_action('save_post', array($fvseo, 'post_meta_tags'));
 add_action('edit_page_form', array($fvseo, 'post_meta_tags'));
 add_action('admin_menu', array($fvseo, 'admin_menu'));
 
-add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99 );
+add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99, 5 );
 add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
 add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99, 3 );
 
