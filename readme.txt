@@ -47,6 +47,12 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.20 - 24 May 2013 =
+* Added option for post short title (off by default)
+* Bugfixes for automatic URL shortening when doing Quick Edit
+* Fix for extra DB queries when using page menu label in WP Nav Menus
+* Fix for missing localization hook for title rewrite for posts
+
 = Version 1.6.19 - 30 Jan 2013 =
 * Added option for noindex and nofollow. Enable in plugin settings extra options first! This option also removes the page from link rel prev/next attributes and WP search.
 * Fix for replacing of menu item labels
