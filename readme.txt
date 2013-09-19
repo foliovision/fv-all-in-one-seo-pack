@@ -47,12 +47,15 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.20 - 24 May 2013 =
-* Added option for post short title (off by default)
-* Bugfixes for automatic URL shortening when doing Quick Edit
-* Fix for extra DB queries when using page menu label in WP Nav Menus
-* Fix for missing localization hook for title rewrite for posts
-* Noindex now also excludes from YARPP related posts plugin
+= Version 1.6.20 - 20 Sep 2013
+* Feature - better settings screen
+* Feature - noindex feature now also excludes from YARPP related posts plugin
+* Feature - option for post short title (off by default)
+* Feature - Search Engine Results Preview box counts on post excerpt too
+* Bugfix - extra DB queries when using page menu label in WP Nav Menus
+* Bugfix - missing localization hook for title rewrite for posts
+* Bugfix - URL shortening when doing Quick Edit
+* Bugfix - tag archives in some templates - title rewrite function is counting less on using wp_title()
 
 = Version 1.6.19 - 30 Jan 2013 =
 * Added option for noindex and nofollow. Enable in plugin settings extra options first! This option also removes the page from link rel prev/next attributes and WP search.

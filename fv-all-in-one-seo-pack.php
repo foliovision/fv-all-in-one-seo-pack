@@ -3,7 +3,7 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php">Options configuration panel</a>
-Version: 1.6.19.2
+Version: 1.6.19.3
 Author: Foliovision
 Author URI: http://foliovision.com
 */
@@ -486,10 +486,29 @@ class FV_Simpler_SEO_Pack
 	{
 		global $fvseop_options;
 	}
+
+
+	function admin_init() {
+		if( isset($_GET['page']) && $_GET['page'] == 'fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php' ) {
+			wp_enqueue_script('common');
+			wp_enqueue_script('wp-lists');
+			wp_enqueue_script('postbox');
+		}	
+	}
+	
+	
+	function fv_simpler_seo_settings_closed_meta_boxes( $closed ) {
+    if ( false === $closed )
+        $closed = array( 'fv_simpler_interface_options', 'fv_simpler_seo_advanced' );
+
+    return $closed;
+	}
+
 	
 	//-------------------------------
 	// UTILS
 	//-------------------------------
+
 
 	/**      
 	 * Convert a string to lower case.
@@ -707,15 +726,10 @@ class FV_Simpler_SEO_Pack
    function SanitizeTitleForShortening( $strTitle, $strRawTitle = '', $strContext = false ){
       global $fvseop_options;    
 
-      if( !$fvseop_options['aiosp_shorten_name'] 
-         || !$this->idEmptyPostName
-         || 'save' !== $strContext
-         || $strRawTitle != $this->strTitleForReference
-      ){
-         return $strTitle;
-      }
-
-      $strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
+			if( isset($fvseop_options['aiosp_shorten_name']) && $fvseop_options['aiosp_shorten_name'] && $strContext == 'save' && $this->idEmptyPostName && $strRawTitle == $this->strTitleForReference ) {
+				$strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
+			}
+      
       return $strTitle;
    }
 
@@ -1558,7 +1572,7 @@ class FV_Simpler_SEO_Pack
 		}
 		elseif (function_exists('is_tag') && is_tag()       && $fvseop_options['aiosp_rewrite_titles'])
 		{
-			$tag = $this->internationalize(wp_title('', false));
+			$tag = single_term_title( '', false );
 
 			if ($tag)
 			{
@@ -1592,12 +1606,38 @@ class FV_Simpler_SEO_Pack
 		}
 		else if (is_archive()       && $fvseop_options['aiosp_rewrite_titles'])
 		{
-			$date = $this->internationalize(wp_title('', false));
+			if( is_date() ) {
+				//	taken from wp_title()
+				global $wp_locale;
+				$m = get_query_var('m');
+				$year = get_query_var('year');
+				$monthnum = get_query_var('monthnum');
+				$day = get_query_var('day');
+				$t_sep = ' ';
+				
+				if( !empty($m) ) {
+					$my_year = substr($m, 0, 4);
+					$my_month = $wp_locale->get_month(substr($m, 4, 2));
+					$my_day = intval(substr($m, 6, 2));
+					$archive_title = $my_year . ( $my_month ? $t_sep . $my_month : '' ) . ( $my_day ? $t_sep . $my_day : '' );
+				}	
+				if( !empty($year) ) {
+					$archive_title = $year;
+					if ( !empty($monthnum) )
+						$archive_title .= $t_sep . $wp_locale->get_month($monthnum);
+					if ( !empty($day) )
+						$archive_title .= $t_sep . zeroise($day, 2);
+				}
+			} else if ( is_tax() ) {
+				$term = get_queried_object();
+				$tax = get_taxonomy( $term->taxonomy );
+				$archive_title = single_term_title( $tax->labels->name . $t_sep, false );
+			}
 			$title_format = stripslashes( $fvseop_options['aiosp_archive_title_format'] );
 
 			$new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
 			$new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
-			$new_title = str_replace('%date%', $date, $new_title);
+			$new_title = str_replace('%date%', $archive_title, $new_title);
 
 			$title = trim($new_title);
 			$title = $this->paged_title($title);
@@ -1931,6 +1971,517 @@ class FV_Simpler_SEO_Pack
 	{
 		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fvseo'), __('FV Simpler SEO', 'fvseo'), 'manage_options', __FILE__, array($this, 'options_panel'));
 	}
+	
+	
+	function admin_settings_basic() {
+		global $fvseop_options;
+	?>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_title_tip');">
+					<?php _e('Home Title:', 'fv_seo')?>
+				</a><br />
+				<input type="text" class="regular-text" size="63" name="fvseo_home_title" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_title']))?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_home_title_tip">
+					<?php _e('As the name implies, this will be the title of your homepage. This is independent of any other option. If not set, the default blog title will get used.', 'fv_seo')?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_description_tip');">
+					<?php _e('Home Description:', 'fv_seo')?>
+				</a><br />
+				<textarea cols="57" rows="2" name="fvseo_home_description"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_description']))?></textarea>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_home_description_tip">
+					<?php _e('The META description for your homepage. Independent of any other options, the default is no META description at all if this is not set.', 'fv_seo')?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_keywords_tip');">
+					<?php _e('Home Keywords (comma separated):', 'fv_seo')?>
+				</a><br />
+				<textarea cols="57" rows="2" name="fvseo_home_keywords"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_keywords'])); ?></textarea>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_home_keywords_tip">
+					<?php _e("A comma separated list of your most important keywords for your site that will be written as META keywords on your homepage. Don't stuff everything in here.", 'fv_seo')?>
+				</div>
+		</p>
+		<p>
+			 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_warnings_tip');">
+					<?php _e('Warn me when publishing without a title or description:', 'fv_seo')?>
+			 </a>
+	
+			 <label for="fvseo_publ_warnings">&nbsp;&nbsp;</label>            
+			 <input type="checkbox" name="fvseo_publ_warnings" id="fvseo_publ_warnings" <?php if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) echo 'checked="yes"'; ?> value="1">
+			 <label for="fvseo_publ_warnings">&nbsp;&nbsp;</label>
+	
+			 <div style="max-width:500px; text-align:left; display:none" id="fvseo_warnings_tip">
+					<?php _e("Uncheck this if you don't want to be warned in case you are publishing without a title or description. Default: checked.", 'fv_seo')?>
+			 </div>
+		</p>	
+	<?php
+	}
+	
+	
+	function admin_settings_interface() {
+		global $fvseop_options;
+	?>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_keywords_tip');">
+				<?php _e('Add keywords field to post editing screen:', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_show_keywords" <?php if ($fvseop_options['aiosp_show_keywords']) echo "checked=\"1\""; ?>/>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_keywords_tip">
+				<?php
+				_e("You don't need this field at all if you are using tags properly. It makes the FV All in One SEO Pack box in the editing screen more complicated too.", 'fv_seo');
+				 ?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_noindex_tip');">
+				<?php _e('Add no index checkbox to post editing screen:', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_show_noindex" <?php if( isset($fvseop_options['aiosp_show_noindex']) && $fvseop_options['aiosp_show_noindex'] ) echo "checked=\"1\""; ?>/>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_noindex_tip">
+				<?php
+				_e("Adds a powerful checkbox to post editing screens which let's you exclude the post from search engine indexing. <strong>Warning:</strong> only use if you really know what you are doing.", 'fv_seo');
+				 ?>
+				</div>
+		</p>                            	
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_custom_canonical_tip');">
+				<?php _e('Experimental - Use Custom Canonical URL field:', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_show_custom_canonical" <?php if( isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical'] ) echo "checked=\"1\""; ?>/>
+				<script type="text/javascript">
+				jQuery("input[name='fvseo_show_custom_canonical']").change( function() {
+					if( jQuery(this).is(':checked') ) {
+						if( confirm( 'Are you sure you want to turn on this feature? Using wrong custom canonical URLs can damage your site SEO rankings.'+"\n"+"\n"+' If you are not sure, then leave this off and Wordpress will take care of it on its own.' ) ) {
+						} else {
+							jQuery(this).removeAttr('checked');
+						}
+					}
+				});
+				</script>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_custom_canonical_tip">
+				<?php
+				_e("Use this feature only if you are sure you want to enter custom canonical URLs. This is not affected by the \"Canonical URLs\" Advanced Option (bellow).", 'fv_seo');
+				 ?>
+				</div>
+		</p>                            	
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_titleattribute_tip');">
+				<?php _e('Add Title Attribute field to page editing screen (deprecated):', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_show_titleattribute" <?php if ($fvseop_options['aiosp_show_titleattribute']) echo "checked=\"1\""; ?>/>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_titleattribute_tip">
+				<?php
+				_e("Allows you to set the anchor title for pages in menus. You don't need this field at all because post title or Long Title will be used instead.", 'fv_seo');
+				 ?>
+				</div>
+		</p>		
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_short_title_post_tip');">
+				<?php _e('Add Short Title Attribute field to post editing screen:', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_show_short_title_post" <?php if( isset($fvseop_options['aiosp_show_short_title_post']) && $fvseop_options['aiosp_show_short_title_post'] ) echo "checked=\"1\""; ?>/>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_short_title_post_tip">
+				<?php
+				_e("Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post titles when enabled.", 'fv_seo');
+				 ?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_disable_tip');">
+				<?php _e('Add "Disable on this post/page" checkbox to post editing screen (deprecated):', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_show_disable" <?php if ($fvseop_options['aiosp_show_disable']) echo "checked=\"1\""; ?>/>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_disable_tip">
+				<?php
+				_e("Let's you disable the plugin for a specific post or page.", 'fv_seo');
+				 ?>
+				</div>
+		</p>	
+	<?php
+	}
+	
+	
+	function admin_settings_advanced() {
+		global $fvseop_options;
+	?>
+						<p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_can_tip');">
+                  <?php _e('Canonical URLs:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_can" <?php if ($fvseop_options['aiosp_can']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_can_tip">
+                  <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_name');">
+                  <?php _e('Shorten Post / Page name:', 'fv_seo')?>
+               </a>
+               <input type="checkbox" name="fvseo_shorten_name" <?php if( isset($fvseop_options['aiosp_shorten_name']) && $fvseop_options['aiosp_shorten_name'] ) echo 'checked="checked"'; ?>/>
+               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_name">
+                  <?php _e("This option will automatically shorten a link to post / page upon first save.", 'fv_seo')?>
+               </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_rewrite_titles_tip');">
+                  <?php _e('Rewrite Titles:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_rewrite_titles" <?php if ($fvseop_options['aiosp_rewrite_titles']) echo 'checked="checked"'; ?> onclick="toggleVisibility('fvseo_rewrite_titles_options');" /> <abbr title="Not required for most modern templates. Enable to see more options.">(?)</a>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_rewrite_titles_tip">
+                  <?php _e("Note that this is all about the title tag. This is what you see in your browser's window title bar. This is NOT visible on a page, only in the window title bar and of course in the source. If set, all page, post, category, search and archive page titles get rewritten. You can specify the format for most of them. For example: The default templates puts the title tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've overdone slightly). This is far from optimal. With the default post title format, Rewrite Title rewrites this to Post Title | Blog Name. If you have manually defined a title (in one of the text fields for All in One SEO Plugin input) this will become the title of your post in the format string.", 'fv_seo')?>
+                </div>
+            </p>
+            
+            <div style="width: 470px; background: #f0f0f0; padding: 10px; margin-left: 20px; text-align:left; display:<?php if ($fvseop_options['aiosp_rewrite_titles']) echo 'block'; else echo 'none'; ?>" id="fvseo_rewrite_titles_options">
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_post_title_format_tip');">
+                        <?php _e('Post Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_post_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_post_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_post_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%post_title% - The original title of the post', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category_title% - The (main) category of the post', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category% - Alias for %category_title%', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_login% - This post's author' login", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_nicename% - This post's author' nicename", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_firstname% - This post's author' first name (capitalized)", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_lastname% - This post's author' last name (capitalized)", 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>    
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_page_title_format_tip');">
+                      <?php _e('Page Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_page_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_page_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_page_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%page_title% - The original title of the page', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%page_author_login% - This page's author' login", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%page_author_nicename% - This page's author' nicename", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%page_author_firstname% - This page's author' first name (capitalized)", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%page_author_lastname% - This page's author' last name (capitalized)", 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>    
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_category_title_format_tip');">
+                      <?php _e('Category Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_category_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_category_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_category_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category_title% - The original title of the category', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category_description% - The description of the category', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>   
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_archive_title_format_tip');">
+                      <?php _e('Archive Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_archive_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_archive_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_archive_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%date% - The original archive title given by wordpress, e.g. "2007" or "2007 August"', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>   
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_tag_title_format_tip');">
+                      <?php _e('Tag Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_tag_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_tag_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_tag_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%tag% - The name of the tag', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>    
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_search_title_format_tip');">
+                      <?php _e('Search Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_search_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_search_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_search_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%search% - What was searched for', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>   
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_description_format_tip');">
+                      <?php _e('Description Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_description_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_description_format'])); ?>" />
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_description_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%description% - The original description as determined by the plugin, e.g. the excerpt if one is set or an auto-generated one if that option is set', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%wp_title% - The original wordpress title, e.g. post_title for posts', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%page% - Page number for paged category archives', 'fv_seo'); echo('</li>');                        
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>    
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_404_title_format_tip');">
+                      <?php _e('404 Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_404_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_404_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_404_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%request_url% - The original URL path, like "/url-that-does-not-exist/"', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%request_words% - The URL path in human readable form, like "Url That Does Not Exist"', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%404_title% - Additional 404 title input"', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_paged_format_tip');">
+                      <?php _e('Paged Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_paged_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_paged_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_paged_format_tip">
+                        <?php
+                        _e('This string gets appended/prepended to titles when they are for paged index pages (like home or archive pages).', 'fv_seo');
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%page% - The page number', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>
+            </div>
+
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_use_categories_tip');">
+                  <?php _e('Use Categories for META keywords:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_use_categories" <?php if ($fvseop_options['aiosp_use_categories']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_use_categories_tip">
+                  <?php _e('Check this if you want your categories for a given post used as the META keywords for this post (in addition to any keywords and tags you specify on the post edit page).', 'fv_seo')?>
+                </div>
+            </p>
+
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_use_tags_as_keywords_tip');">
+                  <?php _e('Use Tags for META keywords:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_use_tags_as_keywords" <?php if ($fvseop_options['aiosp_use_tags_as_keywords']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_use_tags_as_keywords_tip">
+                  <?php _e('Check this if you want your tags for a given post used as the META keywords for this post (in addition to any keywords you specify on the post edit page).', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dynamic_postspage_keywords_tip');">
+                  <?php _e('Dynamically Generate Keywords for Posts Page:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_dynamic_postspage_keywords" <?php if ($fvseop_options['aiosp_dynamic_postspage_keywords']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_dynamic_postspage_keywords_tip">
+                  <?php _e('Check this if you want your keywords on a custom posts page (set it in options->reading) to be dynamically generated from the keywords of the posts showing on that page.  If unchecked, it will use the keywords set in the edit page screen for the posts page.', 'fv_seo') ?>
+                </div>
+            </p>          
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_remove_category_rel_tip');">
+                  <?php _e('Remove Category rel attribute for validation:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_remove_category_rel" <?php if ($fvseop_options['aiosp_remove_category_rel']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_remove_category_rel_tip">
+                  <?php _e('Check this if you want to remove attribute rel from links to categories. Useful for validation.', 'fv_seo') ?>
+                </div>
+            </p>            
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_category_noindex_tip');">
+                  <?php _e('Use noindex for Categories:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_category_noindex" <?php if ($fvseop_options['aiosp_category_noindex']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_category_noindex_tip">
+                  <?php _e('Check this for excluding category pages from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_archive_noindex_tip');">
+                  <?php _e('Use noindex for Archives:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_archive_noindex" <?php if ($fvseop_options['aiosp_archive_noindex']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_archive_noindex_tip">
+                  <?php _e('Check this for excluding archive pages from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_tags_noindex_tip');">
+                  <?php _e('Use noindex for Tag Archives:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_tags_noindex" <?php if ($fvseop_options['aiosp_tags_noindex']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_tags_noindex_tip">
+                  <?php _e('Check this for excluding tag pages from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_search_noindex_tip');">
+                  <?php _e('Use noindex for Search Results:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_search_noindex" <?php if ($fvseop_options['aiosp_search_noindex']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_search_noindex_tip">
+                  <?php _e('Check this for excluding search results from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_generate_descriptions_tip');">
+                  <?php _e('Autogenerate Descriptions:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_generate_descriptions" <?php if ($fvseop_options['aiosp_generate_descriptions']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_generate_descriptions_tip">
+                  <?php _e("Check this and your META descriptions will get autogenerated if there's no excerpt.", 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_cap_cats_tip');">
+                  <?php _e('Capitalize Category Titles:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_cap_cats" <?php if ($fvseop_options['aiosp_cap_cats']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_cap_cats_tip">
+                  <?php _e("Check this and Category Titles will have the first letter of each word capitalized.", 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_ex_pages_tip');">
+                  <?php _e('Exclude Pages:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="2" name="fvseo_ex_pages"><?php if( isset( $fvseop_options['aiosp_ex_pages'] ) ) echo esc_attr(stripcslashes($fvseop_options['aiosp_ex_pages']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_ex_pages_tip">
+                  <?php _e("Enter any comma separated pages here to be excluded by All in One SEO Pack.  This is helpful when using plugins which generate their own non-WordPress dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to exclude the virtual pages generated by a forum plugin, all you have to do is give forum or /forum or /forum/ or and any URL with the word \"forum\" in it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage will be excluded from FV All in One SEO Pack.", 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_post_meta_tags_tip');">
+                  <?php _e('Additional Post Headers:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="2" name="fvseo_post_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_post_meta_tags']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_post_meta_tags_tip">
+									<?php
+									_e('What you enter here will be copied verbatim to your header on post pages. You can enter whatever additional headers you want here, even references to stylesheets.', 'fv_seo');
+									echo '<br/>';
+									_e('NOTE: This field currently only support meta tags.', 'fv_seo');
+									?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_page_meta_tags_tip');">
+                  <?php _e('Additional Page Headers:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="2" name="fvseo_page_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_page_meta_tags']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_page_meta_tags_tip">
+									<?php
+									_e('What you enter here will be copied verbatim to your header on pages. You can enter whatever additional headers you want here, even references to stylesheets.', 'fv_seo');
+									echo '<br/>';
+									_e('NOTE: This field currently only support meta tags.', 'fv_seo');
+									?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_meta_tags_tip');">
+                  <?php _e('Additional Home Headers:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="2" name="fvseo_home_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_meta_tags']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_meta_tags_tip">
+									<?php
+									_e('What you enter here will be copied verbatim to your header on the home page. You can enter whatever additional headers you want here, even references to stylesheets.', 'fv_seo');
+									echo '<br/>';
+									_e('NOTE: This field currently only support meta tags.', 'fv_seo');
+									?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_google_site_verification_meta_tag_tip');">
+                  <?php _e('Google Verification Meta Tag:', 'fv_seo')?>
+                </a> <abbr title="We recommend you to use a single file instead for Google verification">(?)</abbr><br />
+                <textarea cols="57" rows="1" name="fvseo_home_google_site_verification_meta_tag"><?php if( isset( $fvseop_options['aiosp_home_google_site_verification_meta_tag'] ) ) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_google_site_verification_meta_tag']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_google_site_verification_meta_tag_tip">
+									<?php
+									_e('What you enter here will be copied verbatim to your header on the home page. Webmaster Tools provides the meta tag in XHTML syntax.', 'fv_seo');
+									echo('<br/>');
+									echo('1. '); _e('On the Webmaster Tools Home page, click Verify this site next to the site you want.', 'fv_seo');
+									echo('<br/>');
+									echo('2. '); _e('In the Verification method list, select Meta tag, and follow the steps on your screen.', 'fv_seo');
+									echo('<br/>');
+									_e('Once you have added the tag to your home page, click Verify.', 'fv_seo');
+									?>
+                </div>
+            </p>         
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_yahoo_site_verification_meta_tag');">
+                  <?php _e('Yahoo Verification Meta Tag:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="1" name="fvseo_home_yahoo_site_verification_meta_tag"><?php if( isset( $fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] ) ) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_yahoo_site_verification_meta_tag']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_yahoo_site_verification_meta_tag">
+									<?php _e('Put your Yahoo site verification tag for your homepage here.', 'fv_seo'); ?>
+                </div>
+            </p>        
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_bing_site_verification_meta_tag');">
+                  <?php _e('Bing Verification Meta Tag:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="1" name="fvseo_home_bing_site_verification_meta_tag"><?php if( isset( $fvseop_options['aiosp_home_bing_site_verification_meta_tag'] ) ) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_bing_site_verification_meta_tag']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_bing_site_verification_meta_tag">
+									<?php _e('Put your Bing site verification tag for your homepage here.', 'fv_seo'); ?>
+                </div>
+            </p>                        
+            <p>
+								<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dont_use_excerpt_tip');">
+								<?php _e('Turn off excerpts for descriptions:', 'fv_seo')?>
+								</a>
+						
+								<input type="checkbox" name="fvseo_dont_use_excerpt" <?php if ($fvseop_options['aiosp_dont_use_excerpt']) echo "checked=\"1\""; ?>/>
+								<div style="max-width:500px; text-align:left; display:none" id="fvseo_dont_use_excerpt_tip">
+									<?php _e("Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot.", 'all_in_one_seo_pack'); ?>
+								</div>
+            </p>	
+	<?php
+	}
+	
 
 	function options_panel()
 	{
@@ -2095,556 +2646,32 @@ function toggleVisibility(id)
 </script>
     <form name="dofollow" action="" method="post">
 
-        <?php $fvseop_options = get_option('aioseop_options'); ?>
+<?php
 
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_title_tip');">
-                  <?php _e('Home Title:', 'fv_seo')?>
-                </a><br />
-                <input class="regular-text" size="63" name="fvseo_home_title" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_title']))?>" />
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_title_tip">
-                  <?php _e('As the name implies, this will be the title of your homepage. This is independent of any other option. If not set, the default blog title will get used.', 'fv_seo')?>
-                </div>
-            </p>
+$fvseop_options = get_option('aioseop_options');
 
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_description_tip');">
-                  <?php _e('Home Description:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="2" name="fvseo_home_description"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_description']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_description_tip">
-                  <?php _e('The META description for your homepage. Independent of any other options, the default is no META description at all if this is not set.', 'fv_seo')?>
-                </div>
-            </p>
+add_meta_box( 'fv_simpler_seo_basic', 'Basic Options', array( $this, 'admin_settings_basic' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
+?>            
 
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_keywords_tip');">
-                  <?php _e('Home Keywords (comma separated):', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="2" name="fvseo_home_keywords"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_keywords'])); ?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_keywords_tip">
-                  <?php _e("A comma separated list of your most important keywords for your site that will be written as META keywords on your homepage. Don't stuff everything in here.", 'fv_seo')?>
-                </div>
-            </p>
-            
-            <p>
-               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_warnings_tip');">
-                  <?php _e('Warn me when publishing without a title or description:', 'fv_seo')?>
-               </a>
-
-               <label for="fvseo_publ_warnings">&nbsp;&nbsp;</label>            
-               <input type="checkbox" name="fvseo_publ_warnings" id="fvseo_publ_warnings" <?php if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) echo 'checked="yes"'; ?> value="1">
-               <label for="fvseo_publ_warnings">&nbsp;&nbsp;</label>
-
-               <div style="max-width:500px; text-align:left; display:none" id="fvseo_warnings_tip">
-                  <?php _e("Uncheck this if you don't want to be warned in case you are publishing without a title or description. Default: checked.", 'fv_seo')?>
-               </div>
-            </p>
-            
-            <p>
-                <a href="#" onclick="toggleVisibility('fvseo_user_interface_options');">Extra Interface Options</a> <small>(not recommended)</small>
-            </p>
-            
-
+		<div id="dashboard-widgets" class="metabox-holder columns-1">
+			<div id='postbox-container-1' class='postbox-container'>    
+				<?php
+				do_meta_boxes( 'fv_simpler_seo_settings', 'normal', false );
+				wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+				wp_nonce_field( 'meta-box-order-nonce', 'meta-box-order-nonce', false );
+				?>
+			</div>
+		</div>  
+		
                 <div style="border-left: 1px solid #ddd; padding-left: 10px; margin-left: 20px; text-align:left; 
                 <?php if( !$fvseop_options['aiosp_show_keywords'] && !$fvseop_options['aiosp_show_custom_canonical'] && !$fvseop_options['aiosp_show_titleattribute'] && !$fvseop_options['aiosp_show_disable'] && !$fvseop_options['aiosp_show_short_title_post'] ) echo 'display: none;' ?>" id="fvseo_user_interface_options">
-                            <p>
-                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_keywords_tip');">
-                                <?php _e('Add keywords field to post editing screen:', 'fv_seo')?>
-                                </a>
-                                <input type="checkbox" name="fvseo_show_keywords" <?php if ($fvseop_options['aiosp_show_keywords']) echo "checked=\"1\""; ?>/>
-                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_keywords_tip">
-                                <?php
-                                _e("You don't need this field at all if you are using tags properly. It makes the FV All in One SEO Pack box in the editing screen more complicated too.", 'fv_seo');
-                                 ?>
-                                </div>
-                            </p>
-                            <p>
-                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_noindex_tip');">
-                                <?php _e('Add no index checkbox to post editing screen:', 'fv_seo')?>
-                                </a>
-                                <input type="checkbox" name="fvseo_show_noindex" <?php if ($fvseop_options['aiosp_show_noindex']) echo "checked=\"1\""; ?>/>
-                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_noindex_tip">
-                                <?php
-                                _e("Adds a powerful checkbox to post editing screens which let's you exclude the post from search engine indexing. <strong>Warning:</strong> only use if you really know what you are doing.", 'fv_seo');
-                                 ?>
-                                </div>
-                            </p>                            
                             
-                            <p>
-                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_custom_canonical_tip');">
-                                <?php _e('Experimental - Use Custom Canonical URL field:', 'fv_seo')?>
-                                </a>
-                                <input type="checkbox" name="fvseo_show_custom_canonical" <?php if ($fvseop_options['aiosp_show_custom_canonical']) echo "checked=\"1\""; ?>/>
-                                <script type="text/javascript">
-                                jQuery("input[name='fvseo_show_custom_canonical']").change( function() {
-                                  if( jQuery(this).is(':checked') ) {
-                                    if( confirm( 'Are you sure you want to turn on this feature? Using wrong custom canonical URLs can damage your site SEO rankings.'+"\n"+"\n"+' If you are not sure, then leave this off and Wordpress will take care of it on its own.' ) ) {
-                                    } else {
-                                      jQuery(this).removeAttr('checked');
-                                    }
-                                  }
-                                });
-                                </script>
-                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_custom_canonical_tip">
-                                <?php
-                                _e("Use this feature only if you are sure you want to enter custom canonical URLs. This is not affected by the \"Canonical URLs\" Advanced Option (bellow).", 'fv_seo');
-                                 ?>
-                                </div>
-                            </p>                            
-
-                            <p>
-                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_titleattribute_tip');">
-                                <?php _e('Add Title Attribute field to page editing screen (deprecated):', 'fv_seo')?>
-                                </a>
-                                <input type="checkbox" name="fvseo_show_titleattribute" <?php if ($fvseop_options['aiosp_show_titleattribute']) echo "checked=\"1\""; ?>/>
-                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_titleattribute_tip">
-                                <?php
-                                _e("Allows you to set the anchor title for pages in menus. You don't need this field at all because post title or Long Title will be used instead.", 'fv_seo');
-                                 ?>
-                                </div>
-                            </p>
-                            
-                            <p>
-                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_short_title_post_tip');">
-                                <?php _e('Add Short Title Attribute field to post editing screen:', 'fv_seo')?>
-                                </a>
-                                <input type="checkbox" name="fvseo_show_short_title_post" <?php if ($fvseop_options['aiosp_show_short_title_post']) echo "checked=\"1\""; ?>/>
-                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_short_title_post_tip">
-                                <?php
-                                _e("Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post titles when enabled.", 'fv_seo');
-                                 ?>
-                                </div>
-                            </p>
-                            
-
-                            <p>
-                                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_disable_tip');">
-                                <?php _e('Add "Disable on this post/page" checkbox to post editing screen (deprecated):', 'fv_seo')?>
-                                </a>
-                                <input type="checkbox" name="fvseo_show_disable" <?php if ($fvseop_options['aiosp_show_disable']) echo "checked=\"1\""; ?>/>
-                                <div style="max-width:500px; text-align:left; display:none" id="fvseo_show_disable_tip">
-                                <?php
-                                _e("Let's you disable the plugin for a specific post or page.", 'fv_seo');
-                                 ?>
-                                </div>
-                            </p>
                 </div>
 
             
-            <p>
-                <a href="#" onclick="toggleVisibility('fvseo_advanced_options'); return false">Advanced Options</a>
-            </p>
-            
 
-        <div style="border-left: 1px solid #ddd; padding-left: 10px; margin-left: 20px; text-align:left; display:none" id="fvseo_advanced_options">
-        
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_can_tip');">
-                  <?php _e('Canonical URLs:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_can" <?php if ($fvseop_options['aiosp_can']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_can_tip">
-                  <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_name');">
-                  <?php _e('Shorten Post / Page name:', 'fv_seo')?>
-               </a>
-               <input type="checkbox" name="fvseo_shorten_name" <?php if ($fvseop_options['aiosp_shorten_name']) echo 'checked="checked"'; ?>/>
-               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_name">
-                  <?php _e("This option will automatically shorten a link to post / page upon first save.", 'fv_seo')?>
-               </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_rewrite_titles_tip');">
-                  <?php _e('Rewrite Titles:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_rewrite_titles" <?php if ($fvseop_options['aiosp_rewrite_titles']) echo 'checked="checked"'; ?> onclick="toggleVisibility('fvseo_rewrite_titles_options');" /> <abbr title="Not required for most modern templates. Enable to see more options.">(?)</a>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_rewrite_titles_tip">
-                  <?php _e("Note that this is all about the title tag. This is what you see in your browser's window title bar. This is NOT visible on a page, only in the window title bar and of course in the source. If set, all page, post, category, search and archive page titles get rewritten. You can specify the format for most of them. For example: The default templates puts the title tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've overdone slightly). This is far from optimal. With the default post title format, Rewrite Title rewrites this to Post Title | Blog Name. If you have manually defined a title (in one of the text fields for All in One SEO Plugin input) this will become the title of your post in the format string.", 'fv_seo')?>
-                </div>
-            </p>
-            
-            <div style="width: 470px; background: #f0f0f0; padding: 10px; margin-left: 20px; text-align:left; display:<?php if ($fvseop_options['aiosp_rewrite_titles']) echo 'block'; else echo 'none'; ?>" id="fvseo_rewrite_titles_options">
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_post_title_format_tip');">
-                        <?php _e('Post Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_post_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_post_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_post_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%post_title% - The original title of the post', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category_title% - The (main) category of the post', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category% - Alias for %category_title%', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_login% - This post's author' login", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_nicename% - This post's author' nicename", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_firstname% - This post's author' first name (capitalized)", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_lastname% - This post's author' last name (capitalized)", 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_page_title_format_tip');">
-                      <?php _e('Page Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_page_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_page_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_page_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%page_title% - The original title of the page', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%page_author_login% - This page's author' login", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%page_author_nicename% - This page's author' nicename", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%page_author_firstname% - This page's author' first name (capitalized)", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%page_author_lastname% - This page's author' last name (capitalized)", 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_category_title_format_tip');">
-                      <?php _e('Category Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_category_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_category_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_category_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category_title% - The original title of the category', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category_description% - The description of the category', 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_archive_title_format_tip');">
-                      <?php _e('Archive Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_archive_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_archive_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_archive_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%date% - The original archive title given by wordpress, e.g. "2007" or "2007 August"', 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_tag_title_format_tip');">
-                      <?php _e('Tag Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_tag_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_tag_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_tag_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%tag% - The name of the tag', 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_search_title_format_tip');">
-                      <?php _e('Search Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_search_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_search_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_search_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%search% - What was searched for', 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_description_format_tip');">
-                      <?php _e('Description Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_description_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_description_format'])); ?>" />
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_description_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%description% - The original description as determined by the plugin, e.g. the excerpt if one is set or an auto-generated one if that option is set', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%wp_title% - The original wordpress title, e.g. post_title for posts', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%page% - Page number for paged category archives', 'fv_seo'); echo('</li>');                        
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_404_title_format_tip');">
-                      <?php _e('404 Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_404_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_404_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_404_title_format_tip">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%request_url% - The original URL path, like "/url-that-does-not-exist/"', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%request_words% - The URL path in human readable form, like "Url That Does Not Exist"', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%404_title% - Additional 404 title input"', 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-    
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_paged_format_tip');">
-                      <?php _e('Paged Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" name="fvseo_paged_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_paged_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_paged_format_tip">
-                        <?php
-                        _e('This string gets appended/prepended to titles when they are for paged index pages (like home or archive pages).', 'fv_seo');
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%page% - The page number', 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-            </div>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_use_categories_tip');">
-                  <?php _e('Use Categories for META keywords:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_use_categories" <?php if ($fvseop_options['aiosp_use_categories']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_use_categories_tip">
-                  <?php _e('Check this if you want your categories for a given post used as the META keywords for this post (in addition to any keywords and tags you specify on the post edit page).', 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_use_tags_as_keywords_tip');">
-                  <?php _e('Use Tags for META keywords:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_use_tags_as_keywords" <?php if ($fvseop_options['aiosp_use_tags_as_keywords']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_use_tags_as_keywords_tip">
-                  <?php _e('Check this if you want your tags for a given post used as the META keywords for this post (in addition to any keywords you specify on the post edit page).', 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dynamic_postspage_keywords_tip');">
-                  <?php _e('Dynamically Generate Keywords for Posts Page:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_dynamic_postspage_keywords" <?php if ($fvseop_options['aiosp_dynamic_postspage_keywords']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_dynamic_postspage_keywords_tip">
-                  <?php _e('Check this if you want your keywords on a custom posts page (set it in options->reading) to be dynamically generated from the keywords of the posts showing on that page.  If unchecked, it will use the keywords set in the edit page screen for the posts page.', 'fv_seo') ?>
-                </div>
-            </p>
-            
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_remove_category_rel_tip');">
-                  <?php _e('Remove Category rel attribute for validation:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_remove_category_rel" <?php if ($fvseop_options['aiosp_remove_category_rel']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_remove_category_rel_tip">
-                  <?php _e('Check this if you want to remove attribute rel from links to categories. Useful for validation.', 'fv_seo') ?>
-                </div>
-            </p>            
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_category_noindex_tip');">
-                  <?php _e('Use noindex for Categories:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_category_noindex" <?php if ($fvseop_options['aiosp_category_noindex']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_category_noindex_tip">
-                  <?php _e('Check this for excluding category pages from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_archive_noindex_tip');">
-                  <?php _e('Use noindex for Archives:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_archive_noindex" <?php if ($fvseop_options['aiosp_archive_noindex']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_archive_noindex_tip">
-                  <?php _e('Check this for excluding archive pages from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_tags_noindex_tip');">
-                  <?php _e('Use noindex for Tag Archives:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_tags_noindex" <?php if ($fvseop_options['aiosp_tags_noindex']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_tags_noindex_tip">
-                  <?php _e('Check this for excluding tag pages from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_search_noindex_tip');">
-                  <?php _e('Use noindex for Search Results:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_search_noindex" <?php if ($fvseop_options['aiosp_search_noindex']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_search_noindex_tip">
-                  <?php _e('Check this for excluding search results from being crawled. Useful for avoiding duplicate content.', 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_generate_descriptions_tip');">
-                  <?php _e('Autogenerate Descriptions:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_generate_descriptions" <?php if ($fvseop_options['aiosp_generate_descriptions']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_generate_descriptions_tip">
-                  <?php _e("Check this and your META descriptions will get autogenerated if there's no excerpt.", 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_cap_cats_tip');">
-                  <?php _e('Capitalize Category Titles:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_cap_cats" <?php if ($fvseop_options['aiosp_cap_cats']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_cap_cats_tip">
-                  <?php _e("Check this and Category Titles will have the first letter of each word capitalized.", 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_ex_pages_tip');">
-                  <?php _e('Exclude Pages:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="2" name="fvseo_ex_pages"><?php if( isset( $fvseop_options['aiosp_ex_pages'] ) ) echo esc_attr(stripcslashes($fvseop_options['aiosp_ex_pages']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_ex_pages_tip">
-                  <?php _e("Enter any comma separated pages here to be excluded by All in One SEO Pack.  This is helpful when using plugins which generate their own non-WordPress dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to exclude the virtual pages generated by a forum plugin, all you have to do is give forum or /forum or /forum/ or and any URL with the word \"forum\" in it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage will be excluded from FV All in One SEO Pack.", 'fv_seo')?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_post_meta_tags_tip');">
-                  <?php _e('Additional Post Headers:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="2" name="fvseo_post_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_post_meta_tags']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_post_meta_tags_tip">
-    <?php
-    _e('What you enter here will be copied verbatim to your header on post pages. You can enter whatever additional headers you want here, even references to stylesheets.', 'fv_seo');
-    echo '<br/>';
-    _e('NOTE: This field currently only support meta tags.', 'fv_seo');
-    ?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_page_meta_tags_tip');">
-                  <?php _e('Additional Page Headers:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="2" name="fvseo_page_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_page_meta_tags']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_page_meta_tags_tip">
-    <?php
-    _e('What you enter here will be copied verbatim to your header on pages. You can enter whatever additional headers you want here, even references to stylesheets.', 'fv_seo');
-    echo '<br/>';
-    _e('NOTE: This field currently only support meta tags.', 'fv_seo');
-    ?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_meta_tags_tip');">
-                  <?php _e('Additional Home Headers:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="2" name="fvseo_home_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_meta_tags']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_meta_tags_tip">
-    <?php
-    _e('What you enter here will be copied verbatim to your header on the home page. You can enter whatever additional headers you want here, even references to stylesheets.', 'fv_seo');
-    echo '<br/>';
-    _e('NOTE: This field currently only support meta tags.', 'fv_seo');
-    ?>
-                </div>
-            </p>
-
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_google_site_verification_meta_tag_tip');">
-                  <?php _e('Google Verification Meta Tag:', 'fv_seo')?>
-                </a> <abbr title="We recommend you to use a single file instead for Google verification">(?)</abbr><br />
-                <textarea cols="57" rows="1" name="fvseo_home_google_site_verification_meta_tag"><?php if( isset( $fvseop_options['aiosp_home_google_site_verification_meta_tag'] ) ) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_google_site_verification_meta_tag']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_google_site_verification_meta_tag_tip">
-    <?php
-    _e('What you enter here will be copied verbatim to your header on the home page. Webmaster Tools provides the meta tag in XHTML syntax.', 'fv_seo');
-    echo('<br/>');
-    echo('1. '); _e('On the Webmaster Tools Home page, click Verify this site next to the site you want.', 'fv_seo');
-    echo('<br/>');
-    echo('2. '); _e('In the Verification method list, select Meta tag, and follow the steps on your screen.', 'fv_seo');
-    echo('<br/>');
-    _e('Once you have added the tag to your home page, click Verify.', 'fv_seo');
-    ?>
-                </div>
-            </p>
-            
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_yahoo_site_verification_meta_tag');">
-                  <?php _e('Yahoo Verification Meta Tag:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="1" name="fvseo_home_yahoo_site_verification_meta_tag"><?php if( isset( $fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] ) ) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_yahoo_site_verification_meta_tag']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_yahoo_site_verification_meta_tag">
-    <?php
-    _e('Put your Yahoo site verification tag for your homepage here.', 'fv_seo');
-    ?>
-                </div>
-            </p>
-            
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_bing_site_verification_meta_tag');">
-                  <?php _e('Bing Verification Meta Tag:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="1" name="fvseo_home_bing_site_verification_meta_tag"><?php if( isset( $fvseop_options['aiosp_home_bing_site_verification_meta_tag'] ) ) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_home_bing_site_verification_meta_tag']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_bing_site_verification_meta_tag">
-    <?php
-    _e('Put your Bing site verification tag for your homepage here.', 'fv_seo');
-    ?>
-                </div>
-            </p>                        
-
-            <p>
-		<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dont_use_excerpt_tip');">
-		<?php _e('Turn off excerpts for descriptions:', 'fv_seo')?>
-		</a>
-
-		<input type="checkbox" name="fvseo_dont_use_excerpt" <?php if ($fvseop_options['aiosp_dont_use_excerpt']) echo "checked=\"1\""; ?>/>
-		<div style="max-width:500px; text-align:left; display:none" id="fvseo_dont_use_excerpt_tip">
-		<?php
-		_e("Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot.", 'all_in_one_seo_pack');
-		?>
-		</div>
-            </p>
-        </div>
 
       <p class="submit">
         <?php if($fvseop_options) {  ?>
@@ -2656,6 +2683,16 @@ function toggleVisibility(id)
       </p>
       <?php } ?>
     </form>
+		<script type="text/javascript">
+			//<![CDATA[
+			jQuery(document).ready( function($) {
+				// close postboxes that should be closed
+				$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+				// postboxes setup
+				postboxes.add_postbox_toggles('fv_simpler_seo_settings');
+			});
+			//]]>
+		</script>    
   </div>
   <?php
 	} // options_panel
@@ -3065,6 +3102,11 @@ function FVSimplerSEO_updateTitleFromWPTitle()
 function FVSimplerSEO_updateMeta()
 {
   meta = FVSimplerSEO_getLocalized('fvseo_description_input');
+  <?php if( !$fvseop_options['aiosp_dont_use_excerpt'] ) : ?>
+  if( meta.replace(/^\s\s*/, '').replace(/\s\s*$/, '').length == 0 ) {
+  	meta = jQuery("#excerpt").val().replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '');  
+  }
+  <?php endif; ?>
   meta_add_dots = '';
   if( meta.length > <?php echo $fvseo->maximum_description_length; ?> ) {
     meta_add_dots = ' ...';
@@ -3096,10 +3138,18 @@ function FVSimplerSEO_updateTitle()
 function FVSimplerSEO_getLocalized(input)
 {
   if (fvseop_language == 'default') {
-    string = jQuery("#" + input).val();    
+  	if( !jQuery("#" + input).hasClass('fvseo_disabled') ) {
+    	string = jQuery("#" + input).val();    
+    } else {
+    	string = '';
+    }
   }
   else {
-    string = jQuery('#' + input + '_' + fvseop_active_lang).val();
+  	if( !jQuery('#' + input + '_' + fvseop_active_lang).hasClass('fvseo_disabled') ) {
+    	string = jQuery('#' + input + '_' + fvseop_active_lang).val();
+    } else {
+    	string = '';
+    }
   }    
   return string;
 }
@@ -3148,6 +3198,7 @@ jQuery(document).ready(function($) {
 #fvsimplerseopack p#fvseo_meta {margin:0;padding:0; margin-left:15px; font-family:arial, sans-serif;font-style:normal;font-size:13px;max-width:546px;}
 #fvsimplerseopack h2 {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
 #fvsimplerseopack h2 a { color:#2200c1; }
+#fvsimplerseopack .fvseo_disabled { color:#aaa; }
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
@@ -3177,8 +3228,7 @@ jQuery(document).ready(function($) {
             ?>
             <p>
                 <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="Displayed in search engine results. Can be called inside of template file with &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-                <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" onkeydown="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>')"
-                  onkeyup="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
+                <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" onkeydown="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>')" onkeyup="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
                 <br />
                 <input id="lengthD_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthD_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
                 <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_description_length.' chars for the description.', 'fv_seo') ?></small>
@@ -3193,9 +3243,19 @@ jQuery(document).ready(function($) {
             <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_title_length.' chars for the title.', 'fv_seo') ?></small>
         </p>
         <p>
+        		<?php
+        		$fvseo_description_input_disabled = false;
+        		if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
+            	$meta_description_excerpt = 'Using post excerpt, type your SEO meta description here.';
+             	$fvseo_description_input_description = $meta_description_excerpt;
+             	$fvseo_description_input_disabled = true;
+            } else {
+            	$fvseo_description_input_description = $description;
+            }
+            ?>
             <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="Displayed in search engine results. Can be called inside of template file with &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-            <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
-              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');"><?php echo $description ?></textarea>
+            <textarea id="fvseo_description_input" class="input <?php if($fvseo_description_input_disabled) echo 'fvseo_disabled'; ?>" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
+              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" onclick="if(this.value == '<?php echo $meta_description_excerpt; ?>' ) { this.value = ''; jQuery(this).removeClass('fvseo_disabled'); }"><?php echo $fvseo_description_input_description ?></textarea>
             <br />
             <input id="lengthD" class="inputcounter" readonly="readonly" type="text" name="lengthD" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
             <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_description_length.' chars for the description.', 'fv_seo') ?></small>
@@ -3321,6 +3381,7 @@ add_action('wp_nav_menu', 'fvseop_nav_menu');
 
 $fvseo = new FV_Simpler_SEO_Pack();
 
+add_action('admin_init', array($fvseo, 'admin_init') );
 add_action('init', array($fvseo, 'init'));
 add_action('template_redirect', array($fvseo, 'template_redirect'));
 add_action('wp_head', array($fvseo, 'wp_head'));
@@ -3330,6 +3391,8 @@ add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
 add_action('edit_page_form', array($fvseo, 'post_meta_tags'));
 add_action('admin_menu', array($fvseo, 'admin_menu'));
+
+add_filter( 'get_user_option_closedpostboxes_fv_simpler_seo_settings', array($fvseo, 'fv_simpler_seo_settings_closed_meta_boxes' ) );
 
 add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99, 5 );
 add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
