@@ -8,6 +8,8 @@ Author: Foliovision
 Author URI: http://foliovision.com
 */
 
+$fv_simpler_seo_version = '1.6.20';
+
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
 	"Ôº∑" => "ÔΩó",	"Ôº∂" => "ÔΩñ",	"Ôºµ" => "ÔΩï",
@@ -453,8 +455,9 @@ $UTF8_TABLES['strtoupper'] = array(
 	"b" => "B",		"a" => "A",
 );
 
+require_once( dirname(__FILE__).'/fp-api.php' );
 
-class FV_Simpler_SEO_Pack
+class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 {
 	//-------------------------------
 	// FIELDS
@@ -479,17 +482,51 @@ class FV_Simpler_SEO_Pack
 	// CONSTRUCTORSaioseop_
 	//-------------------------------
 
+
+
+
 	/**
 	 * Constructor.
 	 */
 	function FV_Simpler_SEO_Pack()
 	{
 		global $fvseop_options;
+		
+		if( is_admin() ) {
+			parent::__construct();
+			$this->plugin_slug = 'fv_simpler_seo';
+		  $this->readme_URL = 'http://plugins.trac.wordpress.org/browser/fv-all-in-one-seo-pack/trunk/readme.txt?format=txt';    
+		  if( !has_action( 'in_plugin_update_message-fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php' ) ) {
+	   		add_action( 'in_plugin_update_message-fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php', array( &$this, 'plugin_update_message' ) );
+	   	}
+	   	
+	   	global $fv_simpler_seo_version;
+	   	if( get_option('fv_simpler_seo_version') != $fv_simpler_seo_version ) {
+	   		$this->activate();
+	   	}
+		}		
+	}
+	
+	
+	
+	
+	function activate() {
+		$fvseop_options = get_option('aioseop_options');
+		if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || !isset($fvseop_options['aiosp_shorten_slugs']) ) {
+			update_option( $this->plugin_slug.'_deferred_notices', 'FV Simpler SEO will from now on automatically shorten your new post slugs to 3 most important keywords. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
+		}
+		if( !isset($fvseop_options['aiosp_shorten_slugs']) ) {
+			$fvseop_options['aiosp_shorten_slugs'] = true;
+			update_option('aioseop_options',$fvseop_options);
+		}
+		update_option('fv_simpler_seo_version', '1.6.20');
 	}
 
 
+
+
 	function admin_init() {
-		if( isset($_GET['page']) && $_GET['page'] == 'fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php' ) {
+		if( isset($_GET['page']) && $_GET['page'] == $this->plugin_slug ) {
 			wp_enqueue_script('common');
 			wp_enqueue_script('wp-lists');
 			wp_enqueue_script('postbox');
@@ -497,13 +534,17 @@ class FV_Simpler_SEO_Pack
 	}
 	
 	
+	
+		
 	function fv_simpler_seo_settings_closed_meta_boxes( $closed ) {
     if ( false === $closed )
-        $closed = array( 'fv_simpler_interface_options', 'fv_simpler_seo_advanced' );
+        $closed = array( 'fv_simpler_seo_interface_options', 'fv_simpler_seo_advanced' );
 
     return $closed;
 	}
 
+	
+	
 	
 	//-------------------------------
 	// UTILS
@@ -639,45 +680,54 @@ class FV_Simpler_SEO_Pack
       return strlen( $strB ) - strlen( $strA );
    }
 
-   function GeneratePostSlug( $strSlug, $idPost ){
-      global $wpdb;
 
-      $aSlug = explode( '-', $strSlug );
-
-      if( 3 >= count( $aSlug ) ) return $strSlug;
-      if( 4 == count( $aSlug ) && preg_match( '~\d+$~', $aSlug[3] ) ) return $strSlug;
-      if( 20 >= strlen( $strSlug ) ) return $strSlug;
-
-      $aSlug = array_unique( $aSlug );
-      $aSortSlug = $aSlug;
-      usort( $aSortSlug, array( $this, 'SortByLength' ) );
-      $aSortSlug = array_slice( $aSortSlug, 0, 3 );
-
-      $aSlug = array_intersect( $aSlug, $aSortSlug );
-      $strSlug = implode( '-', $aSlug );
-
-      if( $idPost ){
-         $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strSlug )."' AND `ID` != {$idPost}" );
-         $i = 0;
-
-         while( count( $aPosts ) ){
-            if( $i ) $strNewSlug = $strSlug . '-' . ($i+1);
-            else $strNewSlug = $strSlug . '-1';
-
-            $i++;
-            $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strNewSlug )."' AND `ID` != {$idPost}" );
-         }
-
-         if( $strNewSlug ) $strSlug = $strNewSlug;
-      }
-
-      return $strSlug;
-   }
+	function GeneratePostSlug( $strSlug, $idPost, $keywords = 3 ){
+		global $wpdb;
+		
+		$aSlug = explode( '-', $strSlug );
+		
+		if( 3 >= count( $aSlug ) ) return $strSlug;
+		//if( 4 == count( $aSlug ) && preg_match( '~\d+$~', $aSlug[3] ) ) return $strSlug;	//	todo: this is really not a good way.
+		if( 20 >= strlen( $strSlug ) ) return $strSlug;
+		
+		$aSlug = array_unique( $aSlug );
+		$aSortSlug = $aSlug;
+		usort( $aSortSlug, array( $this, 'SortByLength' ) );
+		$aSortSlug = array_slice( $aSortSlug, 0, $keywords );
+		
+		$aSlug = array_intersect( $aSlug, $aSortSlug );
+		$strSlugNew = implode( '-', $aSlug );
+		
+		if( $idPost ){
+			$aPost = $wpdb->get_var( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strSlugNew )."' AND `ID` != {$idPost} AND post_type != 'revision'" );
+			$i = 0;
+			
+			if( count($aSortSlug) >= $keywords ) {
+				if( $aPost ) {
+				   $strSlug = $this->GeneratePostSlug( $strSlug, $idPost, ++$keywords );
+				} else {
+				   $strSlug = $strSlugNew;
+				}
+			} else {
+				while( count( $aPosts ) ) {
+					if( $i ) $strNewSlug = $strSlug . '-' . ($i+1);
+					else $strNewSlug = $strSlug . '-1';
+					
+					$i++;
+					$aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strNewSlug )."' AND `ID` != {$idPost}" );
+				}	
+				if( $strNewSlug ) $strSlug = $strNewSlug;
+			}
+		}
+		
+		return $strSlug;
+	}
+	
 
    function EditPostSlug( $strSlug, $idPost = null, $strPostStatus = null, $strPostType = null, $idPostParent = null ){
       global $fvseop_options, $wpdb;
 
-      if( !$fvseop_options['aiosp_shorten_name'] || $strPostType == 'revision' )
+      if( !$fvseop_options['aiosp_shorten_slugs'] || $strPostType == 'revision' )
          return $strSlug;
 
       if( !$idPost ){
@@ -703,7 +753,7 @@ class FV_Simpler_SEO_Pack
    function SavePostSlug( $aData, $aPostArg ){
       global $fvseop_options;
       
-      if( !$fvseop_options['aiosp_shorten_name'] || $aPostArg['post_type'] == 'revision' )
+      if( !$fvseop_options['aiosp_shorten_slugs'] || $aPostArg['post_type'] == 'revision' )
          return $aData;
 
       if( isset( $aPostArg['post_id'] ) )
@@ -726,7 +776,7 @@ class FV_Simpler_SEO_Pack
    function SanitizeTitleForShortening( $strTitle, $strRawTitle = '', $strContext = false ){
       global $fvseop_options;    
 
-			if( isset($fvseop_options['aiosp_shorten_name']) && $fvseop_options['aiosp_shorten_name'] && $strContext == 'save' && $this->idEmptyPostName && $strRawTitle == $this->strTitleForReference ) {
+			if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] && $strContext == 'save' && $this->idEmptyPostName && $strRawTitle == $this->strTitleForReference ) {
 				$strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
 			}
       
@@ -1969,7 +2019,7 @@ class FV_Simpler_SEO_Pack
 	 */
 	function admin_menu()
 	{
-		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fvseo'), __('FV Simpler SEO', 'fvseo'), 'manage_options', __FILE__, array($this, 'options_panel'));
+		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fvseo'), __('FV Simpler SEO', 'fvseo'), 'manage_options', $this->plugin_slug, array($this, 'options_panel'));
 	}
 	
 	
@@ -2116,11 +2166,11 @@ class FV_Simpler_SEO_Pack
                 </div>
             </p>
             <p>
-               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_name');">
+               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
                   <?php _e('Shorten Post / Page name:', 'fv_seo')?>
                </a>
-               <input type="checkbox" name="fvseo_shorten_name" <?php if( isset($fvseop_options['aiosp_shorten_name']) && $fvseop_options['aiosp_shorten_name'] ) echo 'checked="checked"'; ?>/>
-               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_name">
+               <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
+               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_slugs">
                   <?php _e("This option will automatically shorten a link to post / page upon first save.", 'fv_seo')?>
                </div>
             </p>
@@ -2542,7 +2592,7 @@ class FV_Simpler_SEO_Pack
         'aiosp_show_short_title_post'=>0,
 				'aiosp_show_disable'=>0,
 				'aiosp_show_custom_canonical'=>0,
-            'aiosp_shorten_name' => false,
+            'aiosp_shorten_slugs' => true,
             'fvseo_publ_warnings'=>1
 			);
 				
@@ -2600,7 +2650,7 @@ class FV_Simpler_SEO_Pack
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
       $fvseop_options['aiosp_show_short_title_post'] = isset( $_POST['fvseo_show_short_title_post'] ) ? $_POST['fvseo_show_short_title_post'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
-         $fvseop_options['aiosp_shorten_name'] = isset( $_POST['fvseo_shorten_name'] ) ? true : false;
+         $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
          $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
 			///	End of addition
 
@@ -2651,7 +2701,7 @@ function toggleVisibility(id)
 $fvseop_options = get_option('aioseop_options');
 
 add_meta_box( 'fv_simpler_seo_basic', 'Basic Options', array( $this, 'admin_settings_basic' ), 'fv_simpler_seo_settings', 'normal' );
-add_meta_box( 'fv_simpler_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
 ?>            
 
@@ -2847,6 +2897,7 @@ function fvseop_mrt_mkarry()
 		'aiosp_show_keywords'=>0,
 		'aiosp_show_titleattribute'=>0,
 		'aiosp_show_disable'=>0,
+		'aiosp_shorten_slugs'=>1,
       'fvseo_publ_warnings'=>1
 		);
 		///	End of addition
@@ -3522,5 +3573,6 @@ if ($fvseop_options['aiosp_remove_category_rel']) {
     add_filter( 'the_category', 'fvseo_remove_category_list_rel' );
 }
 
+add_action( 'activate_' .plugin_basename(__FILE__), array( $fvseo, 'activate' ) );
 
 ?>

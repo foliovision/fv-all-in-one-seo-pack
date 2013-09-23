@@ -47,10 +47,10 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.20 - 20 Sep 2013
+= Version 1.6.20 - 23 Sep 2013
 * Feature - better settings screen
 * Feature - noindex feature now also excludes from YARPP related posts plugin
-* Feature - option for post short title (off by default)
+* Feature - option for post short title (on by default)
 * Feature - Search Engine Results Preview box counts on post excerpt too
 * Bugfix - extra DB queries when using page menu label in WP Nav Menus
 * Bugfix - missing localization hook for title rewrite for posts
