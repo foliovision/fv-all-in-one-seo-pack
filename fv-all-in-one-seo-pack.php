@@ -515,6 +515,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || !isset($fvseop_options['aiosp_shorten_slugs']) ) {
 			update_option( $this->plugin_slug.'_deferred_notices', 'FV Simpler SEO will from now on automatically shorten your new post slugs to 3 most important keywords. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
 		}
+				
+		update_option( $this->plugin_slug.'_deferred_notices', get_option( $this->plugin_slug.'_deferred_notices'). ' Items marked as noindex are now excluded from automated Wordpress page menus. ' );     
+		}
+		
 		if( !isset($fvseop_options['aiosp_shorten_slugs']) ) {
 			$fvseop_options['aiosp_shorten_slugs'] = true;
 			update_option('aioseop_options',$fvseop_options);
