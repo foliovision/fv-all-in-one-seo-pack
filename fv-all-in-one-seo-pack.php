@@ -3452,7 +3452,7 @@ add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99,
 add_filter( 'get_previous_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'get_next_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'pre_get_posts', array( $fvseo, 'pre_get_posts' ) );	//	make sure noindex posts don't turn up in the search
-//add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
+add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
 
 add_filter( 'get_sidebar', array( $fvseo, 'initiate_the_title_change' ) );
 add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
