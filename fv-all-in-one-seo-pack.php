@@ -2,7 +2,7 @@
 /*
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
-Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php">Options configuration panel</a>
+Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
 Version: 1.6.21
 Author: Foliovision
 Author URI: http://foliovision.com
@@ -2892,8 +2892,11 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 
     if ( is_singular() ) {
       global $post;
-      if( !$post->post_type != 'post' ) {
-        $strGooglePlusLink = get_the_author_meta( 'googleplus', $post->post_author );
+      if( $post->post_type == 'post' ) {
+        $meta = get_the_author_meta( 'googleplus', $post->post_author );
+        if( strlen(trim($meta)) > 0 ) {
+          $strGooglePlusLink = $meta;
+        }
       }
     }
 
