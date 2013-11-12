@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php">Options configuration panel</a>
-Version: 1.6.20
+Version: 1.6.21
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.20';
+$fv_simpler_seo_version = '1.6.21';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -500,6 +500,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	   		add_action( 'in_plugin_update_message-fv-all-in-one-seo-pack/fv-all-in-one-seo-pack.php', array( &$this, 'plugin_update_message' ) );
 	   	}
 	   	
+	   	add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
+	   	
 	   	global $fv_simpler_seo_version;
 	   	if( get_option('fv_simpler_seo_version') != $fv_simpler_seo_version ) {
 	   		$this->activate();
@@ -511,19 +513,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	
 	
 	function activate() {
+	  global $fv_simpler_seo_version;
 		$fvseop_options = get_option('aioseop_options');
-		if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || !isset($fvseop_options['aiosp_shorten_slugs']) ) {
+		if( /*isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || */!isset($fvseop_options['aiosp_shorten_slugs']) ) {
 			update_option( $this->plugin_slug.'_deferred_notices', 'FV Simpler SEO will from now on automatically shorten your new post slugs to 3 most important keywords. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
 		}
-				
-		update_option( $this->plugin_slug.'_deferred_notices', get_option( $this->plugin_slug.'_deferred_notices'). ' Items marked as noindex are now excluded from automated Wordpress page menus. ' );     
-		}
-		
 		if( !isset($fvseop_options['aiosp_shorten_slugs']) ) {
 			$fvseop_options['aiosp_shorten_slugs'] = true;
 			update_option('aioseop_options',$fvseop_options);
 		}
-		update_option('fv_simpler_seo_version', '1.6.20');
+		
+		update_option('fv_simpler_seo_version', $fv_simpler_seo_version);
 	}
 
 
@@ -2536,6 +2536,31 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	<?php
 	}
 	
+	
+	function admin_settings_social() {
+		global $fvseop_options;
+	?>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_social_google_publisher_tip');">
+					<?php _e('Google +1 Site Publisher:', 'fv_seo')?>
+				</a><br />
+				<input type="text" class="regular-text" size="63" name="social_google_publisher" value="<?php echo esc_attr(stripcslashes($fvseop_options['social_google_publisher']))?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_social_google_publisher_tip">
+					<?php _e('This will be used across the whole site.', 'fv_seo')?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_social_google_author_tip');">
+					<?php _e('Google +1 Default Author:', 'fv_seo')?>
+				</a><br />
+				<input type="text" class="regular-text" size="63" name="social_google_author" value="<?php echo esc_attr(stripcslashes($fvseop_options['social_google_author']))?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_social_google_author_tip">
+					<?php _e('This will be used across the whole site, however user\'s Google +1 links will be used for their posts (if filled in).', 'fv_seo')?>
+				</div>
+		</p>
+	<?php
+	}	
+	
 
 	function options_panel()
 	{
@@ -2645,8 +2670,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] = isset( $_POST['fvseo_home_yahoo_site_verification_meta_tag'] ) ? $_POST['fvseo_home_yahoo_site_verification_meta_tag'] : NULL;						
 			$fvseop_options['aiosp_ex_pages'] = isset( $_POST['fvseo_ex_pages'] ) ? $_POST['fvseo_ex_pages'] : NULL;
 			$fvseop_options['aiosp_use_tags_as_keywords'] = isset( $_POST['fvseo_use_tags_as_keywords'] ) ? $_POST['fvseo_use_tags_as_keywords'] : NULL;
-			///	Addition
-         $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
+
+      $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
 			$fvseop_options['aiosp_dont_use_excerpt'] = isset( $_POST['fvseo_dont_use_excerpt'] ) ? $_POST['fvseo_dont_use_excerpt'] : NULL;
 			$fvseop_options['aiosp_show_keywords'] = isset( $_POST['fvseo_show_keywords'] ) ? $_POST['fvseo_show_keywords'] : NULL;
 			$fvseop_options['aiosp_show_noindex'] = isset( $_POST['fvseo_show_noindex'] ) ? $_POST['fvseo_show_noindex'] : NULL;			
@@ -2654,9 +2679,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
       $fvseop_options['aiosp_show_short_title_post'] = isset( $_POST['fvseo_show_short_title_post'] ) ? $_POST['fvseo_show_short_title_post'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
-         $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
-         $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
-			///	End of addition
+      $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
+      $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
+
+      $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
+      $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;      
 
 			update_option('aioseop_options', $fvseop_options);
 
@@ -2705,6 +2732,7 @@ function toggleVisibility(id)
 $fvseop_options = get_option('aioseop_options');
 
 add_meta_box( 'fv_simpler_seo_basic', 'Basic Options', array( $this, 'admin_settings_basic' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_social', 'Social Networks', array( $this, 'admin_settings_social' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
 ?>            
@@ -2850,6 +2878,44 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 		
 		return $posts;
 	}	
+	
+	
+	
+	
+	function google_authorship() {
+    $strGooglePlusLink = false;
+    
+    global $fvseop_options;
+    if( isset($fvseop_options['social_google_author']) && strlen(trim($fvseop_options['social_google_author'])) > 0 ) {
+      $strGooglePlusLink = $fvseop_options['social_google_author'];
+    }
+
+    if ( is_singular() ) {
+      global $post;
+      if( !$post->post_type != 'post' ) {
+        $strGooglePlusLink = get_the_author_meta( 'googleplus', $post->post_author );
+      }
+    }
+
+    $strGooglePlusLink = apply_filters( 'fvseo_googlepluslink', $strGooglePlusLink );
+    if( $strGooglePlusLink ) {
+      echo '<link rel="author" href="'.esc_attr($strGooglePlusLink).'" />' . "\n";
+    }
+    
+    if( isset($fvseop_options['social_google_publisher']) && strlen(trim($fvseop_options['social_google_publisher'])) > 0 ) {
+      echo '<link rel="publisher" href="'.esc_attr($fvseop_options['social_google_publisher']).'" />' . "\n";
+    }
+	}	
+	
+	
+	
+	
+	function update_contactmethods( $aContactMethods ) {
+    $aContactMethods['googleplus'] = __( "Google+", 'fv_seo' );
+    return $aContactMethods;
+  }
+  
+  
 	
 	
 } // end fv_seo class
@@ -3441,6 +3507,7 @@ add_action('init', array($fvseo, 'init'));
 add_action('template_redirect', array($fvseo, 'template_redirect'));
 add_action('wp_head', array($fvseo, 'wp_head'));
 add_action('wp_head', array($fvseo, 'remove_canonical'), 0 );
+add_action('wp_head', array($fvseo, 'google_authorship') );
 add_action('edit_post', array($fvseo, 'post_meta_tags'));
 add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
