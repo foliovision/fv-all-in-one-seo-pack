@@ -48,10 +48,10 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.21 - 13 Nov 2013
+= Version 1.6.21 - 13 Nov 2013 =
 * Feature - Google Authorship and Publisher support. Visit Settings -> FV Simpler SEO -> Social Networking
 
-= Version 1.6.20 - 23 Sep 2013
+= Version 1.6.20 - 23 Sep 2013 =
 * Feature - better settings screen
 * Feature - noindex feature now also excludes from YARPP related posts plugin
 * Feature - option for post short title (on by default)
