@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.21
+Version: 1.6.22
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.21';
+$fv_simpler_seo_version = '1.6.22';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -798,7 +798,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	function init()
 	{
 		// Loads the plugin's translated strings. 
-		load_plugin_textdomain('fv_seo', false, dirname(plugin_basename(__FILE__)));
+		load_plugin_textdomain('fv_seo', false, dirname(plugin_basename(__FILE__)) . "/languages");
 	}
 	
 	function remove_canonical() {
@@ -2023,7 +2023,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	 */
 	function admin_menu()
 	{
-		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fvseo'), __('FV Simpler SEO', 'fvseo'), 'manage_options', $this->plugin_slug, array($this, 'options_panel'));
+		add_submenu_page('options-general.php', __('FV Simpler SEO', 'fv_seo'), __('FV Simpler SEO', 'fv_seo'), 'manage_options', $this->plugin_slug, array($this, 'options_panel'));
 	}
 	
 	
@@ -2107,7 +2107,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				<script type="text/javascript">
 				jQuery("input[name='fvseo_show_custom_canonical']").change( function() {
 					if( jQuery(this).is(':checked') ) {
-						if( confirm( 'Are you sure you want to turn on this feature? Using wrong custom canonical URLs can damage your site SEO rankings.'+"\n"+"\n"+' If you are not sure, then leave this off and Wordpress will take care of it on its own.' ) ) {
+						if (confirm(" <?php _e('Are you sure you want to turn on this feature? Using wrong custom canonical URLs can damage your site SEO rankings.\n\n If you are not sure, then leave this off and Wordpress will take care of it on its own.', 'fv_seo'); ?> ")) {
 						} else {
 							jQuery(this).removeAttr('checked');
 						}
@@ -2530,7 +2530,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 						
 								<input type="checkbox" name="fvseo_dont_use_excerpt" <?php if ($fvseop_options['aiosp_dont_use_excerpt']) echo "checked=\"1\""; ?>/>
 								<div style="max-width:500px; text-align:left; display:none" id="fvseo_dont_use_excerpt_tip">
-									<?php _e("Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot.", 'all_in_one_seo_pack'); ?>
+									<?php _e("Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot.", 'fv_seo'); ?>
 								</div>
             </p>	
 	<?php
@@ -2636,7 +2636,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			if (!wp_verify_nonce($nonce, 'fvseopnonce'))
 				die ( 'Security Check - If you receive this in error, log out and back in to WordPress');
 				
-			$message = __("FV Simpler SEO Options Updated.", 'fvseo');
+			$message = __("FV Simpler SEO Options Updated.", 'fv_seo');
 			
 			$fvseop_options['aiosp_can'] = isset( $_POST['fvseo_can'] ) ? $_POST['fvseo_can'] : NULL;
 			$fvseop_options['aiosp_home_title'] = isset( $_POST['fvseo_home_title'] ) ? $_POST['fvseo_home_title'] : NULL;
@@ -3336,11 +3336,11 @@ jQuery(document).ready(function($) {
               $localized_title = fvseo_get_localized_string($title, $language); 
             ?>
             <p>
-                <?php _e('Long Title:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.">(?)</abbr>
+                <?php _e('Long Title:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.', 'fv_seo') ?> ">(?)</abbr>
                 <input id="fvseo_title_input_<?php echo $language; ?>" class="input" value="<?php echo $localized_title ?>" type="text" name="fvseo_title_<?php echo $language; ?>" onkeydown="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" onkeyup="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" />
                 <br />
                 <input id="lengthT_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthT_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_title);?>" />
-                <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_title_length.' chars for the title.', 'fv_seo') ?></small>
+                <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
             </p>
                     
         <?php } ?>
@@ -3351,20 +3351,20 @@ jQuery(document).ready(function($) {
               $localized_description = fvseo_get_localized_string($description, $language);
             ?>
             <p>
-                <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="Displayed in search engine results. Can be called inside of template file with &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
+                <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?>&lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
                 <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" onkeydown="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>')" onkeyup="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
                 <br />
                 <input id="lengthD_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthD_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
-                <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_description_length.' chars for the description.', 'fv_seo') ?></small>
+                <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
             </p>
         <?php } ?>
         <?php } else { ?>
         <p>
-            <?php _e('Long Title:', 'fv_seo') ?> <abbr title="Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.">(?)</abbr>
+            <?php _e('Long Title:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.', 'fv_seo') ?>">(?)</abbr>
             <input id="fvseo_title_input" class="input" value="<?php echo $title ?>" type="text" name="fvseo_title" onkeydown="countChars(document.post.fvseo_title,document.post.lengthT, 'default');" onkeyup="countChars(document.post.fvseo_title,document.post.lengthT, 'default');" />
             <br />
             <input id="lengthT" class="inputcounter" readonly="readonly" type="text" name="lengthT" size="3" maxlength="3" value="<?php echo strlen($title);?>" />
-            <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_title_length.' chars for the title.', 'fv_seo') ?></small>
+            <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
         </p>
         <p>
         		<?php
@@ -3377,16 +3377,16 @@ jQuery(document).ready(function($) {
             	$fvseo_description_input_description = $description;
             }
             ?>
-            <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="Displayed in search engine results. Can be called inside of template file with &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
+            <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
             <textarea id="fvseo_description_input" class="input <?php if($fvseo_description_input_disabled) echo 'fvseo_disabled'; ?>" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
               onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" onclick="if(this.value == '<?php echo $meta_description_excerpt; ?>' ) { this.value = ''; jQuery(this).removeClass('fvseo_disabled'); }"><?php echo $fvseo_description_input_description ?></textarea>
             <br />
             <input id="lengthD" class="inputcounter" readonly="readonly" type="text" name="lengthD" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
-            <small><?php _e(' characters. Most search engines use a maximum of '.$fvseo->maximum_description_length.' chars for the description.', 'fv_seo') ?></small>
+            <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
         </p>
         <?php } ?>
         <div>
-            <p><?php _e('SERP Preview:', 'fv_seo') ?> <abbr title="Preview of Search Engine Results Page">(?)</abbr></p>        
+            <p><?php _e('SERP Preview:', 'fv_seo') ?> <abbr title="<?php _e('Preview of Search Engine Results Page', 'fv_seo') ?> ">(?)</abbr></p>        
             <h2 id="fvseo_title"><a href="<?php the_permalink(); ?>" target="_blank"><?php echo $title_preview; ?></a></h2>
             <p id="fvseo_meta"><?php echo ($description) ? $description : "Fill in your meta description" ?></p>
             <small id="fvseo_href"><?php echo $url; ?></small> - <small class="link">Cached</small> - <small class="link">Similar</small>
@@ -3403,7 +3403,7 @@ jQuery(document).ready(function($) {
     
     <?php if ($fvseop_options['aiosp_show_custom_canonical']) : ?>
         <p>
-            <?php _e('Custom Canonical URL:', 'fv_seo') ?> <abbr title="WARNING - Google will index the URL you enter here instead of the post. Leave empty if you don't want to use it.">(?)</abbr>
+            <?php _e('Custom Canonical URL:', 'fv_seo') ?> <abbr title="<?php _e('WARNING - Google will index the URL you enter here instead of the post. Leave empty if you don\'t want to use it.', 'fv_seo') ?>">(?)</abbr>
             <input class="input" value="<?php echo $custom_canonical ?>" type="text" name="fvseo_custom_canonical" />
         </p>    
     <?php endif; ?>    
@@ -3419,7 +3419,7 @@ jQuery(document).ready(function($) {
     
     <?php if ($fvseop_options['aiosp_show_titleattribute']) : ?>
         <p>
-            <?php _e('Title Attribute:', 'fv_seo') ?> <abbr title="Displayed in search engine results">(?)</abbr>
+            <?php _e('Title Attribute:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results', 'fv_seo') ?>">(?)</abbr>
             <input class="input" value="<?php echo $fvseo_titleatr ?>" type="text" name="fvseo_titleatr" size="62"/>
         </p>
     <?php endif; ?>
@@ -3431,9 +3431,9 @@ jQuery(document).ready(function($) {
         <p>
             <?php _e('Short title | Menu Label:', 'fv_seo') ?> <abbr title="<?php
             if( $post->post_type == 'page' ) : ?> 
-            Used in all your page menus. Long Title or Post Title will be used for mouse rollover. Can be called inside of template file with &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;
+            <?php _e('Used in all your page menus. Long Title or Post Title will be used for mouse rollover. Can be called inside of template file with','fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;
             <?php else : ?>
-            This will automatically replace post title in sidebar. Can be called inside of template file with &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;
+            <?php _e('This will automatically replace post title in sidebar. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;
             <?php endif; ?>">(?)</abbr>
             <input class="input" value="<?php echo $fvseo_menulabel ?>" type="text" name="fvseo_menulabel" size="62"/>
         </p>
@@ -3450,7 +3450,7 @@ jQuery(document).ready(function($) {
     
     <?php if ( $fvseop_options['aiosp_show_noindex'] || $noindex || $nofollow) : ?>
         <p>
-            <?php _e('Disable post indexing:', 'fv_seo') ?> <abbr title="Only use if you are sure you don't want this post to be indexed in search engines!">(Warning)</abbr><br />
+            <?php _e('Disable post indexing:', 'fv_seo') ?> <abbr title="<?php _e('Only use if you are sure you don\'t want this post to be indexed in search engines!','fv_seo')?>">(<?php _e('Warning','fv_seo') ?>)</abbr><br />
             <input id="fvseo_noindex" class="input" value="1" <?php if( $noindex ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_noindex" onclick="FVSimplerSEO_noindex_toggle(); return true" />
             <label for="fvseo_noindex">Add noindex</label><br />
             <input id="fvseo_nofollow" class="input" value="1" <?php if( $nofollow ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_nofollow" />
@@ -3584,7 +3584,7 @@ jQuery(document).ready(function() {
     
       if(jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#title").val() == '') {
          //console.log(target);
-         alert('Your post\'s TITLE is empty, so it cannot be published!'  );
+         alert("<?php _e('Your post\'s TITLE is empty, so it cannot be published!', 'fv_seo')  ?>");
          
          jQuery('#ajax-loading').removeAttr('style');
          jQuery('#save-post').removeClass('button-disabled');
@@ -3596,12 +3596,12 @@ jQuery(document).ready(function() {
    jQuery("#publish").hover( function() {// Publish button
       if (jQuery("#title").val() == '') {
          jQuery("#major-publishing-actions").append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's TITLE is empty!</b></div>"
+            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s TITLE is empty!', 'fv_seo') ?></b></div>"
          ));
       } 
       if (jQuery("#fvseo_description_input").val() == '') {
          jQuery("#major-publishing-actions").append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's DESCRIPTION is empty!</b></div>"
+            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s DESCRIPTION is empty!', 'fv_seo') ?></b></div>"
          ));
       }
    }, function() {
@@ -3611,12 +3611,12 @@ jQuery(document).ready(function() {
    jQuery("#minor-publishing-actions").hover( function() {// Draft, Preview
       if (jQuery("#title").val() == '') {
          jQuery(this).append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's TITLE is empty!</b></div>"
+            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s TITLE is empty!', 'fv_seo') ?></b></div>"
          ));
       }
       if (jQuery("#fvseo_description_input").val() == '') {
          jQuery(this).append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\">Warning</span>: Your post's DESCRIPTION is empty!</b></div>"
+            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s DESCRIPTION is empty!', 'fv_seo') ?></b></div>"
          ));
       }
    }, function() {

@@ -1,0 +1,990 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FV all in one seo pack\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-17 15:15+0100\n"
+"PO-Revision-Date: 2013-12-17 15:15+0100\n"
+"Last-Translator: \n"
+"Language-Team: www.zyski.net <jakub.dirska@bellartis.com>\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.6.2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../fv-all-in-one-seo-pack.php:2026 ../fv-all-in-one-seo-pack.php:3483
+#: ../fv-all-in-one-seo-pack.php:3484
+msgid "FV Simpler SEO"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2034 ../fv-all-in-one-seo-pack.php:2043
+#: ../fv-all-in-one-seo-pack.php:2052 ../fv-all-in-one-seo-pack.php:2061
+#: ../fv-all-in-one-seo-pack.php:2081 ../fv-all-in-one-seo-pack.php:2092
+#: ../fv-all-in-one-seo-pack.php:2103 ../fv-all-in-one-seo-pack.php:2124
+#: ../fv-all-in-one-seo-pack.php:2135 ../fv-all-in-one-seo-pack.php:2146
+#: ../fv-all-in-one-seo-pack.php:2164 ../fv-all-in-one-seo-pack.php:2173
+#: ../fv-all-in-one-seo-pack.php:2182 ../fv-all-in-one-seo-pack.php:2193
+#: ../fv-all-in-one-seo-pack.php:2215 ../fv-all-in-one-seo-pack.php:2235
+#: ../fv-all-in-one-seo-pack.php:2252 ../fv-all-in-one-seo-pack.php:2268
+#: ../fv-all-in-one-seo-pack.php:2284 ../fv-all-in-one-seo-pack.php:2300
+#: ../fv-all-in-one-seo-pack.php:2318 ../fv-all-in-one-seo-pack.php:2336
+#: ../fv-all-in-one-seo-pack.php:2353 ../fv-all-in-one-seo-pack.php:2363
+#: ../fv-all-in-one-seo-pack.php:2372 ../fv-all-in-one-seo-pack.php:2381
+#: ../fv-all-in-one-seo-pack.php:2390 ../fv-all-in-one-seo-pack.php:2399
+#: ../fv-all-in-one-seo-pack.php:2408 ../fv-all-in-one-seo-pack.php:2417
+#: ../fv-all-in-one-seo-pack.php:2426 ../fv-all-in-one-seo-pack.php:2435
+#: ../fv-all-in-one-seo-pack.php:2444 ../fv-all-in-one-seo-pack.php:2453
+#: ../fv-all-in-one-seo-pack.php:2466 ../fv-all-in-one-seo-pack.php:2479
+#: ../fv-all-in-one-seo-pack.php:2492 ../fv-all-in-one-seo-pack.php:2509
+#: ../fv-all-in-one-seo-pack.php:2518 ../fv-all-in-one-seo-pack.php:2527
+#: ../fv-all-in-one-seo-pack.php:2544 ../fv-all-in-one-seo-pack.php:2553
+msgid "Click for Help!"
+msgstr "Kliknij aby zobaczyć POMOC !"
+
+#: ../fv-all-in-one-seo-pack.php:2035
+msgid "Home Title:"
+msgstr "Tytuł strony głównej:"
+
+#: ../fv-all-in-one-seo-pack.php:2039
+msgid ""
+"As the name implies, this will be the title of your homepage. This is "
+"independent of any other option. If not set, the default blog title will get "
+"used."
+msgstr ""
+"Jak wskazuje nazwa, to będzie tytuł strony głównej Twojego bloga (strony) - "
+"wyświetlany na pasku przeglądarki. Jest on niezależny od wszystkich innych "
+"ustawień. Jeśli w to pole nic nie wpiszesz będzie wyświetlany tytuł bloga."
+
+#: ../fv-all-in-one-seo-pack.php:2044
+msgid "Home Description:"
+msgstr "Opis do strony głównej:"
+
+#: ../fv-all-in-one-seo-pack.php:2048
+msgid ""
+"The META description for your homepage. Independent of any other options, "
+"the default is no META description at all if this is not set."
+msgstr ""
+"Opis zawarty w tagach META dla strony głównej. Niezależny do innych opcji. "
+"Jeśli nie będzie tu nic wpisane żaden opis w META tagach nie będzie "
+"generowany."
+
+#: ../fv-all-in-one-seo-pack.php:2053
+msgid "Home Keywords (comma separated):"
+msgstr "Słowa kluczowe strony głównej (rozdzielone przecinkami):"
+
+#: ../fv-all-in-one-seo-pack.php:2057
+msgid ""
+"A comma separated list of your most important keywords for your site that "
+"will be written as META keywords on your homepage. Don't stuff everything in "
+"here."
+msgstr ""
+"Lista najważniejszych dla Twojego bloga/ strony słów kluczowych. Wpisz słowa "
+"lub wyrażenia przedzielając je przecinkami. Wpisane tu słowa kluczowe znajdą "
+"się w META tagach strony głównej. To jest bardzo ważne dla wyszukiwarek. Nie "
+"zaniedbaj tego."
+
+#: ../fv-all-in-one-seo-pack.php:2062
+msgid "Warn me when publishing without a title or description:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2070
+msgid ""
+"Uncheck this if you don't want to be warned in case you are publishing "
+"without a title or description. Default: checked."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2082
+msgid "Add keywords field to post editing screen:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2087
+msgid ""
+"You don't need this field at all if you are using tags properly. It makes "
+"the FV Simpler SEO box in the editing screen more complicated too."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2093
+msgid "Add no index checkbox to post editing screen:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2098
+msgid ""
+"Adds a powerful checkbox to post editing screens which let's you exclude the "
+"post from search engine indexing. <strong>Warning:</strong> only use if you "
+"really know what you are doing."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2104
+msgid "Experimental - Use Custom Canonical URL field:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2110
+msgid ""
+"Are you sure you want to turn on this feature? Using wrong custom canonical "
+"URLs can damage your site SEO rankings.\\n\\n If you are not sure, then "
+"leave this off and Wordpress will take care of it on its own."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2119
+msgid ""
+"Use this feature only if you are sure you want to enter custom canonical "
+"URLs. This is not affected by the \"Canonical URLs\" Advanced Option "
+"(bellow)."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2125
+msgid "Add Title Attribute field to page editing screen (deprecated):"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2130
+msgid ""
+"Allows you to set the anchor title for pages in menus. You don't need this "
+"field at all because post title or Long Title will be used instead."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2136
+msgid "Add Short Title Attribute field to post editing screen:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2141
+msgid ""
+"Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post "
+"titles when enabled."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2147
+msgid ""
+"Add \"Disable on this post/page\" checkbox to post editing screen "
+"(deprecated):"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2152
+msgid "Let's you disable the plugin for a specific post or page."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2165
+msgid "Canonical URLs:"
+msgstr "Kanoniczne adresy URL:"
+
+#: ../fv-all-in-one-seo-pack.php:2169
+msgid ""
+"This option will automatically generate Canonical URLS for your entire "
+"WordPress installation.  This will help to prevent duplicate content "
+"penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/"
+"specify-your-canonical.html' target='_blank'>Google</a>."
+msgstr ""
+"Ta opcja automatycznie generuje kanoniczne adresy dla całej instalacji "
+"WordPressa. Pomoga to przeciwdziałać duplikowaniu treści i nakładaniu kar "
+"przez <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-"
+"your-canonical.html' target='_blank'>Google</a>."
+
+#: ../fv-all-in-one-seo-pack.php:2174
+msgid "Shorten Post / Page name:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2178
+msgid ""
+"This option will automatically shorten a link to post / page upon first save."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2183
+msgid "Rewrite Titles:"
+msgstr "Zamieniaj tytuły:"
+
+#: ../fv-all-in-one-seo-pack.php:2187
+#, fuzzy
+msgid ""
+"Note that this is all about the title tag. This is what you see in your "
+"browser's window title bar. This is NOT visible on a page, only in the "
+"window title bar and of course in the source. If set, all page, post, "
+"category, search and archive page titles get rewritten. You can specify the "
+"format for most of them. For example: The default templates puts the title "
+"tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've "
+"overdone slightly). This is far from optimal. With the default post title "
+"format, Rewrite Title rewrites this to Post Title | Blog Name. If you have "
+"manually defined a title (in one of the text fields for All in One SEO "
+"Plugin input) this will become the title of your post in the format string."
+msgstr ""
+"Uwagi dotyczące tytułów. Wszystkie tytuły w tej wtyczce to napis który widać "
+"na pasku przeglądarki. NIE JEST on widoczny nigdzie na stronie ani we "
+"wpisach, ale wyłącznie w źródle strony pomiędzy znacznikami <title> [Tytuł] "
+"</title>. Jeśli pole nie jest puste dla stron, wpisów, kategorii, "
+"wyszukiwania i archiwów tytuły będą podstawiane zgodnie z wzorcem. Mozesz "
+"ustawić inny format tytułów dla wpisów, stron statycznych, stron kategorii, "
+"tagów i archiwów. Na przykład standardowo strona archiwum ma taki tytuł  "
+"\"Archiwum >> Tytuł bloga >> Tytuł wpisu \" - to jest dalekie od "
+"optymalnego. Możesz ustawić (i tak zostało domyślnie zaproponowane) aby "
+"tytuł był wyświetlany w postaci \"Tytuł wpisu | Tytuł Bloga\" używając przy "
+"tym znaczników \"%post_title% | %blog_title%\". Możesz oczywiście ustawić na "
+"stałe napis jaki sobie zażyczysz oddzielnie dla wpisów, kategorii, archiwów "
+"i tagów - jednak to przeczy funkcji tej wtyczki i jest zdecydowanie "
+"niezalecane z punkti widzenia SEO (Search Engine Optimization - "
+"Optymalizacja dla wyszukiwarek internetowych). "
+
+#: ../fv-all-in-one-seo-pack.php:2194
+msgid "Post Title Format:"
+msgstr "Format tytułu dla wpisu:"
+
+#: ../fv-all-in-one-seo-pack.php:2199 ../fv-all-in-one-seo-pack.php:2221
+#: ../fv-all-in-one-seo-pack.php:2241 ../fv-all-in-one-seo-pack.php:2258
+#: ../fv-all-in-one-seo-pack.php:2274 ../fv-all-in-one-seo-pack.php:2290
+#: ../fv-all-in-one-seo-pack.php:2306 ../fv-all-in-one-seo-pack.php:2324
+#: ../fv-all-in-one-seo-pack.php:2343
+msgid "The following macros are supported:"
+msgstr "Dozwolone są następujące znaczniki:"
+
+#: ../fv-all-in-one-seo-pack.php:2201 ../fv-all-in-one-seo-pack.php:2223
+#: ../fv-all-in-one-seo-pack.php:2243 ../fv-all-in-one-seo-pack.php:2260
+#: ../fv-all-in-one-seo-pack.php:2276 ../fv-all-in-one-seo-pack.php:2292
+#: ../fv-all-in-one-seo-pack.php:2308 ../fv-all-in-one-seo-pack.php:2326
+msgid "%blog_title% - Your blog title"
+msgstr "%blog_title% - Tytuł bloga (z menu opcje)"
+
+#: ../fv-all-in-one-seo-pack.php:2202 ../fv-all-in-one-seo-pack.php:2224
+#: ../fv-all-in-one-seo-pack.php:2244 ../fv-all-in-one-seo-pack.php:2261
+#: ../fv-all-in-one-seo-pack.php:2277 ../fv-all-in-one-seo-pack.php:2293
+#: ../fv-all-in-one-seo-pack.php:2309 ../fv-all-in-one-seo-pack.php:2327
+msgid "%blog_description% - Your blog description"
+msgstr "%blog_description% - Opis bloga (z menu opcje)"
+
+#: ../fv-all-in-one-seo-pack.php:2203
+msgid "%post_title% - The original title of the post"
+msgstr "%post_title% - Oryginalny tytuł wpisu"
+
+#: ../fv-all-in-one-seo-pack.php:2204
+msgid "%category_title% - The (main) category of the post"
+msgstr "%category_title% - Tytuł pierwszej (wg ID) kategori wpisu"
+
+#: ../fv-all-in-one-seo-pack.php:2205
+msgid "%category% - Alias for %category_title%"
+msgstr "%category% - Alias dla %category_title%"
+
+#: ../fv-all-in-one-seo-pack.php:2206
+msgid "%post_author_login% - This post's author' login"
+msgstr "%post_author_login% - Login autora wpisu"
+
+#: ../fv-all-in-one-seo-pack.php:2207
+msgid "%post_author_nicename% - This post's author' nicename"
+msgstr "%post_author_nicename% - Nick autora wpisu"
+
+#: ../fv-all-in-one-seo-pack.php:2208
+msgid "%post_author_firstname% - This post's author' first name (capitalized)"
+msgstr "%post_author_firstname% -  Imię autora wpisu (kapitaliki)"
+
+#: ../fv-all-in-one-seo-pack.php:2209
+msgid "%post_author_lastname% - This post's author' last name (capitalized)"
+msgstr "%post_author_lastname% - Nazwisko autora wpisu (kapitaliki)"
+
+#: ../fv-all-in-one-seo-pack.php:2216
+msgid "Page Title Format:"
+msgstr "Format tytułu dla stron:"
+
+#: ../fv-all-in-one-seo-pack.php:2225
+msgid "%page_title% - The original title of the page"
+msgstr "%page_title% - Oryginalny tytuł strony"
+
+#: ../fv-all-in-one-seo-pack.php:2226
+msgid "%page_author_login% - This page's author' login"
+msgstr "%page_author_login% - Login autora strony"
+
+#: ../fv-all-in-one-seo-pack.php:2227
+msgid "%page_author_nicename% - This page's author' nicename"
+msgstr "%page_author_nicename% - Nick autora strony"
+
+#: ../fv-all-in-one-seo-pack.php:2228
+msgid "%page_author_firstname% - This page's author' first name (capitalized)"
+msgstr "%page_author_firstname% - Imię autora strony (kapitaliki)"
+
+#: ../fv-all-in-one-seo-pack.php:2229
+msgid "%page_author_lastname% - This page's author' last name (capitalized)"
+msgstr "%page_author_lastname% -  Nazwisko autora strony (kapitaliki)"
+
+#: ../fv-all-in-one-seo-pack.php:2236
+msgid "Category Title Format:"
+msgstr "Format tytułu dla stron kategorii:"
+
+#: ../fv-all-in-one-seo-pack.php:2245
+msgid "%category_title% - The original title of the category"
+msgstr "%category_title% - Oryginalny tytuł kategorii"
+
+#: ../fv-all-in-one-seo-pack.php:2246
+msgid "%category_description% - The description of the category"
+msgstr "%category_description% - Opis kategorii"
+
+#: ../fv-all-in-one-seo-pack.php:2253
+msgid "Archive Title Format:"
+msgstr "Format tytułu dla stron archiwów:"
+
+#: ../fv-all-in-one-seo-pack.php:2262
+msgid ""
+"%date% - The original archive title given by wordpress, e.g. \"2007\" or "
+"\"2007 August\""
+msgstr ""
+"%date% - Oryginalny tytuł archiwum nadawany przez wordpress, na przykład  "
+"\"2007\" albo  \"kwiecień 2007 \""
+
+#: ../fv-all-in-one-seo-pack.php:2269
+msgid "Tag Title Format:"
+msgstr "Format tytułu dla stron tagów:"
+
+#: ../fv-all-in-one-seo-pack.php:2278
+msgid "%tag% - The name of the tag"
+msgstr "%tag% - Tag (nazwa tj. słowo lub wyrażenie)"
+
+#: ../fv-all-in-one-seo-pack.php:2285
+msgid "Search Title Format:"
+msgstr "Format tytułu dla strony wyszukiwania:"
+
+#: ../fv-all-in-one-seo-pack.php:2294
+msgid "%search% - What was searched for"
+msgstr "%search% - Poszukiwana fraza"
+
+#: ../fv-all-in-one-seo-pack.php:2301
+msgid "Description Format:"
+msgstr "Format Opisu:"
+
+#: ../fv-all-in-one-seo-pack.php:2310
+msgid ""
+"%description% - The original description as determined by the plugin, e.g. "
+"the excerpt if one is set or an auto-generated one if that option is set"
+msgstr ""
+"%description% - Oryginalny opis dla tej wtyczki wyświetla wprowadzenie wpisu "
+"jeśli zostało wypełnione albo generuje automatycznie skrót z pierwszych "
+"wyrazów we wpisie."
+
+#: ../fv-all-in-one-seo-pack.php:2311
+msgid "%wp_title% - The original wordpress title, e.g. post_title for posts"
+msgstr ""
+"%wp_title% - Oryginalny tytuł wpisu z wordpressa, na przykład \"Tytuł\" dla "
+"wpisów."
+
+#: ../fv-all-in-one-seo-pack.php:2312
+msgid "%page% - Page number for paged category archives"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2319
+msgid "404 Title Format:"
+msgstr ""
+"Format tytułu dla strony błędu (404 - nie znaleziono strony na serwerze)"
+
+#: ../fv-all-in-one-seo-pack.php:2328
+msgid ""
+"%request_url% - The original URL path, like \"/url-that-does-not-exist/\""
+msgstr ""
+"%request_url% - Adres URL, na przykład \"/nie-istniejacy-szukany-adres-"
+"strony/\""
+
+#: ../fv-all-in-one-seo-pack.php:2329
+msgid ""
+"%request_words% - The URL path in human readable form, like \"Url That Does "
+"Not Exist\""
+msgstr ""
+"%request_words% - Adres URL w czytelnej formie, na przykłąd \"Nie istniejąca "
+"szukana strona\""
+
+#: ../fv-all-in-one-seo-pack.php:2330
+msgid "%404_title% - Additional 404 title input\""
+msgstr "%404_title% - Dodatkowy tytuł strony błędu 404 \""
+
+#: ../fv-all-in-one-seo-pack.php:2337
+msgid "Paged Format:"
+msgstr "Format tytułu dla stron podzielonych na części:"
+
+#: ../fv-all-in-one-seo-pack.php:2342
+msgid ""
+"This string gets appended/prepended to titles when they are for paged index "
+"pages (like home or archive pages)."
+msgstr ""
+"Opcja jest wykorzystywana w przypadku podziału wpisu lub strony na części i "
+"dołącza do tytułu numer części (podobnie jak na stronie głównej lub stronach "
+"archiwum)"
+
+#: ../fv-all-in-one-seo-pack.php:2345
+msgid "%page% - The page number"
+msgstr "%page% - Numer części strony"
+
+#: ../fv-all-in-one-seo-pack.php:2354
+msgid "Use Categories for META keywords:"
+msgstr "Użyj nazw kategorii jako słów kluczowych:"
+
+#: ../fv-all-in-one-seo-pack.php:2358
+msgid ""
+"Check this if you want your categories for a given post used as the META "
+"keywords for this post (in addition to any keywords and tags you specify on "
+"the post edit page)."
+msgstr ""
+"Zaznacz tą opcję aby użyć nazw kategorii wpisu jako słów kluczowych w "
+"znacznikach META dla wpisu (funkcja ta działa niezależnie od słów kluczowych "
+"dla tagów oraz słów kluczowych wpisanych przy konkretnym wpisie)."
+
+#: ../fv-all-in-one-seo-pack.php:2364
+msgid "Use Tags for META keywords:"
+msgstr "Użyj tagów jako słów kluczowych:"
+
+#: ../fv-all-in-one-seo-pack.php:2368
+msgid ""
+"Check this if you want your tags for a given post used as the META keywords "
+"for this post (in addition to any keywords you specify on the post edit "
+"page)."
+msgstr ""
+"Zaznacz tą opcję aby użyć tagów wpisu jako słów kluczowych w znacznikach "
+"META dla wpisu (funkcja ta działa niezależnie od słów kluczowych dla tagów "
+"oraz słów kluczowych wpisanych przy konkretnym wpisie)."
+
+#: ../fv-all-in-one-seo-pack.php:2373
+msgid "Dynamically Generate Keywords for Posts Page:"
+msgstr "Generuje dynamicznie słowa kluczowe dla strony wpisów:"
+
+#: ../fv-all-in-one-seo-pack.php:2377
+msgid ""
+"Check this if you want your keywords on a custom posts page (set it in "
+"options->reading) to be dynamically generated from the keywords of the posts "
+"showing on that page.  If unchecked, it will use the keywords set in the "
+"edit page screen for the posts page."
+msgstr ""
+"Zaznacz tą opcję jesli chcesz aby słowa kluczowe dla strony statycznej "
+"używanej jako głównej (zobacz Ustawienia -> Czytanie) były generowane "
+"automatycznie. Słowa są dobierane na podstawie słów kluczowych wpisów "
+"wyświetlanych na statycznej stronie głównej  Jeśli opcja nie jest zaznaczona "
+"plugin używa jako słów kluczowych strony głównej tych które zostały wpisane "
+"w opcjach wtyczki powyżej lub w parametrach konkretnej strony."
+
+#: ../fv-all-in-one-seo-pack.php:2382
+msgid "Remove Category rel attribute for validation:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2386
+msgid ""
+"Check this if you want to remove attribute rel from links to categories. "
+"Useful for validation."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2391
+msgid "Use noindex for Categories:"
+msgstr "Uzyj parametru noindex dla stron kategorii:"
+
+#: ../fv-all-in-one-seo-pack.php:2395
+msgid ""
+"Check this for excluding category pages from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Zaznacz tą opcję aby wyszukiwarki nie indeksowały stron katogorii. Przydatne "
+"przy unikaniu zduplikowanych zawartości - wskazane."
+
+#: ../fv-all-in-one-seo-pack.php:2400
+msgid "Use noindex for Archives:"
+msgstr "Uzyj parametru noindex dla stron archiwów:"
+
+#: ../fv-all-in-one-seo-pack.php:2404
+msgid ""
+"Check this for excluding archive pages from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Zaznacz tą opcję aby wyszukiwarki nie indeksowały stron archiwów. Przydatne "
+"przy unikaniu zduplikowanych zawartości - wskazane."
+
+#: ../fv-all-in-one-seo-pack.php:2409
+msgid "Use noindex for Tag Archives:"
+msgstr "Użyj parametru noindex dla archiwum tagów:"
+
+#: ../fv-all-in-one-seo-pack.php:2413
+msgid ""
+"Check this for excluding tag pages from being crawled. Useful for avoiding "
+"duplicate content."
+msgstr ""
+"Zaznacz tą opcję aby wyszukiwarki nie indeksowały stron tagów. Przydatne "
+"przy unikaniu zduplikowanych zawartości - wskazane."
+
+#: ../fv-all-in-one-seo-pack.php:2418
+#, fuzzy
+msgid "Use noindex for Search Results:"
+msgstr "Uzyj parametru noindex dla stron archiwów:"
+
+#: ../fv-all-in-one-seo-pack.php:2422
+#, fuzzy
+msgid ""
+"Check this for excluding search results from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Zaznacz tą opcję aby wyszukiwarki nie indeksowały stron archiwów. Przydatne "
+"przy unikaniu zduplikowanych zawartości - wskazane."
+
+#: ../fv-all-in-one-seo-pack.php:2427
+msgid "Autogenerate Descriptions:"
+msgstr "Automatycznie generuj opis:"
+
+#: ../fv-all-in-one-seo-pack.php:2431
+msgid ""
+"Check this and your META descriptions will get autogenerated if there's no "
+"excerpt."
+msgstr ""
+"Zaznacz tą opcję aby wtyczka automatycznie generowała opis w znacznikach "
+"META (description) jeśli do wpisu nie jest napisane wprowadzenie."
+
+#: ../fv-all-in-one-seo-pack.php:2436
+msgid "Capitalize Category Titles:"
+msgstr "Tytuły stron kategorii kapitalikami:"
+
+#: ../fv-all-in-one-seo-pack.php:2440
+msgid ""
+"Check this and Category Titles will have the first letter of each word "
+"capitalized."
+msgstr ""
+"Zaznacz aby każda pierwsza litera wyrazu w tytule kategorii była pisana "
+"wielką literą."
+
+#: ../fv-all-in-one-seo-pack.php:2445
+msgid "Exclude Pages:"
+msgstr "Wyklucz strony:"
+
+#: ../fv-all-in-one-seo-pack.php:2449
+#, fuzzy
+msgid ""
+"Enter any comma separated pages here to be excluded by All in One SEO Pack.  "
+"This is helpful when using plugins which generate their own non-WordPress "
+"dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to "
+"exclude the virtual pages generated by a forum plugin, all you have to do is "
+"give forum or /forum or /forum/ or and any URL with the word \"forum\" in "
+"it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage "
+"will be excluded from FV Simpler SEO."
+msgstr ""
+"Wpisz po przecinku wszystkie strony, na których ma być wyłączona wtyczka All "
+"in One SEO Pack.  Funkcja ta jest pomocna gdy używasz wtyczek generujących "
+"strony nie należące do struktury Wordpressa. Np: <em>/forum/,/contact/</em> "
+"Dla przykładu, jesli chcesz wykluczyć strony generowane przez wtyczkę forum, "
+"wszystko co musisz zrobić to wpisać tu, forum lub /forum albo /forum/ , bądź "
+"też cały adres URL pod którym jest \"forum\" , jak http://mojadomena.pl/"
+"forum or http://mojadomena.pl/forum/innastronaforum."
+
+#: ../fv-all-in-one-seo-pack.php:2454
+msgid "Additional Post Headers:"
+msgstr "Dodatkowe tagi meta wpisu:"
+
+#: ../fv-all-in-one-seo-pack.php:2459
+msgid ""
+"What you enter here will be copied verbatim to your header on post pages. "
+"You can enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"Wszystko co tutaj wpiszesz zostanie dosłownie wstawione w nagłówku (sekcja "
+"head kodu strony) strony wpisu. Możesz użyć jakichkolwiek dodatkowych meta "
+"tagów nawet np. tagu opcjonalnego arkusza stylu."
+
+#: ../fv-all-in-one-seo-pack.php:2461 ../fv-all-in-one-seo-pack.php:2474
+#: ../fv-all-in-one-seo-pack.php:2487
+msgid "NOTE: This field currently only support meta tags."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2467
+msgid "Additional Page Headers:"
+msgstr "Dodatkowe tagi meta strony statycznej:"
+
+#: ../fv-all-in-one-seo-pack.php:2472
+msgid ""
+"What you enter here will be copied verbatim to your header on pages. You can "
+"enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"Wszystko co tutaj wpiszesz zostanie dosłownie wstawione w nagłówku (sekcja "
+"head kodu strony) strony statycznej. Możesz użyć jakichkolwiek dodatkowych "
+"meta tagów nawet np. tagu opcjonalnego arkusza stylu."
+
+#: ../fv-all-in-one-seo-pack.php:2480
+msgid "Additional Home Headers:"
+msgstr "Dodatkowe tagi meta strony głównej:"
+
+#: ../fv-all-in-one-seo-pack.php:2485
+msgid ""
+"What you enter here will be copied verbatim to your header on the home page. "
+"You can enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"Wszystko co tutaj wpiszesz zostanie dosłownie wstawione w nagłówku (sekcja "
+"head kodu strony) strony głównej. Możesz użyć jakichkolwiek dodatkowych meta "
+"tagów nawet np. tagu opcjonalnego arkusza stylu."
+
+#: ../fv-all-in-one-seo-pack.php:2493
+msgid "Google Verification Meta Tag:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2498
+#, fuzzy
+msgid ""
+"What you enter here will be copied verbatim to your header on the home page. "
+"Webmaster Tools provides the meta tag in XHTML syntax."
+msgstr ""
+"Wszystko co tutaj wpiszesz zostanie dosłownie wstawione w nagłówku (sekcja "
+"head kodu strony) strony głównej. Możesz użyć jakichkolwiek dodatkowych meta "
+"tagów nawet np. tagu opcjonalnego arkusza stylu."
+
+#: ../fv-all-in-one-seo-pack.php:2500
+msgid ""
+"On the Webmaster Tools Home page, click Verify this site next to the site "
+"you want."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2502
+msgid ""
+"In the Verification method list, select Meta tag, and follow the steps on "
+"your screen."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2504
+msgid "Once you have added the tag to your home page, click Verify."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2510
+msgid "Yahoo Verification Meta Tag:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2514
+msgid "Put your Yahoo site verification tag for your homepage here."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2519
+msgid "Bing Verification Meta Tag:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2523
+msgid "Put your Bing site verification tag for your homepage here."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2528
+#, fuzzy
+msgid "Turn off excerpts for descriptions:"
+msgstr "Automatycznie generuj opis:"
+
+#: ../fv-all-in-one-seo-pack.php:2533
+msgid ""
+"Since Typepad export is containing auto generated excerpts for the most of "
+"the time we use this option a lot."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2545
+msgid "Google +1 Site Publisher:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2549
+msgid "This will be used across the whole site."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2554
+msgid "Google +1 Default Author:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2558
+msgid ""
+"This will be used across the whole site, however user's Google +1 links will "
+"be used for their posts (if filled in)."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2583
+#, fuzzy
+msgid "FV Simpler SEO Options Reset."
+msgstr "Wszystkie opcje wtyczki All in One SEO zaktualizowane."
+
+#: ../fv-all-in-one-seo-pack.php:2639
+#, fuzzy
+msgid "FV Simpler SEO Options Updated."
+msgstr "Opcje pluginu All in One SEO zaktualizowane."
+
+#: ../fv-all-in-one-seo-pack.php:2713
+msgid "FV Simpler SEO Options"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2763
+msgid "Update Options"
+msgstr "Zaktualizuj ustawienia"
+
+#: ../fv-all-in-one-seo-pack.php:2764
+msgid "Reset Settings to Defaults"
+msgstr "Przywróć wszystkie ustawienia domyślne"
+
+#: ../fv-all-in-one-seo-pack.php:2917
+msgid "Google+"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3339 ../fv-all-in-one-seo-pack.php:3363
+msgid "Long Title:"
+msgstr "Tytuł strony głównej:"
+
+#: ../fv-all-in-one-seo-pack.php:3339 ../fv-all-in-one-seo-pack.php:3363
+msgid ""
+"Displayed in browser toolbar and search engine results. It will replace your "
+"post title format defined by your template on this single post/page. For "
+"advanced customization use Rewrite Titles in Advanced Options."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3343 ../fv-all-in-one-seo-pack.php:3367
+#, fuzzy, php-format
+msgid ""
+" characters. Most search engines use a maximum of %d chars for the title."
+msgstr ""
+"pozostało znaków (większość wyszukiwarek zapisuje i pokazuje maksymalnie 160 "
+"znaków)."
+
+#: ../fv-all-in-one-seo-pack.php:3354 ../fv-all-in-one-seo-pack.php:3380
+#, fuzzy
+msgid "Meta Description:"
+msgstr "Opis:"
+
+#: ../fv-all-in-one-seo-pack.php:3354 ../fv-all-in-one-seo-pack.php:3380
+msgid ""
+"Displayed in search engine results. Can be called inside of template file "
+"with"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3358 ../fv-all-in-one-seo-pack.php:3385
+#, fuzzy, php-format
+msgid ""
+" characters. Most search engines use a maximum of %d chars for the "
+"description."
+msgstr ""
+"pozostało znaków (większość wyszukiwarek zapisuje i pokazuje maksymalnie 160 "
+"znaków)."
+
+#: ../fv-all-in-one-seo-pack.php:3389
+msgid "SERP Preview:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3389
+msgid "Preview of Search Engine Results Page"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3398
+msgid "Keywords:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3406
+#, fuzzy
+msgid "Custom Canonical URL:"
+msgstr "Kanoniczne adresy URL:"
+
+#: ../fv-all-in-one-seo-pack.php:3406
+msgid ""
+"WARNING - Google will index the URL you enter here instead of the post. "
+"Leave empty if you don't want to use it."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3422
+msgid "Title Attribute:"
+msgstr "Atrybuty tytułu:"
+
+#: ../fv-all-in-one-seo-pack.php:3422
+msgid "Displayed in search engine results"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3432
+#, fuzzy
+msgid "Short title | Menu Label:"
+msgstr "Etykieta (tekst) w menu:"
+
+#: ../fv-all-in-one-seo-pack.php:3434
+msgid ""
+"Used in all your page menus. Long Title or Post Title will be used for mouse "
+"rollover. Can be called inside of template file with"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3436
+msgid ""
+"This will automatically replace post title in sidebar. Can be called inside "
+"of template file with"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3445
+msgid "Disable on this page/post:"
+msgstr "Wyłacz w tym wpisie / na tej stronie: "
+
+#: ../fv-all-in-one-seo-pack.php:3453
+msgid "Disable post indexing:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3453
+msgid ""
+"Only use if you are sure you don't want this post to be indexed in search "
+"engines!"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3453 ../fv-all-in-one-seo-pack.php:3599
+#: ../fv-all-in-one-seo-pack.php:3604 ../fv-all-in-one-seo-pack.php:3614
+#: ../fv-all-in-one-seo-pack.php:3619
+msgid "Warning"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3587
+msgid "Your post's TITLE is empty, so it cannot be published!"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3599 ../fv-all-in-one-seo-pack.php:3614
+msgid "Your post's TITLE is empty!"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3604 ../fv-all-in-one-seo-pack.php:3619
+msgid "Your post's DESCRIPTION is empty!"
+msgstr ""
+
+#, fuzzy
+#~ msgid " characters. Most search engines use a maximum of "
+#~ msgstr ""
+#~ "pozostało znaków. Większość wyszukiwarek zapisuje i pokazuje maksymalnie "
+#~ "60 znaków tytułu."
+
+#~ msgid "Could not download distribution (%s)"
+#~ msgstr "Nie można pobrać (%s)"
+
+#~ msgid "Could not download distribution (%s): %s"
+#~ msgstr "Nie można pobrać (%s): %s"
+
+#~ msgid "Could not open %s for writing"
+#~ msgstr "Nie można otworzyć %s do zapisu"
+
+#~ msgid "Please make sure %s is writable"
+#~ msgstr "Proszę upewnij się że plik %s jest zapisywalny."
+
+#~ msgid "Could not write to %s"
+#~ msgstr "Nie można zapisać do %s"
+
+#~ msgid "All in One SEO Pack"
+#~ msgstr "All in One SEO Pack"
+
+#~ msgid "Title:"
+#~ msgstr "Tytuł:"
+
+#~ msgid "Keywords (comma separated):"
+#~ msgstr "Słowa kluczowe (oddzielone przecinkami):"
+
+#~ msgid "Click here for Support"
+#~ msgstr "Strona pluginu!"
+
+#~ msgid "All in One SEO"
+#~ msgstr "All in One SEO"
+
+#~ msgid "All in One SEO Plugin Options"
+#~ msgstr "Opcje pluginu All in One SEO "
+
+#~ msgid "All in One SEO Plugin Release History"
+#~ msgstr "Historia wersji pluginu All in One SEO"
+
+#~ msgid "Changelog"
+#~ msgstr "Logi zmian"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "All in One SEO Plugin Support Forum"
+#~ msgstr "All in One SEO Plugin Forum"
+
+#~ msgid "Support"
+#~ msgstr "Wsparcie"
+
+#~ msgid "All in One SEO Plugin Translations"
+#~ msgstr "Tłumaczenia pluginu All in One SEO "
+
+#~ msgid "Translations"
+#~ msgstr "Tłumaczenia"
+
+#~ msgid "Pro Version"
+#~ msgstr "Wersja Pro"
+
+#~ msgid "UPGRADE TO PRO VERSION"
+#~ msgstr "AKTUALIZUJ DO WERSJI PRO"
+
+#~ msgid "Donate with Paypal"
+#~ msgstr "Wesprzyj przez Paypal"
+
+#~ msgid "My Amazon Wish List"
+#~ msgstr "Moja lista życzeń na Amazon"
+
+#~ msgid "Follow us on Twitter"
+#~ msgstr "Obserwuj na Twitterze"
+
+#~ msgid "Follow Us on Twitter"
+#~ msgstr "Obserwuj Nas na Twitterze"
+
+#~ msgid "iBlogPro theme"
+#~ msgstr "motyw iBlogPro"
+
+#~ msgid "Pagelines Themes"
+#~ msgstr "Motywy od Pagelines"
+
+#~ msgid "WhiteHouse theme"
+#~ msgstr "Motyw WhiteHouse (Biały Dom)"
+
+#~ msgid "Click on option titles to get help!"
+#~ msgstr "Kliknij na tytuł opcji aby uzyskać pomoc! "
+
+#~ msgid "I enjoy this plugin and have made a donation:"
+#~ msgstr "Uwielbiam ten plugin i chcę wspomóc go finansowo"
+
+#~ msgid "All donations support continued development of this free software."
+#~ msgstr ""
+#~ "Kazda wpłata wspracia finansowego jest przeznaczana na dalszy rozwój tego "
+#~ "wolnego oprogramowania"
+
+#~ msgid "Plugin Status:"
+#~ msgstr "Status wtyczki"
+
+#~ msgid "All in One SEO Pack must be enabled for use."
+#~ msgstr "Wtyczka All in One SEO Pack musi zostać włączona aby funkcjonowała."
+
+#~ msgid "SEO for Custom Post Types:"
+#~ msgstr "SEO dla wpisów, które mają indywidualne szablony:"
+
+#~ msgid ""
+#~ "Check this if you want your enable AIOSEOP support for Custom Post Types "
+#~ "on this site."
+#~ msgstr ""
+#~ "Zaznacz jeśli chcesz włączcyć działanie wtyczki dla wpisów posiadających "
+#~ "indywidualne szablony."
+
+#~ msgid "Log important events:"
+#~ msgstr "Log ważnych zdarzeń:"
+
+#~ msgid ""
+#~ "Check this and SEO pack will create a log of important events "
+#~ "(all_in_one_seo_pack.log) in its plugin directory which might help "
+#~ "debugging it. Make sure this directory is writable."
+#~ msgstr ""
+#~ "Zaznacz aby wtyczka zapisywała logi ważnych zdarzeń (w pliku "
+#~ "all_in_one_seo_pack.log) w katalogu wtyczki. Może to pomóc w rozwiązaniu "
+#~ "ewentualnych problemów w działaniu. Upewnij się że katalog wtyczki jest "
+#~ "zapisywalny."
+
+#~ msgid "Thank you for your donation:"
+#~ msgstr "Dziękujemy z Twoje wsparcie finansowe:"
+
+#~ msgid ""
+#~ "Upgraded to newest version. Please revisit the options page to make sure "
+#~ "you see the newest version."
+#~ msgstr ""
+#~ "Aktualizacja do najnowszej wersji. Proszę odwiedź stronę opcji wtyczki "
+#~ "aby mieć pewność że używasz jej najnowszej wersji."
+
+#~ msgid "Upgrade failed"
+#~ msgstr "Błąd! Aktualizacja nie powiodła się!"
+
+#~ msgid "This is version "
+#~ msgstr "To jest wersja "
+
+#~ msgid "Should I upgrade?"
+#~ msgstr "Czy powinienem aktualizować wtyczkę?"
+
+#~ msgid "All in One SEO Plugin Feedback"
+#~ msgstr "Opinie i sugestie do pluginu All in One SEO Pack"
+
+#~ msgid "Feedback"
+#~ msgstr "Opinie i sugestie"
+
+#~ msgid "One Click Upgrade"
+#~ msgstr "Aktualizacja za pomocą jednego kliknięcia!"
+
+#~ msgid "(Remember: Backup early, backup often!)"
+#~ msgstr "(Pamiętaj: Utwórz wcześniej kopię zapasową, twórz ją często!)"
+
+#~ msgid "Please make sure that %s is writable."
+#~ msgstr "Proszę upewnij się że %s jest zapisywalny."

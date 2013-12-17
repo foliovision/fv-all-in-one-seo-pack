@@ -1,0 +1,1915 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FV all in one seo pack\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/all-in-one-seo-pack\n"
+"POT-Creation-Date: 2013-12-17 15:16+0100\n"
+"PO-Revision-Date: 2013-12-17 15:16+0100\n"
+"Last-Translator: \n"
+"Language-Team: Elvis <elviswebteam@gmail.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.2\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../fv-all-in-one-seo-pack.php:2026 ../fv-all-in-one-seo-pack.php:3483
+#: ../fv-all-in-one-seo-pack.php:3484
+msgid "FV Simpler SEO"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2034 ../fv-all-in-one-seo-pack.php:2043
+#: ../fv-all-in-one-seo-pack.php:2052 ../fv-all-in-one-seo-pack.php:2061
+#: ../fv-all-in-one-seo-pack.php:2081 ../fv-all-in-one-seo-pack.php:2092
+#: ../fv-all-in-one-seo-pack.php:2103 ../fv-all-in-one-seo-pack.php:2124
+#: ../fv-all-in-one-seo-pack.php:2135 ../fv-all-in-one-seo-pack.php:2146
+#: ../fv-all-in-one-seo-pack.php:2164 ../fv-all-in-one-seo-pack.php:2173
+#: ../fv-all-in-one-seo-pack.php:2182 ../fv-all-in-one-seo-pack.php:2193
+#: ../fv-all-in-one-seo-pack.php:2215 ../fv-all-in-one-seo-pack.php:2235
+#: ../fv-all-in-one-seo-pack.php:2252 ../fv-all-in-one-seo-pack.php:2268
+#: ../fv-all-in-one-seo-pack.php:2284 ../fv-all-in-one-seo-pack.php:2300
+#: ../fv-all-in-one-seo-pack.php:2318 ../fv-all-in-one-seo-pack.php:2336
+#: ../fv-all-in-one-seo-pack.php:2353 ../fv-all-in-one-seo-pack.php:2363
+#: ../fv-all-in-one-seo-pack.php:2372 ../fv-all-in-one-seo-pack.php:2381
+#: ../fv-all-in-one-seo-pack.php:2390 ../fv-all-in-one-seo-pack.php:2399
+#: ../fv-all-in-one-seo-pack.php:2408 ../fv-all-in-one-seo-pack.php:2417
+#: ../fv-all-in-one-seo-pack.php:2426 ../fv-all-in-one-seo-pack.php:2435
+#: ../fv-all-in-one-seo-pack.php:2444 ../fv-all-in-one-seo-pack.php:2453
+#: ../fv-all-in-one-seo-pack.php:2466 ../fv-all-in-one-seo-pack.php:2479
+#: ../fv-all-in-one-seo-pack.php:2492 ../fv-all-in-one-seo-pack.php:2509
+#: ../fv-all-in-one-seo-pack.php:2518 ../fv-all-in-one-seo-pack.php:2527
+#: ../fv-all-in-one-seo-pack.php:2544 ../fv-all-in-one-seo-pack.php:2553
+msgid "Click for Help!"
+msgstr "Нажмите, чтобы прочитать подробнее!"
+
+#: ../fv-all-in-one-seo-pack.php:2035
+msgid "Home Title:"
+msgstr "Заголовок главной стр.:"
+
+#: ../fv-all-in-one-seo-pack.php:2039
+msgid ""
+"As the name implies, this will be the title of your homepage. This is "
+"independent of any other option. If not set, the default blog title will get "
+"used."
+msgstr ""
+"Заголовок главной страницы (и Вашего сайта). Эта опция не зависит от других, "
+"если поле не заполнить, то будет взято значение по умолчанию из настроек."
+
+#: ../fv-all-in-one-seo-pack.php:2044
+msgid "Home Description:"
+msgstr "Описание главной стр.:"
+
+#: ../fv-all-in-one-seo-pack.php:2048
+msgid ""
+"The META description for your homepage. Independent of any other options, "
+"the default is no META description at all if this is not set."
+msgstr ""
+"Описание (МЕТА-описание) страницы Вашего сайта. Также не зависит от других "
+"опций, если поле не заполнить, то будет взято значение по умолчанию из "
+"настроек."
+
+#: ../fv-all-in-one-seo-pack.php:2053
+msgid "Home Keywords (comma separated):"
+msgstr "Ключевые слова гл. стр. (разделять запятыми):"
+
+#: ../fv-all-in-one-seo-pack.php:2057
+msgid ""
+"A comma separated list of your most important keywords for your site that "
+"will be written as META keywords on your homepage. Don't stuff everything in "
+"here."
+msgstr ""
+"Здесь нужно указать только главные (общие для всех страниц) ключевые слова "
+"сайта. Конкретные ключи заполняются к каждой записи при ее создании или "
+"редактировании."
+
+#: ../fv-all-in-one-seo-pack.php:2062
+msgid "Warn me when publishing without a title or description:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2070
+msgid ""
+"Uncheck this if you don't want to be warned in case you are publishing "
+"without a title or description. Default: checked."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2082
+msgid "Add keywords field to post editing screen:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2087
+msgid ""
+"You don't need this field at all if you are using tags properly. It makes "
+"the FV Simpler SEO box in the editing screen more complicated too."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2093
+msgid "Add no index checkbox to post editing screen:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2098
+msgid ""
+"Adds a powerful checkbox to post editing screens which let's you exclude the "
+"post from search engine indexing. <strong>Warning:</strong> only use if you "
+"really know what you are doing."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2104
+msgid "Experimental - Use Custom Canonical URL field:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2110
+msgid ""
+"Are you sure you want to turn on this feature? Using wrong custom canonical "
+"URLs can damage your site SEO rankings.\\n\\n If you are not sure, then "
+"leave this off and Wordpress will take care of it on its own."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2119
+msgid ""
+"Use this feature only if you are sure you want to enter custom canonical "
+"URLs. This is not affected by the \"Canonical URLs\" Advanced Option "
+"(bellow)."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2125
+msgid "Add Title Attribute field to page editing screen (deprecated):"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2130
+msgid ""
+"Allows you to set the anchor title for pages in menus. You don't need this "
+"field at all because post title or Long Title will be used instead."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2136
+msgid "Add Short Title Attribute field to post editing screen:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2141
+msgid ""
+"Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post "
+"titles when enabled."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2147
+msgid ""
+"Add \"Disable on this post/page\" checkbox to post editing screen "
+"(deprecated):"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2152
+msgid "Let's you disable the plugin for a specific post or page."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2165
+msgid "Canonical URLs:"
+msgstr "Канонические URL'ы:"
+
+#: ../fv-all-in-one-seo-pack.php:2169
+msgid ""
+"This option will automatically generate Canonical URLS for your entire "
+"WordPress installation.  This will help to prevent duplicate content "
+"penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/"
+"specify-your-canonical.html' target='_blank'>Google</a>."
+msgstr ""
+"Автоматическое создание канонических ссылок WordPress. Опция поможет "
+"избежать дублирования контента. Подробнее об этом читайте в статье <a "
+"href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-"
+"canonical.html' target='_blank'>Google</a>."
+
+#: ../fv-all-in-one-seo-pack.php:2174
+msgid "Shorten Post / Page name:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2178
+msgid ""
+"This option will automatically shorten a link to post / page upon first save."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2183
+msgid "Rewrite Titles:"
+msgstr "Перезаписывать заголовки:"
+
+#: ../fv-all-in-one-seo-pack.php:2187
+#, fuzzy
+msgid ""
+"Note that this is all about the title tag. This is what you see in your "
+"browser's window title bar. This is NOT visible on a page, only in the "
+"window title bar and of course in the source. If set, all page, post, "
+"category, search and archive page titles get rewritten. You can specify the "
+"format for most of them. For example: The default templates puts the title "
+"tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've "
+"overdone slightly). This is far from optimal. With the default post title "
+"format, Rewrite Title rewrites this to Post Title | Blog Name. If you have "
+"manually defined a title (in one of the text fields for All in One SEO "
+"Plugin input) this will become the title of your post in the format string."
+msgstr ""
+"Стоит отметить, что эта опция связана с заголовками, которые Вы видите в "
+"браузерах только (то есть не реальное название и заголовок страницы). Если "
+"включить опцию, то все заголовки (отображающиеся в браузерах) будут изменены "
+"на заданные ниже. Опция полезна для создания своей системы заголовков. "
+"Например, заголовок \"Архив Блога >> Заголовок Блога >> Заголовок записи\" "
+"можно превратить в \"Заголовок записи | Заголовок Блога\" и т.д.."
+
+#: ../fv-all-in-one-seo-pack.php:2194
+msgid "Post Title Format:"
+msgstr "Формат для записей:"
+
+#: ../fv-all-in-one-seo-pack.php:2199 ../fv-all-in-one-seo-pack.php:2221
+#: ../fv-all-in-one-seo-pack.php:2241 ../fv-all-in-one-seo-pack.php:2258
+#: ../fv-all-in-one-seo-pack.php:2274 ../fv-all-in-one-seo-pack.php:2290
+#: ../fv-all-in-one-seo-pack.php:2306 ../fv-all-in-one-seo-pack.php:2324
+#: ../fv-all-in-one-seo-pack.php:2343
+msgid "The following macros are supported:"
+msgstr "Поддерживаемые макросы:"
+
+#: ../fv-all-in-one-seo-pack.php:2201 ../fv-all-in-one-seo-pack.php:2223
+#: ../fv-all-in-one-seo-pack.php:2243 ../fv-all-in-one-seo-pack.php:2260
+#: ../fv-all-in-one-seo-pack.php:2276 ../fv-all-in-one-seo-pack.php:2292
+#: ../fv-all-in-one-seo-pack.php:2308 ../fv-all-in-one-seo-pack.php:2326
+msgid "%blog_title% - Your blog title"
+msgstr "%blog_title% - Заголовок блога"
+
+#: ../fv-all-in-one-seo-pack.php:2202 ../fv-all-in-one-seo-pack.php:2224
+#: ../fv-all-in-one-seo-pack.php:2244 ../fv-all-in-one-seo-pack.php:2261
+#: ../fv-all-in-one-seo-pack.php:2277 ../fv-all-in-one-seo-pack.php:2293
+#: ../fv-all-in-one-seo-pack.php:2309 ../fv-all-in-one-seo-pack.php:2327
+msgid "%blog_description% - Your blog description"
+msgstr "%blog_description% - Описание блога"
+
+#: ../fv-all-in-one-seo-pack.php:2203
+msgid "%post_title% - The original title of the post"
+msgstr "%post_title% - Заголовок записи (по умолчанию)"
+
+#: ../fv-all-in-one-seo-pack.php:2204
+msgid "%category_title% - The (main) category of the post"
+msgstr "%category_title% - Рубрика записи (основная)"
+
+#: ../fv-all-in-one-seo-pack.php:2205
+msgid "%category% - Alias for %category_title%"
+msgstr "%category% - Синоним для %category_title%"
+
+#: ../fv-all-in-one-seo-pack.php:2206
+msgid "%post_author_login% - This post's author' login"
+msgstr "%post_author_login% - Страница логина автора"
+
+#: ../fv-all-in-one-seo-pack.php:2207
+msgid "%post_author_nicename% - This post's author' nicename"
+msgstr "%post_author_nicename% - Ник автора записи"
+
+#: ../fv-all-in-one-seo-pack.php:2208
+msgid "%post_author_firstname% - This post's author' first name (capitalized)"
+msgstr "%post_author_firstname% - Имя автора записи (с прописной)"
+
+#: ../fv-all-in-one-seo-pack.php:2209
+msgid "%post_author_lastname% - This post's author' last name (capitalized)"
+msgstr "%post_author_lastname% - Фамилия автора записи (с прописной)"
+
+#: ../fv-all-in-one-seo-pack.php:2216
+msgid "Page Title Format:"
+msgstr "Формат для страниц:"
+
+#: ../fv-all-in-one-seo-pack.php:2225
+msgid "%page_title% - The original title of the page"
+msgstr "%page_title% - Заголовок (по умолчанию) страницы"
+
+#: ../fv-all-in-one-seo-pack.php:2226
+msgid "%page_author_login% - This page's author' login"
+msgstr "%page_author_login% - Страница логина автора"
+
+#: ../fv-all-in-one-seo-pack.php:2227
+msgid "%page_author_nicename% - This page's author' nicename"
+msgstr "%page_author_nicename% - Ник автора страницы"
+
+#: ../fv-all-in-one-seo-pack.php:2228
+msgid "%page_author_firstname% - This page's author' first name (capitalized)"
+msgstr "%page_author_firstname% - Имя автора страницы (с прописной)"
+
+#: ../fv-all-in-one-seo-pack.php:2229
+msgid "%page_author_lastname% - This page's author' last name (capitalized)"
+msgstr "%page_author_lastname% - Фамилия автора страницы (с прописной)"
+
+#: ../fv-all-in-one-seo-pack.php:2236
+msgid "Category Title Format:"
+msgstr "Формат для рубрик:"
+
+#: ../fv-all-in-one-seo-pack.php:2245
+msgid "%category_title% - The original title of the category"
+msgstr "%category_title% - Название рубрики (по умолчанию)"
+
+#: ../fv-all-in-one-seo-pack.php:2246
+msgid "%category_description% - The description of the category"
+msgstr "%category_description% - Описание рубрики"
+
+#: ../fv-all-in-one-seo-pack.php:2253
+#, fuzzy
+msgid "Archive Title Format:"
+msgstr "Формат заголовка архивов за день:"
+
+#: ../fv-all-in-one-seo-pack.php:2262
+msgid ""
+"%date% - The original archive title given by wordpress, e.g. \"2007\" or "
+"\"2007 August\""
+msgstr ""
+"%date% - Название архива, присвоенное WordPress, например, \"2007\" или "
+"\"2007 Август\""
+
+#: ../fv-all-in-one-seo-pack.php:2269
+msgid "Tag Title Format:"
+msgstr "Формат для меток:"
+
+#: ../fv-all-in-one-seo-pack.php:2278
+msgid "%tag% - The name of the tag"
+msgstr "%tag% - Название метки"
+
+#: ../fv-all-in-one-seo-pack.php:2285
+msgid "Search Title Format:"
+msgstr "Формат для страниц поиска:"
+
+#: ../fv-all-in-one-seo-pack.php:2294
+msgid "%search% - What was searched for"
+msgstr "%search% - Поисковый запрос"
+
+#: ../fv-all-in-one-seo-pack.php:2301
+#, fuzzy
+msgid "Description Format:"
+msgstr "Формат описания"
+
+#: ../fv-all-in-one-seo-pack.php:2310
+msgid ""
+"%description% - The original description as determined by the plugin, e.g. "
+"the excerpt if one is set or an auto-generated one if that option is set"
+msgstr "%description% - Оригинальное описание"
+
+#: ../fv-all-in-one-seo-pack.php:2311
+msgid "%wp_title% - The original wordpress title, e.g. post_title for posts"
+msgstr ""
+"%wp_title% - Заголовок, присвоенный wordpress, например, post_title для "
+"записей"
+
+#: ../fv-all-in-one-seo-pack.php:2312
+msgid "%page% - Page number for paged category archives"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2319
+msgid "404 Title Format:"
+msgstr "Формат для страниц 404:"
+
+#: ../fv-all-in-one-seo-pack.php:2328
+msgid ""
+"%request_url% - The original URL path, like \"/url-that-does-not-exist/\""
+msgstr ""
+"%request_url% - Оригинальный адрес страницы, например,  \"/url-that-does-not-"
+"exist/\""
+
+#: ../fv-all-in-one-seo-pack.php:2329
+msgid ""
+"%request_words% - The URL path in human readable form, like \"Url That Does "
+"Not Exist\""
+msgstr ""
+"%request_words% - Читабельный адрес страницы, например, \"Url That Does Not "
+"Exist\""
+
+#: ../fv-all-in-one-seo-pack.php:2330
+msgid "%404_title% - Additional 404 title input\""
+msgstr "%404_title% - Дополнительный заголовок страницы 404"
+
+#: ../fv-all-in-one-seo-pack.php:2337
+msgid "Paged Format:"
+msgstr "Формат для навигации:"
+
+#: ../fv-all-in-one-seo-pack.php:2342
+msgid ""
+"This string gets appended/prepended to titles when they are for paged index "
+"pages (like home or archive pages)."
+msgstr ""
+"Используется на страницах архивов или на главной странице блога. Навигация "
+"постраничная. "
+
+#: ../fv-all-in-one-seo-pack.php:2345
+msgid "%page% - The page number"
+msgstr "%page% - Номер страницы"
+
+#: ../fv-all-in-one-seo-pack.php:2354
+msgid "Use Categories for META keywords:"
+msgstr "Переводить рубрики в ключи:"
+
+#: ../fv-all-in-one-seo-pack.php:2358
+msgid ""
+"Check this if you want your categories for a given post used as the META "
+"keywords for this post (in addition to any keywords and tags you specify on "
+"the post edit page)."
+msgstr ""
+"Помимо заданных ключей плагин будет использовать рубрики записей как "
+"дополнительные МЕТА-ключи."
+
+#: ../fv-all-in-one-seo-pack.php:2364
+msgid "Use Tags for META keywords:"
+msgstr "Переводить метки в ключи:"
+
+#: ../fv-all-in-one-seo-pack.php:2368
+msgid ""
+"Check this if you want your tags for a given post used as the META keywords "
+"for this post (in addition to any keywords you specify on the post edit "
+"page)."
+msgstr ""
+"Помимо заданных ключей плагин будет использовать метки (теги) записей как "
+"дополнительные МЕТА-ключи."
+
+#: ../fv-all-in-one-seo-pack.php:2373
+msgid "Dynamically Generate Keywords for Posts Page:"
+msgstr "Генерировать ключи к записям автоматически:"
+
+#: ../fv-all-in-one-seo-pack.php:2377
+msgid ""
+"Check this if you want your keywords on a custom posts page (set it in "
+"options->reading) to be dynamically generated from the keywords of the posts "
+"showing on that page.  If unchecked, it will use the keywords set in the "
+"edit page screen for the posts page."
+msgstr ""
+"Генерировать ключевые слова к записям из содержания (из текста) страницы. "
+"Ключи создаются автоматически плагином. Если не использовать опцию, то "
+"ключевые слова задаются к каждой записи вручную."
+
+#: ../fv-all-in-one-seo-pack.php:2382
+msgid "Remove Category rel attribute for validation:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2386
+msgid ""
+"Check this if you want to remove attribute rel from links to categories. "
+"Useful for validation."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2391
+msgid "Use noindex for Categories:"
+msgstr "Использовать noindex для рубрик:"
+
+#: ../fv-all-in-one-seo-pack.php:2395
+msgid ""
+"Check this for excluding category pages from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Исключите страницы рубрик из поисковой выдачи. Будьте осторожны, опция может "
+"вызвать дублирование контента на сайте!"
+
+#: ../fv-all-in-one-seo-pack.php:2400
+#, fuzzy
+msgid "Use noindex for Archives:"
+msgstr "Noindex для архивов меток:"
+
+#: ../fv-all-in-one-seo-pack.php:2404
+#, fuzzy
+msgid ""
+"Check this for excluding archive pages from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Включите опцию, чтобы запретить индексацию архивов записей за день (помогает "
+"избегать дублей в выдаче)."
+
+#: ../fv-all-in-one-seo-pack.php:2409
+msgid "Use noindex for Tag Archives:"
+msgstr "Noindex для архивов меток:"
+
+#: ../fv-all-in-one-seo-pack.php:2413
+msgid ""
+"Check this for excluding tag pages from being crawled. Useful for avoiding "
+"duplicate content."
+msgstr ""
+"Исключите страницы меток из поисковой выдачи. Будьте осторожны, опция может "
+"вызвать дублирование контента на сайте!"
+
+#: ../fv-all-in-one-seo-pack.php:2418
+#, fuzzy
+msgid "Use noindex for Search Results:"
+msgstr "Noindex для архивов меток:"
+
+#: ../fv-all-in-one-seo-pack.php:2422
+#, fuzzy
+msgid ""
+"Check this for excluding search results from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Исключите страницы меток из поисковой выдачи. Будьте осторожны, опция может "
+"вызвать дублирование контента на сайте!"
+
+#: ../fv-all-in-one-seo-pack.php:2427
+msgid "Autogenerate Descriptions:"
+msgstr "Генерируемое описание:"
+
+#: ../fv-all-in-one-seo-pack.php:2431
+msgid ""
+"Check this and your META descriptions will get autogenerated if there's no "
+"excerpt."
+msgstr ""
+"Плагин будет автоматически создавать МЕТА-описание для записей, используя "
+"текст на странице."
+
+#: ../fv-all-in-one-seo-pack.php:2436
+msgid "Capitalize Category Titles:"
+msgstr "Заголовки рубрик с прописной:"
+
+#: ../fv-all-in-one-seo-pack.php:2440
+msgid ""
+"Check this and Category Titles will have the first letter of each word "
+"capitalized."
+msgstr ""
+"Заголовки страниц рубрик сайта будут начинаться с прописной (большой) буквы."
+
+#: ../fv-all-in-one-seo-pack.php:2445
+msgid "Exclude Pages:"
+msgstr "Исключить страницы:"
+
+#: ../fv-all-in-one-seo-pack.php:2449
+#, fuzzy
+msgid ""
+"Enter any comma separated pages here to be excluded by All in One SEO Pack.  "
+"This is helpful when using plugins which generate their own non-WordPress "
+"dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to "
+"exclude the virtual pages generated by a forum plugin, all you have to do is "
+"give forum or /forum or /forum/ or and any URL with the word \"forum\" in "
+"it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage "
+"will be excluded from FV Simpler SEO."
+msgstr ""
+"Введите (через запятую) в поле страницы которые будут исключены из "
+"инструментов SEO. Опцию стоит использовать если у Вас установлены плагины, "
+"создающие динамические неотносящиеся к WordPress страницы (например, <em>/"
+"forum/,/contact/</em>). Чтобы исключить подобные страницы, введите в поле "
+"http://mysite.com/forum или http://mysite.com/forum/someforumpage ."
+
+#: ../fv-all-in-one-seo-pack.php:2454
+msgid "Additional Post Headers:"
+msgstr "Доп. заголовок записей:"
+
+#: ../fv-all-in-one-seo-pack.php:2459
+#, fuzzy
+msgid ""
+"What you enter here will be copied verbatim to your header on post pages. "
+"You can enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"В поле можно ввести любые дополнительные заголовки и даже ссылки на таблицы "
+"стилей."
+
+#: ../fv-all-in-one-seo-pack.php:2461 ../fv-all-in-one-seo-pack.php:2474
+#: ../fv-all-in-one-seo-pack.php:2487
+msgid "NOTE: This field currently only support meta tags."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2467
+msgid "Additional Page Headers:"
+msgstr "Доп. заголовок страниц:"
+
+#: ../fv-all-in-one-seo-pack.php:2472
+#, fuzzy
+msgid ""
+"What you enter here will be copied verbatim to your header on pages. You can "
+"enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"В поле можно ввести любые дополнительные заголовки и даже ссылки на таблицы "
+"стилей."
+
+#: ../fv-all-in-one-seo-pack.php:2480
+#, fuzzy
+msgid "Additional Home Headers:"
+msgstr "Доп. заголовок страниц:"
+
+#: ../fv-all-in-one-seo-pack.php:2485
+#, fuzzy
+msgid ""
+"What you enter here will be copied verbatim to your header on the home page. "
+"You can enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"В поле можно ввести любые дополнительные заголовки и даже ссылки на таблицы "
+"стилей."
+
+#: ../fv-all-in-one-seo-pack.php:2493
+msgid "Google Verification Meta Tag:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2498
+#, fuzzy
+msgid ""
+"What you enter here will be copied verbatim to your header on the home page. "
+"Webmaster Tools provides the meta tag in XHTML syntax."
+msgstr ""
+"Текст, который Вы введете в это поле будет перенесен в шапку главной "
+"страницы блога, если в настройках \"Параметры -> Чтение\" выбран пункт \"На "
+"главной странице отображать -> Статическую страницу\"."
+
+#: ../fv-all-in-one-seo-pack.php:2500
+msgid ""
+"On the Webmaster Tools Home page, click Verify this site next to the site "
+"you want."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2502
+msgid ""
+"In the Verification method list, select Meta tag, and follow the steps on "
+"your screen."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2504
+msgid "Once you have added the tag to your home page, click Verify."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2510
+msgid "Yahoo Verification Meta Tag:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2514
+msgid "Put your Yahoo site verification tag for your homepage here."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2519
+msgid "Bing Verification Meta Tag:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2523
+msgid "Put your Bing site verification tag for your homepage here."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2528
+#, fuzzy
+msgid "Turn off excerpts for descriptions:"
+msgstr "Генерируемое описание:"
+
+#: ../fv-all-in-one-seo-pack.php:2533
+msgid ""
+"Since Typepad export is containing auto generated excerpts for the most of "
+"the time we use this option a lot."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2545
+msgid "Google +1 Site Publisher:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2549
+msgid "This will be used across the whole site."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2554
+#, fuzzy
+msgid "Google +1 Default Author:"
+msgstr "Профиль в сети Google+:"
+
+#: ../fv-all-in-one-seo-pack.php:2558
+msgid ""
+"This will be used across the whole site, however user's Google +1 links will "
+"be used for their posts (if filled in)."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2583
+#, fuzzy
+msgid "FV Simpler SEO Options Reset."
+msgstr "Настройки сброшены."
+
+#: ../fv-all-in-one-seo-pack.php:2639
+#, fuzzy
+msgid "FV Simpler SEO Options Updated."
+msgstr "Настройки плагина успешно обновлены."
+
+#: ../fv-all-in-one-seo-pack.php:2713
+msgid "FV Simpler SEO Options"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:2763
+msgid "Update Options"
+msgstr "Обновить настройки"
+
+#: ../fv-all-in-one-seo-pack.php:2764
+#, fuzzy
+msgid "Reset Settings to Defaults"
+msgstr "Сбросить ВСЕ настройки по умолчанию"
+
+#: ../fv-all-in-one-seo-pack.php:2917
+msgid "Google+"
+msgstr "Google+"
+
+#: ../fv-all-in-one-seo-pack.php:3339 ../fv-all-in-one-seo-pack.php:3363
+#, fuzzy
+msgid "Long Title:"
+msgstr "Заголовок главной стр.:"
+
+#: ../fv-all-in-one-seo-pack.php:3339 ../fv-all-in-one-seo-pack.php:3363
+msgid ""
+"Displayed in browser toolbar and search engine results. It will replace your "
+"post title format defined by your template on this single post/page. For "
+"advanced customization use Rewrite Titles in Advanced Options."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3343 ../fv-all-in-one-seo-pack.php:3367
+#, fuzzy, php-format
+msgid ""
+" characters. Most search engines use a maximum of %d chars for the title."
+msgstr " символов. Большинство поисковиков видит лишь %s символов."
+
+#: ../fv-all-in-one-seo-pack.php:3354 ../fv-all-in-one-seo-pack.php:3380
+#, fuzzy
+msgid "Meta Description:"
+msgstr "Описание главной стр.:"
+
+#: ../fv-all-in-one-seo-pack.php:3354 ../fv-all-in-one-seo-pack.php:3380
+msgid ""
+"Displayed in search engine results. Can be called inside of template file "
+"with"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3358 ../fv-all-in-one-seo-pack.php:3385
+#, fuzzy, php-format
+msgid ""
+" characters. Most search engines use a maximum of %d chars for the "
+"description."
+msgstr " символов. Большинство поисковиков видит лишь %s символов."
+
+#: ../fv-all-in-one-seo-pack.php:3389
+msgid "SERP Preview:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3389
+msgid "Preview of Search Engine Results Page"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3398
+#, fuzzy
+msgid "Keywords:"
+msgstr "Использовать ключи:"
+
+#: ../fv-all-in-one-seo-pack.php:3406
+#, fuzzy
+msgid "Custom Canonical URL:"
+msgstr "Канонические URL'ы:"
+
+#: ../fv-all-in-one-seo-pack.php:3406
+msgid ""
+"WARNING - Google will index the URL you enter here instead of the post. "
+"Leave empty if you don't want to use it."
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3422
+#, fuzzy
+msgid "Title Attribute:"
+msgstr "Атрибут заголовка"
+
+#: ../fv-all-in-one-seo-pack.php:3422
+msgid "Displayed in search engine results"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3432
+msgid "Short title | Menu Label:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3434
+msgid ""
+"Used in all your page menus. Long Title or Post Title will be used for mouse "
+"rollover. Can be called inside of template file with"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3436
+msgid ""
+"This will automatically replace post title in sidebar. Can be called inside "
+"of template file with"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3445
+#, fuzzy
+msgid "Disable on this page/post:"
+msgstr "Отключить SEO"
+
+#: ../fv-all-in-one-seo-pack.php:3453
+msgid "Disable post indexing:"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3453
+msgid ""
+"Only use if you are sure you don't want this post to be indexed in search "
+"engines!"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3453 ../fv-all-in-one-seo-pack.php:3599
+#: ../fv-all-in-one-seo-pack.php:3604 ../fv-all-in-one-seo-pack.php:3614
+#: ../fv-all-in-one-seo-pack.php:3619
+msgid "Warning"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3587
+msgid "Your post's TITLE is empty, so it cannot be published!"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3599 ../fv-all-in-one-seo-pack.php:3614
+msgid "Your post's TITLE is empty!"
+msgstr ""
+
+#: ../fv-all-in-one-seo-pack.php:3604 ../fv-all-in-one-seo-pack.php:3619
+msgid "Your post's DESCRIPTION is empty!"
+msgstr ""
+
+#~ msgid " MByte"
+#~ msgstr " Мбайт"
+
+#~ msgid ""
+#~ "%author% - The original archive title given by wordpress, e.g. \"Steve\" "
+#~ "or \"John Smith\""
+#~ msgstr ""
+#~ "%author% - Заголовок архива автора, задается WordPress, пример: \"Elvis\" "
+#~ "или \"Elvis Turkenichev\""
+
+#~ msgid "%category_title% - The (main) category of the page"
+#~ msgstr "%category_title% - Рубрика (основная)"
+
+#~ msgid "%day% - The original archive day given by wordpress, e.g. \"17\""
+#~ msgstr "%day% - Часло архива, задается WordPress, пример: \"17\""
+
+#~ msgid ""
+#~ "%month% - The original archive month given by wordpress, e.g. \"August\""
+#~ msgstr "%month% - Месяц архива, задается WordPress, пример: \"Август\""
+
+#~ msgid "%s Plugin Options"
+#~ msgstr "Настройки плагина \"%s\""
+
+#~ msgid "%s detected a conflict; please deactivate the plugin located in %s."
+#~ msgstr ""
+#~ "%s обнаружил несовместимость; для решения проблемы деактивируйте плагин "
+#~ "%s."
+
+#~ msgid "%year% - The original archive year given by wordpress, e.g. \"2007\""
+#~ msgstr "%year% - Год архива, задается WordPress, пример: \"2007\""
+
+#~ msgid ""
+#~ "A comma separated list of your most important keywords for this page that "
+#~ "will be written as META keywords."
+#~ msgstr ""
+#~ "Ключевые слова (разделяются запятыми) для записи. Рекомендуется "
+#~ "использовать самые важные и часто употребляемые в тексте ключи."
+
+#~ msgid "A custom title that shows up in the title tag for this page."
+#~ msgstr "Заголовок записи для поисковых систем (выводится в выдаче)."
+
+#~ msgid ""
+#~ "A preview of what this page might look like in search engine results."
+#~ msgstr "Узнайте как эта страница выводится в поисковой выдаче."
+
+#~ msgid "Active Theme"
+#~ msgstr "Текущая тема"
+
+#~ msgid "Add URL"
+#~ msgstr "Добавить URL"
+
+#~ msgid "Add functionality to track outbound links with Google Analytics."
+#~ msgstr "Разрешить отслеживать ссылки с помощью статистики от Google."
+
+#~ msgid "Additional Blog Page Headers:"
+#~ msgstr "Доп. заголовок главной страницы:"
+
+#~ msgid "Additional Front Page Headers:"
+#~ msgstr "Доп. заголовок главной страницы (статической):"
+
+#~ msgid "Additional Pages"
+#~ msgstr "Дополнительные страницы"
+
+#~ msgid "Advanced Settings"
+#~ msgstr "Дополнительные настройки"
+
+#~ msgid "All In One SEO Pack"
+#~ msgstr "Инструменты SEO"
+
+#~ msgid "All Post Types"
+#~ msgstr "Все типы записей"
+
+#~ msgid "All Taxonomies"
+#~ msgstr "Все таксономии"
+
+#~ msgid "All donations support continued development of this free software."
+#~ msgstr ""
+#~ "Все пожертвования пойдут на разработку и улучшение бесплатных плагинов "
+#~ "для WordPress."
+
+#~ msgid "All in One SEO"
+#~ msgstr "Инструменты SEO"
+
+#~ msgid "All in One SEO Pack"
+#~ msgstr "Инструменты SEO"
+
+#~ msgid "All in One SEO Pack Pro Debug Info"
+#~ msgstr "Отладочная информация плагина Инструменты SEO (Pro)"
+
+#~ msgid "All in One SEO Plugin Support Forum"
+#~ msgstr "Форум поддержки плагина"
+
+#~ msgid "Allows setting specific custom titles for all post types."
+#~ msgstr "Разрешает настройки произвольных заголовков для всех типов записей."
+
+#~ msgid "Allows you to raise your PHP execution time to a reasonable value."
+#~ msgstr ""
+#~ "Опция позволит изменить время отклика (выполнения) скриптов PHP до "
+#~ "необходимого значения."
+
+#~ msgid ""
+#~ "Allows you to raise your PHP memory limit to a reasonable value. Note: "
+#~ "WordPress core and other WordPress plugins may also change the value of "
+#~ "the memory limit."
+#~ msgstr ""
+#~ "Опция полволит изменить лимит памяти PHP. Учитывайте также, что "
+#~ "WordPress, а также некоторые плагины также могут (или могли) изменить "
+#~ "этот лимит."
+
+#~ msgid ""
+#~ "Allows you to specify the maximum number of posts in a sitemap (up to "
+#~ "50,000)."
+#~ msgstr ""
+#~ "Укажите максимальное число записей для карты сайта (до 50 000 записей)."
+
+#~ msgid "Author Archive Title Format:"
+#~ msgstr "Формат заголовка архивов авторов:"
+
+#~ msgid "Bing Webmaster Center:"
+#~ msgstr "Инструменты вебмастера Bing:"
+
+#~ msgid "Cancel"
+#~ msgstr "Отменить"
+
+#~ msgid "Capitalize Titles:"
+#~ msgstr "Заголовки с прописной:"
+
+#~ msgid ""
+#~ "Check this and SEO pack will create a log of important events "
+#~ "(all_in_one_seo_pack.log) in its plugin directory which might help "
+#~ "debugging it. Make sure this directory is writable."
+#~ msgstr ""
+#~ "Вести журнал важных событий плагина. Логи доступны в файле "
+#~ "all_in_one_seo_pack.log , для обработки журналов нужно сделать каталог "
+#~ "плагина доступным для записи (через ftp-клиенты)."
+
+#~ msgid ""
+#~ "Check this and Search Page Titles and Tag Page Titles will have the first "
+#~ "letter of each word capitalized."
+#~ msgstr ""
+#~ "Заголовки страниц поиска, а также страниц меток будут начинаться с "
+#~ "прописной (большой) буквы."
+
+#~ msgid ""
+#~ "Check this and your META descriptions will get hidden if on Page 2 or "
+#~ "later of paginated content."
+#~ msgstr ""
+#~ "Включите опцию, чтобы убрать мета-описание вторых и последующий страниц "
+#~ "(если основная разбита на подстраницы)"
+
+#~ msgid ""
+#~ "Check this box to ask Yahoo! not to use descriptions from the Yahoo! "
+#~ "directory for this page."
+#~ msgstr ""
+#~ "Включите опцию, чтобы Yahoo! не использовал описание страницы из каталога "
+#~ "Yahoo! dir."
+
+#~ msgid ""
+#~ "Check this box to ask search engines not to follow links from this page."
+#~ msgstr ""
+#~ "Включите опцию, чтобы поисковые роботы не переходили по ссылкам на "
+#~ "странице."
+
+#~ msgid "Check this box to ask search engines not to index this page."
+#~ msgstr ""
+#~ "Включите опцию, чтобы поисковые роботы не индексировали ссылки на "
+#~ "странице."
+
+#~ msgid ""
+#~ "Check this box to ask search engines not to use descriptions from the "
+#~ "Open Directory Project for this page."
+#~ msgstr ""
+#~ "Включите опцию, чтобы поисковые системы не использовали описания страницы "
+#~ "из Open Directory Project."
+
+#~ msgid "Check this for easy access to settings from the admin menu bar."
+#~ msgstr ""
+#~ "Отключите опцию чтобы спрятать пункт \"Инструменты SEO\" из панели "
+#~ "администратора."
+
+#~ msgid ""
+#~ "Check this for easy access to settings from the top of your WordPress "
+#~ "Dashboard."
+#~ msgstr ""
+#~ "Отключите опцию, чтобы вывести пункт \"Инструменты SEO\" на панель "
+#~ "администратора."
+
+#~ msgid ""
+#~ "Check this for excluding Author Archive pages from being crawled. Useful "
+#~ "for avoiding duplicate content."
+#~ msgstr ""
+#~ "Включите опцию, чтобы запретить индексацию архивов записей авторов блога "
+#~ "(помогает избегать дублей в выдаче)."
+
+#~ msgid ""
+#~ "Check this if you want your enable AIOSEOP support for Custom Post Types "
+#~ "on this site."
+#~ msgstr ""
+#~ "Вы можете включить поддержку Инструментов SEO для произвольных типов "
+#~ "записей."
+
+#~ msgid ""
+#~ "Check this option to remove the Google Plus Profile field on user profile "
+#~ "pages."
+#~ msgstr ""
+#~ "Включите опцию, чтобы удалить ссылку на профиль в сети Google+ со "
+#~ "страницы профилей."
+
+#~ msgid ""
+#~ "Choose which post types you want to have SEO columns on the edit.php "
+#~ "screen. You can select as many as you like."
+#~ msgstr ""
+#~ "Вы можете выбрать при создании (или редактировании) каких типов записей "
+#~ "выводить настройки SEO."
+
+#~ msgid "Coming Soon..."
+#~ msgstr "В разработке..."
+
+#~ msgid "Couldn't find file %s!"
+#~ msgstr "Невозможно найти %s!"
+
+#~ msgid "Couldn't rename file %s!"
+#~ msgstr "Невозможно переименовать файл %s!"
+
+#~ msgid "Create Compressed Sitemap"
+#~ msgstr "Создать сжатую версию карты"
+
+#~ msgid "Create a compressed sitemap file in .xml.gz format"
+#~ msgstr "Создает сжатую версию карты в формате .xml.gz"
+
+#~ msgid ""
+#~ "Create and manage your XML Sitemaps using this feature and submit your "
+#~ "XML Sitemap to Google, Bing/Yahoo and Ask.com."
+#~ msgstr ""
+#~ "Создайте XML карту сайта, используя эти возможности. Вы также можете "
+#~ "уведомлять поисковые системы об изменениях."
+
+#~ msgid "Custom Post Type Settings"
+#~ msgstr "Настройки для произвольных типов записей"
+
+#~ msgid "Custom titles:"
+#~ msgstr "Свои заголовки:"
+
+#~ msgid "Debug Log"
+#~ msgstr "Лог отладки"
+
+#~ msgid "Debug messages and status information for sitemap."
+#~ msgstr "Отладочная информация для карты сайта."
+
+#~ msgid "Default - nofollow"
+#~ msgstr "По умолчанию nofollow"
+
+#~ msgid "Default - noindex"
+#~ msgstr "По умолчанию noindex"
+
+#~ msgid "Default to NOFOLLOW:"
+#~ msgstr "По умолчанию NOFOLLOW:"
+
+#~ msgid "Default to NOINDEX:"
+#~ msgstr "По умиолчанию NOINDEX:"
+
+#~ msgid "Delete Conflicting Files"
+#~ msgstr "Удалить файл"
+
+#~ msgid "Deleted %s."
+#~ msgstr "Удалить %s."
+
+#~ msgid "Description"
+#~ msgstr "Описание записи"
+
+#~ msgid "Did not notify %s about changes to your sitemap."
+#~ msgstr "%s не был проинформирован об изменении карты сайта."
+
+#~ msgid "Disable Google Analytics"
+#~ msgstr "Отключить статистику Google"
+
+#~ msgid "Disable Google Analytics on this page."
+#~ msgstr "Отключить статистику Google на странице."
+
+#~ msgid "Disable Google Plus Profile:"
+#~ msgstr "Отключить профиль в сети Google+:"
+
+#~ msgid "Disable SEO on this page."
+#~ msgstr "Отключить поддержку инстр. SEO для страницы (записи)."
+
+#~ msgid "Disabled"
+#~ msgstr "Отключить"
+
+#~ msgid "Display Menu At The Top:"
+#~ msgstr "Быстрый доступ в панели админа:"
+
+#~ msgid "Display Menu In Admin Bar:"
+#~ msgstr "Быстрый доступ в панели админа:"
+
+#~ msgid "Display Settings"
+#~ msgstr "Настройки внешнего вида"
+
+#~ msgid "Don't display this page in the sitemap."
+#~ msgstr "Не включать данные страницы в общую карту сайта."
+
+#~ msgid "Donate"
+#~ msgstr "Поддержать"
+
+#~ msgid "Donate with Paypal"
+#~ msgstr "Пожертововать (через PayPal)"
+
+#~ msgid ""
+#~ "Dynamic sitemap generation appears to be using the correct rewrite rules."
+#~ msgstr ""
+#~ "Динамическая генерация карты сайта использует верные правила rewrite "
+#~ "rules."
+
+#~ msgid ""
+#~ "Dynamic sitemap generation does not appear to be using the correct "
+#~ "rewrite rules; please disable any other sitemap plugins or functionality "
+#~ "on your site and reset your permalinks."
+#~ msgstr ""
+#~ "Динамическая генерация карты сайта, похоже, не использует верные правила "
+#~ "rewrite rules, пожалуйста, отключите все другие плагины и сбросте "
+#~ "настройки постоянных ссылок."
+
+#~ msgid "Dynamically Generate Sitemap"
+#~ msgstr "Динамическая карта сайта"
+
+#~ msgid "E-mail debug information"
+#~ msgstr "Отправить информацию на почту"
+
+#~ msgid "Edit"
+#~ msgstr "Править"
+
+#~ msgid "Edit SEO"
+#~ msgstr "Изменить SEO"
+
+#~ msgid "Enable Advanced Options:"
+#~ msgstr "Включить дополнительные опции:"
+
+#~ msgid "Enable Sitemap Indexes"
+#~ msgstr "Включить Sitemap Indexes"
+
+#~ msgid "Enable multi-domain tracking for Google Analytics."
+#~ msgstr "Разрешить отслеживать несколько доменов."
+
+#~ msgid "Enabled"
+#~ msgstr "Включить"
+
+#~ msgid "Enter domain name for tracking with Google Analytics."
+#~ msgstr "Введите имя домен для отслеживания с помощью статистики от Google."
+
+#~ msgid ""
+#~ "Enter information below for any additional links for your sitemap not "
+#~ "already managed through WordPress."
+#~ msgstr ""
+#~ "Введите информацию для дополнительной ссылки что Ваша карта сайта создана "
+#~ "не посредством WordPress."
+
+#~ msgid ""
+#~ "Enter your Google Analytics ID here to track your site with Google "
+#~ "Analytics."
+#~ msgstr ""
+#~ "Введите ID от статистики Google (Google Analytics) для отслеживания "
+#~ "информации о песещениях сайта."
+
+#~ msgid ""
+#~ "Enter your Google Plus Profile URL here to link your site's pages to "
+#~ "Google Plus."
+#~ msgstr ""
+#~ "Введите адрес аккаунта Google Plus чтобы создать перелинковку сайта и "
+#~ "аккаунта."
+
+#~ msgid ""
+#~ "Enter your verification code here to add a meta tag to your homepage to "
+#~ "verify your site."
+#~ msgstr ""
+#~ "Введите проверочный код ПС, чтобы плагин добавил специальный мета-тег для "
+#~ "подтверждения сайта в инструментах вебмастера."
+
+#~ msgid "Entries from these categories will be excluded from the sitemap."
+#~ msgstr "Записи из указанной рубрики будут исключены из общей карты сайта."
+
+#~ msgid "Error: please enter an e-mail address before submitting."
+#~ msgstr "Ошибка: введите в поле корректный почтовый адрес."
+
+#~ msgid "Exclude From Sitemap"
+#~ msgstr "Исключить из карты"
+
+#~ msgid "Excluded Categories"
+#~ msgstr "Исключенные рубрики"
+
+#~ msgid "Excluded Items"
+#~ msgstr "Исключенные объекты"
+
+#~ msgid "Excluded Pages"
+#~ msgstr "Исключенные страницы"
+
+#~ msgid ""
+#~ "Failed to notify %s about changes to your sitemap at %s, error code %s."
+#~ msgstr "При уведомлении %s в %s произошла ошибка. Код ошибки: %s."
+
+#~ msgid ""
+#~ "Failed to notify %s about changes to your sitemap at %s, unable to access "
+#~ "via wp_remote_get()."
+#~ msgstr ""
+#~ "При уведомлении %s в %s произошла ошибка из-за отказа в доступе через "
+#~ "wp_remote_get()."
+
+#~ msgid "Failed to send to %s."
+#~ msgstr "Ошибка при отправке %s."
+
+#~ msgid "Feature Manager"
+#~ msgstr "Другие модули"
+
+#~ msgid "Filename Prefix"
+#~ msgstr "Префикс файла"
+
+#~ msgid "Follow us on Facebook"
+#~ msgstr "Следите за обновлениями на FB"
+
+#~ msgid "Follow us on Twitter"
+#~ msgstr "Следуйте за нами в Twitter"
+
+#~ msgid ""
+#~ "For support please visit the Semper Plugins Support Forum at http://"
+#~ "semperplugins.com/support/"
+#~ msgstr ""
+#~ "Для технической поддержки посетите форум http://semperplugins.com/"
+#~ "support/ (на англ.)"
+
+#~ msgid "Force Rewrites:"
+#~ msgstr "Принудительная перезапись:"
+
+#~ msgid "Form submission error: verification check failed."
+#~ msgstr "Ошибка: верификация провалена."
+
+#~ msgid "Frequencies"
+#~ msgstr "Частота"
+
+#~ msgid "General Settings"
+#~ msgstr "Основные"
+
+#~ msgid "Google Analytics ID:"
+#~ msgstr "ID статистики Google:"
+
+#~ msgid "Google Settings"
+#~ msgstr "Настройки сервисов Google"
+
+#~ msgid "Google Webmaster Tools:"
+#~ msgstr "Инструменты вебмастера Google:"
+
+#~ msgid "Home Page Settings"
+#~ msgstr "Настройки главной страницы"
+
+#~ msgid "Home URL"
+#~ msgstr "Основной адрес"
+
+#~ msgid "I enjoy this plugin and have made a donation:"
+#~ msgstr "Спасибо за плагин, я сделал пожертвование:"
+
+#~ msgid "Include Author Pages"
+#~ msgstr "Включить страницы авторов"
+
+#~ msgid "Include Date Archive Pages"
+#~ msgstr "Включить архивы за день"
+
+#~ msgid "Include author archive pages in your sitemap."
+#~ msgstr "Включить страницы архивов авторов в карту сайта."
+
+#~ msgid "Include date archive pages in your sitemap."
+#~ msgstr "Включить архивы за день в карту сайта."
+
+#~ msgid "Insert time"
+#~ msgstr "Задать время"
+
+#~ msgid "Join our mailing list for tips, tricks, and WordPress secrets."
+#~ msgstr "Подпишитесь на нашу расслыку секретов, советов и хаков WordPress."
+
+#~ msgid "Keyword Settings"
+#~ msgstr "Настройки ключей"
+
+#~ msgid "Keywords (comma separated)"
+#~ msgstr "Кл. слова (разделять запятыми)"
+
+#~ msgid "Last Modified"
+#~ msgstr "Последнее изменение"
+
+#~ msgid "Last modified date of the page."
+#~ msgstr "Дата последнего изменения этой страницы."
+
+#~ msgid "Link From Virtual Robots.txt"
+#~ msgstr "Ссылка на карту из robots.txt"
+
+#~ msgid "Log important events:"
+#~ msgstr "Вести журнал событий:"
+
+#~ msgid "MYSQL Version"
+#~ msgstr "Версия MYSQL"
+
+#~ msgid "Main Settings"
+#~ msgstr "Основные настройки"
+
+#~ msgid "Manually set the %s of your %s."
+#~ msgstr "Установите вручную параметры %s для \" %s \"."
+
+#~ msgid "Maximum Posts Per Sitemap"
+#~ msgstr "Макс. кол-во записей в карте сайта"
+
+#~ msgid "Media / Attachments"
+#~ msgstr "Медиа / Вложения"
+
+#~ msgid "Memory usage"
+#~ msgstr "Памяти использовано"
+
+#~ msgid "Menu Label"
+#~ msgstr "Ярлык меню"
+
+#~ msgid "Michael Torbert"
+#~ msgstr "Michael Torbert"
+
+#~ msgid "Multisite"
+#~ msgstr "Мультиблог"
+
+#~ msgid "My Amazon Wish List"
+#~ msgstr "Список желаний на Amazon"
+
+#~ msgid "N/A"
+#~ msgstr "N/A"
+
+#~ msgid "No"
+#~ msgstr "Нет"
+
+#~ msgid "No limit"
+#~ msgstr "Нет лимита"
+
+#~ msgid "Noindex Settings"
+#~ msgstr "Настройки индексирования (noindex)"
+
+#~ msgid "Not set"
+#~ msgstr "Не задан"
+
+#~ msgid ""
+#~ "Note: you are using dynamic sitemap generation to keep your sitemap "
+#~ "current; this will not generate a static sitemap file."
+#~ msgstr ""
+#~ "Примечание: Вы используете динамическую генерацию карты сайта, чтобы "
+#~ "держать ее постоянно обновленной, статический файл карты не будет создан."
+
+#~ msgid "Notify Bing"
+#~ msgstr "Уведомить Bing"
+
+#~ msgid "Notify Bing when you update your sitemap settings."
+#~ msgstr "Уведомить поисковик Bing об обновлении карты сайта."
+
+#~ msgid "Notify Google"
+#~ msgstr "Уведомлять Google"
+
+#~ msgid "Notify Google when you update your sitemap settings."
+#~ msgstr "Уведомить поисковик Google об обновлении карты сайта."
+
+#~ msgid "Off"
+#~ msgstr "Вкл"
+
+#~ msgid "On"
+#~ msgstr "Вкл"
+
+#~ msgid "Operating System"
+#~ msgstr "Операционная система"
+
+#~ msgid "Optimize performance related to SEO and check your system status."
+#~ msgstr ""
+#~ "Ускорьте плагин и проверьте статус системы (информация о сервере, WP, PHP "
+#~ "и др.)."
+
+#~ msgid "Organize sitemap entries into distinct files in your sitemap."
+#~ msgstr "Размещает записи карты сайта в отдельных файлах."
+
+#~ msgid ""
+#~ "Out-of-the-box SEO for your WordPress blog. <a href=\"admin.php?page=all-"
+#~ "in-one-seo-pack/aioseop_class.php\">Options configuration panel</a> | <a "
+#~ "href=\"http://semperplugins.com/plugins/\">Upgrade to Pro Version</a> | "
+#~ "<a href=\"https://www.paypal.com/cgi-bin/webscr?"
+#~ "cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=All%20In%20One"
+#~ "%20SEO%20Pack&item_number=Support%20Open"
+#~ "%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP"
+#~ "%2dDonationsBF&charset=UTF%2d8\">Donate</a> | <a href=\"http://"
+#~ "semperplugins.com/support/\" >Support</a> |  <a href=\"https://www.amazon."
+#~ "com/wishlist/1NFQ133FNCOOA/ref=wl_web\" target=\"_blank\" title=\"Amazon "
+#~ "Wish List\">Amazon Wishlist</a>"
+#~ msgstr ""
+#~ "SEO \"из коробки\" для Вашего WordPress блога. <a href=\"admin.php?"
+#~ "page=all-in-one-seo-pack/aioseop_class.php\">Настройки плагина</a> | <a "
+#~ "href=\"http://semperplugins.com/plugins/\">Обновитесь до Pro-версии</a> | "
+#~ "<a href=\"https://www.paypal.com/cgi-bin/webscr?"
+#~ "cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=All%20In%20One"
+#~ "%20SEO%20Pack&item_number=Support%20Open"
+#~ "%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP"
+#~ "%2dDonationsBF&charset=UTF%2d8\">Поддержите автора</a> | <a href=\"http://"
+#~ "semperplugins.com/support/\" >Техническая поддержка</a> |  <a href="
+#~ "\"https://www.amazon.com/wishlist/1NFQ133FNCOOA/ref=wl_web\" target="
+#~ "\"_blank\" title=\"Список желаний на Amazon\">Список желаний на Amazon</a>"
+
+#~ msgid "PHP Allow URL fopen"
+#~ msgstr "PHP Allow URL fopen"
+
+#~ msgid "PHP Exif support"
+#~ msgstr "Поддержка PHP Exif"
+
+#~ msgid "PHP IPTC support"
+#~ msgstr "Поддержка PHP IPTC"
+
+#~ msgid "PHP Max Post Size"
+#~ msgstr "Макс. размер записи PHP"
+
+#~ msgid "PHP Max Script Execute Time"
+#~ msgstr "PHP Max Script Execute Time"
+
+#~ msgid "PHP Max Upload Size"
+#~ msgstr "Макс. загружаемый файл PHP"
+
+#~ msgid "PHP Memory Limit"
+#~ msgstr "Лимит памяти PHP"
+
+#~ msgid "PHP Safe Mode"
+#~ msgstr "PHP Safe Mode"
+
+#~ msgid "PHP Version"
+#~ msgstr "Версия PHP"
+
+#~ msgid "PHP XML support"
+#~ msgstr "Поддержка PHP XML"
+
+#~ msgid "Page Frequency"
+#~ msgstr "Частота обновления страницы"
+
+#~ msgid "Page Priority"
+#~ msgstr "Приоритет страниц"
+
+#~ msgid "Page URL"
+#~ msgstr "Адрес страницы"
+
+#~ msgid "Paginate Sitemap Indexes"
+#~ msgstr "Постраничная навигация карты"
+
+#~ msgid "Performance"
+#~ msgstr "Быстродействие"
+
+#~ msgid "Pinterest Site Verification:"
+#~ msgstr "Инструменты Pinterest:"
+
+#~ msgid "Places a link to your Sitemap.xml into your virtual Robots.txt file."
+#~ msgstr "Оставьте ссылку на карту сайта Sitemap.xml в файле robots.txt"
+
+#~ msgid ""
+#~ "Please review your settings below and click %s to build your sitemap; "
+#~ "then, %s."
+#~ msgstr ""
+#~ "Измените настройки (как Вам хочется!) ниже, затем нажмите %s чтобы "
+#~ "создать карту сайта; затем, %s."
+
+#~ msgid "Please wait..."
+#~ msgstr "Подождите..."
+
+#~ msgid "Post"
+#~ msgstr "Запись"
+
+#~ msgid "Post Types"
+#~ msgstr "Типы записей"
+
+#~ msgid "Potential conflict with unknown file %s."
+#~ msgstr "Конфликт с неизвестным файлом %s."
+
+#~ msgid "Preview Snippet"
+#~ msgstr "Предварительный просмотр"
+
+#~ msgid "Priorities"
+#~ msgstr "Приоритет"
+
+#~ msgid "Privacy Settings"
+#~ msgstr "Настройки приватности"
+
+#~ msgid "Pro Version"
+#~ msgstr "Pro-версия"
+
+#~ msgid "Raise execution time"
+#~ msgstr "Увеличить время отклика"
+
+#~ msgid "Raise memory limit"
+#~ msgstr "Увеличить лимит памяти"
+
+#~ msgid "Reading Settings"
+#~ msgstr "Основные чтения"
+
+#~ msgid "Remove Descriptions For Paginated Pages:"
+#~ msgstr "Удалить описание с многостраничных страниц:"
+
+#~ msgid "Rename Conflicting Files"
+#~ msgstr "Переименовать файл"
+
+#~ msgid "Renamed %s to %s."
+#~ msgstr "%s переименовано в %s."
+
+#~ msgid "Reset Features"
+#~ msgstr "Сбросить настройки модулей"
+
+#~ msgid "Reset General Settings to Defaults"
+#~ msgstr "Сбросить настройки по умолчанию"
+
+#~ msgid "Review Your Settings"
+#~ msgstr "Обновить настройки"
+
+#~ msgid "Revisions"
+#~ msgstr "Ревизии"
+
+#~ msgid "Robots Meta NOFOLLOW"
+#~ msgstr "Добавить аргумент NOFOLLOW"
+
+#~ msgid "Robots Meta NOINDEX"
+#~ msgstr "Добавить аргумент NOINDEX"
+
+#~ msgid "Robots Meta NOODP"
+#~ msgstr "Robots Meta NOODP"
+
+#~ msgid "Robots Meta NOYDIR"
+#~ msgstr "Robots Meta NOYDIR"
+
+#~ msgid "Row %s not found; no rows were deleted."
+#~ msgstr "Строка %s не найдена; ни одной строчки не было удалено."
+
+#~ msgid "SEO"
+#~ msgstr "Инструменты SEO"
+
+#~ msgid "SEO Description"
+#~ msgstr "Описание"
+
+#~ msgid "SEO Keywords"
+#~ msgstr "Ключевые слова"
+
+#~ msgid "SEO Title"
+#~ msgstr "Заголовок"
+
+#~ msgid "SEO for Custom Post Types:"
+#~ msgstr "SEO для произвольных типов записей:"
+
+#~ msgid "SEO on only these post types:"
+#~ msgstr "SEO только для этих типов записей:"
+
+#~ msgid "SFWD Debug Mail From Site %s."
+#~ msgstr "Сообщение с сайта %s."
+
+#~ msgid "SQL Mode"
+#~ msgstr "Режим SQL"
+
+#~ msgid "Save"
+#~ msgstr "Сохранить"
+
+#~ msgid ""
+#~ "Security Check - If you receive this in error, log out and back in to "
+#~ "WordPress"
+#~ msgstr ""
+#~ "Ошибка системы безопасности. Если у Вас возникла данная ошибка, выйдите "
+#~ "из аккаунта WordPress и зайдите в него снова"
+
+#~ msgid ""
+#~ "Select nofollow robots meta on specific custom post types by default."
+#~ msgstr ""
+#~ "Выберите произвольные форматы записей для присвоения значения nofollow."
+
+#~ msgid "Select noindex robots meta on specific custom post types by default."
+#~ msgstr ""
+#~ "Выберите произвольные форматы записей для присвоения значения noindex."
+
+#~ msgid "Select specific custom post types for AIOSEOP support."
+#~ msgstr "Выберите типы записей, поддерживаемые Инструментами SEO."
+
+#~ msgid "Select which post types appear in your sitemap."
+#~ msgstr "Укажите типы записей, которые попадут в карту сайта."
+
+#~ msgid "Select which taxonomy archives appear in your sitemap."
+#~ msgstr "Укажите таксономии, которые попадут в карту сайта."
+
+#~ msgid "Sent to %s."
+#~ msgstr "Отправлено %s."
+
+#~ msgid "Server"
+#~ msgstr "Тип сервера"
+
+#~ msgid "Set the label for this page menu item."
+#~ msgstr "Установить ярлык для страницы в меню."
+
+#~ msgid "Set the title attribute for menu links."
+#~ msgstr "Изменить заголовок для ссылки в меню."
+
+#~ msgid "Show Column Labels for Custom Post Types:"
+#~ msgstr "Показывать настройки SEO для типов записей:"
+
+#~ msgid ""
+#~ "Sign up today and receive a free copy of the e-book 5 SEO Tips for "
+#~ "WordPress ($39 value)."
+#~ msgstr ""
+#~ "Подпишитесь сегодня и получите бесплатный эл. экземпляр книги \"5 SEO "
+#~ "Tips for WordPress\" (цена $39)."
+
+#~ msgid "Site URL"
+#~ msgstr "Адрес сайта"
+
+#~ msgid ""
+#~ "Sitemap %s generated by All in One SEO Pack %s by Michael Torbert of "
+#~ "Semper Fi Web Design on %s"
+#~ msgstr ""
+#~ "Карта сайта %s создана плагином All in One SEO Pack %s от Michael Torbert "
+#~ "с Semper Fi Web Design на %s"
+
+#~ msgid "Sitemap Status"
+#~ msgstr "Статус карты сайта"
+
+#~ msgid "Slug may not be empty!"
+#~ msgstr "Короткое имя не может быть пустым!"
+
+#~ msgid "Social Meta"
+#~ msgstr "Соц. мета"
+
+#~ msgid "Splits long sitemaps into separate files."
+#~ msgstr "Делит длинную карту сайта на отдельные файлы."
+
+#~ msgid "Submit"
+#~ msgstr "Отправить"
+
+#~ msgid "Successfully notified %s about changes to your sitemap at %s."
+#~ msgstr "%s был успешно проинформирован об изменении карты сайта в %s."
+
+#~ msgid "Support Forum"
+#~ msgstr "Форум поддержки"
+
+#~ msgid "System Status"
+#~ msgstr "О системе"
+
+#~ msgid "Taxonomies"
+#~ msgstr "Таксономии"
+
+#~ msgid ""
+#~ "Thank you for running the latest and greatest All in One SEO Pack ever! "
+#~ "New in 2.0: manage your performance with our Performance module; enable "
+#~ "it from our new feature manager! And please review your settings, we have "
+#~ "added some new ones!"
+#~ msgstr ""
+#~ "Спасибо за установку лучшего набора инструментов SEO! В версии 2.0 "
+#~ "добавлено: управление быстродействием, а также подключение дополнительных "
+#~ "модулей! Не забудьте обновить настройки, ведь мы много чего изменили в "
+#~ "плагине!"
+
+#~ msgid ""
+#~ "Thank you for running the latest and greatest All in One SEO Pack ever! "
+#~ "Please review your settings, as we're always adding new features for you!"
+#~ msgstr ""
+#~ "Спасибо за установку лучшего набора инструментов SEO! Не забудьте "
+#~ "обновить настройки, ведь мы много чего изменили в этой версии плагина!"
+
+#~ msgid ""
+#~ "Thank you for your donation, it helps keep this plugin free and actively "
+#~ "developed!"
+#~ msgstr "Большое спасибо за Вашу поддержку и помощь авторам плагина!"
+
+#~ msgid "Thank you!"
+#~ msgstr "Спасибо!"
+
+#~ msgid ""
+#~ "The META description for this page. This will override any autogenerated "
+#~ "descriptions."
+#~ msgstr ""
+#~ "МЕТА-описание страницы. Указанное выше описание заменит любое "
+#~ "автоматически сгенерированное поисковиковым работом (обычно, это первые "
+#~ "слова страницы)."
+
+#~ msgid "The frequency of the page."
+#~ msgstr "Частота обновления этой страницы."
+
+#~ msgid ""
+#~ "The prefix for your sitemap file name. This will default to \"sitemap.\""
+#~ msgstr "Префик для файла карты сайта. Префикс по умолчанию \"sitemap\"."
+
+#~ msgid "The priority of the page."
+#~ msgstr "Приоритет страницы."
+
+#~ msgid "This allows you to do more with your custom post types."
+#~ msgstr ""
+#~ "Это позволит Вам расширить возможности при работе с произвольными типами "
+#~ "записей."
+
+#~ msgid ""
+#~ "This option allows you to toggle the use of meta keywords throughout the "
+#~ "whole of the site."
+#~ msgstr "Поддержка ключевых слов для всех записей и страниц на Вашем блоге."
+
+#~ msgid ""
+#~ "This will fall back to using Additional Page Headers if you have them set "
+#~ "and nothing is entered here."
+#~ msgstr ""
+#~ "Это изменит настройки доп. заголовок страниц, если опция включена, но в "
+#~ "поле ничего не задано."
+
+#~ msgid "Title"
+#~ msgstr "Заголовок записи"
+
+#~ msgid "Title Format:"
+#~ msgstr "Формат заголовка:"
+
+#~ msgid "Title Settings"
+#~ msgstr "Настройки заголовков"
+
+#~ msgid "Track Multiple Domains:"
+#~ msgstr "Отслеживать неск. доменов:"
+
+#~ msgid "Track Outbound Links:"
+#~ msgstr "Отслеживать ссылки:"
+
+#~ msgid "Tracking Domain:"
+#~ msgstr "Отслеживание домена:"
+
+#~ msgid "UPGRADE TO PRO VERSION"
+#~ msgstr "Обновиться до ПРО (Pro) версии"
+
+#~ msgid "URL to the page."
+#~ msgstr "Адрес страницы."
+
+#~ msgid "Unauthorized access; try reloading the page."
+#~ msgstr "Доступ запрещен; перезагрузите страницу."
+
+#~ msgid "Unprotect Post Meta Fields:"
+#~ msgstr "Незащищенные МЕТА-поля:"
+
+#~ msgid ""
+#~ "Unprotect internal postmeta fields for use with XMLRPC -- if you don't "
+#~ "know what that is, leave it unchecked."
+#~ msgstr ""
+#~ "Снять защиту с полей записей для XMLRPC -- ТОЛЬКО ДЛЯ ПОНИМАЮЩИХ "
+#~ "ПОЛЬЗОВАТЕЛЕЙ."
+
+#~ msgid "Update Features"
+#~ msgstr "Обновить модули"
+
+#~ msgid "Update Sitemap"
+#~ msgstr "Обновить карту сайта"
+
+#~ msgid "Updated sitemap settings."
+#~ msgstr "Обновить настройки карты."
+
+#~ msgid "Upgrade To Pro"
+#~ msgstr "Обновить до Про-версии"
+
+#~ msgid "Upgrade to All in One SEO Pack Pro Version"
+#~ msgstr "Обновить плагин до Pro-версии"
+
+#~ msgid "Use Original Title:"
+#~ msgstr "Выводить заголовок по умолчанию:"
+
+#~ msgid "Use noindex for Author Archives:"
+#~ msgstr "Noindex для архивов авторов:"
+
+#~ msgid "Use noindex for Date Archives:"
+#~ msgstr "Noindex для архивов за день:"
+
+#~ msgid "Use output buffering to ensure that the title gets rewritten."
+#~ msgstr ""
+#~ "Использовать буферизацию данных чтобы убедиться в изменении заголовков."
+
+#~ msgid ""
+#~ "Use page slugs or page IDs, seperated by commas, to exclude pages from "
+#~ "the sitemap."
+#~ msgstr ""
+#~ "Используйте адрес страницы или ее ID (разделять запятыми), чтобы "
+#~ "исключать их из карты сайта."
+
+#~ msgid ""
+#~ "Use rewrites to generate your sitemap on the fly. NOTE: This is required "
+#~ "for WordPress Multisite."
+#~ msgstr ""
+#~ "Использует правила rewrites для изменения карты сайта \"на лету\". "
+#~ "ВНИМАНИЕ: Эта функция необходима для работы в среде WP MU (мультиблог)."
+
+#~ msgid "Use the system default"
+#~ msgstr "Значение по умолчанию"
+
+#~ msgid ""
+#~ "Use wp_title to set the title; disable this option if you run into "
+#~ "conflicts with the title being set by your theme or another plugin."
+#~ msgstr ""
+#~ "Если у Вас возникают проблемы или конфликты с другими плагинами или "
+#~ "темами оформления, можно включить эту опцию. Будет использоваться "
+#~ "стандартный заголовок wp_title."
+
+#~ msgid ""
+#~ "Warning: a static sitemap '%s' generated by All in One SEO Pack %s on %s "
+#~ "already exists that may conflict with dynamic sitemap generation."
+#~ msgstr ""
+#~ "Внимание: обнаружена статическая карта сайта '%s' , созданная плагином %s "
+#~ "в %s (возможен конфликт с динамической картой сайта)."
+
+#~ msgid "Warning: dynamic sitemap generation must have permalinks enabled."
+#~ msgstr ""
+#~ "Внимание: чтобы карта сайта была динамической, нужно включить постоянные "
+#~ "ссылки."
+
+#~ msgid ""
+#~ "Warning: your privacy settings are configured to ask search engines to "
+#~ "not index your site; you can change this under %s for your blog."
+#~ msgstr ""
+#~ "Внимание: настройки приватности заданы так, что поисковые системы не "
+#~ "могут индексировать сайт, это можно изменить в настройках %s."
+
+#~ msgid "Webmaster Verification"
+#~ msgstr "Настройки для Вебмастера"
+
+#~ msgid "Welcome to Version %s!"
+#~ msgstr "Добро пожаловать! Версия Инструментов SEO %s!"
+
+#~ msgid "What you enter here will be copied verbatim to your header on pages."
+#~ msgstr ""
+#~ "Текст, который Вы введете в это поле будет перенесен во все заголовки "
+#~ "страниц."
+
+#~ msgid "What you enter here will be copied verbatim to your header on posts."
+#~ msgstr ""
+#~ "Текст, который Вы введете в это поле будет перенесен во все заголовки "
+#~ "записей."
+
+#~ msgid ""
+#~ "What you enter here will be copied verbatim to your header on the home "
+#~ "page if you have Front page displays your latest posts selected in "
+#~ "Settings, Reading.  It will also be copied verbatim to your header on the "
+#~ "Posts page if you have one set in Settings, Reading."
+#~ msgstr ""
+#~ "Текст, который Вы введете в это поле будет перенесен в шапку главной "
+#~ "страницы блога, если в настройках \"Параметры -> Чтение\" выбран пункт "
+#~ "\"На главной странице отображать -> Ваши последние записи\". Также, доп. "
+#~ "заголовок скопируется и в шапку страниц записей блога."
+
+#~ msgid "WordPress DB Version"
+#~ msgstr "Версия базы данных"
+
+#~ msgid "WordPress Version"
+#~ msgstr "Версия WordPress"
+
+#~ msgid "XML Sitemap"
+#~ msgstr "XML карта сайта"
+
+#~ msgid "XML Sitemaps"
+#~ msgstr "Карта сайта"
+
+#~ msgid "Yes"
+#~ msgstr "Да"
+
+#~ msgid "archive pages"
+#~ msgstr "архивы"
+
+#~ msgid "author pages"
+#~ msgstr "страницы авторов"
+
+#~ msgid "compressed"
+#~ msgstr "сжатая"
+
+#~ msgid "dynamic"
+#~ msgstr "динамическая"
+
+#~ msgid "dynamically"
+#~ msgstr "динамично"
+
+#~ msgid "file '%s' statically"
+#~ msgstr "файл '%s' статически"
+
+#~ msgid "follow"
+#~ msgstr "follow"
+
+#~ msgid "frequency"
+#~ msgstr "частота"
+
+#~ msgid "homepage"
+#~ msgstr "главная"
+
+#~ msgid "http://michaeltorbert.com"
+#~ msgstr "http://michaeltorbert.com"
+
+#~ msgid "http://semperfiwebdesign.com"
+#~ msgstr "http://semperfiwebdesign.com"
+
+#~ msgid "index"
+#~ msgstr "index"
+
+#~ msgid "nofollow"
+#~ msgstr "nofollow"
+
+#~ msgid "noindex"
+#~ msgstr "noindex"
+
+#~ msgid "posts"
+#~ msgstr "записи"
+
+#~ msgid "priority"
+#~ msgstr "приоритет"
+
+#~ msgid "static"
+#~ msgstr "статическая"
+
+#~ msgid "taxonomies"
+#~ msgstr "таксономии"
+
+#~ msgid "view your sitemap"
+#~ msgstr "посмотреть карту"
