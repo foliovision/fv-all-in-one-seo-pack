@@ -1,917 +1,839 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FV all in one seo pack\n"
+"Project-Id-Version: FV Simpler SEO v1.6.22\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/all-in-one-seo-pack\n"
 "POT-Creation-Date: 2013-12-17 15:15+0100\n"
-"PO-Revision-Date: 2013-12-17 15:15+0100\n"
+"PO-Revision-Date: 2013-12-18 08:35:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.6.2\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
 "X-Poedit-Basepath: .\n"
+"X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: ..\n"
+"X-Textdomain-Support: yes"
 
-#: ../fv-all-in-one-seo-pack.php:2026 ../fv-all-in-one-seo-pack.php:3483
-#: ../fv-all-in-one-seo-pack.php:3484
+#: fv-all-in-one-seo-pack.php:2026
+#: fv-all-in-one-seo-pack.php:3485
+#: fv-all-in-one-seo-pack.php:3486
+#@ fv_seo
 msgid "FV Simpler SEO"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2034 ../fv-all-in-one-seo-pack.php:2043
-#: ../fv-all-in-one-seo-pack.php:2052 ../fv-all-in-one-seo-pack.php:2061
-#: ../fv-all-in-one-seo-pack.php:2081 ../fv-all-in-one-seo-pack.php:2092
-#: ../fv-all-in-one-seo-pack.php:2103 ../fv-all-in-one-seo-pack.php:2124
-#: ../fv-all-in-one-seo-pack.php:2135 ../fv-all-in-one-seo-pack.php:2146
-#: ../fv-all-in-one-seo-pack.php:2164 ../fv-all-in-one-seo-pack.php:2173
-#: ../fv-all-in-one-seo-pack.php:2182 ../fv-all-in-one-seo-pack.php:2193
-#: ../fv-all-in-one-seo-pack.php:2215 ../fv-all-in-one-seo-pack.php:2235
-#: ../fv-all-in-one-seo-pack.php:2252 ../fv-all-in-one-seo-pack.php:2268
-#: ../fv-all-in-one-seo-pack.php:2284 ../fv-all-in-one-seo-pack.php:2300
-#: ../fv-all-in-one-seo-pack.php:2318 ../fv-all-in-one-seo-pack.php:2336
-#: ../fv-all-in-one-seo-pack.php:2353 ../fv-all-in-one-seo-pack.php:2363
-#: ../fv-all-in-one-seo-pack.php:2372 ../fv-all-in-one-seo-pack.php:2381
-#: ../fv-all-in-one-seo-pack.php:2390 ../fv-all-in-one-seo-pack.php:2399
-#: ../fv-all-in-one-seo-pack.php:2408 ../fv-all-in-one-seo-pack.php:2417
-#: ../fv-all-in-one-seo-pack.php:2426 ../fv-all-in-one-seo-pack.php:2435
-#: ../fv-all-in-one-seo-pack.php:2444 ../fv-all-in-one-seo-pack.php:2453
-#: ../fv-all-in-one-seo-pack.php:2466 ../fv-all-in-one-seo-pack.php:2479
-#: ../fv-all-in-one-seo-pack.php:2492 ../fv-all-in-one-seo-pack.php:2509
-#: ../fv-all-in-one-seo-pack.php:2518 ../fv-all-in-one-seo-pack.php:2527
-#: ../fv-all-in-one-seo-pack.php:2544 ../fv-all-in-one-seo-pack.php:2553
+#: fv-all-in-one-seo-pack.php:2034
+#: fv-all-in-one-seo-pack.php:2043
+#: fv-all-in-one-seo-pack.php:2052
+#: fv-all-in-one-seo-pack.php:2061
+#: fv-all-in-one-seo-pack.php:2081
+#: fv-all-in-one-seo-pack.php:2092
+#: fv-all-in-one-seo-pack.php:2103
+#: fv-all-in-one-seo-pack.php:2126
+#: fv-all-in-one-seo-pack.php:2137
+#: fv-all-in-one-seo-pack.php:2148
+#: fv-all-in-one-seo-pack.php:2166
+#: fv-all-in-one-seo-pack.php:2175
+#: fv-all-in-one-seo-pack.php:2184
+#: fv-all-in-one-seo-pack.php:2195
+#: fv-all-in-one-seo-pack.php:2217
+#: fv-all-in-one-seo-pack.php:2237
+#: fv-all-in-one-seo-pack.php:2254
+#: fv-all-in-one-seo-pack.php:2270
+#: fv-all-in-one-seo-pack.php:2286
+#: fv-all-in-one-seo-pack.php:2302
+#: fv-all-in-one-seo-pack.php:2320
+#: fv-all-in-one-seo-pack.php:2338
+#: fv-all-in-one-seo-pack.php:2355
+#: fv-all-in-one-seo-pack.php:2365
+#: fv-all-in-one-seo-pack.php:2374
+#: fv-all-in-one-seo-pack.php:2383
+#: fv-all-in-one-seo-pack.php:2392
+#: fv-all-in-one-seo-pack.php:2401
+#: fv-all-in-one-seo-pack.php:2410
+#: fv-all-in-one-seo-pack.php:2419
+#: fv-all-in-one-seo-pack.php:2428
+#: fv-all-in-one-seo-pack.php:2437
+#: fv-all-in-one-seo-pack.php:2446
+#: fv-all-in-one-seo-pack.php:2455
+#: fv-all-in-one-seo-pack.php:2468
+#: fv-all-in-one-seo-pack.php:2481
+#: fv-all-in-one-seo-pack.php:2494
+#: fv-all-in-one-seo-pack.php:2511
+#: fv-all-in-one-seo-pack.php:2520
+#: fv-all-in-one-seo-pack.php:2529
+#: fv-all-in-one-seo-pack.php:2546
+#: fv-all-in-one-seo-pack.php:2555
+#@ fv_seo
 msgid "Click for Help!"
 msgstr "도움을 위해 클릭하세요!"
 
-#: ../fv-all-in-one-seo-pack.php:2035
+#: fv-all-in-one-seo-pack.php:2035
+#@ fv_seo
 msgid "Home Title:"
 msgstr "홈 제목:"
 
-#: ../fv-all-in-one-seo-pack.php:2039
-msgid ""
-"As the name implies, this will be the title of your homepage. This is "
-"independent of any other option. If not set, the default blog title will get "
-"used."
-msgstr ""
-"제목에서 알 수 있듯이, 이것은 홈페이지의 제목이 됩니다. 이것은 다른 옵션과는 "
-"개별적입니다. 설정을 하지 않으면 기본 블로그 제목이 사용됩니다."
+#: fv-all-in-one-seo-pack.php:2039
+#@ fv_seo
+msgid "As the name implies, this will be the title of your homepage. This is independent of any other option. If not set, the default blog title will get used."
+msgstr "제목에서 알 수 있듯이, 이것은 홈페이지의 제목이 됩니다. 이것은 다른 옵션과는 개별적입니다. 설정을 하지 않으면 기본 블로그 제목이 사용됩니다."
 
-#: ../fv-all-in-one-seo-pack.php:2044
+#: fv-all-in-one-seo-pack.php:2044
+#@ fv_seo
 msgid "Home Description:"
 msgstr "홈 설명:"
 
-#: ../fv-all-in-one-seo-pack.php:2048
-msgid ""
-"The META description for your homepage. Independent of any other options, "
-"the default is no META description at all if this is not set."
-msgstr ""
-"홈페이지의 메타 설명. 다른 옵션과는 개별적이며 설정되지 않으면 기본은 메타 설"
-"명이 없는 것입니다."
+#: fv-all-in-one-seo-pack.php:2048
+#@ fv_seo
+msgid "The META description for your homepage. Independent of any other options, the default is no META description at all if this is not set."
+msgstr "홈페이지의 메타 설명. 다른 옵션과는 개별적이며 설정되지 않으면 기본은 메타 설명이 없는 것입니다."
 
-#: ../fv-all-in-one-seo-pack.php:2053
+#: fv-all-in-one-seo-pack.php:2053
+#@ fv_seo
 msgid "Home Keywords (comma separated):"
 msgstr "홈 키워드 (콤마 분리):"
 
-#: ../fv-all-in-one-seo-pack.php:2057
-msgid ""
-"A comma separated list of your most important keywords for your site that "
-"will be written as META keywords on your homepage. Don't stuff everything in "
-"here."
-msgstr ""
-"사이트의 가장 중요한 콤마로 분리된 키워드 목록은 홈페이지에서 메타 키워드로 "
-"삽입됩니다. 여기에 모든 것을 넣지는 마세요."
+#: fv-all-in-one-seo-pack.php:2057
+#@ fv_seo
+msgid "A comma separated list of your most important keywords for your site that will be written as META keywords on your homepage. Don't stuff everything in here."
+msgstr "사이트의 가장 중요한 콤마로 분리된 키워드 목록은 홈페이지에서 메타 키워드로 삽입됩니다. 여기에 모든 것을 넣지는 마세요."
 
-#: ../fv-all-in-one-seo-pack.php:2062
+#: fv-all-in-one-seo-pack.php:2062
+#@ fv_seo
 msgid "Warn me when publishing without a title or description:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2070
-msgid ""
-"Uncheck this if you don't want to be warned in case you are publishing "
-"without a title or description. Default: checked."
+#: fv-all-in-one-seo-pack.php:2070
+#@ fv_seo
+msgid "Uncheck this if you don't want to be warned in case you are publishing without a title or description. Default: checked."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2082
+#: fv-all-in-one-seo-pack.php:2082
+#@ fv_seo
 msgid "Add keywords field to post editing screen:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2087
-msgid ""
-"You don't need this field at all if you are using tags properly. It makes "
-"the FV Simpler SEO box in the editing screen more complicated too."
+#: fv-all-in-one-seo-pack.php:2087
+#@ fv_seo
+msgid "You don't need this field at all if you are using tags properly. It makes the FV Simpler SEO box in the editing screen more complicated too."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2093
+#: fv-all-in-one-seo-pack.php:2093
+#@ fv_seo
 msgid "Add no index checkbox to post editing screen:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2098
-msgid ""
-"Adds a powerful checkbox to post editing screens which let's you exclude the "
-"post from search engine indexing. <strong>Warning:</strong> only use if you "
-"really know what you are doing."
+#: fv-all-in-one-seo-pack.php:2098
+#@ fv_seo
+msgid "Adds a powerful checkbox to post editing screens which let's you exclude the post from search engine indexing. <strong>Warning:</strong> only use if you really know what you are doing."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2104
+#: fv-all-in-one-seo-pack.php:2104
+#@ fv_seo
 msgid "Experimental - Use Custom Canonical URL field:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2110
-msgid ""
-"Are you sure you want to turn on this feature? Using wrong custom canonical "
-"URLs can damage your site SEO rankings.\\n\\n If you are not sure, then "
-"leave this off and Wordpress will take care of it on its own."
+#: fv-all-in-one-seo-pack.php:2121
+#@ fv_seo
+msgid "Use this feature only if you are sure you want to enter custom canonical URLs. This is not affected by the \"Canonical URLs\" Advanced Option (bellow)."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2119
-msgid ""
-"Use this feature only if you are sure you want to enter custom canonical "
-"URLs. This is not affected by the \"Canonical URLs\" Advanced Option "
-"(bellow)."
-msgstr ""
-
-#: ../fv-all-in-one-seo-pack.php:2125
+#: fv-all-in-one-seo-pack.php:2127
+#@ fv_seo
 msgid "Add Title Attribute field to page editing screen (deprecated):"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2130
-msgid ""
-"Allows you to set the anchor title for pages in menus. You don't need this "
-"field at all because post title or Long Title will be used instead."
+#: fv-all-in-one-seo-pack.php:2132
+#@ fv_seo
+msgid "Allows you to set the anchor title for pages in menus. You don't need this field at all because post title or Long Title will be used instead."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2136
+#: fv-all-in-one-seo-pack.php:2138
+#@ fv_seo
 msgid "Add Short Title Attribute field to post editing screen:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2141
-msgid ""
-"Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post "
-"titles when enabled."
+#: fv-all-in-one-seo-pack.php:2143
+#@ fv_seo
+msgid "Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post titles when enabled."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2147
-msgid ""
-"Add \"Disable on this post/page\" checkbox to post editing screen "
-"(deprecated):"
+#: fv-all-in-one-seo-pack.php:2149
+#@ fv_seo
+msgid "Add \"Disable on this post/page\" checkbox to post editing screen (deprecated):"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2152
+#: fv-all-in-one-seo-pack.php:2154
+#@ fv_seo
 msgid "Let's you disable the plugin for a specific post or page."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2165
+#: fv-all-in-one-seo-pack.php:2167
+#@ fv_seo
 msgid "Canonical URLs:"
 msgstr "캐노니컬 URLs:"
 
-#: ../fv-all-in-one-seo-pack.php:2169
-msgid ""
-"This option will automatically generate Canonical URLS for your entire "
-"WordPress installation.  This will help to prevent duplicate content "
-"penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/"
-"specify-your-canonical.html' target='_blank'>Google</a>."
-msgstr ""
-"이 옵션은 전체 워드프레스 설치에 대해서 캐노니컬 URL을 자동으로 생성합니다. "
-"이것은 <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-"
-"your-canonical.html' target='_blank'>구글</a>로부터 이중 컨텐트로 인한 벌점"
-"을 방지합니다."
+#: fv-all-in-one-seo-pack.php:2171
+#@ fv_seo
+msgid "This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>."
+msgstr "이 옵션은 전체 워드프레스 설치에 대해서 캐노니컬 URL을 자동으로 생성합니다. 이것은 <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>구글</a>로부터 이중 컨텐트로 인한 벌점을 방지합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2174
+#: fv-all-in-one-seo-pack.php:2176
+#@ fv_seo
 msgid "Shorten Post / Page name:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2178
-msgid ""
-"This option will automatically shorten a link to post / page upon first save."
+#: fv-all-in-one-seo-pack.php:2180
+#@ fv_seo
+msgid "This option will automatically shorten a link to post / page upon first save."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2183
+#: fv-all-in-one-seo-pack.php:2185
+#@ fv_seo
 msgid "Rewrite Titles:"
 msgstr "제목 다시 쓰기:"
 
-#: ../fv-all-in-one-seo-pack.php:2187
+#: fv-all-in-one-seo-pack.php:2189
 #, fuzzy
-msgid ""
-"Note that this is all about the title tag. This is what you see in your "
-"browser's window title bar. This is NOT visible on a page, only in the "
-"window title bar and of course in the source. If set, all page, post, "
-"category, search and archive page titles get rewritten. You can specify the "
-"format for most of them. For example: The default templates puts the title "
-"tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've "
-"overdone slightly). This is far from optimal. With the default post title "
-"format, Rewrite Title rewrites this to Post Title | Blog Name. If you have "
-"manually defined a title (in one of the text fields for All in One SEO "
-"Plugin input) this will become the title of your post in the format string."
-msgstr ""
-"이것은 제목 태그에 관한 모든 것임을 기억하세요. 이것은 웹브라우저 윈도우 타이"
-"틀 바에서 볼 수 있는 것입니다. 페이지에서는 보이지 않고 윈도우 타이틀 바와 소"
-"스 코드에서만 보입니다. 설정을 하면 모든 페이지, 글, 카테고리, 검색, 글보관"
-"함 페이지 타이틀이 다시 쓰기 됩니다. 이들 대부분의 형식을 특정화 할 수 있습니"
-"다. 예를들면: 기본 템플릿은 글의 타이틀 태그를 다음과 같이 설정합니다: ‚Äú블"
-"로그 글보관함 >> 블로그 이름 >> 글 제목‚Äù. 이것은 최적화와는 거리가 멉니다. "
-"기본 글 제목 형식에 대해서 제목 다시 쓰기는 ‚Äú글 제목 | 블로그 이름‚Äù 과 같"
-"이 다시 작성합니다. 수동으로 제목을 정의했다면(All in One SEO 플러그인 input"
-"의 텍스트 필드에서), 형식 스트링에서 글의 제목이 될 것입니다."
+#@ fv_seo
+msgid "Note that this is all about the title tag. This is what you see in your browser's window title bar. This is NOT visible on a page, only in the window title bar and of course in the source. If set, all page, post, category, search and archive page titles get rewritten. You can specify the format for most of them. For example: The default templates puts the title tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've overdone slightly). This is far from optimal. With the default post title format, Rewrite Title rewrites this to Post Title | Blog Name. If you have manually defined a title (in one of the text fields for All in One SEO Plugin input) this will become the title of your post in the format string."
+msgstr "이것은 제목 태그에 관한 모든 것임을 기억하세요. 이것은 웹브라우저 윈도우 타이틀 바에서 볼 수 있는 것입니다. 페이지에서는 보이지 않고 윈도우 타이틀 바와 소스 코드에서만 보입니다. 설정을 하면 모든 페이지, 글, 카테고리, 검색, 글보관함 페이지 타이틀이 다시 쓰기 됩니다. 이들 대부분의 형식을 특정화 할 수 있습니다. 예를들면: 기본 템플릿은 글의 타이틀 태그를 다음과 같이 설정합니다: ‚Äú블로그 글보관함 >> 블로그 이름 >> 글 제목‚Äù. 이것은 최적화와는 거리가 멉니다. 기본 글 제목 형식에 대해서 제목 다시 쓰기는 ‚Äú글 제목 | 블로그 이름‚Äù 과 같이 다시 작성합니다. 수동으로 제목을 정의했다면(All in One SEO 플러그인 input의 텍스트 필드에서), 형식 스트링에서 글의 제목이 될 것입니다."
 
-#: ../fv-all-in-one-seo-pack.php:2194
+#: fv-all-in-one-seo-pack.php:2196
+#@ fv_seo
 msgid "Post Title Format:"
 msgstr "글 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2199 ../fv-all-in-one-seo-pack.php:2221
-#: ../fv-all-in-one-seo-pack.php:2241 ../fv-all-in-one-seo-pack.php:2258
-#: ../fv-all-in-one-seo-pack.php:2274 ../fv-all-in-one-seo-pack.php:2290
-#: ../fv-all-in-one-seo-pack.php:2306 ../fv-all-in-one-seo-pack.php:2324
-#: ../fv-all-in-one-seo-pack.php:2343
+#: fv-all-in-one-seo-pack.php:2201
+#: fv-all-in-one-seo-pack.php:2223
+#: fv-all-in-one-seo-pack.php:2243
+#: fv-all-in-one-seo-pack.php:2260
+#: fv-all-in-one-seo-pack.php:2276
+#: fv-all-in-one-seo-pack.php:2292
+#: fv-all-in-one-seo-pack.php:2308
+#: fv-all-in-one-seo-pack.php:2326
+#: fv-all-in-one-seo-pack.php:2345
+#@ fv_seo
 msgid "The following macros are supported:"
 msgstr "다음의 매크로가 지원됩니다:"
 
-#: ../fv-all-in-one-seo-pack.php:2201 ../fv-all-in-one-seo-pack.php:2223
-#: ../fv-all-in-one-seo-pack.php:2243 ../fv-all-in-one-seo-pack.php:2260
-#: ../fv-all-in-one-seo-pack.php:2276 ../fv-all-in-one-seo-pack.php:2292
-#: ../fv-all-in-one-seo-pack.php:2308 ../fv-all-in-one-seo-pack.php:2326
+#: fv-all-in-one-seo-pack.php:2203
+#: fv-all-in-one-seo-pack.php:2225
+#: fv-all-in-one-seo-pack.php:2245
+#: fv-all-in-one-seo-pack.php:2262
+#: fv-all-in-one-seo-pack.php:2278
+#: fv-all-in-one-seo-pack.php:2294
+#: fv-all-in-one-seo-pack.php:2310
+#: fv-all-in-one-seo-pack.php:2328
+#, php-format
+#@ fv_seo
 msgid "%blog_title% - Your blog title"
 msgstr "%blog_title% - 블로그 제목"
 
-#: ../fv-all-in-one-seo-pack.php:2202 ../fv-all-in-one-seo-pack.php:2224
-#: ../fv-all-in-one-seo-pack.php:2244 ../fv-all-in-one-seo-pack.php:2261
-#: ../fv-all-in-one-seo-pack.php:2277 ../fv-all-in-one-seo-pack.php:2293
-#: ../fv-all-in-one-seo-pack.php:2309 ../fv-all-in-one-seo-pack.php:2327
+#: fv-all-in-one-seo-pack.php:2204
+#: fv-all-in-one-seo-pack.php:2226
+#: fv-all-in-one-seo-pack.php:2246
+#: fv-all-in-one-seo-pack.php:2263
+#: fv-all-in-one-seo-pack.php:2279
+#: fv-all-in-one-seo-pack.php:2295
+#: fv-all-in-one-seo-pack.php:2311
+#: fv-all-in-one-seo-pack.php:2329
+#, php-format
+#@ fv_seo
 msgid "%blog_description% - Your blog description"
 msgstr "%blog_description% - 블로그 설명"
 
-#: ../fv-all-in-one-seo-pack.php:2203
+#: fv-all-in-one-seo-pack.php:2205
+#, php-format
+#@ fv_seo
 msgid "%post_title% - The original title of the post"
 msgstr "%post_title% - 글의 원래 제목"
 
-#: ../fv-all-in-one-seo-pack.php:2204
+#: fv-all-in-one-seo-pack.php:2206
+#, php-format
+#@ fv_seo
 msgid "%category_title% - The (main) category of the post"
 msgstr "%category_title% - 글의 (메인) 카테고리"
 
-#: ../fv-all-in-one-seo-pack.php:2205
+#: fv-all-in-one-seo-pack.php:2207
+#, php-format
+#@ fv_seo
 msgid "%category% - Alias for %category_title%"
 msgstr "%category% - %category_title%의 별칭"
 
-#: ../fv-all-in-one-seo-pack.php:2206
+#: fv-all-in-one-seo-pack.php:2208
+#, php-format
+#@ fv_seo
 msgid "%post_author_login% - This post's author' login"
 msgstr "%post_author_login% - 이 글의 지은이 로그인"
 
-#: ../fv-all-in-one-seo-pack.php:2207
+#: fv-all-in-one-seo-pack.php:2209
+#, php-format
+#@ fv_seo
 msgid "%post_author_nicename% - This post's author' nicename"
 msgstr "%post_author_nicename% - 이 글의 지은이의 nicename"
 
-#: ../fv-all-in-one-seo-pack.php:2208
+#: fv-all-in-one-seo-pack.php:2210
+#, php-format
+#@ fv_seo
 msgid "%post_author_firstname% - This post's author' first name (capitalized)"
 msgstr "%post_author_firstname% - 이 글의 지은이의 이름 (대문자)"
 
-#: ../fv-all-in-one-seo-pack.php:2209
+#: fv-all-in-one-seo-pack.php:2211
+#, php-format
+#@ fv_seo
 msgid "%post_author_lastname% - This post's author' last name (capitalized)"
 msgstr "%post_author_lastname% - 이 글의 지은이의 성 (대문자)"
 
-#: ../fv-all-in-one-seo-pack.php:2216
+#: fv-all-in-one-seo-pack.php:2218
+#@ fv_seo
 msgid "Page Title Format:"
 msgstr "페이지 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2225
+#: fv-all-in-one-seo-pack.php:2227
+#, php-format
+#@ fv_seo
 msgid "%page_title% - The original title of the page"
 msgstr "%page_title% - 페이지 원래 제목"
 
-#: ../fv-all-in-one-seo-pack.php:2226
+#: fv-all-in-one-seo-pack.php:2228
+#, php-format
+#@ fv_seo
 msgid "%page_author_login% - This page's author' login"
 msgstr "%page_author_login% - 이 페이지의 지은이 로그인"
 
-#: ../fv-all-in-one-seo-pack.php:2227
+#: fv-all-in-one-seo-pack.php:2229
+#, php-format
+#@ fv_seo
 msgid "%page_author_nicename% - This page's author' nicename"
 msgstr "%page_author_nicename% - 이 페이지의 지은이 nicename"
 
-#: ../fv-all-in-one-seo-pack.php:2228
+#: fv-all-in-one-seo-pack.php:2230
+#, php-format
+#@ fv_seo
 msgid "%page_author_firstname% - This page's author' first name (capitalized)"
 msgstr "%page_author_firstname% - 이 페이지의 지은이 이름 (대문자)"
 
-#: ../fv-all-in-one-seo-pack.php:2229
+#: fv-all-in-one-seo-pack.php:2231
+#, php-format
+#@ fv_seo
 msgid "%page_author_lastname% - This page's author' last name (capitalized)"
 msgstr "%page_author_lastname% - 이 페이지의 지은이 성 (대문자)"
 
-#: ../fv-all-in-one-seo-pack.php:2236
+#: fv-all-in-one-seo-pack.php:2238
+#@ fv_seo
 msgid "Category Title Format:"
 msgstr "카테고리 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2245
+#: fv-all-in-one-seo-pack.php:2247
+#, php-format
+#@ fv_seo
 msgid "%category_title% - The original title of the category"
 msgstr "%category_title% - 카테고리의 원래 제목"
 
-#: ../fv-all-in-one-seo-pack.php:2246
+#: fv-all-in-one-seo-pack.php:2248
+#, php-format
+#@ fv_seo
 msgid "%category_description% - The description of the category"
 msgstr "%category_description% - 카테고리 설명"
 
-#: ../fv-all-in-one-seo-pack.php:2253
+#: fv-all-in-one-seo-pack.php:2255
+#@ fv_seo
 msgid "Archive Title Format:"
 msgstr "글 보관함 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2262
-msgid ""
-"%date% - The original archive title given by wordpress, e.g. \"2007\" or "
-"\"2007 August\""
-msgstr ""
-"%date% - 워드프레스에 의해 부여된 원래의 글 보관함 제목, 예를들면 \"2007\" "
-"or \"2007 August\""
+#: fv-all-in-one-seo-pack.php:2264
+#, php-format
+#@ fv_seo
+msgid "%date% - The original archive title given by wordpress, e.g. \"2007\" or \"2007 August\""
+msgstr "%date% - 워드프레스에 의해 부여된 원래의 글 보관함 제목, 예를들면 \"2007\" or \"2007 August\""
 
-#: ../fv-all-in-one-seo-pack.php:2269
+#: fv-all-in-one-seo-pack.php:2271
+#@ fv_seo
 msgid "Tag Title Format:"
 msgstr "태그 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2278
+#: fv-all-in-one-seo-pack.php:2280
+#, php-format
+#@ fv_seo
 msgid "%tag% - The name of the tag"
 msgstr "%tag% - 태그의 이름"
 
-#: ../fv-all-in-one-seo-pack.php:2285
+#: fv-all-in-one-seo-pack.php:2287
+#@ fv_seo
 msgid "Search Title Format:"
 msgstr "검색 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2294
+#: fv-all-in-one-seo-pack.php:2296
+#, php-format
+#@ fv_seo
 msgid "%search% - What was searched for"
 msgstr "%search% - 검색 대상"
 
-#: ../fv-all-in-one-seo-pack.php:2301
+#: fv-all-in-one-seo-pack.php:2303
+#@ fv_seo
 msgid "Description Format:"
 msgstr "설명 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2310
-msgid ""
-"%description% - The original description as determined by the plugin, e.g. "
-"the excerpt if one is set or an auto-generated one if that option is set"
-msgstr ""
-"%description% - 플러그인에 의해 결정된 원래의 설명, 예를들면 설정된 경우의 요"
-"약 또는 옵션이 설정된 경우의 자동 생성된 것"
+#: fv-all-in-one-seo-pack.php:2312
+#, php-format
+#@ fv_seo
+msgid "%description% - The original description as determined by the plugin, e.g. the excerpt if one is set or an auto-generated one if that option is set"
+msgstr "%description% - 플러그인에 의해 결정된 원래의 설명, 예를들면 설정된 경우의 요약 또는 옵션이 설정된 경우의 자동 생성된 것"
 
-#: ../fv-all-in-one-seo-pack.php:2311
+#: fv-all-in-one-seo-pack.php:2313
+#, php-format
+#@ fv_seo
 msgid "%wp_title% - The original wordpress title, e.g. post_title for posts"
 msgstr "%wp_title% - 원래의 워드프레스 제목, 예를들면 글의 post_title"
 
-#: ../fv-all-in-one-seo-pack.php:2312
+#: fv-all-in-one-seo-pack.php:2314
+#, php-format
+#@ fv_seo
 msgid "%page% - Page number for paged category archives"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2319
+#: fv-all-in-one-seo-pack.php:2321
+#@ fv_seo
 msgid "404 Title Format:"
 msgstr "404 제목 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2328
-msgid ""
-"%request_url% - The original URL path, like \"/url-that-does-not-exist/\""
-msgstr ""
-"%request_url% - 원래의 URL 경로, 예를 들면 \"/url-that-does-not-exist/\""
+#: fv-all-in-one-seo-pack.php:2330
+#, php-format
+#@ fv_seo
+msgid "%request_url% - The original URL path, like \"/url-that-does-not-exist/\""
+msgstr "%request_url% - 원래의 URL 경로, 예를 들면 \"/url-that-does-not-exist/\""
 
-#: ../fv-all-in-one-seo-pack.php:2329
-msgid ""
-"%request_words% - The URL path in human readable form, like \"Url That Does "
-"Not Exist\""
-msgstr ""
-"%request_words% - 인간이 읽을 수 있는 형태의 URL 경로, 예를 들면 \"Url That "
-"Does Not Exist\""
+#: fv-all-in-one-seo-pack.php:2331
+#, php-format
+#@ fv_seo
+msgid "%request_words% - The URL path in human readable form, like \"Url That Does Not Exist\""
+msgstr "%request_words% - 인간이 읽을 수 있는 형태의 URL 경로, 예를 들면 \"Url That Does Not Exist\""
 
-#: ../fv-all-in-one-seo-pack.php:2330
+#: fv-all-in-one-seo-pack.php:2332
+#, php-format
+#@ fv_seo
 msgid "%404_title% - Additional 404 title input\""
 msgstr "%404_title% - 추가 404 제목 input\""
 
-#: ../fv-all-in-one-seo-pack.php:2337
+#: fv-all-in-one-seo-pack.php:2339
+#@ fv_seo
 msgid "Paged Format:"
 msgstr "페이지 형식:"
 
-#: ../fv-all-in-one-seo-pack.php:2342
-msgid ""
-"This string gets appended/prepended to titles when they are for paged index "
-"pages (like home or archive pages)."
-msgstr ""
-"이 스트링은 제목이 페이지가 있는 인덱스 페이지일 경우(홈이나 글보관함 페이지"
-"처럼) 제목의 앞이나 뒤에 추가됩니다."
+#: fv-all-in-one-seo-pack.php:2344
+#@ fv_seo
+msgid "This string gets appended/prepended to titles when they are for paged index pages (like home or archive pages)."
+msgstr "이 스트링은 제목이 페이지가 있는 인덱스 페이지일 경우(홈이나 글보관함 페이지처럼) 제목의 앞이나 뒤에 추가됩니다."
 
-#: ../fv-all-in-one-seo-pack.php:2345
+#: fv-all-in-one-seo-pack.php:2347
+#, php-format
+#@ fv_seo
 msgid "%page% - The page number"
 msgstr "%page% - 페이지 번호"
 
-#: ../fv-all-in-one-seo-pack.php:2354
+#: fv-all-in-one-seo-pack.php:2356
+#@ fv_seo
 msgid "Use Categories for META keywords:"
 msgstr "메타 키워드에 대해 카테고리를 사용하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2358
-msgid ""
-"Check this if you want your categories for a given post used as the META "
-"keywords for this post (in addition to any keywords and tags you specify on "
-"the post edit page)."
-msgstr ""
-"주어진 글의 카테고리가 이 글의 메타 키워드로 사용되기를 원하면(글 편집 페이지"
-"에서 지정한 키워드와 태그에 추가해서), 여기에 체크하세요. "
+#: fv-all-in-one-seo-pack.php:2360
+#@ fv_seo
+msgid "Check this if you want your categories for a given post used as the META keywords for this post (in addition to any keywords and tags you specify on the post edit page)."
+msgstr "주어진 글의 카테고리가 이 글의 메타 키워드로 사용되기를 원하면(글 편집 페이지에서 지정한 키워드와 태그에 추가해서), 여기에 체크하세요. "
 
-#: ../fv-all-in-one-seo-pack.php:2364
+#: fv-all-in-one-seo-pack.php:2366
+#@ fv_seo
 msgid "Use Tags for META keywords:"
 msgstr "메타 키워드에 태그 사용하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2368
-msgid ""
-"Check this if you want your tags for a given post used as the META keywords "
-"for this post (in addition to any keywords you specify on the post edit "
-"page)."
-msgstr ""
-"주어진 글의 태그가 이 글의 메타 키워드로 사용되기를 원하면(글 편집 페이지에"
-"서 지정한 키워드에 추가해서), 여기에 체크하세요."
+#: fv-all-in-one-seo-pack.php:2370
+#@ fv_seo
+msgid "Check this if you want your tags for a given post used as the META keywords for this post (in addition to any keywords you specify on the post edit page)."
+msgstr "주어진 글의 태그가 이 글의 메타 키워드로 사용되기를 원하면(글 편집 페이지에서 지정한 키워드에 추가해서), 여기에 체크하세요."
 
-#: ../fv-all-in-one-seo-pack.php:2373
+#: fv-all-in-one-seo-pack.php:2375
+#@ fv_seo
 msgid "Dynamically Generate Keywords for Posts Page:"
 msgstr "글 페이지의 동적으로 생성된 키워드:"
 
-#: ../fv-all-in-one-seo-pack.php:2377
-msgid ""
-"Check this if you want your keywords on a custom posts page (set it in "
-"options->reading) to be dynamically generated from the keywords of the posts "
-"showing on that page.  If unchecked, it will use the keywords set in the "
-"edit page screen for the posts page."
-msgstr ""
-"사용자 정의 글 페이지의 키워드(설정->읽기에서 설정)가 해당 페이지에 나타나는 "
-"글의 키워드로부터 동적으로 생성되기를 원하면 여기에 체크하세요. 체크되지 않으"
-"면 편집 화면에서 설정된 키워드를 사용하게 됩니다."
+#: fv-all-in-one-seo-pack.php:2379
+#@ fv_seo
+msgid "Check this if you want your keywords on a custom posts page (set it in options->reading) to be dynamically generated from the keywords of the posts showing on that page.  If unchecked, it will use the keywords set in the edit page screen for the posts page."
+msgstr "사용자 정의 글 페이지의 키워드(설정->읽기에서 설정)가 해당 페이지에 나타나는 글의 키워드로부터 동적으로 생성되기를 원하면 여기에 체크하세요. 체크되지 않으면 편집 화면에서 설정된 키워드를 사용하게 됩니다."
 
-#: ../fv-all-in-one-seo-pack.php:2382
+#: fv-all-in-one-seo-pack.php:2384
+#@ fv_seo
 msgid "Remove Category rel attribute for validation:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2386
-msgid ""
-"Check this if you want to remove attribute rel from links to categories. "
-"Useful for validation."
+#: fv-all-in-one-seo-pack.php:2388
+#@ fv_seo
+msgid "Check this if you want to remove attribute rel from links to categories. Useful for validation."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2391
+#: fv-all-in-one-seo-pack.php:2393
+#@ fv_seo
 msgid "Use noindex for Categories:"
 msgstr "카테고리 noindex 사용하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2395
-msgid ""
-"Check this for excluding category pages from being crawled. Useful for "
-"avoiding duplicate content."
-msgstr ""
-"카테고리를 검색엔진이 크롤하는 것을 방지하려면 여기에 체크하세요. 이중 컨텐트"
-"를 피하는데 유용합니다."
+#: fv-all-in-one-seo-pack.php:2397
+#@ fv_seo
+msgid "Check this for excluding category pages from being crawled. Useful for avoiding duplicate content."
+msgstr "카테고리를 검색엔진이 크롤하는 것을 방지하려면 여기에 체크하세요. 이중 컨텐트를 피하는데 유용합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2400
+#: fv-all-in-one-seo-pack.php:2402
+#@ fv_seo
 msgid "Use noindex for Archives:"
 msgstr "글 보관함에 noindex 사용하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2404
-msgid ""
-"Check this for excluding archive pages from being crawled. Useful for "
-"avoiding duplicate content."
-msgstr ""
-"글 보관함 페이지가 크롤되지 않도록 하려면 여기에 체크하세요. 이중 컨텐트를 피"
-"하는데 유용합니다."
+#: fv-all-in-one-seo-pack.php:2406
+#@ fv_seo
+msgid "Check this for excluding archive pages from being crawled. Useful for avoiding duplicate content."
+msgstr "글 보관함 페이지가 크롤되지 않도록 하려면 여기에 체크하세요. 이중 컨텐트를 피하는데 유용합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2409
+#: fv-all-in-one-seo-pack.php:2411
+#@ fv_seo
 msgid "Use noindex for Tag Archives:"
 msgstr "태그 글보관함에 noindex 사용하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2413
-msgid ""
-"Check this for excluding tag pages from being crawled. Useful for avoiding "
-"duplicate content."
-msgstr ""
-"태그 페이지가 크롤되지 않게 하려면 여기에 체크하세요. 이중 컨텐트를 피하는데 "
-"유용합니다."
+#: fv-all-in-one-seo-pack.php:2415
+#@ fv_seo
+msgid "Check this for excluding tag pages from being crawled. Useful for avoiding duplicate content."
+msgstr "태그 페이지가 크롤되지 않게 하려면 여기에 체크하세요. 이중 컨텐트를 피하는데 유용합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2418
+#: fv-all-in-one-seo-pack.php:2420
 #, fuzzy
+#@ fv_seo
 msgid "Use noindex for Search Results:"
 msgstr "글 보관함에 noindex 사용하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2422
+#: fv-all-in-one-seo-pack.php:2424
 #, fuzzy
-msgid ""
-"Check this for excluding search results from being crawled. Useful for "
-"avoiding duplicate content."
-msgstr ""
-"글 보관함 페이지가 크롤되지 않도록 하려면 여기에 체크하세요. 이중 컨텐트를 피"
-"하는데 유용합니다."
+#@ fv_seo
+msgid "Check this for excluding search results from being crawled. Useful for avoiding duplicate content."
+msgstr "글 보관함 페이지가 크롤되지 않도록 하려면 여기에 체크하세요. 이중 컨텐트를 피하는데 유용합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2427
+#: fv-all-in-one-seo-pack.php:2429
+#@ fv_seo
 msgid "Autogenerate Descriptions:"
 msgstr "설명 자동 생성하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2431
-msgid ""
-"Check this and your META descriptions will get autogenerated if there's no "
-"excerpt."
+#: fv-all-in-one-seo-pack.php:2433
+#@ fv_seo
+msgid "Check this and your META descriptions will get autogenerated if there's no excerpt."
 msgstr "여기에 체크하면 요약이 없을 경우 메타 설명이 자동으로 생성됩니다."
 
-#: ../fv-all-in-one-seo-pack.php:2436
+#: fv-all-in-one-seo-pack.php:2438
+#@ fv_seo
 msgid "Capitalize Category Titles:"
 msgstr "카테고리 제목을 대문자화 하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2440
-msgid ""
-"Check this and Category Titles will have the first letter of each word "
-"capitalized."
+#: fv-all-in-one-seo-pack.php:2442
+#@ fv_seo
+msgid "Check this and Category Titles will have the first letter of each word capitalized."
 msgstr "여기에 체크하면 카테고리 제목의 각 단어의 첫 글자가 대문자로 됩니다."
 
-#: ../fv-all-in-one-seo-pack.php:2445
+#: fv-all-in-one-seo-pack.php:2447
+#@ fv_seo
 msgid "Exclude Pages:"
 msgstr "제외 페이지:"
 
-#: ../fv-all-in-one-seo-pack.php:2449
+#: fv-all-in-one-seo-pack.php:2451
 #, fuzzy
-msgid ""
-"Enter any comma separated pages here to be excluded by All in One SEO Pack.  "
-"This is helpful when using plugins which generate their own non-WordPress "
-"dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to "
-"exclude the virtual pages generated by a forum plugin, all you have to do is "
-"give forum or /forum or /forum/ or and any URL with the word \"forum\" in "
-"it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage "
-"will be excluded from FV Simpler SEO."
-msgstr ""
-"콤마로 분리된 페이지를 여기에 입력하면 All in One SEO 팩에 의해 제외됩니다. "
-"워드프레스에 의해서가 아닌 플러그인이 동적인 페이지를 생성하는 경우 유용합니"
-"다. 예: <em>/forum/,/contact/</em>. 예를들면, 포럼 플러그인에 의해 생성된 가"
-"상 페이지를 제외하려면, forum,  /forum,  /forum/ 처럼 어떤 URL이든 그 안에 "
-"\"forum\"을 포함시키면 됩니다. http://mysite.com/forum 또는 http://mysite."
-"com/forum/someforumpage 처럼 하면 All in One SEO 팩에서 제외됩니다."
+#@ fv_seo
+msgid "Enter any comma separated pages here to be excluded by All in One SEO Pack.  This is helpful when using plugins which generate their own non-WordPress dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to exclude the virtual pages generated by a forum plugin, all you have to do is give forum or /forum or /forum/ or and any URL with the word \"forum\" in it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage will be excluded from FV Simpler SEO."
+msgstr "콤마로 분리된 페이지를 여기에 입력하면 All in One SEO 팩에 의해 제외됩니다. 워드프레스에 의해서가 아닌 플러그인이 동적인 페이지를 생성하는 경우 유용합니다. 예: <em>/forum/,/contact/</em>. 예를들면, 포럼 플러그인에 의해 생성된 가상 페이지를 제외하려면, forum,  /forum,  /forum/ 처럼 어떤 URL이든 그 안에 \"forum\"을 포함시키면 됩니다. http://mysite.com/forum 또는 http://mysite.com/forum/someforumpage 처럼 하면 All in One SEO 팩에서 제외됩니다."
 
-#: ../fv-all-in-one-seo-pack.php:2454
+#: fv-all-in-one-seo-pack.php:2456
+#@ fv_seo
 msgid "Additional Post Headers:"
 msgstr "추가 글 헤더:"
 
-#: ../fv-all-in-one-seo-pack.php:2459
-msgid ""
-"What you enter here will be copied verbatim to your header on post pages. "
-"You can enter whatever additional headers you want here, even references to "
-"stylesheets."
-msgstr ""
-"여기에 입력하는 것은 글 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무"
-"엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
+#: fv-all-in-one-seo-pack.php:2461
+#@ fv_seo
+msgid "What you enter here will be copied verbatim to your header on post pages. You can enter whatever additional headers you want here, even references to stylesheets."
+msgstr "여기에 입력하는 것은 글 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2461 ../fv-all-in-one-seo-pack.php:2474
-#: ../fv-all-in-one-seo-pack.php:2487
+#: fv-all-in-one-seo-pack.php:2463
+#: fv-all-in-one-seo-pack.php:2476
+#: fv-all-in-one-seo-pack.php:2489
+#@ fv_seo
 msgid "NOTE: This field currently only support meta tags."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2467
+#: fv-all-in-one-seo-pack.php:2469
+#@ fv_seo
 msgid "Additional Page Headers:"
 msgstr "추가 페이지 해더:"
 
-#: ../fv-all-in-one-seo-pack.php:2472
-msgid ""
-"What you enter here will be copied verbatim to your header on pages. You can "
-"enter whatever additional headers you want here, even references to "
-"stylesheets."
-msgstr ""
-"이곳에 입력하는 것은 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무엇"
-"이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
+#: fv-all-in-one-seo-pack.php:2474
+#@ fv_seo
+msgid "What you enter here will be copied verbatim to your header on pages. You can enter whatever additional headers you want here, even references to stylesheets."
+msgstr "이곳에 입력하는 것은 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2480
+#: fv-all-in-one-seo-pack.php:2482
+#@ fv_seo
 msgid "Additional Home Headers:"
 msgstr "추가 홈 헤더:"
 
-#: ../fv-all-in-one-seo-pack.php:2485
-msgid ""
-"What you enter here will be copied verbatim to your header on the home page. "
-"You can enter whatever additional headers you want here, even references to "
-"stylesheets."
-msgstr ""
-"여기에 입력하는 것은 홈 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무"
-"엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
+#: fv-all-in-one-seo-pack.php:2487
+#@ fv_seo
+msgid "What you enter here will be copied verbatim to your header on the home page. You can enter whatever additional headers you want here, even references to stylesheets."
+msgstr "여기에 입력하는 것은 홈 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2493
+#: fv-all-in-one-seo-pack.php:2495
+#@ fv_seo
 msgid "Google Verification Meta Tag:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2498
+#: fv-all-in-one-seo-pack.php:2500
 #, fuzzy
-msgid ""
-"What you enter here will be copied verbatim to your header on the home page. "
-"Webmaster Tools provides the meta tag in XHTML syntax."
-msgstr ""
-"여기에 입력하는 것은 홈 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무"
-"엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
+#@ fv_seo
+msgid "What you enter here will be copied verbatim to your header on the home page. Webmaster Tools provides the meta tag in XHTML syntax."
+msgstr "여기에 입력하는 것은 홈 페이지의 헤더에 축약되어 복사됩니다. 이곳에 원하는 무엇이든 추가 헤더를 입력할 수 있습니다. 스타일시트 참조까지도 가능합니다."
 
-#: ../fv-all-in-one-seo-pack.php:2500
-msgid ""
-"On the Webmaster Tools Home page, click Verify this site next to the site "
-"you want."
+#: fv-all-in-one-seo-pack.php:2502
+#@ fv_seo
+msgid "On the Webmaster Tools Home page, click Verify this site next to the site you want."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2502
-msgid ""
-"In the Verification method list, select Meta tag, and follow the steps on "
-"your screen."
+#: fv-all-in-one-seo-pack.php:2504
+#@ fv_seo
+msgid "In the Verification method list, select Meta tag, and follow the steps on your screen."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2504
+#: fv-all-in-one-seo-pack.php:2506
+#@ fv_seo
 msgid "Once you have added the tag to your home page, click Verify."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2510
+#: fv-all-in-one-seo-pack.php:2512
+#@ fv_seo
 msgid "Yahoo Verification Meta Tag:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2514
+#: fv-all-in-one-seo-pack.php:2516
+#@ fv_seo
 msgid "Put your Yahoo site verification tag for your homepage here."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2519
+#: fv-all-in-one-seo-pack.php:2521
+#@ fv_seo
 msgid "Bing Verification Meta Tag:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2523
+#: fv-all-in-one-seo-pack.php:2525
+#@ fv_seo
 msgid "Put your Bing site verification tag for your homepage here."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2528
+#: fv-all-in-one-seo-pack.php:2530
 #, fuzzy
+#@ fv_seo
 msgid "Turn off excerpts for descriptions:"
 msgstr "설명 자동 생성하기:"
 
-#: ../fv-all-in-one-seo-pack.php:2533
-msgid ""
-"Since Typepad export is containing auto generated excerpts for the most of "
-"the time we use this option a lot."
+#: fv-all-in-one-seo-pack.php:2535
+#@ fv_seo
+msgid "Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2545
+#: fv-all-in-one-seo-pack.php:2547
+#@ fv_seo
 msgid "Google +1 Site Publisher:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2549
+#: fv-all-in-one-seo-pack.php:2551
+#@ fv_seo
 msgid "This will be used across the whole site."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2554
+#: fv-all-in-one-seo-pack.php:2556
+#@ fv_seo
 msgid "Google +1 Default Author:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2558
-msgid ""
-"This will be used across the whole site, however user's Google +1 links will "
-"be used for their posts (if filled in)."
+#: fv-all-in-one-seo-pack.php:2560
+#@ fv_seo
+msgid "This will be used across the whole site, however user's Google +1 links will be used for their posts (if filled in)."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2583
+#: fv-all-in-one-seo-pack.php:2585
 #, fuzzy
+#@ fv_seo
 msgid "FV Simpler SEO Options Reset."
 msgstr "All in One SEO 옵션 리셋."
 
-#: ../fv-all-in-one-seo-pack.php:2639
+#: fv-all-in-one-seo-pack.php:2641
 #, fuzzy
+#@ fv_seo
 msgid "FV Simpler SEO Options Updated."
 msgstr "All in One SEO 옵션 업데이트됨."
 
-#: ../fv-all-in-one-seo-pack.php:2713
+#: fv-all-in-one-seo-pack.php:2715
+#@ fv_seo
 msgid "FV Simpler SEO Options"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:2763
+#: fv-all-in-one-seo-pack.php:2765
+#@ fv_seo
 msgid "Update Options"
 msgstr "옵션 업데이트"
 
-#: ../fv-all-in-one-seo-pack.php:2764
+#: fv-all-in-one-seo-pack.php:2766
+#@ fv_seo
 msgid "Reset Settings to Defaults"
 msgstr "설정을 기본으로 리셋"
 
-#: ../fv-all-in-one-seo-pack.php:2917
+#: fv-all-in-one-seo-pack.php:2919
+#@ fv_seo
 msgid "Google+"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3339 ../fv-all-in-one-seo-pack.php:3363
+#: fv-all-in-one-seo-pack.php:3341
+#: fv-all-in-one-seo-pack.php:3365
 #, fuzzy
+#@ fv_seo
 msgid "Long Title:"
 msgstr "홈 제목:"
 
-#: ../fv-all-in-one-seo-pack.php:3339 ../fv-all-in-one-seo-pack.php:3363
-msgid ""
-"Displayed in browser toolbar and search engine results. It will replace your "
-"post title format defined by your template on this single post/page. For "
-"advanced customization use Rewrite Titles in Advanced Options."
+#: fv-all-in-one-seo-pack.php:3341
+#: fv-all-in-one-seo-pack.php:3365
+#@ fv_seo
+msgid "Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3343 ../fv-all-in-one-seo-pack.php:3367
-#, fuzzy, php-format
-msgid ""
-" characters. Most search engines use a maximum of %d chars for the title."
+#: fv-all-in-one-seo-pack.php:3345
+#: fv-all-in-one-seo-pack.php:3369
+#, fuzzy, php-format, php-format
+#@ fv_seo
+msgid " characters. Most search engines use a maximum of %d chars for the title."
 msgstr "글자. 대부분의 검색엔진은 제목에 대해서 60글자를 최대로 사용합니다."
 
-#: ../fv-all-in-one-seo-pack.php:3354 ../fv-all-in-one-seo-pack.php:3380
+#: fv-all-in-one-seo-pack.php:3356
+#: fv-all-in-one-seo-pack.php:3382
 #, fuzzy
+#@ fv_seo
 msgid "Meta Description:"
 msgstr "설명:"
 
-#: ../fv-all-in-one-seo-pack.php:3354 ../fv-all-in-one-seo-pack.php:3380
-msgid ""
-"Displayed in search engine results. Can be called inside of template file "
-"with"
+#: fv-all-in-one-seo-pack.php:3356
+#: fv-all-in-one-seo-pack.php:3382
+#@ fv_seo
+msgid "Displayed in search engine results. Can be called inside of template file with"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3358 ../fv-all-in-one-seo-pack.php:3385
-#, fuzzy, php-format
-msgid ""
-" characters. Most search engines use a maximum of %d chars for the "
-"description."
-msgstr ""
-"글자. 대부분의 검색 엔진은 설명에 대해서 160개의 글자를 최대로 사용합니다."
+#: fv-all-in-one-seo-pack.php:3360
+#: fv-all-in-one-seo-pack.php:3387
+#, fuzzy, php-format, php-format
+#@ fv_seo
+msgid " characters. Most search engines use a maximum of %d chars for the description."
+msgstr "글자. 대부분의 검색 엔진은 설명에 대해서 160개의 글자를 최대로 사용합니다."
 
-#: ../fv-all-in-one-seo-pack.php:3389
+#: fv-all-in-one-seo-pack.php:3391
+#@ fv_seo
 msgid "SERP Preview:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3389
+#: fv-all-in-one-seo-pack.php:3391
+#@ fv_seo
 msgid "Preview of Search Engine Results Page"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3398
+#: fv-all-in-one-seo-pack.php:3400
+#@ fv_seo
 msgid "Keywords:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3406
+#: fv-all-in-one-seo-pack.php:3408
 #, fuzzy
+#@ fv_seo
 msgid "Custom Canonical URL:"
 msgstr "캐노니컬 URLs:"
 
-#: ../fv-all-in-one-seo-pack.php:3406
-msgid ""
-"WARNING - Google will index the URL you enter here instead of the post. "
-"Leave empty if you don't want to use it."
+#: fv-all-in-one-seo-pack.php:3408
+#@ fv_seo
+msgid "WARNING - Google will index the URL you enter here instead of the post. Leave empty if you don't want to use it."
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3422
+#: fv-all-in-one-seo-pack.php:3424
+#@ fv_seo
 msgid "Title Attribute:"
 msgstr "제목 속성:"
 
-#: ../fv-all-in-one-seo-pack.php:3422
+#: fv-all-in-one-seo-pack.php:3424
+#@ fv_seo
 msgid "Displayed in search engine results"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3432
+#: fv-all-in-one-seo-pack.php:3434
 #, fuzzy
+#@ fv_seo
 msgid "Short title | Menu Label:"
 msgstr "메뉴 레이블:"
 
-#: ../fv-all-in-one-seo-pack.php:3434
-msgid ""
-"Used in all your page menus. Long Title or Post Title will be used for mouse "
-"rollover. Can be called inside of template file with"
+#: fv-all-in-one-seo-pack.php:3436
+#@ fv_seo
+msgid "Used in all your page menus. Long Title or Post Title will be used for mouse rollover. Can be called inside of template file with"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3436
-msgid ""
-"This will automatically replace post title in sidebar. Can be called inside "
-"of template file with"
+#: fv-all-in-one-seo-pack.php:3438
+#@ fv_seo
+msgid "This will automatically replace post title in sidebar. Can be called inside of template file with"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3445
+#: fv-all-in-one-seo-pack.php:3447
+#@ fv_seo
 msgid "Disable on this page/post:"
 msgstr "이 페이지/글에서 비활성화:"
 
-#: ../fv-all-in-one-seo-pack.php:3453
+#: fv-all-in-one-seo-pack.php:3455
+#@ fv_seo
 msgid "Disable post indexing:"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3453
-msgid ""
-"Only use if you are sure you don't want this post to be indexed in search "
-"engines!"
+#: fv-all-in-one-seo-pack.php:3455
+#@ fv_seo
+msgid "Only use if you are sure you don't want this post to be indexed in search engines!"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3453 ../fv-all-in-one-seo-pack.php:3599
-#: ../fv-all-in-one-seo-pack.php:3604 ../fv-all-in-one-seo-pack.php:3614
-#: ../fv-all-in-one-seo-pack.php:3619
+#: fv-all-in-one-seo-pack.php:3455
+#: fv-all-in-one-seo-pack.php:3601
+#: fv-all-in-one-seo-pack.php:3606
+#: fv-all-in-one-seo-pack.php:3616
+#: fv-all-in-one-seo-pack.php:3621
+#@ fv_seo
 msgid "Warning"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3587
+#: fv-all-in-one-seo-pack.php:3589
+#@ fv_seo
 msgid "Your post's TITLE is empty, so it cannot be published!"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3599 ../fv-all-in-one-seo-pack.php:3614
+#: fv-all-in-one-seo-pack.php:3601
+#: fv-all-in-one-seo-pack.php:3616
+#@ fv_seo
 msgid "Your post's TITLE is empty!"
 msgstr ""
 
-#: ../fv-all-in-one-seo-pack.php:3604 ../fv-all-in-one-seo-pack.php:3619
+#: fv-all-in-one-seo-pack.php:3606
+#: fv-all-in-one-seo-pack.php:3621
+#@ fv_seo
 msgid "Your post's DESCRIPTION is empty!"
 msgstr ""
 
-#~ msgid "All donations support continued development of this free software."
-#~ msgstr ""
-#~ "모든 기부는 이 무료 플러그인 소프트웨어의 지속적인 개발을 지원합니다."
+#: fv-all-in-one-seo-pack.php:2110
+#@ fv_seo
+msgid ""
+"Are you sure you want to turn on this feature? Using wrong custom canonical URLs can damage your site SEO rankings.\n"
+"\n"
+" If you are not sure, then leave this off and Wordpress will take care of it on its own."
+msgstr ""
 
-#~ msgid "All in One SEO"
-#~ msgstr "All in One SEO"
-
-#~ msgid "All in One SEO Pack"
-#~ msgstr "All in One SEO Pack"
-
-#~ msgid "All in One SEO Pack must be enabled for use."
-#~ msgstr "All in One SEO Pack은 사용하려면 활성화해야 합니다."
-
-#~ msgid "All in One SEO Plugin Options"
-#~ msgstr "All in One SEO 플러그인 옵션"
-
-#~ msgid "All in One SEO Plugin Release History"
-#~ msgstr "All in One SEO 플러그인 릴리즈 역사"
-
-#~ msgid "All in One SEO Plugin Support Forum"
-#~ msgstr "All in One SEO 플러그인 지원 포럼"
-
-#~ msgid "All in One SEO Plugin Translations"
-#~ msgstr "All in One SEO 플러그인 번역"
-
-#~ msgid "Changelog"
-#~ msgstr "개정 기록"
-
-#~ msgid ""
-#~ "Check this and SEO pack will create a log of important events "
-#~ "(all_in_one_seo_pack.log) in its plugin directory which might help "
-#~ "debugging it. Make sure this directory is writable."
-#~ msgstr ""
-#~ "여기에 체크하면 SEO 팩이 중요 이벤트 로그를 플러그인 디렉토리에 생성"
-#~ "(all_in_one_seo_pack.log) 하며 디버그에 도움이 됩니다. 이 디렉토리가 쓰기 "
-#~ "가능한지 확인하세요."
-
-#~ msgid ""
-#~ "Check this if you want your enable AIOSEOP support for Custom Post Types "
-#~ "on this site."
-#~ msgstr ""
-#~ "사이트에서 사용자 정의 글 형식을 위해 AIOSEOP를 활성화하기를 원하면 여기"
-#~ "에 체크하세요."
-
-#~ msgid "Click here for Support"
-#~ msgstr "지원을 받으려면 여기를 클릭하세요"
-
-#~ msgid "Click on option titles to get help!"
-#~ msgstr "아래에서 옵션 제목을 클릭하면 도움말이 나타납니다!"
-
-#~ msgid "Could not download distribution (%s)"
-#~ msgstr "배포판을 내려받을 수 없습니다 (%s)"
-
-#~ msgid "Could not download distribution (%s): %s"
-#~ msgstr "배포판을 내려받을 수 없습니다 (%s): %s"
-
-#~ msgid "Could not open %s for writing"
-#~ msgstr "쓰기 위해서 %s를 열 수 없습니다"
-
-#~ msgid "Could not write to %s"
-#~ msgstr "%s에 쓰기를 할 수 없습니다."
-
-#~ msgid "Donate with Paypal"
-#~ msgstr "페이팔로 기부하기"
-
-#~ msgid "FAQ"
-#~ msgstr "FAQ"
-
-#~ msgid "Follow Us on Twitter"
-#~ msgstr "트위터에서 팔로우하기"
-
-#~ msgid "Follow us on Twitter"
-#~ msgstr "트위터에서 팔로우하기"
-
-#~ msgid "I enjoy this plugin and have made a donation:"
-#~ msgstr "이 플러그인이 좋아서 기부했습니다:"
-
-#~ msgid "Keywords (comma separated):"
-#~ msgstr "키워드 (콤마 분리):"
-
-#~ msgid "Log important events:"
-#~ msgstr "중요 이벤트 로그:"
-
-#~ msgid "My Amazon Wish List"
-#~ msgstr "나의 아마존 위시 리스트"
-
-#~ msgid "Pagelines Themes"
-#~ msgstr "Pagelines 테마"
-
-#~ msgid "Please make sure %s is writable"
-#~ msgstr "%s가 쓰기 가능한지 확인하세요"
-
-#~ msgid "Plugin Status:"
-#~ msgstr "플러그인 상태:"
-
-#~ msgid "Pro Version"
-#~ msgstr "프로 버전"
-
-#~ msgid "SEO for Custom Post Types:"
-#~ msgstr "사용자 정의 글 형식 SEO:"
-
-#~ msgid "Support"
-#~ msgstr "지원"
-
-#~ msgid "Thank you for your donation:"
-#~ msgstr "기부에 감사드립니다:"
-
-#~ msgid "Title:"
-#~ msgstr "제목:"
-
-#~ msgid "Translations"
-#~ msgstr "번역"
-
-#~ msgid "UPGRADE TO PRO VERSION"
-#~ msgstr "프로 버전으로 업그레이드 하기"
-
-#~ msgid "WhiteHouse theme"
-#~ msgstr "WhiteHouse 테마"
-
-#~ msgid "iBlogPro theme"
-#~ msgstr "iBlogPro 테마"
