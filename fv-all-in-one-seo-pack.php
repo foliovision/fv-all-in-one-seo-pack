@@ -3124,7 +3124,7 @@ function fvseo_meta()
 	  $title_preview = 	$title;
 	} elseif( $title_preview = get_the_title( $post_id ) ) {
 	} else {
-	  $title_preview = "Fill in your title";
+	  $title_preview = __("Fill in your title", 'fv_seo');
 	}
 	
 	$fvseop_options = get_option('aioseop_options');
@@ -3194,7 +3194,7 @@ function fvseo_timeout() {
   FVSimplerSEO_updateTitleFromWPTitle();
   FVSimplerSEO_updateMeta();
   FVSimplerSEO_updateLink();
-  window.setTimeout("fvseo_timeout();", 1000);
+  window.setTimeout("fvseo_timeout();", 100);
 }
 function FVSimplerSEO_noindex_toggle() {
 	jQuery('.fvseo-noindex').toggle();
@@ -3253,7 +3253,7 @@ function FVSimplerSEO_updateTitle()
     if( jQuery("#title").val() ) {
       title = jQuery("#title").val();
     } else {
-      title = 'Fill in your title';
+      title = __('Fill in your title', 'fv_seo');
     }
   }
   url = jQuery("#sample-permalink").text();
@@ -3388,8 +3388,8 @@ jQuery(document).ready(function($) {
         <div>
             <p><?php _e('SERP Preview:', 'fv_seo') ?> <abbr title="<?php _e('Preview of Search Engine Results Page', 'fv_seo') ?> ">(?)</abbr></p>        
             <h2 id="fvseo_title"><a href="<?php the_permalink(); ?>" target="_blank"><?php echo $title_preview; ?></a></h2>
-            <p id="fvseo_meta"><?php echo ($description) ? $description : "Fill in your meta description" ?></p>
-            <small id="fvseo_href"><?php echo $url; ?></small> - <small class="link">Cached</small> - <small class="link">Similar</small>
+            <p id="fvseo_meta"><?php echo ($description) ? $description : __("Fill in your meta description", "fv_seo") ?></p>
+            <small id="fvseo_href"><?php echo $url; ?></small> - <small class="link"><?php _e('Cached', 'fv_seo') ?></small> - <small class="link"><?php _e('Similar', 'fv_seo') ?></small>
             <br />
         </div>
 
