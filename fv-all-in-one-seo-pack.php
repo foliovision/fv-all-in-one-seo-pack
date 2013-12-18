@@ -3340,7 +3340,7 @@ jQuery(document).ready(function($) {
                 <input id="fvseo_title_input_<?php echo $language; ?>" class="input" value="<?php echo $localized_title ?>" type="text" name="fvseo_title_<?php echo $language; ?>" onkeydown="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" onkeyup="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" />
                 <br />
                 <input id="lengthT_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthT_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_title);?>" />
-                <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
+                <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the title.', 'fv_seo'), intval($fvseo->maximum_title_length)) ?></small>
             </p>
                     
         <?php } ?>
@@ -3355,7 +3355,7 @@ jQuery(document).ready(function($) {
                 <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" onkeydown="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>')" onkeyup="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
                 <br />
                 <input id="lengthD_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthD_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
-                <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
+                <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
             </p>
         <?php } ?>
         <?php } else { ?>
@@ -3364,7 +3364,7 @@ jQuery(document).ready(function($) {
             <input id="fvseo_title_input" class="input" value="<?php echo $title ?>" type="text" name="fvseo_title" onkeydown="countChars(document.post.fvseo_title,document.post.lengthT, 'default');" onkeyup="countChars(document.post.fvseo_title,document.post.lengthT, 'default');" />
             <br />
             <input id="lengthT" class="inputcounter" readonly="readonly" type="text" name="lengthT" size="3" maxlength="3" value="<?php echo strlen($title);?>" />
-            <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
+            <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
         </p>
         <p>
         		<?php
@@ -3382,7 +3382,7 @@ jQuery(document).ready(function($) {
               onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" onclick="if(this.value == '<?php echo $meta_description_excerpt; ?>' ) { this.value = ''; jQuery(this).removeClass('fvseo_disabled'); }"><?php echo $fvseo_description_input_description ?></textarea>
             <br />
             <input id="lengthD" class="inputcounter" readonly="readonly" type="text" name="lengthD" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
-            <small><?php printf(_e(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
+            <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
         </p>
         <?php } ?>
         <div>
