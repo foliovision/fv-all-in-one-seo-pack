@@ -2580,7 +2580,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			if (!wp_verify_nonce($nonce, 'fvseopnonce'))
 				die ( 'Security Check - If you receive this in error, log out and back in to WordPress');
 			
-			$message = __("FV Simpler SEO Options Reset.", 'fvseo');
+			$message = __("FV Simpler SEO Options Reset.", 'fv_seo');
 
 			delete_option('aioseop_options');
 
@@ -2710,7 +2710,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       <div>
           <div id="icon-options-general" class="icon32"><br /></div>
           <h2>
-          <?php _e('FV Simpler SEO Options', 'fvseo'); ?>
+          <?php _e('FV Simpler SEO Options', 'fv_seo'); ?>
           </h2>
       </div>
     <div style="clear:both;"></div>
