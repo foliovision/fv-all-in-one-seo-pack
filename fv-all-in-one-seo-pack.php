@@ -1447,6 +1447,24 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
 		return $title;
 	}
+	
+	function is_custom_post_type( $post = NULL )
+	{
+	    $all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
+
+	    // there are no custom post types
+	    if ( empty ( $all_custom_post_types ) )
+	        return FALSE;
+
+	    $custom_types      = array_keys( $all_custom_post_types );
+	    $current_post_type = get_post_type( $post );
+
+	    // could not detect current type
+	    if ( ! $current_post_type )
+	        return FALSE;
+
+	    return in_array( $current_post_type, $custom_types );
+	}
 
 	function rewrite_title($header)
 	{
@@ -1658,8 +1676,30 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				$header = $this->replace_title($header, $title);
 			}
 		}
+		else if (is_tax() && $fvseop_options['aiosp_rewrite_titles']) {
+			$t_sep = ' ';
+			$title_format = stripslashes( $fvseop_options['aiosp_custom_taxonomy_title_format'] );
+			$term = get_queried_object();
+			$tax = get_taxonomy( $term->taxonomy );
+			$sCategoryName = $tax->labels->name;
+			$sCategoryTitle = single_term_title($tax->labels->name . $t_sep, false);
+			if ($this->is_custom_post_type()) {
+				$sCategoryTitle = single_term_title('', false );
+			}
+			$new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
+			$new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
+			$new_title = str_replace('%post_type_title%', $sCategoryName, $new_title);
+			$new_title = str_replace('%category_title%', $sCategoryTitle, $new_title);
+
+			$title = trim($new_title);
+			$title = $this->paged_title($title);
+
+			$header = $this->replace_title($header, $title);
+		}
 		else if (is_archive()       && $fvseop_options['aiosp_rewrite_titles'])
 		{
+			$title_format = stripslashes( $fvseop_options['aiosp_archive_title_format'] );
+			$t_sep = ' ';
 			if( is_date() ) {
 				//	taken from wp_title()
 				global $wp_locale;
@@ -1667,7 +1707,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				$year = get_query_var('year');
 				$monthnum = get_query_var('monthnum');
 				$day = get_query_var('day');
-				$t_sep = ' ';
 				
 				if( !empty($m) ) {
 					$my_year = substr($m, 0, 4);
@@ -1682,13 +1721,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 					if ( !empty($day) )
 						$archive_title .= $t_sep . zeroise($day, 2);
 				}
-			} else if ( is_tax() ) {
+			} else if (is_post_type_archive()) {
 				$term = get_queried_object();
-				$tax = get_taxonomy( $term->taxonomy );
-				$archive_title = single_term_title( $tax->labels->name . $t_sep, false );
+				$archive_title = $term->labels->name;
 			}
-			$title_format = stripslashes( $fvseop_options['aiosp_archive_title_format'] );
-
+			if ($this->is_custom_post_type()) {
+				$title_format = stripslashes( $fvseop_options['aiosp_custom_taxonomy_title_format'] );
+			}
 			$new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
 			$new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
 			$new_title = str_replace('%date%', $archive_title, $new_title);
