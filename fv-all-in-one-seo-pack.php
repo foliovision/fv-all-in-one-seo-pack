@@ -2318,7 +2318,24 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                         echo('</ul>');
                         ?>
                     </div>
-                </p>    
+                </p>
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_taxonomy_title_format_tip');">
+                      <?php _e('Custom taxonomy Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" name="fvseo_custom_taxonomy_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_taxonomy_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_taxonomy_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category_title% - Your actual taxonomy category title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%post_type_type% - Your taxonomy title', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>          
                 <p>
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_search_title_format_tip');">
                       <?php _e('Search Title Format:', 'fv_seo')?>
@@ -2635,6 +2652,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				"aiosp_category_title_format"=>'%category_title% | %blog_title%',
 				"aiosp_archive_title_format"=>'%date% | %blog_title%',
 				"aiosp_tag_title_format"=>'%tag% | %blog_title%',
+				"aiosp_custom_taxonomy_title_format" => '%category_title%',
 				"aiosp_search_title_format"=>'%search% | %blog_title%',
 				"aiosp_description_format"=>'%description%',
 				"aiosp_404_title_format"=>'Nothing found for %request_words%',
@@ -2687,6 +2705,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_page_title_format'] = isset( $_POST['fvseo_page_title_format'] ) ? $_POST['fvseo_page_title_format'] : NULL;
 			$fvseop_options['aiosp_category_title_format'] = isset( $_POST['fvseo_category_title_format'] ) ? $_POST['fvseo_category_title_format'] : NULL;
 			$fvseop_options['aiosp_archive_title_format'] = isset( $_POST['fvseo_archive_title_format'] ) ? $_POST['fvseo_archive_title_format'] : NULL;
+			$fvseop_options['aiosp_custom_taxonomy_title_format'] = isset( $_POST['fvseo_custom_taxonomy_title_format'] ) ? $_POST['fvseo_custom_taxonomy_title_format'] : NULL;
 			$fvseop_options['aiosp_tag_title_format'] = isset( $_POST['fvseo_tag_title_format'] ) ? $_POST['fvseo_tag_title_format'] : NULL;
 			$fvseop_options['aiosp_search_title_format'] = isset( $_POST['fvseo_search_title_format'] ) ? $_POST['fvseo_search_title_format'] : NULL;
 			$fvseop_options['aiosp_description_format'] = isset( $_POST['fvseo_description_format'] ) ? $_POST['fvseo_description_format'] : NULL;
