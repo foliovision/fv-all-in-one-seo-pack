@@ -1688,8 +1688,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			}
 			$new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
 			$new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
-			$new_title = str_replace('%post_type_title%', $sCategoryName, $new_title);
-			$new_title = str_replace('%category_title%', $sCategoryTitle, $new_title);
+			$new_title = str_replace('%tax_type_title%', $sCategoryName, $new_title);
+			$new_title = str_replace('%tax_title%', $sCategoryTitle, $new_title);
 
 			$title = trim($new_title);
 			$title = $this->paged_title($title);
@@ -2323,15 +2323,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_taxonomy_title_format_tip');">
                       <?php _e('Custom taxonomy Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_custom_taxonomy_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_taxonomy_title_format'])); ?>"/>
+                    <input size="59" name="fvseo_custom_taxonomy_title_format" value="<?php if (isset($fvseop_options['aiosp_custom_taxonomy_title_format'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_taxonomy_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_taxonomy_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
                         echo('<ul>');
                         echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
                         echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category_title% - Your actual taxonomy category title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%post_type_type% - Your taxonomy title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%tax_title% - Your actual taxonomy category title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%tax_type_title% - Your taxonomy title', 'fv_seo'); echo('</li>');
                         echo('</ul>');
                         ?>
                     </div>
@@ -2600,7 +2600,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_social_google_publisher_tip');">
 					<?php _e('Google +1 Site Publisher:', 'fv_seo')?>
 				</a><br />
-				<input type="text" class="regular-text" size="63" name="social_google_publisher" value="<?php echo esc_attr(stripcslashes($fvseop_options['social_google_publisher']))?>" />
+				<input type="text" class="regular-text" size="63" name="social_google_publisher" value="<?php if (isset($fvseop_options['social_google_publisher'])) { echo esc_attr(stripcslashes($fvseop_options['social_google_publisher'])); }?>" />
 				<div style="max-width:500px; text-align:left; display:none" id="fvseo_social_google_publisher_tip">
 					<?php _e('This will be used across the whole site.', 'fv_seo')?>
 				</div>
@@ -2609,7 +2609,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_social_google_author_tip');">
 					<?php _e('Google +1 Default Author:', 'fv_seo')?>
 				</a><br />
-				<input type="text" class="regular-text" size="63" name="social_google_author" value="<?php echo esc_attr(stripcslashes($fvseop_options['social_google_author']))?>" />
+				<input type="text" class="regular-text" size="63" name="social_google_author" value="<?php if (isset($fvseop_options['social_google_author'])) echo esc_attr(stripcslashes($fvseop_options['social_google_author']))?>" />
 				<div style="max-width:500px; text-align:left; display:none" id="fvseo_social_google_author_tip">
 					<?php _e('This will be used across the whole site, however user\'s Google +1 links will be used for their posts (if filled in).', 'fv_seo')?>
 				</div>
@@ -2652,7 +2652,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				"aiosp_category_title_format"=>'%category_title% | %blog_title%',
 				"aiosp_archive_title_format"=>'%date% | %blog_title%',
 				"aiosp_tag_title_format"=>'%tag% | %blog_title%',
-				"aiosp_custom_taxonomy_title_format" => '%category_title%',
+				"aiosp_custom_taxonomy_title_format" => '%tax_title%',
 				"aiosp_search_title_format"=>'%search% | %blog_title%',
 				"aiosp_description_format"=>'%description%',
 				"aiosp_404_title_format"=>'Nothing found for %request_words%',
@@ -2741,7 +2741,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
 
       $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
-      $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;      
+      $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;     
 
 			update_option('aioseop_options', $fvseop_options);
 
@@ -3005,6 +3005,7 @@ function fvseop_mrt_mkarry()
 		"aiosp_archive_title_format"=>'%date% | %blog_title%',
 		"aiosp_tag_title_format"=>'%tag% | %blog_title%',
 		"aiosp_search_title_format"=>'%search% | %blog_title%',
+		"aiosp_custom_taxonomy_title_format"=>'%tax_title%',
 		"aiosp_description_format"=>'%description%',
 		"aiosp_404_title_format"=>'Nothing found for %request_words%',
 		"aiosp_paged_format"=>' - Part %page%',
@@ -3029,7 +3030,9 @@ function fvseop_mrt_mkarry()
 		'aiosp_show_titleattribute'=>0,
 		'aiosp_show_disable'=>0,
 		'aiosp_shorten_slugs'=>1,
-      'fvseo_publ_warnings'=>1
+      'fvseo_publ_warnings'=>1,
+      'social_google_publisher'=>'',
+      'social_google_author'=>''
 		);
 		///	End of addition
 
