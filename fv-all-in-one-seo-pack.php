@@ -910,7 +910,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			if( $post_nofollow ) {
 				$meta_robots[] = 'nofollow';
 			}	
-			if( $meta_robots ) {
+			if( isset($meta_robots) && !empty($meta_robots) ) {
 				$meta_string .= '<meta name="robots" content="'.implode(',',$meta_robots).'" />'."\n";
 			}
 			
@@ -1153,7 +1153,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		if ($fvseop_options['aiosp_can'] || ( isset( $custom_canonical ) && $fvseop_options['aiosp_show_custom_canonical']  ) )
 		/// End of modification
 		{
-		  if( $custom_canonical && $fvseop_options['aiosp_show_custom_canonical'] ) {
+		  if( (isset($custom_canonical) && $custom_canonical) && (isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']) ) {
 		    $url = $custom_canonical;
 		  } else {
 			  $url = $this->fvseo_mrt_get_url($wp_query);
@@ -2069,6 +2069,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	function admin_settings_basic() {
 		global $fvseop_options;
 	?>
+		<style type="text/css">
+			.postbox-container { min-width: 100% !important; }
+		</style>
 		<p>
 				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_title_tip');">
 					<?php _e('Home Title:', 'fv_seo')?>
@@ -2232,7 +2235,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_post_title_format_tip');">
                         <?php _e('Post Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_post_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_post_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_post_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_post_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_post_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2254,7 +2257,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_page_title_format_tip');">
                       <?php _e('Page Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_page_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_page_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_page_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_page_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_page_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2274,7 +2277,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_category_title_format_tip');">
                       <?php _e('Category Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_category_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_category_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_category_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_category_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_category_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2291,7 +2294,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_archive_title_format_tip');">
                       <?php _e('Archive Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_archive_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_archive_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_archive_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_archive_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_archive_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2307,7 +2310,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_tag_title_format_tip');">
                       <?php _e('Tag Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_tag_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_tag_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_tag_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_tag_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_tag_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2323,7 +2326,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_taxonomy_title_format_tip');">
                       <?php _e('Custom taxonomy Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_custom_taxonomy_title_format" value="<?php if (isset($fvseop_options['aiosp_custom_taxonomy_title_format'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_taxonomy_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_custom_taxonomy_title_format" value="<?php if (isset($fvseop_options['aiosp_custom_taxonomy_title_format'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_taxonomy_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_taxonomy_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2340,7 +2343,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_search_title_format_tip');">
                       <?php _e('Search Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_search_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_search_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_search_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_search_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_search_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2356,7 +2359,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_description_format_tip');">
                       <?php _e('Description Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_description_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_description_format'])); ?>" />
+                    <input size="59" style="width: 100%;" name="fvseo_description_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_description_format'])); ?>" />
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_description_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2374,7 +2377,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_404_title_format_tip');">
                       <?php _e('404 Title Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_404_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_404_title_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_404_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_404_title_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_404_title_format_tip">
                         <?php
                         _e('The following macros are supported:', 'fv_seo');
@@ -2392,7 +2395,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_paged_format_tip');">
                       <?php _e('Paged Format:', 'fv_seo')?>
                     </a><br />
-                    <input size="59" name="fvseo_paged_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_paged_format'])); ?>"/>
+                    <input size="59" style="width: 100%;" name="fvseo_paged_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_paged_format'])); ?>"/>
                     <div style="max-width:500px; text-align:left; display:none" id="fvseo_paged_format_tip">
                         <?php
                         _e('This string gets appended/prepended to titles when they are for paged index pages (like home or archive pages).', 'fv_seo');
@@ -3384,6 +3387,7 @@ jQuery(document).ready(function($) {
 #fvsimplerseopack h2 {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
 #fvsimplerseopack h2 a { color:#2200c1; }
 #fvsimplerseopack .fvseo_disabled { color:#aaa; }
+.postbox-container { min-width: 100% !important; }
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
@@ -3462,7 +3466,7 @@ jQuery(document).ready(function($) {
     <?php endif; ?>
 
     
-    <?php if ($fvseop_options['aiosp_show_custom_canonical']) : ?>
+    <?php if (isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']) : ?>
         <p>
             <?php _e('Custom Canonical URL:', 'fv_seo') ?> <abbr title="<?php _e('WARNING - Google will index the URL you enter here instead of the post. Leave empty if you don\'t want to use it.', 'fv_seo') ?>">(?)</abbr>
             <input class="input" value="<?php echo $custom_canonical ?>" type="text" name="fvseo_custom_canonical" />
@@ -3470,7 +3474,7 @@ jQuery(document).ready(function($) {
     <?php endif; ?>    
     
     </div><!--	.fvseo-noindex	-->
-		<?php if ( $fvseop_options['aiosp_show_noindex'] || $noindex ) : ?>
+		<?php if ( (isset($fvseop_options['aiosp_show_noindex']) && $fvseop_options['aiosp_show_noindex']) || $noindex ) : ?>
 			<div class="fvseo-noindex" <?php if( $noindex ) { echo 'style="display:block;"'; } else { echo 'style="display:none;"'; } ?>>
 				<strong>Post won't be indexed by Search Engines and it won't show up in internal site search.</strong>
 			</div>
@@ -3487,7 +3491,7 @@ jQuery(document).ready(function($) {
     
 <?php } ?>    
 
-<?php if($post->post_type == 'page' || $fvseop_options['aiosp_show_short_title_post'] ) { ?>
+<?php if($post->post_type == 'page' || (isset($fvseop_options['aiosp_show_short_title_post']) && $fvseop_options['aiosp_show_short_title_post']) ) { ?>
         
         <p>
             <?php _e('Short title | Menu Label:', 'fv_seo') ?> <abbr title="<?php
@@ -3509,7 +3513,7 @@ jQuery(document).ready(function($) {
     <?php endif; ?>
     
     
-    <?php if ( $fvseop_options['aiosp_show_noindex'] || $noindex || $nofollow) : ?>
+    <?php if ( (isset($fvseop_options['aiosp_show_noindex']) && $fvseop_options['aiosp_show_noindex']) || $noindex || $nofollow) : ?>
         <p>
             <?php _e('Disable post indexing:', 'fv_seo') ?> <abbr title="<?php _e('Only use if you are sure you don\'t want this post to be indexed in search engines!','fv_seo')?>">(<?php _e('Warning','fv_seo') ?>)</abbr><br />
             <input id="fvseo_noindex" class="input" value="1" <?php if( $noindex ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_noindex" onclick="FVSimplerSEO_noindex_toggle(); return true" />
