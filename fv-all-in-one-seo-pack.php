@@ -2069,9 +2069,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	function admin_settings_basic() {
 		global $fvseop_options;
 	?>
-		<style type="text/css">
-			.postbox-container { min-width: 100% !important; }
-		</style>
 		<p>
 				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_title_tip');">
 					<?php _e('Home Title:', 'fv_seo')?>
@@ -2764,6 +2761,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   </div>
 <?php endif; ?>
   <div id="dropmessage" class="updated" style="display:none;"></div>
+  	<style type="text/css">
+		.postbox-container { min-width: 100% !important; }
+	</style>
   <div class="wrap">
       <div style="position: absolute; top: 10px; right: 10px;">
           <a href="https://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack" target="_blank" title="Documentation"><img alt="visit foliovision" src="http://foliovision.com/shared/fv-logo.png" /></a>
@@ -3387,7 +3387,6 @@ jQuery(document).ready(function($) {
 #fvsimplerseopack h2 {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
 #fvsimplerseopack h2 a { color:#2200c1; }
 #fvsimplerseopack .fvseo_disabled { color:#aaa; }
-.postbox-container { min-width: 100% !important; }
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
