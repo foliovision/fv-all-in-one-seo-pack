@@ -1682,10 +1682,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$term = get_queried_object();
 			$tax = get_taxonomy( $term->taxonomy );
 			$sCategoryName = $tax->labels->name;
-			$sCategoryTitle = single_term_title($tax->labels->name . $t_sep, false);
-			if ($this->is_custom_post_type()) {
+			//$sCategoryTitle = single_term_title($tax->labels->name . $t_sep, false);
+			//if ($this->is_custom_post_type()) {
 				$sCategoryTitle = single_term_title('', false );
-			}
+			//}
 			$new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
 			$new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
 			$new_title = str_replace('%tax_type_title%', $sCategoryName, $new_title);
