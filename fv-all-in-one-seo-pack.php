@@ -518,10 +518,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		if( /*isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || */!isset($fvseop_options['aiosp_shorten_slugs']) ) {
 			update_option( $this->plugin_slug.'_deferred_notices', 'FV Simpler SEO will from now on automatically shorten your new post slugs to 3 most important keywords. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
 		}
-		if( !isset($fvseop_options['aiosp_shorten_slugs']) ) {
-			$fvseop_options['aiosp_shorten_slugs'] = true;
-			update_option('aioseop_options',$fvseop_options);
+    if( /*isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || */!isset($fvseop_options['social_meta_facebook']) || !isset($fvseop_options['social_meta_twitter']) ) {
+      $deferred = get_option( $this->plugin_slug.'_deferred_notices');
+      if( $deferred ) {
+        $deferred = $deferred.'<br /><br />';
+      }
+			update_option( $this->plugin_slug.'_deferred_notices', $deferred.'FV Simpler SEO will from now on automatically add Facebook Open Graph and Twitter Card meta tags to your posts. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
 		}
+		
+    global $fvseop_default_options;    
+    $fvseop_options = array_merge( $fvseop_default_options, $fvseop_options );
+    update_option( 'aioseop_options', $fvseop_options );
 		
 		update_option('fv_simpler_seo_version', $fv_simpler_seo_version);
 	}
@@ -2614,6 +2621,24 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 					<?php _e('This will be used across the whole site, however user\'s Google +1 links will be used for their posts (if filled in).', 'fv_seo')?>
 				</div>
 		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('social_meta_facebook');">
+					<?php _e('Insert Facebook Open Graph tags:', 'fv_seo')?>
+				</a> 
+				<input type="checkbox" name="social_meta_facebook" <?php if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) echo 'checked="checked"'; ?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="social_meta_facebook">
+					<?php _e('Automatically inserts Facebook Open Graph tags with your post meta description and featured image.', 'fv_seo')?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('social_meta_twitter');">
+					<?php _e('Insert Twitter Card meta tags:', 'fv_seo')?>
+				</a> 
+				<input type="checkbox" name="social_meta_twitter" <?php if( !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) echo 'checked="checked"'; ?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="social_meta_twitter">
+					<?php _e('Automatically inserts Twitter Card meta tags with your post meta description and featured image.', 'fv_seo')?>
+				</div>
+		</p>        
 	<?php
 	}	
 	
@@ -2640,47 +2665,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
 			delete_option('aioseop_options');
 
-			$res_fvseop_options = array(
-				"aiosp_can"=>0,
-				"aiosp_home_title"=>null,
-				"aiosp_home_description"=>'',
-				"aiosp_home_keywords"=>null,
-				"aiosp_max_words_excerpt"=>'something',
-				"aiosp_rewrite_titles"=>0,
-				"aiosp_post_title_format"=>'%post_title% | %blog_title%',
-				"aiosp_page_title_format"=>'%page_title% | %blog_title%',
-				"aiosp_category_title_format"=>'%category_title% | %blog_title%',
-				"aiosp_archive_title_format"=>'%date% | %blog_title%',
-				"aiosp_tag_title_format"=>'%tag% | %blog_title%',
-				"aiosp_custom_taxonomy_title_format" => '%tax_title%',
-				"aiosp_search_title_format"=>'%search% | %blog_title%',
-				"aiosp_description_format"=>'%description%',
-				"aiosp_404_title_format"=>'Nothing found for %request_words%',
-				"aiosp_paged_format"=>' - Part %page%',
-				"aiosp_use_categories"=>1,
-				"aiosp_dynamic_postspage_keywords"=>1,
-        "aiosp_remove_category_rel"=>1,
-				"aiosp_category_noindex"=>0,
-				"aiosp_archive_noindex"=>0,
-				"aiosp_tags_noindex"=>0,
-				"aiosp_cap_cats"=>0,
-				"aiosp_generate_descriptions"=>0,
-				"aiosp_debug_info"=>null,
-				"aiosp_post_meta_tags"=>'',
-				"aiosp_page_meta_tags"=>'',
-				"aiosp_home_meta_tags"=>'',
-				'home_google_site_verification_meta_tag' => '',
-				'aiosp_use_tags_as_keywords' => 1,
-            'aiosp_search_noindex'=>1,
-				'aiosp_dont_use_excerpt'=>0,
-				'aiosp_show_keywords'=>0,
-				'aiosp_show_titleattribute'=>0,
-        'aiosp_show_short_title_post'=>0,
-				'aiosp_show_disable'=>0,
-				'aiosp_show_custom_canonical'=>0,
-            'aiosp_shorten_slugs' => true,
-            'fvseo_publ_warnings'=>1
-			);
+      global $fvseop_default_options;
+			$res_fvseop_options = $fvseop_default_options;
 				
 			update_option('aioseop_options', $res_fvseop_options);
 		}
@@ -2741,7 +2727,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
 
       $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
-      $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;     
+      $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;
+      $fvseop_options['social_meta_facebook'] = isset( $_POST['social_meta_facebook'] ) ? true : false;
+      $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
 
 			update_option('aioseop_options', $fvseop_options);
 
@@ -2969,7 +2957,61 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
     if( isset($fvseop_options['social_google_publisher']) && strlen(trim($fvseop_options['social_google_publisher'])) > 0 ) {
       echo '<link rel="publisher" href="'.esc_attr($fvseop_options['social_google_publisher']).'" />' . "\n";
     }
-	}	
+	}
+  
+  
+  
+  
+	function social_meta_tags() {
+    $strGooglePlusLink = false;
+    
+    global $fvseop_options;
+
+    if ( is_singular() ) {
+      global $post;
+      if( !$description = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_description', true) ))) ) {
+        $description = wp_trim_words(strip_shortcodes(strip_tags($post->post_content)), 20, ' &helip;');
+      }
+      $description = __($this->internationalize($description));
+      
+      if( !$title = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_title', true) ))) ) {
+        $title = get_the_title();
+      }
+      $title = __($this->internationalize($title));
+      
+      $sImage = false;
+      if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
+        if( $sImage = get_the_post_thumbnail($post->ID,'thumbnail') ) {
+          $sImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $sImage );
+        }
+      }
+      
+      if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
+?>
+  <meta property="og:title" content="<?php echo $title; ?>" />
+  <meta property="og:type" content="blog" />
+  <meta property="og:description" content="<?php echo $description; ?>" />
+  <?php if($sImage) : ?><meta property="og:image" content="<?php echo $sImage; ?>" />
+<?php endif; ?>
+  <meta property="og:url" content="<?php the_permalink(); ?>" />
+  <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>" />
+<?php
+      endif;  //  social_meta_facebook
+      
+      if( !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) : 
+?>
+  <meta name="twitter:title" content="<?php echo $title; ?>" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:description" content="<?php echo $description; ?>" />
+  <?php if($sImage) : ?><meta property="twitter:image" content="<?php echo $sImage; ?>" />
+<?php endif; ?>
+  <meta name="twitter:url" content="<?php the_permalink(); ?>" />
+<?php
+      endif;  //  social_meta_twitter
+      
+    }
+
+	}	  
 	
 	
 	
@@ -2993,52 +3035,59 @@ if (!get_option('aioseop_options'))
 
 $fvseop_options = get_option('aioseop_options');
 
+
+$fvseop_default_options = array(
+  "aiosp_can"=>0,
+  "aiosp_home_title"=>null,
+  "aiosp_home_description"=>'',
+  "aiosp_home_keywords"=>null,
+  "aiosp_max_words_excerpt"=>'something',
+  "aiosp_rewrite_titles"=>0,
+  "aiosp_post_title_format"=>'%post_title% | %blog_title%',
+  "aiosp_page_title_format"=>'%page_title% | %blog_title%',
+  "aiosp_category_title_format"=>'%category_title% | %blog_title%',
+  "aiosp_archive_title_format"=>'%date% | %blog_title%',
+  "aiosp_tag_title_format"=>'%tag% | %blog_title%',
+  "aiosp_search_title_format"=>'%search% | %blog_title%',
+  "aiosp_custom_taxonomy_title_format"=>'%tax_title% | %blog_title%',
+  "aiosp_description_format"=>'%description%',
+  "aiosp_404_title_format"=>'Nothing found for %request_words%',
+  "aiosp_paged_format"=>' - Part %page%',
+  "aiosp_use_categories"=>1,
+  "aiosp_dynamic_postspage_keywords"=>1,
+  "aiosp_remove_category_rel"=>1,
+  "aiosp_category_noindex"=>0,
+  "aiosp_archive_noindex"=>0,
+  "aiosp_tags_noindex"=>0,
+  "aiosp_cap_cats"=>0,
+  "aiosp_generate_descriptions"=>0,
+  "aiosp_debug_info"=>null,
+  "aiosp_post_meta_tags"=>'',
+  "aiosp_page_meta_tags"=>'',
+  "aiosp_home_meta_tags"=>'',
+  'home_google_site_verification_meta_tag' => '',
+  'aiosp_use_tags_as_keywords' => 1,
+  'aiosp_search_noindex'=>1,
+  'aiosp_dont_use_excerpt'=>0,
+  'aiosp_show_keywords'=>0,
+  'aiosp_show_titleattribute'=>0,
+  'aiosp_show_short_title_post'=>0,
+  'aiosp_show_disable'=>0,
+  'aiosp_show_custom_canonical'=>0,
+  'aiosp_shorten_slugs'=>1,
+  'fvseo_publ_warnings'=>1,
+  'social_google_publisher'=>'',
+  'social_google_author'=>'',
+  'social_meta_facebook'=>true,
+  'social_meta_twitter'=>true
+  );
+  
+
 function fvseop_mrt_mkarry()
 {
-	$nfvseop_options = array(  //  todo - merge with reset options
-		"aiosp_can"=>0,
-		"aiosp_home_title"=>null,
-		"aiosp_home_description"=>'',
-		"aiosp_home_keywords"=>null,
-		"aiosp_max_words_excerpt"=>'something',
-		"aiosp_rewrite_titles"=>0,
-		"aiosp_post_title_format"=>'%post_title% | %blog_title%',
-		"aiosp_page_title_format"=>'%page_title% | %blog_title%',
-		"aiosp_category_title_format"=>'%category_title% | %blog_title%',
-		"aiosp_archive_title_format"=>'%date% | %blog_title%',
-		"aiosp_tag_title_format"=>'%tag% | %blog_title%',
-		"aiosp_search_title_format"=>'%search% | %blog_title%',
-		"aiosp_custom_taxonomy_title_format"=>'%tax_title%',
-		"aiosp_description_format"=>'%description%',
-		"aiosp_404_title_format"=>'Nothing found for %request_words%',
-		"aiosp_paged_format"=>' - Part %page%',
-		"aiosp_use_categories"=>1,
-		"aiosp_dynamic_postspage_keywords"=>1,
-    "aiosp_remove_category_rel"=>1,
-		"aiosp_category_noindex"=>0,
-		"aiosp_archive_noindex"=>0,
-		"aiosp_tags_noindex"=>0,
-		"aiosp_cap_cats"=>0,
-		"aiosp_generate_descriptions"=>0,
-		"aiosp_debug_info"=>null,
-		"aiosp_post_meta_tags"=>'',
-		"aiosp_page_meta_tags"=>'',
-		"aiosp_home_meta_tags"=>'',
-		'home_google_site_verification_meta_tag' => '',
-		'aiosp_use_tags_as_keywords' => 1,
-		///	Addition
-    'aiosp_search_noindex'=>1,
-		'aiosp_dont_use_excerpt'=>0,
-		'aiosp_show_keywords'=>0,
-		'aiosp_show_titleattribute'=>0,
-		'aiosp_show_disable'=>0,
-		'aiosp_shorten_slugs'=>1,
-      'fvseo_publ_warnings'=>1,
-      'social_google_publisher'=>'',
-      'social_google_author'=>''
-		);
-		///	End of addition
 
+  global $fvseop_default_options;
+  $nfvseop_options = $fvseop_default_options;
 	if (get_option('aiosp_post_title_format'))
 	{
 		foreach ($nfvseop_options as $fvseop_opt_name => $value )
@@ -3401,7 +3450,7 @@ jQuery(document).ready(function($) {
             ?>
             <p>
                 <?php _e('Long Title:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.', 'fv_seo') ?> ">(?)</abbr>
-                <input id="fvseo_title_input_<?php echo $language; ?>" class="input" value="<?php echo $localized_title ?>" type="text" name="fvseo_title_<?php echo $language; ?>" onkeydown="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" onkeyup="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" />
+                <input id="s<?php echo $language; ?>" class="input" value="<?php echo $localized_title ?>" type="text" name="fvseo_title_<?php echo $language; ?>" onkeydown="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" onkeyup="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" />
                 <br />
                 <input id="lengthT_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthT_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_title);?>" />
                 <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the title.', 'fv_seo'), intval($fvseo->maximum_title_length)) ?></small>
@@ -3575,6 +3624,7 @@ add_action('template_redirect', array($fvseo, 'template_redirect'));
 add_action('wp_head', array($fvseo, 'wp_head'));
 add_action('wp_head', array($fvseo, 'remove_canonical'), 0 );
 add_action('wp_head', array($fvseo, 'google_authorship') );
+add_action('wp_head', array($fvseo, 'social_meta_tags') );
 add_action('edit_post', array($fvseo, 'post_meta_tags'));
 add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
