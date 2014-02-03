@@ -2184,7 +2184,18 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				<input type="checkbox" name="fvseo_show_short_title_post" <?php if( isset($fvseop_options['aiosp_show_short_title_post']) && $fvseop_options['aiosp_show_short_title_post'] ) echo "checked=\"1\""; ?>/>
 				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_short_title_post_tip">
 				<?php
-				_e("Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post titles when enabled.", 'fv_seo');
+				_e("Stored as _aioseop_menulabel postmeta.", 'fv_seo');
+				 ?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_show_sidebar_short_title_tip');">
+				<?php _e('Enable using short titles in sidebars:', 'fv_seo')?>
+				</a>
+				<input type="checkbox" name="fvseo_sidebar_short_title" <?php if( isset($fvseop_options['aiosp_sidebar_short_title']) && $fvseop_options['aiosp_sidebar_short_title'] ) echo "checked=\"1\""; ?>/>
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_show_sidebar_short_title_tip">
+				<?php
+				_e("Use short titles instead on sidebar post titles. Add Short Title Attribute field to post editing screen option have to be enabled", 'fv_seo');
 				 ?>
 				</div>
 		</p>
@@ -2722,6 +2733,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_show_custom_canonical'] = isset( $_POST['fvseo_show_custom_canonical'] ) ? $_POST['fvseo_show_custom_canonical'] : NULL;
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
       $fvseop_options['aiosp_show_short_title_post'] = isset( $_POST['fvseo_show_short_title_post'] ) ? $_POST['fvseo_show_short_title_post'] : NULL;
+      $fvseop_options['aiosp_sidebar_short_title'] = isset( $_POST['fvseo_sidebar_short_title'] ) ? $_POST['fvseo_sidebar_short_title'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
       $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
       $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
@@ -2866,7 +2878,10 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   
   
   function initiate_the_title_change() {
-    add_filter( 'the_title', array( $this, 'the_title' ) );
+    global $fvseop_options;
+    if( $fvseop_options['aiosp_sidebar_short_title'] ) {
+        add_filter( 'the_title', array( $this, 'the_title' ) );
+    }
   }
   
   
@@ -3072,6 +3087,7 @@ $fvseop_default_options = array(
   'aiosp_show_keywords'=>0,
   'aiosp_show_titleattribute'=>0,
   'aiosp_show_short_title_post'=>0,
+  'aiosp_sidebar_short_title'=>0,
   'aiosp_show_disable'=>0,
   'aiosp_show_custom_canonical'=>0,
   'aiosp_shorten_slugs'=>1,
