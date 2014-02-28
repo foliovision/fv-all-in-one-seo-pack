@@ -48,10 +48,11 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.22 - 28 Jan 2014 =
-* Feature - Facebook Open Graph support added (on by default)
-* Feature - Facebook Open Graph support added (on by default)
+= Version 1.6.22 - 28 Feb 2014 =
 * Feature - added support for translations
+* Feature - Facebook Open Graph support added (on by default)
+* Feature - setting for custom post archive titles
+* Feature - Twitter Cards support added (on by default)
 
 = Version 1.6.21 - 13 Nov 2013 =
 * Feature - Google Authorship and Publisher support. Visit Settings -> FV Simpler SEO -> Social Networking

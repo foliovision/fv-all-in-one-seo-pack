@@ -514,7 +514,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	
 	function activate() {
 	  global $fv_simpler_seo_version;
-		$fvseop_options = get_option('aioseop_options');
+		$fvseop_options = ( get_option('aioseop_options') ) ? get_option('aioseop_options') : array();
 		if( /*isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || */!isset($fvseop_options['aiosp_shorten_slugs']) ) {
 			update_option( $this->plugin_slug.'_deferred_notices', 'FV Simpler SEO will from now on automatically shorten your new post slugs to 3 most important keywords. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
 		}
@@ -2816,15 +2816,13 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
             
 
 
-      <p class="submit">
-        <?php if($fvseop_options) {  ?>
+      <p class="submit">        
         <input type="hidden" name="action" value="fvseo_update" />
         <input type="hidden" name="nonce-fvseop" value="<?php echo esc_attr(wp_create_nonce('fvseopnonce')); ?>" />
         <input type="hidden" name="page_options" value="fvseo_home_description" />
         <input type="submit" class='button-primary' name="Submit" value="<?php _e('Update Options', 'fv_seo')?> &raquo;" />
-        <input type="submit" class='button-primary' name="Submit_Default" value="<?php _e('Reset Settings to Defaults', 'fv_seo')?> &raquo;" />
+        <input type="submit" class='button-primary' name="Submit_Default" value="<?php _e('Reset Settings to Defaults', 'fv_seo')?> &raquo;" />        
       </p>
-      <?php } ?>
     </form>
 		<script type="text/javascript">
 			//<![CDATA[
@@ -2851,7 +2849,7 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 			$ids = implode( ',', $ids );
 			$sql .= ' AND p.ID NOT IN ('.$ids.')';
 		}
-		//echo '<!--sql '.$sql.'-->';
+		
 		return $sql;
 	}
 	
@@ -3050,7 +3048,7 @@ if (!get_option('aioseop_options'))
 
 $fvseop_options = get_option('aioseop_options');
 
-
+global $fvseop_default_options;
 $fvseop_default_options = array(
   "aiosp_can"=>0,
   "aiosp_home_title"=>null,
@@ -3623,8 +3621,7 @@ if( false === get_option( 'aiosp-shorten-link-install' ) )
       add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
 }
 
-if ($fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] === 'on')
-{
+if( isset($fvseop_options['aiosp_can']) && ( $fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] === 'on') ) {
 	remove_action('wp_head', 'rel_canonical');
 }
 
@@ -3772,11 +3769,9 @@ function fvseo_remove_category_list_rel( $output ) {
     return str_replace( ' rel="category tag"', '', $output );
 }
 
-if ($fvseop_options['aiosp_remove_category_rel']) {  
+if( isset($fvseop_options['aiosp_remove_category_rel']) && $fvseop_options['aiosp_remove_category_rel'] ) {  
     add_filter( 'wp_list_categories', 'fvseo_remove_category_list_rel' );
     add_filter( 'the_category', 'fvseo_remove_category_list_rel' );
 }
 
 add_action( 'activate_' .plugin_basename(__FILE__), array( $fvseo, 'activate' ) );
-
-?>
