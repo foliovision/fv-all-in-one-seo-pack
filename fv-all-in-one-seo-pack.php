@@ -1157,7 +1157,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		///
 		
 		//if ($fvseop_options['aiosp_can'])
-		if ($fvseop_options['aiosp_can'] || ( isset( $custom_canonical ) && $fvseop_options['aiosp_show_custom_canonical']  ) )
+		if ($fvseop_options['aiosp_can'] || ( isset( $custom_canonical ) && isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']  ) )
 		/// End of modification
 		{
 		  if( (isset($custom_canonical) && $custom_canonical) && (isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']) ) {
@@ -2877,7 +2877,7 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   
   function initiate_the_title_change() {
     global $fvseop_options;
-    if( $fvseop_options['aiosp_sidebar_short_title'] ) {
+    if( isset($fvseop_options['aiosp_sidebar_short_title']) && $fvseop_options['aiosp_sidebar_short_title'] ) {
         add_filter( 'the_title', array( $this, 'the_title' ) );
     }
   }
@@ -3354,7 +3354,7 @@ function FVSimplerSEO_updateMeta()
 {
   meta = FVSimplerSEO_getLocalized('fvseo_description_input');
   <?php if( !$fvseop_options['aiosp_dont_use_excerpt'] ) : ?>
-  if( meta.replace(/^\s\s*/, '').replace(/\s\s*$/, '').length == 0 ) {
+  if( meta.replace(/^\s\s*/, '').replace(/\s\s*$/, '').length == 0 && jQuery("#excerpt").length > 0 ) {
   	meta = jQuery("#excerpt").val().replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '');  
   }
   <?php endif; ?>
@@ -3380,7 +3380,7 @@ function FVSimplerSEO_updateTitle()
     if( jQuery("#title").val() ) {
       title = jQuery("#title").val();
     } else {
-      title = __('Fill in your title', 'fv_seo');
+      title = '<?php echo __('Fill in your title', 'fv_seo'); ?>';
     }
   }
   url = jQuery("#sample-permalink").text();
@@ -3501,6 +3501,7 @@ jQuery(document).ready(function($) {
              	$fvseo_description_input_description = $meta_description_excerpt;
              	$fvseo_description_input_disabled = true;
             } else {
+              $meta_description_excerpt = false;
             	$fvseo_description_input_description = $description;
             }
             ?>
