@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.21.5
+Version: 1.6.22
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.21.5';
+$fv_simpler_seo_version = '1.6.22';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2994,8 +2994,11 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       
       $sImage = false;
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
-        if( $sImage = get_the_post_thumbnail($post->ID,'thumbnail') ) {
+        if( ($sImage = get_the_post_thumbnail($post->ID)) || ($sImage = get_the_post_thumbnail($post->ID,'thumbnail')) ) {
           $sImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $sImage );
+          if( preg_match('~^/[^/]~', $sImage) ) {
+            $sImage = home_url($sImage); 
+          }          
         }
       }
       
@@ -3016,7 +3019,7 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   <meta name="twitter:title" content="<?php echo $title; ?>" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:description" content="<?php echo $description; ?>" />
-  <?php if($sImage) : ?><meta property="twitter:image" content="<?php echo $sImage; ?>" />
+  <?php if($sImage) : ?><meta name="twitter:image" content="<?php echo $sImage; ?>" />
 <?php endif; ?>
   <meta name="twitter:url" content="<?php the_permalink(); ?>" />
 <?php

@@ -3,7 +3,7 @@ Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
 Tested up to: 3.8.1
-Stable tag: 1.6.21 
+Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
 
@@ -15,20 +15,19 @@ Streamlined interface with no keywords field. Option to turn off excerpts and au
 
 Optimizes your Wordpress blog for Search Engines (Search Engine Optimization).
 
-**[Download now!](http://downloads.wordpress.org/plugin/fv-all-in-one-seo-pack.zip)**
-
-**If upgrading, please back up your database first!**
+**If upgrading from All in One SEO Pack, please back up your database first!**
 
 [Support](http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack/) |
 [Change Log](http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack/changelog/) |
 
 Some features:
 
+* support for Google authorship and publisher fields
+* support for Facebook Open Graph and Twitter Cards
 * Canonical URLs
 * Fine tune Page Navigational Links 
 * Built-in API so other plugins/themes can access and extend functionality
 * Provides SEO Integration for WP e-Commerce sites
-* Nonce Security
 * Support for CMS-style WordPress installations
 * Automatically optimizes your **titles** for search engines
 * Generates **META tags automatically**
@@ -39,16 +38,10 @@ Some features:
 * Backward-Compatibility with many other plugins, like Auto Meta, Ultimate Tag Warrior and others.
 * Support for qTranslate
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
-* support for Google authorship and publisher fields
-
-**FV extra features**:
-
-* Keywords field can be turned off
-* Usage of WP post excerpts can be turned off
 
 == Changelog ==
 
-= Version 1.6.22 - 28 Feb 2014 =
+= Version 1.6.22 - 21 March 2014 =
 * Feature - added support for translations
 * Feature - Facebook Open Graph support added (on by default)
 * Feature - setting for custom post archive titles
