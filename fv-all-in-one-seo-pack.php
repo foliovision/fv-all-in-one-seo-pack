@@ -2633,6 +2633,24 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				</div>
 		</p>
 		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_social_twitter_site_tip');">
+					<?php _e('Twitter site:', 'fv_seo')?>
+				</a><br />
+				<input type="text" class="regular-text" size="63" name="social_twitter_site" value="<?php if (isset($fvseop_options['social_twitter_site'])) { echo esc_attr(stripcslashes($fvseop_options['social_twitter_site'])); }?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_social_twitter_site_tip">
+					<?php _e('This will be used across the whole site. Enter @site_username.', 'fv_seo')?>
+				</div>
+		</p>
+		<p>
+				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_social_twitter_creator_tip');">
+					<?php _e('Tiwtter creator:', 'fv_seo')?>
+				</a><br />
+				<input type="text" class="regular-text" size="63" name="social_twitter_creator" value="<?php if (isset($fvseop_options['social_twitter_creator'])) echo esc_attr(stripcslashes($fvseop_options['social_twitter_creator']))?>" />
+				<div style="max-width:500px; text-align:left; display:none" id="fvseo_social_twitter_creator_tip">
+					<?php _e('This will be used across the whole site, enter @your_username.', 'fv_seo')?>
+				</div>
+		</p>    
+		<p>
 				<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('social_meta_facebook');">
 					<?php _e('Insert Facebook Open Graph tags:', 'fv_seo')?>
 				</a> 
@@ -2740,6 +2758,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
       $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
       $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;
+      $fvseop_options['social_twitter_creator'] = isset( $_POST['social_twitter_creator'] ) ? trim($_POST['social_twitter_creator']) : NULL;
+      $fvseop_options['social_twitter_site'] = isset( $_POST['social_twitter_site'] ) ? trim($_POST['social_twitter_site']) : NULL;
       $fvseop_options['social_meta_facebook'] = isset( $_POST['social_meta_facebook'] ) ? true : false;
       $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
 
@@ -2994,7 +3014,14 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       
       $sImage = false;
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
-        if( ($sImage = get_the_post_thumbnail($post->ID)) || ($sImage = get_the_post_thumbnail($post->ID,'thumbnail')) ) {
+        if( $sImage = get_the_post_thumbnail($post->ID,'large') ) {
+          $sTwitterCard = 'summary_large_image';
+        } else {
+          $sImage = get_the_post_thumbnail($post->ID,'thumbnail');
+          $sTwitterCard = 'summary';
+        }
+        
+        if( $sImage ) {
           $sImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $sImage );
           if( preg_match('~^/[^/]~', $sImage) ) {
             $sImage = home_url($sImage); 
@@ -3014,14 +3041,20 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 <?php
       endif;  //  social_meta_facebook
       
-      if( !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) : 
+      if( !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) :
 ?>
   <meta name="twitter:title" content="<?php echo $title; ?>" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="<?php echo $sTwitterCard; ?>" />
   <meta name="twitter:description" content="<?php echo $description; ?>" />
   <?php if($sImage) : ?><meta name="twitter:image" content="<?php echo $sImage; ?>" />
 <?php endif; ?>
   <meta name="twitter:url" content="<?php the_permalink(); ?>" />
+  <?php if( isset($fvseop_options['social_twitter_creator']) && strlen(trim($fvseop_options['social_twitter_creator'])) > 0 ) : ?>
+    <meta name="twitter:creator" content="<?php echo trim($fvseop_options['social_twitter_creator']); ?>" />
+  <?php endif; ?>
+  <?php if( isset($fvseop_options['social_twitter_site']) && strlen(trim($fvseop_options['social_twitter_site'])) > 0 ) : ?>
+    <meta name="twitter:site" content="<?php echo trim($fvseop_options['social_twitter_site']); ?>" />
+  <?php endif; ?>  
 <?php
       endif;  //  social_meta_twitter
       
@@ -3095,6 +3128,8 @@ $fvseop_default_options = array(
   'fvseo_publ_warnings'=>1,
   'social_google_publisher'=>'',
   'social_google_author'=>'',
+  'social_twitter_site'=>'',
+  'social_twitter_creator'=>'',
   'social_meta_facebook'=>true,
   'social_meta_twitter'=>true
   );
