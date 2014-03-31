@@ -3005,12 +3005,12 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       if( !$description = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_description', true) ))) ) {
         $description = wp_trim_words(strip_shortcodes(strip_tags($post->post_content)), 20, ' &helip;');
       }
-      $description = __($this->internationalize($description));
+      $description = __($this->internationalize(strip_tags($description)));
       
       if( !$title = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_title', true) ))) ) {
         $title = get_the_title();
       }
-      $title = __($this->internationalize($title));
+      $title = __($this->internationalize(strip_tags($title)));
       
       $sImage = false;
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
