@@ -2940,18 +2940,20 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 		$no_index = $wpdb->get_col( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_aioseop_noindex' " );
 		if( $no_index ) {
 			$new_posts = array();
-			foreach( $posts AS $key => $item ) {
-				$found = false;
-				foreach( $no_index AS $id ) {
-					if( $id == $item->ID ) {
-						$found = true;
-						break;
-					}
-				}
-				if( !$found ) {
-					$new_posts[] = $item;
-				}
-			}
+         if ( !empty($posts) ) {
+            foreach( $posts AS $key => $item ) {
+               $found = false;
+               foreach( $no_index AS $id ) {
+                  if( $id == $item->ID ) {
+                     $found = true;
+                     break;
+                  }
+               }
+               if( !$found ) {
+                  $new_posts[] = $item;
+               }
+            }
+         }         
 			
 			global $wp_query;
 			$wp_query->post_count = count( $new_posts );			
