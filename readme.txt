@@ -41,6 +41,10 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.23 - 15 April 2014 =
+* Bugfix - "Use Categories for META keywords" option couldn't be turned on
+* Bugfix - PHP warnings
+
 = Version 1.6.22 - 21 March 2014 =
 * Feature - added support for translations
 * Feature - Facebook Open Graph support added (on by default)
