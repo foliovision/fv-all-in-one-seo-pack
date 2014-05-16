@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.24 - 16 May 2014 =
+* Improvement - all images from content are available for Facebook Open Graph now
+
 = Version 1.6.23 - 15 April 2014 =
 * Bugfix - "Use Categories for META keywords" option couldn't be turned on
 * Bugfix - PHP warnings

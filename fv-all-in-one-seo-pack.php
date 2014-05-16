@@ -3014,8 +3014,27 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       }
       $title = __($this->internationalize(strip_tags($title)));
       
+      $aImage = array();
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
-            preg_match_all( '~<img[^>]*src="([^"]+)"[^>]*>~', $post->post_content, $aImgMatches );
+            if( $aImage[] = get_the_post_thumbnail($post->ID,'large') ) {
+                $sTwitterCard = 'summary_large_image';
+              } else {
+                $aImage[] = get_the_post_thumbnail($post->ID,'thumbnail');
+                $sTwitterCard = 'summary';
+              }
+              
+              preg_match_all( '~<img[^>]*>~', $post->post_content, $aImgMatches );
+              $aImage = array_merge($aImage, $aImgMatches[0]);
+              
+              if( !empty($aImage) ) {
+                $aImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $aImage );
+                
+                foreach( $aImage as $key => $singleImg )
+                    if( preg_match('~^/[^/]~', $singleImg) )
+                        $aImage[$key] = home_url($singleImg);           
+              }
+            
+            
       }
       
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
@@ -3026,13 +3045,8 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   
     <?php
     //FB images
-    if( isset($aImgMatches) && !empty($aImgMatches) ){
-        foreach( $aImgMatches[1] as $singleImg ){
-            if( preg_match('~^/[^/]~', $singleImg) )
-                $singleImg = home_url($singleImg);
-            echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
-        }
-    }
+    foreach( $aImage as $singleImg )
+        echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
     ?>
     
   <meta property="og:url" content="<?php the_permalink(); ?>" />
@@ -3045,7 +3059,7 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   <meta name="twitter:title" content="<?php echo $title; ?>" />
   <meta name="twitter:card" content="<?php echo $sTwitterCard; ?>" />
   <meta name="twitter:description" content="<?php echo $description; ?>" />
-  <?php if($sImage) : ?><meta name="twitter:image" content="<?php echo $sImage; ?>" />
+  <?php if( isset($aImage[0]) && !empty($aImage[0]) ) : ?><meta name="twitter:image" content="<?php echo $aImage[0]; ?>" />
 <?php endif; ?>
   <meta name="twitter:url" content="<?php the_permalink(); ?>" />
   <?php if( isset($fvseop_options['social_twitter_creator']) && strlen(trim($fvseop_options['social_twitter_creator'])) > 0 ) : ?>
