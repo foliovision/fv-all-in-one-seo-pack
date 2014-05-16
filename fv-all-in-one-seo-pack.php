@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.23
+Version: 1.6.24
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.23';
+$fv_simpler_seo_version = '1.6.24';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -3014,21 +3014,8 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       }
       $title = __($this->internationalize(strip_tags($title)));
       
-      $sImage = false;
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
-        if( $sImage = get_the_post_thumbnail($post->ID,'large') ) {
-          $sTwitterCard = 'summary_large_image';
-        } else {
-          $sImage = get_the_post_thumbnail($post->ID,'thumbnail');
-          $sTwitterCard = 'summary';
-        }
-        
-        if( $sImage ) {
-          $sImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $sImage );
-          if( preg_match('~^/[^/]~', $sImage) ) {
-            $sImage = home_url($sImage); 
-          }          
-        }
+            preg_match_all( '~<img[^>]*src="([^"]+)"[^>]*>~', $post->post_content, $aImgMatches );
       }
       
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
@@ -3036,8 +3023,18 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   <meta property="og:title" content="<?php echo $title; ?>" />
   <meta property="og:type" content="blog" />
   <meta property="og:description" content="<?php echo $description; ?>" />
-  <?php if($sImage) : ?><meta property="og:image" content="<?php echo $sImage; ?>" />
-<?php endif; ?>
+  
+    <?php
+    //FB images
+    if( isset($aImgMatches) && !empty($aImgMatches) ){
+        foreach( $aImgMatches[1] as $singleImg ){
+            if( preg_match('~^/[^/]~', $singleImg) )
+                $singleImg = home_url($singleImg);
+            echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
+        }
+    }
+    ?>
+    
   <meta property="og:url" content="<?php the_permalink(); ?>" />
   <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>" />
 <?php
