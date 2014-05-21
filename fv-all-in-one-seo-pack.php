@@ -3016,15 +3016,19 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       
       $aImage = array();
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
-            if( $aImage[] = get_the_post_thumbnail($post->ID,'large') ) {
+            if( $thumb = get_the_post_thumbnail($post->ID,'large') ) {
+                if( !empty($thumb) ) $aImage[] = $thumb;
                 $sTwitterCard = 'summary_large_image';
               } else {
-                $aImage[] = get_the_post_thumbnail($post->ID,'thumbnail');
+                $thumb = get_the_post_thumbnail($post->ID,'thumbnail');
+                if( !empty($thumb) ) $aImage[] = $thumb;
                 $sTwitterCard = 'summary';
               }
+            
+              if( 0 != preg_match_all( '~<img[^>]*>~', $post->post_content, $aImgMatches ) ){
+                $aImage = array_merge($aImage, $aImgMatches[0]);
+              }
               
-              preg_match_all( '~<img[^>]*>~', $post->post_content, $aImgMatches );
-              $aImage = array_merge($aImage, $aImgMatches[0]);
               
               if( !empty($aImage) ) {
                 $aImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $aImage );
