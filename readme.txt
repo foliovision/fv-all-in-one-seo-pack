@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.25 - 5 June 2014 =
+* Improvement - Wordpress shortlink is removed by default as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.
+
 = Version 1.6.24 - 16 May 2014 =
 * Improvement - all images from content are available for Facebook Open Graph now
 

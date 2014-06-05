@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24
+Version: 1.6.24.1
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24';
+$fv_simpler_seo_version = '1.6.24.1';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -554,7 +554,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     return $closed;
 	}
 
-	
+
 	
 	
 	//-------------------------------
@@ -2226,6 +2226,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
                 </div>
             </p>
+						<p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shortlinks_top');">
+                  <?php _e('Enable shortlinks in header:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_shortlinks" <?php if ($fvseop_options['fvseo_shortlinks']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_shortlinks_top">
+                  <?php _e("We don't recommend using the Wordpress <a href='http://microformats.org/wiki/rel-shortlink'>shortlinks</a> as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.", 'fv_seo')?>
+                </div>
+            </p>            
             <p>
                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
                   <?php _e('Shorten Post / Page name:', 'fv_seo')?>
@@ -2711,6 +2720,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$message = __("FV Simpler SEO Options Updated.", 'fv_seo');
 			
 			$fvseop_options['aiosp_can'] = isset( $_POST['fvseo_can'] ) ? $_POST['fvseo_can'] : NULL;
+      $fvseop_options['fvseo_shortlinks'] = isset( $_POST['fvseo_shortlinks'] ) ? $_POST['fvseo_shortlinks'] : NULL;
 			$fvseop_options['aiosp_home_title'] = isset( $_POST['fvseo_home_title'] ) ? $_POST['fvseo_home_title'] : NULL;
 			$fvseop_options['aiosp_home_description'] = isset( $_POST['fvseo_home_description'] ) ? $_POST['fvseo_home_description'] : NULL;
 			$fvseop_options['aiosp_home_keywords'] = isset( $_POST['fvseo_home_keywords'] ) ? $_POST['fvseo_home_keywords'] : NULL;
@@ -3104,6 +3114,7 @@ $fvseop_options = get_option('aioseop_options');
 global $fvseop_default_options;
 $fvseop_default_options = array(
   "aiosp_can"=>0,
+  "fvseo_shortlinks"=>0,
   "aiosp_home_title"=>null,
   "aiosp_home_description"=>'',
   "aiosp_home_keywords"=>null,
@@ -3679,6 +3690,10 @@ if( false === get_option( 'aiosp-shorten-link-install' ) )
 
 if( isset($fvseop_options['aiosp_can']) && ( $fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] === 'on') ) {
 	remove_action('wp_head', 'rel_canonical');
+}
+
+if( !isset($fvseop_options['fvseo_shortlinks']) || ( $fvseop_options['fvseo_shortlinks'] != '1' && strcmp($fvseop_options['fvseo_shortlinks'],'on') ) ) {
+	remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 }
 
 add_action('admin_menu', 'fvseo_meta_box_add');
