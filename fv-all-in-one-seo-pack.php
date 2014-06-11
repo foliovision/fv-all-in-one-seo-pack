@@ -8,7 +8,7 @@ Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.2';
+$fv_simpler_seo_version = '1.6.24.3';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2246,11 +2246,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
             </p>             
             <p>
                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
-                  <?php _e('Shorten Post / Page name:', 'fv_seo')?>
+                  <?php _e('Shorten Page URL / Post Slug:', 'fv_seo')?>
                </a>
                <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
                <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_slugs">
-                  <?php _e("This option will automatically shorten a link to post / page upon first save.", 'fv_seo')?>
+                  <?php _e("This option will automatically shorten the page URL or post slug on first save to the three longest words to avoid accidentally posting really long URLs. You can put in a handwritten URL later which will not change.", 'fv_seo')?>
                </div>
             </p>
             <p>
