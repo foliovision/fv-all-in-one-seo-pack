@@ -832,6 +832,14 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		global $fvseop_options;
 
 		$post = $wp_query->get_queried_object();
+    
+    if( is_attachment() ) { //  todo: option
+      global $post;
+      $aImage = wp_get_attachment_image_src($post->ID, 'full');
+      if( isset($aImage[0]) ) {
+        wp_redirect($aImage[0]);
+      }
+    }
 
 		if ($this->fvseop_mrt_exclude_this_page())
 		{
@@ -3130,6 +3138,40 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   }
   
   
+  
+  
+  function replace_attachment_links( $content ) {
+    //  todo: option
+    global $wpdb;
+    //$wpdb->queries[] = 'start';
+    $content = preg_replace_callback( '~<a[^>]*?href="(.*?)"[^>]*?>[\s\S]*?<img[^>]*?src="(.*?)"[^>]*?>[\s\S]*?</a>~', array( $this, 'replace_attachment_links_callback' ), $content );
+    //$wpdb->queries[] = 'end';
+        
+    return $content;
+  }
+  
+  
+  
+  
+  function replace_attachment_links_callback( $aMatch ) {
+    
+    //  db
+    /*$attachment_id = url_to_postid($aMatch[1]);
+    if( $attachment_id > 0 ) {
+      $aImage = wp_get_attachment_image_src($attachment_id, 'full');
+      if( isset($aImage[0]) ) {
+        $aMatch[0] = str_replace( $aMatch[1], $aImage[0], $aMatch[0] );
+      }
+    }*/
+
+    if( stripos($aMatch[1], get_permalink()) === 0 || stripos($aMatch[1], trailingslashit(home_url()).'?attachment=' ) === 0 ) {
+      $aMatch[0] = str_replace( $aMatch[1], preg_replace( '~-\d{3,4}x\d{3,4}(\.\S{3,4})$~', '$1', $aMatch[2]), $aMatch[0] );
+    }
+    
+    return $aMatch[0];
+  }
+  
+  
 	
 	
 } // end fv_seo class
@@ -3761,6 +3803,7 @@ add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) 
 
 add_filter( 'get_sidebar', array( $fvseo, 'initiate_the_title_change' ) );
 add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
+add_filter( 'the_content', array( $fvseo, 'replace_attachment_links' ), 10 );
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
