@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.1
+Version: 1.6.24.2
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.1';
+$fv_simpler_seo_version = '1.6.24.2';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2227,14 +2227,23 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                 </div>
             </p>
 						<p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shortlinks_top');">
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shortlinks_tip');">
                   <?php _e('Enable shortlinks in header:', 'fv_seo')?>
                 </a>
                 <input type="checkbox" name="fvseo_shortlinks" <?php if ($fvseop_options['fvseo_shortlinks']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_shortlinks_top">
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_shortlinks_tip">
                   <?php _e("We don't recommend using the Wordpress <a href='http://microformats.org/wiki/rel-shortlink'>shortlinks</a> as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.", 'fv_seo')?>
                 </div>
-            </p>            
+            </p>
+						<p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_hentry_tip');">
+                  <?php _e('Enable hentry class:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_hentry" <?php if ($fvseop_options['fvseo_hentry']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_hentry_tip">
+                  <?php _e("hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need. We also strip rel=\"cateogry tag\" from category links.", 'fv_seo')?>
+                </div>
+            </p>             
             <p>
                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
                   <?php _e('Shorten Post / Page name:', 'fv_seo')?>
@@ -2721,6 +2730,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			
 			$fvseop_options['aiosp_can'] = isset( $_POST['fvseo_can'] ) ? $_POST['fvseo_can'] : NULL;
       $fvseop_options['fvseo_shortlinks'] = isset( $_POST['fvseo_shortlinks'] ) ? $_POST['fvseo_shortlinks'] : NULL;
+      $fvseop_options['fvseo_hentry'] = isset( $_POST['fvseo_hentry'] ) ? $_POST['fvseo_hentry'] : NULL;
 			$fvseop_options['aiosp_home_title'] = isset( $_POST['fvseo_home_title'] ) ? $_POST['fvseo_home_title'] : NULL;
 			$fvseop_options['aiosp_home_description'] = isset( $_POST['fvseo_home_description'] ) ? $_POST['fvseo_home_description'] : NULL;
 			$fvseop_options['aiosp_home_keywords'] = isset( $_POST['fvseo_home_keywords'] ) ? $_POST['fvseo_home_keywords'] : NULL;
@@ -2772,6 +2782,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseop_options['social_twitter_site'] = isset( $_POST['social_twitter_site'] ) ? trim($_POST['social_twitter_site']) : NULL;
       $fvseop_options['social_meta_facebook'] = isset( $_POST['social_meta_facebook'] ) ? true : false;
       $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
+      
+      $fvseop_options['remove_hentry'] = isset( $_POST['remove_hentry'] ) ? true : false;
 
 			update_option('aioseop_options', $fvseop_options);
 
@@ -3087,7 +3099,27 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
       
     }
 
-	}	  
+	}
+  
+  
+  
+  
+  function post_class( $classes ) {
+    foreach( $classes AS $key => $item ) {
+      if( $item == 'hentry' ) {
+        unset( $classes[$key] );
+      }
+    }
+    return $classes;  
+  }
+  
+  
+  
+  
+  function microdata_category_links( $sHTML ) {
+    $sHTML = preg_replace( '~rel=[\'"].*?[\'"]~', '', $sHTML );
+    return $sHTML;
+  }
 	
 	
 	
@@ -3115,6 +3147,7 @@ global $fvseop_default_options;
 $fvseop_default_options = array(
   "aiosp_can"=>0,
   "fvseo_shortlinks"=>0,
+  "fvseo_hentry"=>0,
   "aiosp_home_title"=>null,
   "aiosp_home_description"=>'',
   "aiosp_home_keywords"=>null,
@@ -3846,3 +3879,8 @@ if( isset($fvseop_options['aiosp_remove_category_rel']) && $fvseop_options['aios
 }
 
 add_action( 'activate_' .plugin_basename(__FILE__), array( $fvseo, 'activate' ) );
+
+if( !isset($fvseop_options['fvseo_hentry']) || ( $fvseop_options['fvseo_hentry'] != '1' && strcmp($fvseop_options['fvseo_hentry'],'on') ) ) {
+    add_filter('post_class', array( $fvseo, 'post_class' ) );
+    add_filter('the_category', array( $fvseo, 'microdata_category_links' ) );
+}

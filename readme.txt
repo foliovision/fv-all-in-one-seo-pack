@@ -43,6 +43,7 @@ Some features:
 
 = Version 1.6.25 - 5 June 2014 =
 * Improvement - Wordpress shortlink is removed by default as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.
+* Improvement - hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need.
 
 = Version 1.6.24 - 16 May 2014 =
 * Improvement - all images from content are available for Facebook Open Graph now
