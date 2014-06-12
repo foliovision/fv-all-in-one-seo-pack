@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.2
+Version: 1.6.24.4
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.3';
+$fv_simpler_seo_version = '1.6.24.4';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -833,13 +833,77 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
 		$post = $wp_query->get_queried_object();
     
-    if( is_attachment() ) { //  todo: option
-      global $post;
-      $aImage = wp_get_attachment_image_src($post->ID, 'full');
-      if( isset($aImage[0]) ) {
-        wp_redirect($aImage[0]);
+    global $fvseop_options;
+    if( isset($fvseop_options['fvseo_attachments']) && $fvseop_options['fvseo_attachments'] ) {
+      if( is_attachment() ) {
+        global $post;
+        $aImage = wp_get_attachment_image_src($post->ID, 'full');
+        if( isset($aImage[0]) ) {
+          wp_redirect($aImage[0],301);
+          exit;
+        }
       }
     }
+    
+
+    if( $wp_query->is_404 && isset($wp_query->query['paged']) && $wp_query->query['paged'] > 0 ) {
+
+      $aArgs = $wp_query->query;
+      unset($aArgs['paged']);
+      $objCheckPaging = new WP_Query( $aArgs );
+
+      global $wp_rewrite;
+      
+      $sLink = false;
+      if( $objCheckPaging->is_year ) {        
+        $sLink = get_year_link( $aArgs['year'] );
+        
+      } else if( $objCheckPaging->is_month ) {
+        $sLink = get_month_link( $aArgs['year'], intval($aArgs['monthnum']) );
+        
+      } else if( $objCheckPaging->is_day ) {
+        $sLink = get_day_link( $aArgs['year'], $aArgs['monthnum'], $aArgs['day'] );
+        
+      } else if( $objCheckPaging->is_category ) {
+        if( isset($wp_query->query['category_name']) ) {
+          $objCat = get_category_by_path( $wp_query->query['category_name'] ); 
+          $iCatId = $objCat->term_id;
+        }
+        if( isset($iCatId) ) {
+          $sLink = get_category_link($iCatId);
+        }
+        
+      } else if( $objCheckPaging->is_author ) {
+        if( isset($wp_query->query['author_name']) ) {
+          $objAuthor = get_user_by( 'slug', $wp_query->query['author_name'] ); 
+          $iAuthorId = $objAuthor->ID;
+        }
+        if( isset($iAuthorId) ) {
+          $sLink = get_author_posts_url($iAuthorId);
+        }
+        
+      }
+      
+if( isset($_GET['martinv']) ) {
+  var_dump($wp_query,$sLink,$objCheckPaging);
+}      
+      if( $objCheckPaging->max_num_pages > 0 && $sLink ) {
+        if( $objCheckPaging->max_num_pages > 1 ) {
+          $sLink = user_trailingslashit( trailingslashit($sLink).'page/'.$objCheckPaging->max_num_pages );  
+        }
+if( isset($_GET['martinv']) ) {
+  echo "Redirect to: ".$sLink."\n";
+  die();
+}            
+        wp_redirect($sLink,301);
+        exit;
+      }
+    }
+    
+if( isset($_GET['martinv']) ) {
+  die('template_redirect');
+}     
+
 
 		if ($this->fvseop_mrt_exclude_this_page())
 		{
@@ -2225,6 +2289,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	function admin_settings_advanced() {
 		global $fvseop_options;
 	?>
+            <p>
+               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
+                  <?php _e('Shorten Page URL / Post Slug:', 'fv_seo')?>
+               </a>
+               <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
+               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_slugs">
+                  <?php _e("This option will automatically shorten the page URL or post slug on first save to the three longest words to avoid accidentally posting really long URLs. You can put in a handwritten URL later which will not change.", 'fv_seo')?>
+               </div>
+            </p>  
 						<p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_can_tip');">
                   <?php _e('Canonical URLs:', 'fv_seo')?>
@@ -2234,6 +2307,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
                 </div>
             </p>
+						<p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_attachments_tip');">
+                  <?php _e('Redirect attachment links to the file URLs:', 'fv_seo')?>
+                </a>
+                <input type="checkbox" name="fvseo_attachments" <?php if ($fvseop_options['fvseo_attachments']) echo 'checked="checked"'; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_attachments_tip">
+                  <?php _e("Get rid of /?attachment_id={attachment_id} and /year/month/post-name/attachment-name kind of pages. Creates 301 redirections and replaces such links in content. Recommended.", 'fv_seo')?>
+                </div>
+            </p>                 
 						<p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shortlinks_tip');">
                   <?php _e('Enable shortlinks in header:', 'fv_seo')?>
@@ -2252,15 +2334,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need. We also strip rel=\"cateogry tag\" from category links.", 'fv_seo')?>
                 </div>
             </p>             
-            <p>
-               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
-                  <?php _e('Shorten Page URL / Post Slug:', 'fv_seo')?>
-               </a>
-               <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
-               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_slugs">
-                  <?php _e("This option will automatically shorten the page URL or post slug on first save to the three longest words to avoid accidentally posting really long URLs. You can put in a handwritten URL later which will not change.", 'fv_seo')?>
-               </div>
-            </p>
             <p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_rewrite_titles_tip');">
                   <?php _e('Rewrite Titles:', 'fv_seo')?>
@@ -2782,6 +2855,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseop_options['aiosp_sidebar_short_title'] = isset( $_POST['fvseo_sidebar_short_title'] ) ? $_POST['fvseo_sidebar_short_title'] : NULL;
 			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
       $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
+      $fvseop_options['fvseo_attachments'] = isset( $_POST['fvseo_attachments'] ) ? true : false;
       $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
 
       $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
@@ -3140,32 +3214,27 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   
   
   
+  /*
+   * Matches anchor rel="wp-att-{attachment id}" with image class="wp-image-{attachment id}" and replaces these links with full sizes images
+   */
   function replace_attachment_links( $content ) {
-    //  todo: option
+    global $fvseop_options;
+    if( isset($fvseop_options['fvseo_attachments']) && !$fvseop_options['fvseo_attachments'] ) {
+      return $content;
+    }
+    
     global $wpdb;
     //$wpdb->queries[] = 'start';
-    $content = preg_replace_callback( '~<a[^>]*?href="(.*?)"[^>]*?>[\s\S]*?<img[^>]*?src="(.*?)"[^>]*?>[\s\S]*?</a>~', array( $this, 'replace_attachment_links_callback' ), $content );
-    //$wpdb->queries[] = 'end';
-        
+    $content = preg_replace_callback( '~<a[^>]*?href="(.*?)"[^>]*?rel=".*?wp-att-(\d+).*?"[^>]*?>\s*?<img[^>]*?src="(.*?)"[^>]*?class=".*?wp-image-(\d+).*?"[^>]*?>\s*?</a>~', array( $this, 'replace_attachment_links_callback' ), $content );
     return $content;
   }
   
   
   
   
-  function replace_attachment_links_callback( $aMatch ) {
-    
-    //  db
-    /*$attachment_id = url_to_postid($aMatch[1]);
-    if( $attachment_id > 0 ) {
-      $aImage = wp_get_attachment_image_src($attachment_id, 'full');
-      if( isset($aImage[0]) ) {
-        $aMatch[0] = str_replace( $aMatch[1], $aImage[0], $aMatch[0] );
-      }
-    }*/
-
-    if( stripos($aMatch[1], get_permalink()) === 0 || stripos($aMatch[1], trailingslashit(home_url()).'?attachment=' ) === 0 ) {
-      $aMatch[0] = str_replace( $aMatch[1], preg_replace( '~-\d{3,4}x\d{3,4}(\.\S{3,4})$~', '$1', $aMatch[2]), $aMatch[0] );
+  function replace_attachment_links_callback( $aMatch ) {  
+    if( $aMatch[4] == $aMatch[2] ) {
+      $aMatch[0] = str_replace( $aMatch[1], preg_replace( '~-\d{3,4}x\d{3,4}(\.\S{3,4})$~', '$1', $aMatch[3]), $aMatch[0] );
     }
     
     return $aMatch[0];
@@ -3190,6 +3259,7 @@ $fvseop_default_options = array(
   "aiosp_can"=>0,
   "fvseo_shortlinks"=>0,
   "fvseo_hentry"=>0,
+  "fvseo_attachments"=>1,
   "aiosp_home_title"=>null,
   "aiosp_home_description"=>'',
   "aiosp_home_keywords"=>null,
@@ -3803,7 +3873,7 @@ add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) 
 
 add_filter( 'get_sidebar', array( $fvseo, 'initiate_the_title_change' ) );
 add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
-add_filter( 'the_content', array( $fvseo, 'replace_attachment_links' ), 10 );
+add_filter( 'the_content', array( $fvseo, 'replace_attachment_links' ), 999 );
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
