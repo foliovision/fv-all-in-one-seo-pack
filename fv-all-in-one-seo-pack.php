@@ -3153,8 +3153,18 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
   
     <?php
     //FB images
-    foreach( $aImage as $singleImg )
-        echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
+    $uniqueImages = array();
+    foreach( $aImage as $singleImg ){
+
+        if( !preg_match('~^.+\/([^\/]+\.[A-Za-z]+)$~',$singleImg, $aFile) )
+            continue;
+        
+        if( !in_array( $aFile[1], $uniqueImages ) ){
+            $uniqueImages[] = $aFile[1];
+            echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
+        }
+    }
+
     ?>
     
   <meta property="og:url" content="<?php the_permalink(); ?>" />
