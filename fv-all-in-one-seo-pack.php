@@ -3718,19 +3718,16 @@ jQuery(document).ready(function($) {
         </p>
         <p>
             <?php
-            $fvseo_description_input_disabled = false;
             if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
             	$meta_description_excerpt = 'Using post excerpt, type your SEO meta description here.';
-             	$fvseo_description_input_description = $meta_description_excerpt;
-             	$fvseo_description_input_disabled = true;
             } else {
-                $meta_description_excerpt = false;
-                $fvseo_description_input_description = $description;
+                $meta_description_excerpt = 'Type your SEO meta description here.';
             }
+            $fvseo_description_input_description = $description;
             ?>
             <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-            <textarea id="fvseo_description_input" class="input <?php if($fvseo_description_input_disabled) echo 'fvseo_disabled'; ?>" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
-              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" onclick="if(this.value == '<?php echo $meta_description_excerpt; ?>' ) { this.value = ''; jQuery(this).removeClass('fvseo_disabled'); }"><?php echo $fvseo_description_input_description ?></textarea>
+            <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
+              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" placeholder="<?php echo $meta_description_excerpt; ?>"><?php echo $fvseo_description_input_description ?></textarea>
             <br />
             <input id="lengthD" class="inputcounter" readonly="readonly" type="text" name="lengthD" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
             <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
