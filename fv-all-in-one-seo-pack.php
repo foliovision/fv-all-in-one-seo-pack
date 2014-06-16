@@ -2066,7 +2066,7 @@ if( isset($_GET['martinv']) ) {
         }                    
       }
       else {        
-        $description = isset( $_POST["fvseo_description"] ) ? $_POST["fvseo_description"] : NULL;
+        $description = ( isset( $_POST["fvseo_description"] ) && $_POST["fvseo_description"] != 'Using post excerpt, type your SEO meta description here.' ) ? $_POST["fvseo_description"] : NULL;
         $title = isset( $_POST["fvseo_title"] ) ? $_POST["fvseo_title"] : NULL;
       }
 			$fvseo_meta = isset( $_POST["fvseo_meta"] ) ? $_POST["fvseo_meta"] : NULL;
@@ -3717,15 +3717,15 @@ jQuery(document).ready(function($) {
             <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
         </p>
         <p>
-        		<?php
-        		$fvseo_description_input_disabled = false;
-        		if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
+            <?php
+            $fvseo_description_input_disabled = false;
+            if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
             	$meta_description_excerpt = 'Using post excerpt, type your SEO meta description here.';
              	$fvseo_description_input_description = $meta_description_excerpt;
              	$fvseo_description_input_disabled = true;
             } else {
-              $meta_description_excerpt = false;
-            	$fvseo_description_input_description = $description;
+                $meta_description_excerpt = false;
+                $fvseo_description_input_description = $description;
             }
             ?>
             <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
