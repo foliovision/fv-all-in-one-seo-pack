@@ -41,6 +41,10 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.26 - 16 June 2014 =
+* Improvement - added checking for duplicate images in og:image tag
+* Bugfix - meta description hint outputted by javascript was saved to postmeta if custom excerpt was set 
+
 = Version 1.6.25 - 5 June 2014 =
 * Improvement - Wordpress shortlink is removed by default as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.
 * Improvement - hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need.
