@@ -3159,13 +3159,15 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
         if( !preg_match('~^.+\/([^\/]+\.[A-Za-z]+)$~',$singleImg, $aFile) )
             continue;
         
-        if( !in_array( $aFile[1], $uniqueImages ) ){
-            $uniqueImages[] = $aFile[1];
+        $file_name = preg_replace( '~^([^-]+)-[0-9]{1,4}x[0-9]{1,4}(\.[A-Za-z]+)$~', '$1$2', $aFile[1] );
+        
+        if( !in_array( $file_name, $uniqueImages ) ){
+            $uniqueImages[] = $file_name;
             echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
         }
     }
-
     ?>
+    
     
   <meta property="og:url" content="<?php the_permalink(); ?>" />
   <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>" />
