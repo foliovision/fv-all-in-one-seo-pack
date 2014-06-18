@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.27 - 18 June 2014 =
+* Improvement - Added custom post type title rewritting
+
 = Version 1.6.26 - 16 June 2014 =
 * Improvement - added checking for duplicate images in og:image tag
 * Bugfix - meta description hint outputted by javascript was saved to postmeta if custom excerpt was set 

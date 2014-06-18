@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.4
+Version: 1.6.27
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.4';
+$fv_simpler_seo_version = '1.6.27';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -1593,6 +1593,8 @@ if( isset($_GET['martinv']) ) {
 			}
 
 			$title = $this->internationalize(get_post_meta($post->ID, "_aioseop_title", true));
+                        
+                        $post_type = get_post_type( $post->ID );
 			
 			if (!$title)
 			{
@@ -1605,11 +1607,15 @@ if( isset($_GET['martinv']) ) {
 			}
 
                         if( $fvseop_options['aiosp_rewrite_titles'] ) {
-                            $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
-    
+                            if( !is_singular( array('post')) )
+                                $title_format = stripslashes( $fvseop_options['aiosp_custom_post_title_format'] );
+                            else
+                                $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
+                                
                             $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
                             $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
                             $new_title = str_replace('%post_title%', $title, $new_title);
+                            $new_title = str_replace('%post_type_name%', $post_type, $new_title);
                             $new_title = str_replace('%category%', $category, $new_title);
                             $new_title = str_replace('%category_title%', $category, $new_title);
                             $new_title = str_replace('%post_author_login%', $authordata->user_login, $new_title);
@@ -1620,7 +1626,7 @@ if( isset($_GET['martinv']) ) {
                         /// Addition
                         else
                             $new_title = $title;
-
+                        
 			$title = $new_title;
 			$title = trim($title);
 			$title = apply_filters('fvseo_title_single',$title);
@@ -2366,6 +2372,29 @@ if( isset($_GET['martinv']) ) {
                         echo('</ul>');
                         ?>
                     </div>
+                </p>
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_post_title_format');">
+                        <?php _e('Custom Post Type Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" style="width: 100%;" name="fvseo_custom_post_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_post_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_post_title_format">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%post_title% - The original title of the post', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%post_type_name% - The name of custom post type', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category_title% - The (main) category of the post', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%category% - Alias for %category_title%', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_login% - This post's author' login", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_nicename% - This post's author' nicename", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_firstname% - This post's author' first name (capitalized)", 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e("%post_author_lastname% - This post's author' last name (capitalized)", 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
                 </p>    
                 <p>
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_page_title_format_tip');">
@@ -2818,6 +2847,7 @@ if( isset($_GET['martinv']) ) {
 			$fvseop_options['aiosp_max_words_excerpt'] = isset( $_POST['fvseo_max_words_excerpt'] ) ? $_POST['fvseo_max_words_excerpt'] : NULL;
 			$fvseop_options['aiosp_rewrite_titles'] = isset( $_POST['fvseo_rewrite_titles'] ) ? $_POST['fvseo_rewrite_titles'] : NULL;
 			$fvseop_options['aiosp_post_title_format'] = isset( $_POST['fvseo_post_title_format'] ) ? $_POST['fvseo_post_title_format'] : NULL;
+                        $fvseop_options['aiosp_custom_post_title_format'] = isset( $_POST['fvseo_custom_post_title_format'] ) ? $_POST['fvseo_custom_post_title_format'] : NULL;
 			$fvseop_options['aiosp_page_title_format'] = isset( $_POST['fvseo_page_title_format'] ) ? $_POST['fvseo_page_title_format'] : NULL;
 			$fvseop_options['aiosp_category_title_format'] = isset( $_POST['fvseo_category_title_format'] ) ? $_POST['fvseo_category_title_format'] : NULL;
 			$fvseop_options['aiosp_archive_title_format'] = isset( $_POST['fvseo_archive_title_format'] ) ? $_POST['fvseo_archive_title_format'] : NULL;
@@ -3278,6 +3308,7 @@ $fvseop_default_options = array(
   "aiosp_max_words_excerpt"=>'something',
   "aiosp_rewrite_titles"=>0,
   "aiosp_post_title_format"=>'%post_title% | %blog_title%',
+  "aiosp_custom_post_title_format"=>'%post_title% | %post_type_name% | %blog_title%',
   "aiosp_page_title_format"=>'%page_title% | %blog_title%',
   "aiosp_category_title_format"=>'%category_title% | %blog_title%',
   "aiosp_archive_title_format"=>'%date% | %blog_title%',
