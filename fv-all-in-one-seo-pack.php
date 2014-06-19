@@ -8,7 +8,7 @@ Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.27';
+$fv_simpler_seo_version = '1.6.28';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -1246,6 +1246,27 @@ if( isset($_GET['martinv']) ) {
 			}
 		}
 	}
+        
+        
+        function hatom_microformat_replace() {
+            global $fvseop_options;
+            
+            if( !isset($fvseop_options['fvseo_hentry']) || ( $fvseop_options['fvseo_hentry'] != '1' && strcmp($fvseop_options['fvseo_hentry'],'on') ) )
+                ob_start(array($this,'hatom_microformat_callback'));
+        }
+        
+        // From here Wordpress starts to process the request
+        
+        // Called whenever the page generation is ended
+        function hatom_microformat_callback($buffer) {
+        
+            $new_buffer = preg_replace( '~(class=["\'][^"\']*)hfeed\s?~', '$1', $buffer );
+            $new_buffer = str_replace( 'author vcard', 'author', $new_buffer);
+            return $new_buffer;
+        }
+        
+        
+        
 	
 	function fvseo_mrt_get_url($query)
 	{
@@ -2333,11 +2354,11 @@ if( isset($_GET['martinv']) ) {
             </p>
 						<p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_hentry_tip');">
-                  <?php _e('Enable hentry class:', 'fv_seo')?>
+                  <?php _e('Enable hAtom microformat classes:', 'fv_seo')?>
                 </a>
                 <input type="checkbox" name="fvseo_hentry" <?php if ($fvseop_options['fvseo_hentry']) echo 'checked="checked"'; ?>/>
                 <div style="max-width:500px; text-align:left; display:none" id="fvseo_hentry_tip">
-                  <?php _e("hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need. We also strip rel=\"cateogry tag\" from category links.", 'fv_seo')?>
+                  <?php _e("hAtom is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need. We removed hfeed, hentry and vcard classes. We also strip rel=\"cateogry tag\" from category links.", 'fv_seo')?>
                 </div>
             </p>             
             <p>
@@ -3891,6 +3912,7 @@ add_action('admin_init', array($fvseo, 'admin_init') );
 add_action('init', array($fvseo, 'init'));
 add_action('template_redirect', array($fvseo, 'template_redirect'));
 add_action('wp_head', array($fvseo, 'wp_head'));
+add_action('wp_head', array($fvseo, 'hatom_microformat_replace'));
 add_action('wp_head', array($fvseo, 'remove_canonical'), 0 );
 add_action('wp_head', array($fvseo, 'google_authorship') );
 add_action('wp_head', array($fvseo, 'social_meta_tags') );

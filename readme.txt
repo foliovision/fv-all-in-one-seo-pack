@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.28 - 19 June 2014 =
+* Improvement - Added function for removing hAtom microformats
+
 = Version 1.6.27 - 18 June 2014 =
 * Improvement - Added custom post type title rewritting
 
