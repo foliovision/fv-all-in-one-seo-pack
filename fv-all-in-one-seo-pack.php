@@ -1261,7 +1261,7 @@ if( isset($_GET['martinv']) ) {
         function hatom_microformat_callback($buffer) {
         
             $new_buffer = preg_replace( '~(class=["\'][^"\']*)hfeed\s?~', '$1', $buffer );
-            $new_buffer = str_replace( 'author vcard', 'author', $new_buffer);
+            $new_buffer = preg_replace( '~(class=["\'][^"\']*)vcard\s?~', '$1', $new_buffer );
             return $new_buffer;
         }
         
