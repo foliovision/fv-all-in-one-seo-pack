@@ -1615,7 +1615,8 @@ if( isset($_GET['martinv']) ) {
 
 			$title = $this->internationalize(get_post_meta($post->ID, "_aioseop_title", true));
                         
-                        $post_type = get_post_type( $post->ID );
+                        $post_type_obj = get_post_type_object( get_post_type( $post->ID ) );
+                        $post_type_name = $post_type_obj->labels->name;
 			
 			if (!$title)
 			{
@@ -1636,7 +1637,7 @@ if( isset($_GET['martinv']) ) {
                             $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
                             $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
                             $new_title = str_replace('%post_title%', $title, $new_title);
-                            $new_title = str_replace('%post_type_name%', $post_type, $new_title);
+                            $new_title = str_replace('%post_type_name%', $post_type_name, $new_title);
                             $new_title = str_replace('%category%', $category, $new_title);
                             $new_title = str_replace('%category_title%', $category, $new_title);
                             $new_title = str_replace('%post_author_login%', $authordata->user_login, $new_title);
