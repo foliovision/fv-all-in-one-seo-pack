@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.29 - 26 June 2014 =
+* Improvement - Added options for Include/Exclude categories in sitemap from XML Sitemaps & Google News feed plugin
+
 = Version 1.6.28 - 19 June 2014 =
 * Improvement - Added function for removing hAtom microformats
 
