@@ -2773,8 +2773,9 @@ if( isset($_GET['martinv']) ) {
                 $users =  get_users( array( 'who' => 'authors' ) );
                 $sitemap_option = get_option('xmlsf_sitemaps');
                 
-                $xml_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap'] ) && !empty( $sitemap_option['sitemap'] ) ) ? true : false;
+                $xml_sitemap = ( $sitemap_option === FALSE || ( isset( $sitemap_option['sitemap'] ) && !empty( $sitemap_option['sitemap'] ) ) ) ? true : false;
                 $news_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap-news'] ) && !empty( $sitemap_option['sitemap-news'] ) ) ? true : false;
+                // $xml_sitemap is TRUE if plugin is on and there are no option xmlsf_sitemaps - this happens if plugin is activated without settings, it is default value
                 
                 if( $xml_sitemap )
                     echo '<input type="hidden" name="xml_sitemap" value=1>';
