@@ -41,20 +41,12 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.29 - 26 June 2014 =
-* Improvement - Added options for Include/Exclude categories in sitemap from XML Sitemaps & Google News feed plugin
-
-= Version 1.6.28 - 19 June 2014 =
+= Version 1.6.25 - 26 June 2014 =
+* Improvement - Added options for Include/Exclude categories and authors in sitemap from XML Sitemaps & Google News feed plugin
 * Improvement - Added function for removing hAtom microformats
-
-= Version 1.6.27 - 18 June 2014 =
 * Improvement - Added custom post type title rewritting
-
-= Version 1.6.26 - 16 June 2014 =
 * Improvement - added checking for duplicate images in og:image tag
 * Bugfix - meta description hint outputted by javascript was saved to postmeta if custom excerpt was set 
-
-= Version 1.6.25 - 5 June 2014 =
 * Improvement - Wordpress shortlink is removed by default as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.
 * Improvement - hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need.
 

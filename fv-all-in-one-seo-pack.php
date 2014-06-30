@@ -8,7 +8,7 @@ Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.29';
+$fv_simpler_seo_version = '1.6.24.10';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2762,49 +2762,128 @@ if( isset($_GET['martinv']) ) {
 	
         
         function admin_settings_sitemap(){
-            global $fvseop_options;
-            $categories = get_categories();
             
-            ?>
-            <p>Exclude categories from Sitemap, include categories to News Sitemap</p>
-            <table id="sitemap_table">
-            <tr valign="top" class="head">
-              <td><br/><u>Category name</u></td>
-              <td scope="row">Exclude<br />from Sitemap:</td>
-              <td scope="row">Include in<br />News Sitemap:</td>
-            </tr>
-            <?php
-                foreach( $categories as $category ){
-                    echo '<tr valign="top">' . "\n";
+            if ( !is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
+                echo '<p> Want to add sitemap or google news sitemap? We recommend "XML Sitemaps & Google News feed" plugin.</p>';
+            }
+            else{
+                global $fvseop_options;
+                
+                $categories = get_categories();
+                $users =  get_users( array( 'who' => 'authors' ) );
+                $sitemap_option = get_option('xmlsf_sitemaps');
+                
+                $xml_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap'] ) && !empty( $sitemap_option['sitemap'] ) ) ? true : false;
+                $news_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap-news'] ) && !empty( $sitemap_option['sitemap-news'] ) ) ? true : false;
+                
+                if( $xml_sitemap )
+                    echo '<input type="hidden" name="xml_sitemap" value=1>';
+                if( $news_sitemap )
+                    echo '<input type="hidden" name="news_sitemap" value=1>';
+                
+                if( !$xml_sitemap || !$news_sitemap ){
+                ?>
+                    <p> <?php _e("Do not forget to turn on XML Sitemap Index and Google News Sitemap in <a href=\"<?php echo admin_url(); ?>/options-reading.php\">Settings - Readings</a>", 'fv_seo'); ?></p>
+                <?php
+                }
+                if( ( $xml_sitemap || $news_sitemap ) ){
+                ?>
+                
+                    <p id="fvseo_sitemap_exclude_tip" style="display:none"> <?php _e("You can include almost anything in a <strong>Google Sitemap</strong>. We are excluding your \"noindex\" posts and pages already. If you would like to exclude any other categories or authors, now is your change.", 'fv_seo'); ?></p>
+                    <p id="fvseo_sitemap_news_include_tip" style="display:none"><?php _e("<strong>Google News</strong> has scrict requirements (\"Journalistic standards: Original reporting and honest attribution are longstanding journalistic values. If your site publishes aggregated content, you will need to separate it from your original work, or restrict our access to those aggregated articles.\" -- <a target=\"_blank\" href=\"https://support.google.com/news/publisher/answer/40787?hl=en\">https://support.google.com/news/publisher/answer/40787?hl=en</a>). Please decide what you would like to include in your Google News Sitemap.", 'fv_seo'); ?></p>
+                        
+                    <table id="sitemap_table">
+                    <tr valign="top" class="head">
+                      <td><br/><u><?php _e("Category name", 'fv_seo'); ?></u></td>
+                <?php   if( $xml_sitemap ){ ?>
+                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></a></td>
+                <?php   }
+                        if( $news_sitemap ){ ?>
+                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></a></td>
+                <?php   } ?>
+                    </tr>
+                    <?php
+                        foreach( $categories as $category ){
+                            echo '<tr valign="top">' . "\n";
+                            
+                            echo '<td>'.$category->cat_name.'</td>'. "\n";
+                            
+                            if( $xml_sitemap ){
+                                echo '<td align="center"><input type="checkbox" name="sitemap_exclude[]" value="'.$category->term_id.'" ';
+                                if( isset( $fvseop_options['sitemap_exclude'] ) && in_array( $category->term_id, $fvseop_options['sitemap_exclude'] ) ) echo 'checked="1"';
+                                echo '></td>'. "\n";
+                            }
+                            
+                            if( $news_sitemap ){
+                                echo '<td align="center"><input type="checkbox" name="sitemap_news_include[]" value="'.$category->term_id.'" ';
+                                if( isset( $fvseop_options['sitemap_news_include'] ) && in_array( $category->term_id, $fvseop_options['sitemap_news_include'] ) ) echo 'checked="1"';
+                                echo '></td>'. "\n";
+                            }
+                                
+                            echo '</tr>'. "\n";
+                        }
+                      ?>
+                    </table>
                     
-                        echo '<td>'.$category->cat_name.'</td>'. "\n";
-                        echo '<td align="center"><input type="checkbox" name="sitemap_exclude[]" value="'.$category->term_id.'" ';
-                        if( isset( $fvseop_options['sitemap_exclude'] ) && in_array( $category->term_id, $fvseop_options['sitemap_exclude'] ) ) echo 'checked="1"';
-                        echo '></td>'. "\n";
+                    <table id="sitemap_table_authors">
+                    <tr valign="top" class="head">
+                        <td><br/><u><?php _e("Author", 'fv_seo'); ?></p></u></td>
+                        <?php   if( $xml_sitemap ){ ?>
+                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></p></a></td>
+                        <?php   }
+                                if( $news_sitemap ){ ?>
+                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></p></a></td>
+                        <?php   } ?>
+                    </tr>
+                    <?php
+                        foreach( $users as $user ){
+                            echo '<tr valign="top">' . "\n";
+                            
+                                echo '<td>'.$user->data->user_nicename.'</td>'. "\n";
+                                if( $xml_sitemap ){
+                                    echo '<td align="center"><input type="checkbox" name="sitemap_exclude_author[]" value="'.$user->data->ID.'" ';
+                                    if( isset( $fvseop_options['sitemap_exclude_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_exclude_author'] ) ) echo 'checked="1"';
+                                    echo '></td>'. "\n";
+                                }
+                            
+                                if( $news_sitemap ){
+                                    echo '<td align="center"><input type="checkbox" name="sitemap_news_include_author[]" value="'.$user->data->ID.'" ';
+                                    if( isset( $fvseop_options['sitemap_news_include_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_news_include_author'] ) ) echo 'checked="1"';
+                                    echo '></td>'. "\n";
+                                }
+                                
+                            echo '</tr>'. "\n";
+                        }
+                      ?>
+                    </table>
+                    
+                    <div class="clear"></div>
+                    
+                    <style>
+                        #sitemap_table, #sitemap_table_authors{
+                            display: block;
+                            float: left;
+                        }
                         
-                        echo '<td align="center"><input type="checkbox" name="sitemap_news_include[]" value="'.$category->term_id.'" ';
-                        if( isset( $fvseop_options['sitemap_news_include'] ) && in_array( $category->term_id, $fvseop_options['sitemap_news_include'] ) ) echo 'checked="1"';
-                        echo '></td>'. "\n";
+                        #sitemap_table .head td, #sitemap_table_authors .head td{
+                            text-align: center;
+                            font-weight: bold;
+                            padding: 0 20px 0 20px;
+                        }
                         
-                    echo '</tr>'. "\n";
+                        #sitemap_table tr:hover, #sitemap_table_authors tr:hover{
+                            background-color: #EEE;
+                        }
+                        
+                        #sitemap_table_authors{
+                            margin-left: 50px;
+                        }
+                        
+                    </style>
+                          
+                <?php
                 }
-              ?>
-            </table>
-            
-            <style>
-                #sitemap_table .head td{
-                    text-align: center;
-                    font-weight: bold;
-                    padding: 0 20px 0 20px;
-                }
-                
-                #sitemap_table tr:hover{
-                    background-color: #EEE;
-                }
-                
-            </style>
-                      
-            <?php
+            }
         }
 	
 	function admin_settings_social() {
@@ -2964,10 +3043,18 @@ if( isset($_GET['martinv']) ) {
                         $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
                         
                         $fvseop_options['remove_hentry'] = isset( $_POST['remove_hentry'] ) ? true : false;
-                        $fvseop_options['sitemap_exclude'] = isset( $_POST['sitemap_exclude'] ) ? $_POST['sitemap_exclude'] : NULL;
-                        $fvseop_options['sitemap_news_include'] = isset( $_POST['sitemap_news_include'] ) ? $_POST['sitemap_news_include'] : NULL;
-
-			update_option('aioseop_options', $fvseop_options);
+                        
+                        if( isset( $_POST['xml_sitemap'] ) ){
+                            $fvseop_options['sitemap_exclude'] = ( isset( $_POST['sitemap_exclude'] ) ) ? $_POST['sitemap_exclude'] : NULL;
+                            $fvseop_options['sitemap_exclude_author'] = ( isset( $_POST['sitemap_exclude_author'] ) ) ? $_POST['sitemap_exclude_author'] : NULL;
+                        }
+                        
+                        if( isset( $_POST['news_sitemap'] ) ){
+                            $fvseop_options['sitemap_news_include'] = ( isset( $_POST['sitemap_news_include'] ) ) ? $_POST['sitemap_news_include'] : NULL;
+                            $fvseop_options['sitemap_news_include_author'] = ( isset( $_POST['sitemap_news_include_author'] ) ) ? $_POST['sitemap_news_include_author'] : NULL;
+                        }
+			
+                        update_option('aioseop_options', $fvseop_options);
 
 			if (function_exists('wp_cache_flush'))
 			{
@@ -3020,10 +3107,8 @@ add_meta_box( 'fv_simpler_seo_basic', 'Basic Options', array( $this, 'admin_sett
 add_meta_box( 'fv_simpler_seo_social', 'Social Networks', array( $this, 'admin_settings_social' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
 
-if ( is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
-    add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
-}
 ?>            
 
 		<div id="dashboard-widgets" class="metabox-holder columns-1">
@@ -3136,16 +3221,33 @@ if ( is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
             $request['post__not_in'] = $noIndexPosts;
             
             
-        if( $request['feed'] == 'sitemap-news' && isset($fvseop_options['sitemap_news_include']) && !empty($fvseop_options['sitemap_news_include']) ){
+        if( $request['feed'] == 'sitemap-news' ){
             
-            $include_categ = implode(',', $fvseop_options['sitemap_news_include']);
-            $request['cat'] = $include_categ;
+            if( isset($fvseop_options['sitemap_news_include']) && !empty($fvseop_options['sitemap_news_include']) ){
+                $include_categ = implode(',', $fvseop_options['sitemap_news_include']);
+                $request['cat'] = $include_categ;
+            }
+            
+            if( isset($fvseop_options['sitemap_news_include_author']) && !empty($fvseop_options['sitemap_news_include_author']) ){
+                $include_author = implode(',', $fvseop_options['sitemap_news_include_author']);
+                $request['author'] = $include_author;
+            }
+            
         }
-        else if( strpos($request['feed'],'sitemap-posttype') == 0 && isset($fvseop_options['sitemap_exclude']) && !empty($fvseop_options['sitemap_exclude']) ){
+        else if( strpos($request['feed'],'sitemap-posttype') == 0 ){
             
-            $exlude_categ = preg_replace('~^~','-',$fvseop_options['sitemap_exclude']);
-            $exlude_categ = implode(',', $exlude_categ);
-            $request['cat'] = $exlude_categ;
+            if( isset($fvseop_options['sitemap_exclude']) && !empty($fvseop_options['sitemap_exclude']) ){
+                $exlude_categ = preg_replace('~^~','-',$fvseop_options['sitemap_exclude']);
+                $exlude_categ = implode(',', $exlude_categ);
+                $request['cat'] = $exlude_categ;
+            }
+            
+            if( isset($fvseop_options['sitemap_exclude_author']) && !empty($fvseop_options['sitemap_exclude_author']) ){
+                $exlude_categ_author = preg_replace('~^~','-',$fvseop_options['sitemap_exclude_author']);
+                $exlude_categ_author = implode(',', $exlude_categ_author);
+                $request['author'] = $exlude_categ_author;
+            }
+            
         }
         
         return $request;
