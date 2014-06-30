@@ -2764,7 +2764,7 @@ if( isset($_GET['martinv']) ) {
         function admin_settings_sitemap(){
             
             if ( !is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
-                echo '<p> Want to add sitemap or google news sitemap? We recommend "XML Sitemaps & Google News feed" plugin.</p>';
+                echo '<p>Would you like to add Google XML Sitemap and Google News Sitemap? We recommend <a href="http://wordpress.org/plugins/xml-sitemap-feed/">XML Sitemaps & Google News feed</a> plugin.</p>';
             }
             else{
                 global $fvseop_options;
@@ -2781,12 +2781,9 @@ if( isset($_GET['martinv']) ) {
                     echo '<input type="hidden" name="xml_sitemap" value=1>';
                 if( $news_sitemap )
                     echo '<input type="hidden" name="news_sitemap" value=1>';
-                
-                if( !$xml_sitemap || !$news_sitemap ){
                 ?>
-                    <p> <?php _e("Do not forget to turn on XML Sitemap Index and Google News Sitemap in <a href=\"<?php echo admin_url(); ?>/options-reading.php\">Settings - Readings</a>", 'fv_seo'); ?></p>
+                    <p> <?php _e("To customize more sitemap preferences (post types included) visit your <a href=\"<?php echo admin_url(); ?>/options-reading.php\">Reading Settings</a>.", 'fv_seo'); ?></p>
                 <?php
-                }
                 if( ( $xml_sitemap || $news_sitemap ) ){
                 ?>
                 
@@ -2797,10 +2794,10 @@ if( isset($_GET['martinv']) ) {
                     <tr valign="top" class="head">
                       <td><br/><u><?php _e("Category name", 'fv_seo'); ?></u></td>
                 <?php   if( $xml_sitemap ){ ?>
-                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></a></td>
+                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></a></td>
                 <?php   }
                         if( $news_sitemap ){ ?>
-                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></a></td>
+                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></a></td>
                 <?php   } ?>
                     </tr>
                     <?php
@@ -2830,10 +2827,10 @@ if( isset($_GET['martinv']) ) {
                     <tr valign="top" class="head">
                         <td><br/><u><?php _e("Author", 'fv_seo'); ?></p></u></td>
                         <?php   if( $xml_sitemap ){ ?>
-                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></p></a></td>
+                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></p></a></td>
                         <?php   }
                                 if( $news_sitemap ){ ?>
-                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></p></a></td>
+                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></p></a></td>
                         <?php   } ?>
                     </tr>
                     <?php
@@ -3088,14 +3085,19 @@ if( isset($_GET['martinv']) ) {
       </div>
     <div style="clear:both;"></div>
 <script type="text/javascript">
-function toggleVisibility(id)
+function toggleVisibility( id, hide )
 {
+
   var e = document.getElementById(id);
 
   if(e.style.display == 'block')
     e.style.display = 'none';
   else
     e.style.display = 'block';
+    
+  if ( hide !== undefined ) {
+    document.getElementById(hide).style.display = 'none';
+  }
 }
 </script>
     <form name="dofollow" action="" method="post">
