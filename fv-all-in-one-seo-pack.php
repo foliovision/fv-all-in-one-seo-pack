@@ -2764,7 +2764,7 @@ if( isset($_GET['martinv']) ) {
         function admin_settings_sitemap(){
             
             if ( !is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
-                echo '<p>Would you like to add Google XML Sitemap and Google News Sitemap? We recommend <a href="http://wordpress.org/plugins/xml-sitemap-feed/">XML Sitemaps & Google News feed</a> plugin.</p>';
+                echo '<p>Would you like to add Google XML Sitemap and Google News Sitemap? We recommend <a href="'.admin_url().'plugin-install.php?tab=search&type=term&s=%22XML+Sitemaps+%26+Google+News+feed%22&plugin-search-input=Search+Plugins">XML Sitemaps & Google News feed</a> plugin.</p>';
             }
             else{
                 global $fvseop_options;
@@ -2782,7 +2782,7 @@ if( isset($_GET['martinv']) ) {
                 if( $news_sitemap )
                     echo '<input type="hidden" name="news_sitemap" value=1>';
                 ?>
-                    <p> <?php _e("To customize more sitemap preferences (post types included) visit your <a href=\"<?php echo admin_url(); ?>/options-reading.php\">Reading Settings</a>.", 'fv_seo'); ?></p>
+                    <p> <?php _e("To customize more sitemap preferences (post types included) visit your <a href=\"".admin_url()."options-reading.php\">Reading Settings</a>.", 'fv_seo'); ?></p>
                 <?php
                 if( ( $xml_sitemap || $news_sitemap ) ){
                 ?>
