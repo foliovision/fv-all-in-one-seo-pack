@@ -2856,28 +2856,10 @@ if( isset($_GET['martinv']) ) {
                     </table>
                     
                     <div class="clear"></div>
-                    
-                    <style>
-                        #sitemap_table, #sitemap_table_authors{
-                            display: block;
-                            float: left;
-                        }
-                        
-                        #sitemap_table .head td, #sitemap_table_authors .head td{
-                            text-align: center;
-                            font-weight: bold;
-                            padding: 0 20px 0 20px;
-                        }
-                        
-                        #sitemap_table tr:hover, #sitemap_table_authors tr:hover{
-                            background-color: #EEE;
-                        }
-                        
-                        #sitemap_table_authors{
-                            margin-left: 50px;
-                        }
-                        
-                    </style>
+                    <br/>
+                    <span class="sub">
+                    When adjusting the category properties, make sure you clear your browser cache (or wait until you edit a post) to be able to see the changes in sitemaps.
+                    </span>
                           
                 <?php
                 }
@@ -3911,6 +3893,11 @@ jQuery(document).ready(function($) {
 #fvsimplerseopack h2 {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
 #fvsimplerseopack h2 a { color:#2200c1; }
 #fvsimplerseopack .fvseo_disabled { color:#aaa; }
+#sitemap_table, #sitemap_table_authors{ display: block; float: left }
+#sitemap_table .head td, #sitemap_table_authors .head td{ text-align: center; font-weight: bold; padding: 0 20px 0 20px }
+#sitemap_table tr:hover, #sitemap_table_authors tr:hover{ background-color: #EEE }
+#sitemap_table_authors{ margin-left: 50px }
+.sub { color: #666; font-size: 0.9em; font-weight: normal }
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
