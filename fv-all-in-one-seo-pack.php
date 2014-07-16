@@ -1237,11 +1237,9 @@ if( isset($_GET['martinv']) ) {
 		  } else {
 			  $url = $this->fvseo_mrt_get_url($wp_query);
 		  }
-
+                      $url = apply_filters('fvseop_canonical_url', $url);
 			if ($url)
-			{
-				$url = apply_filters('fvseop_canonical_url', $url);
-
+			{	
 				echo '<link rel="canonical" href="' . esc_url($url) . '" />' . "\n";
 			}
 		}
