@@ -3324,6 +3324,16 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
 	}
   
   
+  //return "Front-Street-Entrance" from "/images/2014/07/790/Front-Street-Entrance.jpg"
+  function get_name_from_path( $path ){
+    if( !preg_match('~^.*\/([^\/]+\.[A-Za-z]+)$~',$path, $aFile) )
+      return false;
+    
+    $img_name = preg_replace( '~^/?([^/]+)\.[A-Za-z]+$~', '$1', $aFile[1] );
+    $img_name = preg_replace( '~^/?([^/]+)-[0-9]{1,4}x[0-9]{1,4}$~', '$1', $img_name );
+    
+    return $img_name;
+  }
   
   
 	function social_meta_tags() {
@@ -3346,65 +3356,97 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
       $aImage = array();
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
             if( $thumb = get_the_post_thumbnail($post->ID,'large') ) {
-                if( !empty($thumb) ) $aImage[] = $thumb;
                 $sTwitterCard = 'summary_large_image';
               } else {
                 $thumb = get_the_post_thumbnail($post->ID,'thumbnail');
-                if( !empty($thumb) ) $aImage[] = $thumb;
                 $sTwitterCard = 'summary';
               }
-            
-              if( 0 != preg_match_all( '~<img[^>]*>~', $post->post_content, $aImgMatches ) ){
-                $aImage = array_merge($aImage, $aImgMatches[0]);
+              
+              //take thumb name for comparing
+              if( !empty($thumb) && preg_match( '~^[\s\S]*src=["\']([^"\']+)["\'][\s\S]*$~', $thumb, $thumb_src ) ){
+                $aImage[] = $thumb_src[1];
+                $thumb_name = $this->get_name_from_path( $thumb_src[1] );
               }
-              
-              
-              if( !empty($aImage) ) {
-                $aImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $aImage );
+              else
+                $thumb_name = false;
+               
+               //begin parsing images from content
+              $contentImages = array();
+              if( 0 != preg_match_all( '~<img[^>]*>~', $post->post_content, $parsedImages ) ) {
+               foreach( $parsedImages[0] as $singleImg ){
+                    
+                preg_match( '~^[\s\S]*src=["\']([^"\']+)["\'][\s\S]*$~', $singleImg, $img_src );
+                if( !isset($img_src[1]) || empty($img_src[1]) ) continue;
                 
-                foreach( $aImage as $key => $singleImg )
-                    if( preg_match('~^/[^/]~', $singleImg) )
-                        $aImage[$key] = home_url($singleImg);           
+                preg_match( '~^[\s\S]*width=["\']([0-9]+)["\'][\s\S]*$~', $singleImg, $img_width );
+                preg_match( '~^[\s\S]*height=["\']([0-9]+)["\'][\s\S]*$~', $singleImg, $img_height );
+                
+                $img_url = ( preg_match('~^/[^/]~', $img_src[1]) ) ? home_url($img_src[1]) : $img_src[1];
+
+                //test this
+                //img tag doesn't have width parameter, get it from url
+                if( !isset($img_width[1]) || empty($img_width[1]) ){
+                  preg_match( '~.*/([0-9]{1,4})/?[^/]+\.[A-Za-z]+$~', $img_src[1], $img_width );
+                  //try it again
+                  if( !isset($img_width[1]) || empty($img_width[1]) )
+                    preg_match( '~.*/?[^/]+-([0-9]{1,4})x[0-9]{1,4}$~', $img_src[1], $img_width );
+                }
+                
+                //compare with thumb name, don't include same images twice
+                $img_name = $this->get_name_from_path($img_src[1]);
+                if( !$img_name || ( $thumb_name != false && $thumb_name == $img_name ) ) continue;
+                
+                //var_dump( array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url ));
+                
+                //pick 2 biggest images, image must be 200px +
+                if( count($contentImages) < 2 ){
+                  //if there are less than 2 images in array, save current, size doesn't matter
+                  $contentImages[] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
+                }
+                else if(intval($img_width[1]) > 200 && intval($img_height[1]) > 200){
+                  
+                  //if actual image is wider than img on postion 0, save to temp for later compare
+                  if( $contentImages[0]['width'] < $img_width[1] ){
+                    $temp = $contentImages[0];
+                    $contentImages[0] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
+                    
+                    if( $contentImages[1]['width'] < $temp['width'] )
+                      $contentImages[1] = $temp;
+                  }
+                  else if( isset($contentImages[1]['width']) && $contentImages[1]['width'] < $img_width[1] ){
+                    $contentImages[1] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
+                  }
+                }
+                
+               }
               }
-            
+              
+              foreach($contentImages as $img ){
+                $aImage[] = $img['path'];
+              }
             
       }
       
-      if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
+  if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
 ?>
   <meta property="og:title" content="<?php echo $title; ?>" />
   <meta property="og:type" content="blog" />
   <meta property="og:description" content="<?php echo $description; ?>" />
-  
-    <?php
-    //FB images
-    $uniqueImages = array();
-    foreach( $aImage as $singleImg ){
-
-        if( !preg_match('~^.+\/([^\/]+\.[A-Za-z]+)$~',$singleImg, $aFile) )
-            continue;
-        
-        $file_name = preg_replace( '~^([^-]+)-[0-9]{1,4}x[0-9]{1,4}(\.[A-Za-z]+)$~', '$1$2', $aFile[1] );
-        
-        if( !in_array( $file_name, $uniqueImages ) ){
-            $uniqueImages[] = $file_name;
-            echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
-        }
-    }
-    ?>
-    
-    
+  <?php
+    foreach( $aImage as $singleImg )
+      echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
+  ?>
   <meta property="og:url" content="<?php the_permalink(); ?>" />
   <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>" />
 <?php
-      endif;  //  social_meta_facebook
+  endif;  //  social_meta_facebook
       
       if( !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) :
 ?>
   <meta name="twitter:title" content="<?php echo $title; ?>" />
   <meta name="twitter:card" content="<?php echo $sTwitterCard; ?>" />
   <meta name="twitter:description" content="<?php echo $description; ?>" />
-  <?php if( isset($aImage[0]) && !empty($aImage[0]) ) : ?><meta name="twitter:image" content="<?php echo $aImage[0]; ?>" />
+  <?php if( isset($aImage[0]) && !empty($aImage[0])) : ?><meta name="twitter:image" content="<?php echo $aImage[0]; ?>" />
 <?php endif; ?>
   <meta name="twitter:url" content="<?php the_permalink(); ?>" />
   <?php if( isset($fvseop_options['social_twitter_creator']) && strlen(trim($fvseop_options['social_twitter_creator'])) > 0 ) : ?>
