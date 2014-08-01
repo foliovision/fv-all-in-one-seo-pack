@@ -3364,8 +3364,8 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
               
               //take thumb name for comparing
               if( !empty($thumb) && preg_match( '~^[\s\S]*src=["\']([^"\']+)["\'][\s\S]*$~', $thumb, $thumb_src ) ){
-                $aImage[] = $thumb_src[1];
                 $thumb_name = $this->get_name_from_path( $thumb_src[1] );
+                $aImage[] = ( preg_match('~^/[^/]~', $thumb_src[1]) ) ? home_url($thumb_src[1]) : $thumb_src[1];
               }
               else
                 $thumb_name = false;
