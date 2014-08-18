@@ -3,7 +3,7 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.12
+Version: 1.6.24.13
 Author: Foliovision
 Author URI: http://foliovision.com
 */
@@ -606,6 +606,18 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		///return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
 	}
 	
+  function curPageURL() {
+   $pageURL = 'http';
+   if ( isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+   $pageURL .= "://";
+   if ($_SERVER["SERVER_PORT"] != "80") {
+    $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+   } else {
+    $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+   }
+   return $pageURL;
+  }
+    
 	function is_static_front_page()
 	{
 		global $wp_query;
@@ -2746,43 +2758,6 @@ if( isset($_GET['martinv']) ) {
                 </div>
             </p>
             <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_header_tip');">
-                  <?php _e('Custom code for header:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="1" name="fvseo_custom_header"><?php if (isset($fvseop_options['aiosp_custom_header'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_header']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_header_tip">
-                  <?php _e('Type there any code which should be displayed in header of any page.', 'fv_seo')?>
-                </div>
-            </p>
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_footer_tip');">
-                  <?php _e('Custom code for footer:', 'fv_seo')?>
-                </a><br />
-                <textarea cols="57" rows="1" name="fvseo_custom_footer"><?php if (isset($fvseop_options['aiosp_custom_footer'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_footer']))?></textarea>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_footer_tip">
-                  <?php _e('Type there any code which should be displayed in footer of any page.', 'fv_seo')?>
-                </div>
-            </p>
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_ganalytics_tip');">
-                  <?php _e('Google Analytics ID:', 'fv_seo')?>
-                </a><br />
-                <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_ID" value="<?php if (isset($fvseop_options['aiosp_ganalytics_ID'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_ID']))?>" />
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_ganalytics_tip">
-                  <?php _e('Enter your google analytics ID. Example: UA-12345678-9', 'fv_seo')?>
-                </div>
-            </p>
-            <p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_statcounter_tip');">
-                  <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
-                </a><br />
-                <input type="text" class="regular-text" size="63" name="fvseo_statcounter_project" placeholder="sc_project" value="<?php if (isset($fvseop_options['aiosp_statcounter_project'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_project']))?>" />
-                <input type="text" class="regular-text" size="63" name="fvseo_statcounter_security" placeholder="sc_security" value="<?php if (isset($fvseop_options['aiosp_statcounter_security'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_security']))?>" />
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_statcounter_tip">
-                  <?php _e('Enter your project ID and security ID. You can obtain them from Statcounter administation > Project > Reinstall Code > Default Guide. Look for <i>sc_project</i> and <i>sc_security</i> variables in code.', 'fv_seo')?>
-                </div>
-            </p>
-            <p>
 								<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dont_use_excerpt_tip');">
 								<?php _e('Turn off excerpts for descriptions:', 'fv_seo')?>
 								</a>
@@ -2794,120 +2769,165 @@ if( isset($_GET['martinv']) ) {
             </p>	
 	<?php
 	}
+  
+  
+  function admin_settings_tracking_codes(){
+    global $fvseop_options;
+    
+  ?>
+    <p>
+        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_header_tip');">
+          <?php _e('Header tracking code:', 'fv_seo')?>
+        </a><br />
+        <textarea cols="57" rows="1" name="fvseo_custom_header"><?php if (isset($fvseop_options['aiosp_custom_header'])) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_custom_header']))?></textarea>
+        <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_header_tip">
+          <?php _e('Insert any tracking code which should be in the &lt;head&gt; section of the site.', 'fv_seo')?>
+        </div>
+    </p>
+    <p>
+        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_footer_tip');">
+          <?php _e('Footer tracking code:', 'fv_seo')?>
+        </a><br />
+        <textarea cols="57" rows="1" name="fvseo_custom_footer"><?php if (isset($fvseop_options['aiosp_custom_footer'])) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_custom_footer']))?></textarea>
+        <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_footer_tip">
+          <?php _e('Insert any tracking code which should be right before the closing &lt;/body&gt; tag on the site.', 'fv_seo')?>
+        </div>
+    </p>
+    <p>
+        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_ganalytics_tip');">
+          <?php _e('Google Analytics ID:', 'fv_seo')?>
+        </a><br />
+        <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_ID" value="<?php if (isset($fvseop_options['aiosp_ganalytics_ID'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_ID']))?>" />
+        <div style="max-width:500px; text-align:left; display:none" id="fvseo_ganalytics_tip">
+          <?php _e('Enter your google analytics ID. Example: UA-12345678-9', 'fv_seo')?>
+        </div>
+    </p>
+    <p>
+        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_statcounter_tip');">
+          <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
+        </a><br />
+        <input type="text" class="regular-text" size="63" name="fvseo_statcounter_project" placeholder="sc_project" value="<?php if (isset($fvseop_options['aiosp_statcounter_project'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_project']))?>" />
+        <input type="text" class="regular-text" size="63" name="fvseo_statcounter_security" placeholder="sc_security" value="<?php if (isset($fvseop_options['aiosp_statcounter_security'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_security']))?>" />
+        <div style="max-width:500px; text-align:left; display:none" id="fvseo_statcounter_tip">
+          <?php _e('Enter your project ID and security ID. You can obtain them from Statcounter administation > Project > Reinstall Code > Default Guide. Look for <i>sc_project</i> and <i>sc_security</i> variables in code.', 'fv_seo')?>
+        </div>
+    </p>
+  <?php
+  }
 	
         
-        function admin_settings_sitemap(){
+  function admin_settings_sitemap(){
             
-            if ( !is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
-                echo '<p>Would you like to add Google XML Sitemap and Google News Sitemap? We recommend <a href="'.admin_url().'plugin-install.php?tab=search&type=term&s=%22XML+Sitemaps+%26+Google+News+feed%22&plugin-search-input=Search+Plugins">XML Sitemaps & Google News feed</a> plugin.</p>';
-            }
-            else{
-                global $fvseop_options;
-                
-                $categories = get_categories();
-                $users =  get_users( array( 'who' => 'authors' ) );
-                $sitemap_option = get_option('xmlsf_sitemaps');
-                
-                $xml_sitemap = ( $sitemap_option === FALSE || ( isset( $sitemap_option['sitemap'] ) && !empty( $sitemap_option['sitemap'] ) ) ) ? true : false;
-                $news_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap-news'] ) && !empty( $sitemap_option['sitemap-news'] ) ) ? true : false;
-                // $xml_sitemap is TRUE if plugin is on and there are no option xmlsf_sitemaps - this happens if plugin is activated without settings, it is default value
-                
-                if( $xml_sitemap )
-                    echo '<input type="hidden" name="xml_sitemap" value=1>';
-                if( $news_sitemap )
-                    echo '<input type="hidden" name="news_sitemap" value=1>';
-                ?>
-                    <p> <?php _e("To customize more sitemap preferences (post types included) visit your <a href=\"".admin_url()."options-reading.php\">Reading Settings</a>.", 'fv_seo'); ?></p>
-                <?php
-                if( ( $xml_sitemap || $news_sitemap ) ){
-                ?>
-                
-                    <p id="fvseo_sitemap_exclude_tip" style="display:none"> <?php _e("You can include almost anything in a <strong>Google Sitemap</strong>. We are excluding your \"noindex\" posts and pages already. If you would like to exclude any other categories or authors, now is your change.", 'fv_seo'); ?></p>
-                    <p id="fvseo_sitemap_news_include_tip" style="display:none"><?php _e("<strong>Google News</strong> has scrict requirements (\"Journalistic standards: Original reporting and honest attribution are longstanding journalistic values. If your site publishes aggregated content, you will need to separate it from your original work, or restrict our access to those aggregated articles.\" -- <a target=\"_blank\" href=\"https://support.google.com/news/publisher/answer/40787?hl=en\">https://support.google.com/news/publisher/answer/40787?hl=en</a>). Please decide what you would like to include in your Google News Sitemap.", 'fv_seo'); ?></p>
-                        
-                    <table id="sitemap_table">
-                    <tr valign="top" class="head">
-                      <td><br/><u><?php _e("Category name", 'fv_seo'); ?></u></td>
-                <?php   if( $xml_sitemap ){ ?>
-                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></a></td>
-                <?php   }
-                        if( $news_sitemap ){ ?>
-                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></a></td>
-                <?php   } ?>
-                    </tr>
-                    <?php
-                        foreach( $categories as $category ){
-                            echo '<tr valign="top">' . "\n";
-                            
-                            echo '<td>'.$category->cat_name.'</td>'. "\n";
-                            
-                            if( $xml_sitemap ){
-                                echo '<td align="center"><input type="checkbox" name="sitemap_exclude[]" value="'.$category->term_id.'" ';
-                                if( isset( $fvseop_options['sitemap_exclude'] ) && in_array( $category->term_id, $fvseop_options['sitemap_exclude'] ) ) echo 'checked="1"';
-                                echo '></td>'. "\n";
-                            }
-                            
-                            if( $news_sitemap ){
-                                echo '<td align="center"><input type="checkbox" name="sitemap_news_include[]" value="'.$category->term_id.'" ';
-                                if( isset( $fvseop_options['sitemap_news_include'] ) && in_array( $category->term_id, $fvseop_options['sitemap_news_include'] ) ) echo 'checked="1"';
-                                echo '></td>'. "\n";
-                            }
-                                
-                            echo '</tr>'. "\n";
-                        }
-                      ?>
-                    </table>
-                    
-                    <table id="sitemap_table_authors">
-                    <tr valign="top" class="head">
-                        <td><br/><u><?php _e("Author", 'fv_seo'); ?></p></u></td>
-                        <?php   if( $xml_sitemap ){ ?>
-                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></p></a></td>
-                        <?php   }
-                                if( $news_sitemap ){ ?>
-                                <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></p></a></td>
-                        <?php   } ?>
-                    </tr>
-                    <?php
-                        foreach( $users as $user ){
-                            echo '<tr valign="top">' . "\n";
-                            
-                                echo '<td>'.$user->data->user_nicename.'</td>'. "\n";
-                                if( $xml_sitemap ){
-                                    echo '<td align="center"><input type="checkbox" name="sitemap_exclude_author[]" value="'.$user->data->ID.'" ';
-                                    if( isset( $fvseop_options['sitemap_exclude_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_exclude_author'] ) ) echo 'checked="1"';
-                                    echo '></td>'. "\n";
-                                }
-                            
-                                if( $news_sitemap ){
-                                    echo '<td align="center"><input type="checkbox" name="sitemap_news_include_author[]" value="'.$user->data->ID.'" ';
-                                    if( isset( $fvseop_options['sitemap_news_include_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_news_include_author'] ) ) echo 'checked="1"';
-                                    echo '></td>'. "\n";
-                                }
-                                
-                            echo '</tr>'. "\n";
-                        }
-                      ?>
-                    </table>
-                    
-                    <div class="clear"></div>
-                    <br/>
-                    <span class="sub">
-                    When adjusting the category properties, make sure you clear your browser cache (or wait until you edit a post) to be able to see the changes in sitemaps.
-                    </span>
-                    
-<style>
-#sitemap_table, #sitemap_table_authors{ display: block; float: left }
-#sitemap_table .head td, #sitemap_table_authors .head td{ text-align: center; font-weight: bold; padding: 0 20px 0 20px }
-#sitemap_table tr:hover, #sitemap_table_authors tr:hover{ background-color: #EEE }
-#sitemap_table_authors{ margin-left: 50px }
-.sub { color: #666; font-size: 0.9em; font-weight: normal }
-</style>
-                          
-                <?php
-                }
-            }
+      if ( !is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
+        echo '<p>Would you like to add Google XML Sitemap and Google News Sitemap? We recommend <a href="'.admin_url().'plugin-install.php?tab=search&type=term&s=%22XML+Sitemaps+%26+Google+News+feed%22&plugin-search-input=Search+Plugins">XML Sitemaps & Google News feed</a> plugin.</p>';
+      }
+      else{
+        global $fvseop_options;
+        
+        $categories = get_categories();
+        $users =  get_users( array( 'who' => 'authors' ) );
+        $sitemap_option = get_option('xmlsf_sitemaps');
+        
+        $xml_sitemap = ( $sitemap_option === FALSE || ( isset( $sitemap_option['sitemap'] ) && !empty( $sitemap_option['sitemap'] ) ) ) ? true : false;
+        $news_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap-news'] ) && !empty( $sitemap_option['sitemap-news'] ) ) ? true : false;
+        // $xml_sitemap is TRUE if plugin is on and there are no option xmlsf_sitemaps - this happens if plugin is activated without settings, it is default value
+        
+        if( $xml_sitemap )
+            echo '<input type="hidden" name="xml_sitemap" value=1>';
+        if( $news_sitemap )
+            echo '<input type="hidden" name="news_sitemap" value=1>';
+        ?>
+            <p> <?php _e("To customize more sitemap preferences (post types included) visit your <a href=\"".admin_url()."options-reading.php\">Reading Settings</a>.", 'fv_seo'); ?></p>
+        <?php
+        if( ( $xml_sitemap || $news_sitemap ) ){
+        ?>
+      
+          <p id="fvseo_sitemap_exclude_tip" style="display:none"> <?php _e("You can include almost anything in a <strong>Google Sitemap</strong>. We are excluding your \"noindex\" posts and pages already. If you would like to exclude any other categories or authors, now is your change.", 'fv_seo'); ?></p>
+          <p id="fvseo_sitemap_news_include_tip" style="display:none"><?php _e("<strong>Google News</strong> has scrict requirements (\"Journalistic standards: Original reporting and honest attribution are longstanding journalistic values. If your site publishes aggregated content, you will need to separate it from your original work, or restrict our access to those aggregated articles.\" -- <a target=\"_blank\" href=\"https://support.google.com/news/publisher/answer/40787?hl=en\">https://support.google.com/news/publisher/answer/40787?hl=en</a>). Please decide what you would like to include in your Google News Sitemap.", 'fv_seo'); ?></p>
+              
+          <table id="sitemap_table">
+          <tr valign="top" class="head">
+              <td><br/><u><?php _e("Category name", 'fv_seo'); ?></u></td>
+        <?php   if( $xml_sitemap ){ ?>
+            <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></a></td>
+        <?php   }
+                if( $news_sitemap ){ ?>
+            <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></a></td>
+        <?php   } ?>
+          </tr>
+          <?php
+              foreach( $categories as $category ){
+                  echo '<tr valign="top">' . "\n";
+                  
+                  echo '<td>'.$category->cat_name.'</td>'. "\n";
+                  
+                  if( $xml_sitemap ){
+                      echo '<td align="center"><input type="checkbox" name="sitemap_exclude[]" value="'.$category->term_id.'" ';
+                      if( isset( $fvseop_options['sitemap_exclude'] ) && in_array( $category->term_id, $fvseop_options['sitemap_exclude'] ) ) echo 'checked="1"';
+                      echo '></td>'. "\n";
+                  }
+                  
+                  if( $news_sitemap ){
+                      echo '<td align="center"><input type="checkbox" name="sitemap_news_include[]" value="'.$category->term_id.'" ';
+                      if( isset( $fvseop_options['sitemap_news_include'] ) && in_array( $category->term_id, $fvseop_options['sitemap_news_include'] ) ) echo 'checked="1"';
+                      echo '></td>'. "\n";
+                  }
+                      
+                  echo '</tr>'. "\n";
+              }
+            ?>
+          </table>
+          
+          <table id="sitemap_table_authors">
+          <tr valign="top" class="head">
+              <td><br/><u><?php _e("Author", 'fv_seo'); ?></p></u></td>
+              <?php   if( $xml_sitemap ){ ?>
+                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></p></a></td>
+              <?php   }
+                      if( $news_sitemap ){ ?>
+                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></p></a></td>
+              <?php   } ?>
+          </tr>
+          <?php
+              foreach( $users as $user ){
+                  echo '<tr valign="top">' . "\n";
+                  
+                      echo '<td>'.$user->data->user_nicename.'</td>'. "\n";
+                      if( $xml_sitemap ){
+                          echo '<td align="center"><input type="checkbox" name="sitemap_exclude_author[]" value="'.$user->data->ID.'" ';
+                          if( isset( $fvseop_options['sitemap_exclude_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_exclude_author'] ) ) echo 'checked="1"';
+                          echo '></td>'. "\n";
+                      }
+                  
+                      if( $news_sitemap ){
+                          echo '<td align="center"><input type="checkbox" name="sitemap_news_include_author[]" value="'.$user->data->ID.'" ';
+                          if( isset( $fvseop_options['sitemap_news_include_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_news_include_author'] ) ) echo 'checked="1"';
+                          echo '></td>'. "\n";
+                      }
+                      
+                  echo '</tr>'. "\n";
+              }
+            ?>
+          </table>
+          
+          <div class="clear"></div>
+          <br/>
+          <span class="sub">
+          When adjusting the category properties, make sure you clear your browser cache (or wait until you edit a post) to be able to see the changes in sitemaps.
+          </span>
+            
+          <style>
+          #sitemap_table, #sitemap_table_authors{ display: block; float: left }
+          #sitemap_table .head td, #sitemap_table_authors .head td{ text-align: center; font-weight: bold; padding: 0 20px 0 20px }
+          #sitemap_table tr:hover, #sitemap_table_authors tr:hover{ background-color: #EEE }
+          #sitemap_table_authors{ margin-left: 50px }
+          .sub { color: #666; font-size: 0.9em; font-weight: normal }
+          </style>
+                  
+        <?php
         }
+    }
+  }
 	
 	function admin_settings_social() {
 		global $fvseop_options;
@@ -3059,33 +3079,33 @@ if( isset($_GET['martinv']) ) {
 			$fvseop_options['aiosp_show_noindex'] = isset( $_POST['fvseo_show_noindex'] ) ? $_POST['fvseo_show_noindex'] : NULL;			
 			$fvseop_options['aiosp_show_custom_canonical'] = isset( $_POST['fvseo_show_custom_canonical'] ) ? $_POST['fvseo_show_custom_canonical'] : NULL;
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
-                        $fvseop_options['aiosp_show_short_title_post'] = isset( $_POST['fvseo_show_short_title_post'] ) ? $_POST['fvseo_show_short_title_post'] : NULL;
-                        $fvseop_options['aiosp_sidebar_short_title'] = isset( $_POST['fvseo_sidebar_short_title'] ) ? $_POST['fvseo_sidebar_short_title'] : NULL;
-                        $fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
-                        $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
-                        $fvseop_options['fvseo_attachments'] = isset( $_POST['fvseo_attachments'] ) ? true : false;
-                        $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
-                  
-                        $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
-                        $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;
-                        $fvseop_options['social_twitter_creator'] = isset( $_POST['social_twitter_creator'] ) ? trim($_POST['social_twitter_creator']) : NULL;
-                        $fvseop_options['social_twitter_site'] = isset( $_POST['social_twitter_site'] ) ? trim($_POST['social_twitter_site']) : NULL;
-                        $fvseop_options['social_meta_facebook'] = isset( $_POST['social_meta_facebook'] ) ? true : false;
-                        $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
-                        
-                        $fvseop_options['remove_hentry'] = isset( $_POST['remove_hentry'] ) ? true : false;
-                        
-                        if( isset( $_POST['xml_sitemap'] ) ){
-                            $fvseop_options['sitemap_exclude'] = ( isset( $_POST['sitemap_exclude'] ) ) ? $_POST['sitemap_exclude'] : NULL;
-                            $fvseop_options['sitemap_exclude_author'] = ( isset( $_POST['sitemap_exclude_author'] ) ) ? $_POST['sitemap_exclude_author'] : NULL;
-                        }
-                        
-                        if( isset( $_POST['news_sitemap'] ) ){
-                            $fvseop_options['sitemap_news_include'] = ( isset( $_POST['sitemap_news_include'] ) ) ? $_POST['sitemap_news_include'] : NULL;
-                            $fvseop_options['sitemap_news_include_author'] = ( isset( $_POST['sitemap_news_include_author'] ) ) ? $_POST['sitemap_news_include_author'] : NULL;
-                        }
+      $fvseop_options['aiosp_show_short_title_post'] = isset( $_POST['fvseo_show_short_title_post'] ) ? $_POST['fvseo_show_short_title_post'] : NULL;
+      $fvseop_options['aiosp_sidebar_short_title'] = isset( $_POST['fvseo_sidebar_short_title'] ) ? $_POST['fvseo_sidebar_short_title'] : NULL;
+      $fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
+      $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
+      $fvseop_options['fvseo_attachments'] = isset( $_POST['fvseo_attachments'] ) ? true : false;
+      $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
+
+      $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
+      $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;
+      $fvseop_options['social_twitter_creator'] = isset( $_POST['social_twitter_creator'] ) ? trim($_POST['social_twitter_creator']) : NULL;
+      $fvseop_options['social_twitter_site'] = isset( $_POST['social_twitter_site'] ) ? trim($_POST['social_twitter_site']) : NULL;
+      $fvseop_options['social_meta_facebook'] = isset( $_POST['social_meta_facebook'] ) ? true : false;
+      $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
+      
+      $fvseop_options['remove_hentry'] = isset( $_POST['remove_hentry'] ) ? true : false;
+      
+      if( isset( $_POST['xml_sitemap'] ) ){
+          $fvseop_options['sitemap_exclude'] = ( isset( $_POST['sitemap_exclude'] ) ) ? $_POST['sitemap_exclude'] : NULL;
+          $fvseop_options['sitemap_exclude_author'] = ( isset( $_POST['sitemap_exclude_author'] ) ) ? $_POST['sitemap_exclude_author'] : NULL;
+      }
+      
+      if( isset( $_POST['news_sitemap'] ) ){
+          $fvseop_options['sitemap_news_include'] = ( isset( $_POST['sitemap_news_include'] ) ) ? $_POST['sitemap_news_include'] : NULL;
+          $fvseop_options['sitemap_news_include_author'] = ( isset( $_POST['sitemap_news_include_author'] ) ) ? $_POST['sitemap_news_include_author'] : NULL;
+      }
 			
-                        update_option('aioseop_options', $fvseop_options);
+      update_option('aioseop_options', $fvseop_options);
 
 			if (function_exists('wp_cache_flush'))
 			{
@@ -3143,6 +3163,7 @@ add_meta_box( 'fv_simpler_seo_basic', 'Basic Options', array( $this, 'admin_sett
 add_meta_box( 'fv_simpler_seo_social', 'Social Networks', array( $this, 'admin_settings_social' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'admin_settings_tracking_codes', 'Tracking codes', array( $this, 'admin_settings_tracking_codes' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
 
 ?>            
@@ -3567,11 +3588,25 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
 
 
 
+  function script_permalink_replacement( $data ){
+    
+    $permalink = $this->curPageURL();
+    
+    if( !empty($permalink) ){
+      $data = str_replace('%permalink%', $permalink, $data );
+    }
+    
+    return $data;
+  }
+
+
   function script_header_content(){
-    $fvseop_options = get_option('aioseop_options');
+    global $fvseop_options;
     
     if( isset( $fvseop_options['aiosp_custom_header'] ) && !empty( $fvseop_options['aiosp_custom_header'] ) ){
-      echo $fvseop_options['aiosp_custom_header'] . "\n";
+      
+      $data = $this->script_permalink_replacement( $fvseop_options['aiosp_custom_header'] );
+      echo stripcslashes( $data ) . "\n";
     } 
   }
   
@@ -3579,14 +3614,16 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
   
   
   function script_footer_content(){
-    $fvseop_options = get_option('aioseop_options');
+    global $fvseop_options;
   
     if( isset( $fvseop_options['aiosp_custom_footer'] ) && !empty( $fvseop_options['aiosp_custom_footer'] ) ){
-      echo $fvseop_options['aiosp_custom_footer'] . "\n";
+    
+      $data = $this->script_permalink_replacement( $fvseop_options['aiosp_custom_footer'] );
+      echo stripcslashes($data) . "\n";
     }
     
     if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ){
-      echo "<script>
+      echo stripcslashes("<script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -3595,13 +3632,13 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
               ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');
               ga('send', 'pageview');
             
-            </script>" . "\n";
+            </script>") . "\n";
       
     }
     
     if( isset( $fvseop_options['aiosp_statcounter_security'] ) && !empty( $fvseop_options['aiosp_statcounter_security'] )
         && isset( $fvseop_options['aiosp_statcounter_project'] ) && !empty( $fvseop_options['aiosp_statcounter_project'] )){
-      echo '<!-- Start of StatCounter Code for Default Guide -->
+      echo stripcslashes('<!-- Start of StatCounter Code for Default Guide -->
             <script type="text/javascript">
             var sc_project='.$fvseop_options['aiosp_statcounter_project'].'; 
             var sc_invisible=1; 
@@ -3618,7 +3655,7 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
             target="_blank"><img class="statcounter"
             src="http://c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$fvseop_options['aiosp_statcounter_security'].'/1/"
             alt="free hit counter"></a></div></noscript>
-            <!-- End of StatCounter Code for Default Guide -->' . "\n";
+            <!-- End of StatCounter Code for Default Guide -->') . "\n";
     }
   }
 
