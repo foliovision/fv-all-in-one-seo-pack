@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.11
+Version: 1.6.24.12
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.11';
+$fv_simpler_seo_version = '1.6.24.12';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2744,7 +2744,44 @@ if( isset($_GET['martinv']) ) {
                 <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_bing_site_verification_meta_tag">
 									<?php _e('Put your Bing site verification tag for your homepage here.', 'fv_seo'); ?>
                 </div>
-            </p>                        
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_header_tip');">
+                  <?php _e('Custom code for header:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="1" name="fvseo_custom_header"><?php if (isset($fvseop_options['aiosp_custom_header'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_header']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_header_tip">
+                  <?php _e('Type there any code which should be displayed in header of any page.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_footer_tip');">
+                  <?php _e('Custom code for footer:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="1" name="fvseo_custom_footer"><?php if (isset($fvseop_options['aiosp_custom_footer'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_footer']))?></textarea>
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_footer_tip">
+                  <?php _e('Type there any code which should be displayed in footer of any page.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_ganalytics_tip');">
+                  <?php _e('Google Analytics ID:', 'fv_seo')?>
+                </a><br />
+                <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_ID" value="<?php if (isset($fvseop_options['aiosp_ganalytics_ID'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_ID']))?>" />
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_ganalytics_tip">
+                  <?php _e('Enter your google analytics ID. Example: UA-12345678-9', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_statcounter_tip');">
+                  <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
+                </a><br />
+                <input type="text" class="regular-text" size="63" name="fvseo_statcounter_project" placeholder="sc_project" value="<?php if (isset($fvseop_options['aiosp_statcounter_project'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_project']))?>" />
+                <input type="text" class="regular-text" size="63" name="fvseo_statcounter_security" placeholder="sc_security" value="<?php if (isset($fvseop_options['aiosp_statcounter_security'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_security']))?>" />
+                <div style="max-width:500px; text-align:left; display:none" id="fvseo_statcounter_tip">
+                  <?php _e('Enter your project ID and security ID. You can obtain them from Statcounter administation > Project > Reinstall Code > Default Guide. Look for <i>sc_project</i> and <i>sc_security</i> variables in code.', 'fv_seo')?>
+                </div>
+            </p>
             <p>
 								<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dont_use_excerpt_tip');">
 								<?php _e('Turn off excerpts for descriptions:', 'fv_seo')?>
@@ -3004,7 +3041,15 @@ if( isset($_GET['martinv']) ) {
 			$fvseop_options['aiosp_home_meta_tags'] = isset( $_POST['fvseo_home_meta_tags'] ) ? $_POST['fvseo_home_meta_tags'] : NULL;
 			$fvseop_options['aiosp_home_google_site_verification_meta_tag'] = isset( $_POST['fvseo_home_google_site_verification_meta_tag'] ) ? $_POST['fvseo_home_google_site_verification_meta_tag'] : NULL;
 			$fvseop_options['aiosp_home_bing_site_verification_meta_tag'] = isset( $_POST['fvseo_home_bing_site_verification_meta_tag'] ) ? $_POST['fvseo_home_bing_site_verification_meta_tag'] : NULL;
-			$fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] = isset( $_POST['fvseo_home_yahoo_site_verification_meta_tag'] ) ? $_POST['fvseo_home_yahoo_site_verification_meta_tag'] : NULL;						
+			$fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] = isset( $_POST['fvseo_home_yahoo_site_verification_meta_tag'] ) ? $_POST['fvseo_home_yahoo_site_verification_meta_tag'] : NULL;
+      
+      $fvseop_options['aiosp_custom_header'] = isset( $_POST['fvseo_custom_header'] ) ? $_POST['fvseo_custom_header'] : NULL;
+			$fvseop_options['aiosp_custom_footer'] = isset( $_POST['fvseo_custom_footer'] ) ? $_POST['fvseo_custom_footer'] : NULL;
+			$fvseop_options['aiosp_ganalytics_ID'] = isset( $_POST['fvseo_ganalytics_ID'] ) ? $_POST['fvseo_ganalytics_ID'] : NULL;
+			$fvseop_options['aiosp_statcounter_security'] = isset( $_POST['fvseo_statcounter_security'] ) ? $_POST['fvseo_statcounter_security'] : NULL;
+			$fvseop_options['aiosp_statcounter_project'] = isset( $_POST['fvseo_statcounter_project'] ) ? $_POST['fvseo_statcounter_project'] : NULL;
+      
+      
 			$fvseop_options['aiosp_ex_pages'] = isset( $_POST['fvseo_ex_pages'] ) ? $_POST['fvseo_ex_pages'] : NULL;
 			$fvseop_options['aiosp_use_tags_as_keywords'] = isset( $_POST['fvseo_use_tags_as_keywords'] ) ? $_POST['fvseo_use_tags_as_keywords'] : NULL;
 
@@ -3518,10 +3563,68 @@ add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array
     
     return $aMatch[0];
   }
+
+
+
+
+  function script_header_content(){
+    $fvseop_options = get_option('aioseop_options');
+    
+    if( isset( $fvseop_options['aiosp_custom_header'] ) && !empty( $fvseop_options['aiosp_custom_header'] ) ){
+      echo $fvseop_options['aiosp_custom_header'] . "\n";
+    } 
+  }
   
   
-	
-	
+  
+  
+  function script_footer_content(){
+    $fvseop_options = get_option('aioseop_options');
+  
+    if( isset( $fvseop_options['aiosp_custom_footer'] ) && !empty( $fvseop_options['aiosp_custom_footer'] ) ){
+      echo $fvseop_options['aiosp_custom_footer'] . "\n";
+    }
+    
+    if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ){
+      echo "<script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            
+              ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');
+              ga('send', 'pageview');
+            
+            </script>" . "\n";
+      
+    }
+    
+    if( isset( $fvseop_options['aiosp_statcounter_security'] ) && !empty( $fvseop_options['aiosp_statcounter_security'] )
+        && isset( $fvseop_options['aiosp_statcounter_project'] ) && !empty( $fvseop_options['aiosp_statcounter_project'] )){
+      echo '<!-- Start of StatCounter Code for Default Guide -->
+            <script type="text/javascript">
+            var sc_project='.$fvseop_options['aiosp_statcounter_project'].'; 
+            var sc_invisible=1; 
+            var sc_security="'.$fvseop_options['aiosp_statcounter_security'].'"; 
+            var sc_https=1; 
+            var scJsHost = (("https:" == document.location.protocol) ?
+            "https://secure." : "http://www.");
+            document.write("<sc"+"ript type=\'text/javascript\' src=\'" +
+            scJsHost+
+            "statcounter.com/counter/counter.js\'></"+"script>");
+            </script>
+            <noscript><div class="statcounter"><a title="free hit
+            counter" href="http://statcounter.com/free-hit-counter/"
+            target="_blank"><img class="statcounter"
+            src="http://c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$fvseop_options['aiosp_statcounter_security'].'/1/"
+            alt="free hit counter"></a></div></noscript>
+            <!-- End of StatCounter Code for Default Guide -->' . "\n";
+    }
+  }
+
+
+
+
 } // end fv_seo class
 
 global $fvseop_options;
@@ -4133,6 +4236,8 @@ add_action('wp_head', array($fvseo, 'hatom_microformat_replace'));
 add_action('wp_head', array($fvseo, 'remove_canonical'), 0 );
 add_action('wp_head', array($fvseo, 'google_authorship') );
 add_action('wp_head', array($fvseo, 'social_meta_tags') );
+add_action('wp_head', array($fvseo, 'script_header_content') );
+add_action('wp_footer', array($fvseo, 'script_footer_content') );
 add_action('edit_post', array($fvseo, 'post_meta_tags'));
 add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
