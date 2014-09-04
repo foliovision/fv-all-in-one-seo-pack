@@ -896,25 +896,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         
       }
       
-if( isset($_GET['martinv']) ) {
-  var_dump($wp_query,$sLink,$objCheckPaging);
-}      
       if( $objCheckPaging->max_num_pages > 0 && $sLink ) {
         if( $objCheckPaging->max_num_pages > 1 ) {
           $sLink = user_trailingslashit( trailingslashit($sLink).'page/'.$objCheckPaging->max_num_pages );  
         }
-if( isset($_GET['martinv']) ) {
-  echo "Redirect to: ".$sLink."\n";
-  die();
-}            
         wp_redirect($sLink,301);
         exit;
       }
     }
     
-if( isset($_GET['martinv']) ) {
-  die('template_redirect');
-}     
 
 
 		if ($this->fvseop_mrt_exclude_this_page())

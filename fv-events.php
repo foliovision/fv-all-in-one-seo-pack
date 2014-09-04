@@ -25,7 +25,7 @@ class FV_Events{
   
   
   function is_query($query) {
-    if( isset($query->query_vars['fv_events_start']) || isset($query->query_vars['fv_events_end']) ) {
+    if( isset($query->query_vars['fv_events_start']) || isset($query->query_vars['fv_events_end']) || isset($query->query_vars['fv_events']) ) {
       return true;
     }
     return false;
@@ -53,12 +53,28 @@ class FV_Events{
   
   
   
-  function pre_get_posts( $query ) {
+  function pre_get_posts( $query ) {  
   
     //If not on event, stop here.
     if( !$this->is_query( $query ) ) {
       return $query;
     }
+    
+    if( isset($query->query_vars['fv_events']) && strcasecmp($query->query_vars['fv_events'],'week') == 0 ) {
+      if( isset($query->query_vars['fv_events_week_wrap']) && strtotime($query->query_vars['fv_events_week_wrap']) > 0 && current_time('timestamp') > strtotime($query->query_vars['fv_events_week_wrap'])  ) {      
+        $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("next monday", current_time('timestamp') ) ) );
+        $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("next sunday", strtotime("next monday", current_time('timestamp')) ) ) );        
+      } else {
+        $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("previous monday", strtotime('tomorrow', current_time('timestamp')) ) ) );
+        $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("next sunday", strtotime('yesterday', current_time('timestamp')) ) ) );
+      }
+      
+    } else if( isset($query->query_vars['fv_events']) && strcasecmp($query->query_vars['fv_events'],'today') == 0 ) {
+      $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("today", current_time('timestamp')) ) );
+      $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("today", current_time('timestamp')) )." 23:59:59" );
+      
+    }
+    
     
     add_filter( 'posts_join', array( $this, 'query_join' ), 10, 2 );
     add_filter( 'posts_where', array( $this, 'query_where' ), 10, 2 );
@@ -95,6 +111,7 @@ class FV_Events{
   function query_vars( $qvars ){
     $qvars[] = 'fv_events_start';
     $qvars[] = 'fv_events_end';
+    $qvars[] = 'fv_events';
     return $qvars;
   }  
   
@@ -107,7 +124,7 @@ class FV_Events{
     }
     
     global $wpdb;
-    return "AND fv_events_start.meta_key = '_fv_event_date' AND fv_events_start.meta_value >= '{$query->query_vars['fv_events_start']}' AND fv_events_start.meta_value <= '{$query->query_vars['fv_events_end']}' ";   
+    return "AND fv_events_start.meta_key = '_fv_event_date' AND UNIX_TIMESTAMP(fv_events_start.meta_value) >= UNIX_TIMESTAMP('{$query->query_vars['fv_events_start']}') AND UNIX_TIMESTAMP(fv_events_start.meta_value) <= UNIX_TIMESTAMP('{$query->query_vars['fv_events_end']}') ";   
   }
     
   
