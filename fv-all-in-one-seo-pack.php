@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.13
+Version: 1.6.24.14
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.12';
+$fv_simpler_seo_version = '1.6.24.14';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2111,6 +2111,7 @@ if( isset($_GET['martinv']) ) {
 			$fvseo_disable = isset( $_POST["fvseo_disable"] ) ? $_POST["fvseo_disable"] : NULL;
 			$fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? $_POST["fvseo_titleatr"] : NULL;
 			$fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? $_POST["fvseo_menulabel"] : NULL;
+      $fvseo_event_date = isset( $_POST["fvseo_event_date"] ) ? $_POST["fvseo_event_date"] : NULL;
 			$custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? $_POST["fvseo_custom_canonical"] : NULL;	
 			$noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;				
 			$nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;							
@@ -2152,7 +2153,12 @@ if( isset($_GET['martinv']) ) {
 			if (isset($fvseo_menulabel) && !empty($fvseo_menulabel))
 			{
 				add_post_meta($id, '_aioseop_menulabel', $fvseo_menulabel);
-			}				
+			}
+      
+			if (isset($fvseo_event_date) && !empty($fvseo_event_date))
+			{
+				update_post_meta($id, '_fv_event_date', $fvseo_event_date);
+			}				      
 
 			if (isset($fvseo_disable) && !empty($fvseo_disable) && $this->is_admin())
 			{
@@ -2228,6 +2234,24 @@ if( isset($_GET['martinv']) ) {
 		</p>	
 	<?php
 	}
+  
+  
+	function admin_settings_calendar() {
+		global $fvseop_options;
+	?>
+		<p>
+			 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_events_tip');">
+					<?php _e('Enable Events functionality:', 'fv_seo')?>
+			 </a>
+	          
+			 <input type="checkbox" name="fvseo_events" id="fvseo_events" <?php if ( $fvseop_options['fvseo_events'] == 1 ) echo 'checked="yes"'; ?> value="1">
+	
+			 <div style="max-width:500px; text-align:left; display:none" id="fvseo_events_tip">
+					<?php _e("Check this and an event date field will appear in FV Simpler SEO box. Then use query args like <code>array( 'fv_events_start' => '2013-12-12 12:12:12', 'fv_events_end' => '2013-12-13 13:13:13' )</code> in your WP_Query.", 'fv_seo')?>
+			 </div>
+		</p>	
+	<?php
+	}  
 	
 	
 	function admin_settings_interface() {
@@ -3085,6 +3109,7 @@ if( isset($_GET['martinv']) ) {
       $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
       $fvseop_options['fvseo_attachments'] = isset( $_POST['fvseo_attachments'] ) ? true : false;
       $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
+      $fvseop_options['fvseo_events'] = isset( $_POST['fvseo_events'] ) ? $_POST['fvseo_events'] : 0;
 
       $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
       $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;
@@ -3165,6 +3190,7 @@ add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', arr
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'admin_settings_tracking_codes', 'Tracking codes', array( $this, 'admin_settings_tracking_codes' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this, 'admin_settings_calendar' ), 'fv_simpler_seo_settings', 'normal' );
 
 ?>            
 
@@ -3719,6 +3745,7 @@ $fvseop_default_options = array(
   'aiosp_show_custom_canonical'=>0,
   'aiosp_shorten_slugs'=>1,
   'fvseo_publ_warnings'=>1,
+  'fvseo_events'=>0,
   'social_google_publisher'=>'',
   'social_google_author'=>'',
   'social_twitter_site'=>'',
@@ -3876,7 +3903,9 @@ function fvseo_meta()
 	$fvseo_titleatr = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_titleatr', true))));
 	$fvseo_menulabel = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_menulabel', true))));
 	$noindex = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_noindex', true))));	
-	$nofollow = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_nofollow', true))));	
+	$nofollow = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_nofollow', true))));
+  
+  $event_date = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_fv_event_date', true))));
 	
 	if( $title ) {
 	  $title_preview = 	$title;
@@ -4213,7 +4242,14 @@ jQuery(document).ready(function($) {
             <input id="fvseo_nofollow" class="input" value="1" <?php if( $nofollow ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_nofollow" />
             <label for="fvseo_nofollow">Add nofollow</label>
         </p>    
-    <?php endif; ?>       
+    <?php endif; ?>
+    
+    <?php if ($fvseop_options['fvseo_events']) : ?>
+        <p>
+            <?php _e('Event Date:', 'fv_seo') ?> <small>(YYYY-MM-DD hh:mm:ss)</small>
+            <input class="input" value="<?php echo $event_date ?>" type="text" name="fvseo_event_date" />
+        </p>    
+    <?php endif; ?>    
     
     <?php if (!function_exists('qtrans_getSortedLanguages')) { ?>
       <script type="text/javascript">
@@ -4419,4 +4455,8 @@ add_action( 'activate_' .plugin_basename(__FILE__), array( $fvseo, 'activate' ) 
 if( !isset($fvseop_options['fvseo_hentry']) || ( $fvseop_options['fvseo_hentry'] != '1' && strcmp($fvseop_options['fvseo_hentry'],'on') ) ) {
     add_filter('post_class', array( $fvseo, 'post_class' ) );
     add_filter('the_category', array( $fvseo, 'microdata_category_links' ) );
+}
+
+if( isset($fvseop_options['fvseo_events']) && $fvseop_options['fvseo_events'] ) {
+  include( dirname(__FILE__).'/fv-events.php' );
 }
