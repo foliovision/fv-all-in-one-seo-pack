@@ -1,13 +1,4 @@
 <?php
-/*
-Plugin Name: FV Events
-Plugin URI: http://www.foliovision.com
-Description: Add event dates to the posts
-Version: 0.1
-Author: Foliovision s.r.o.
-Author URI: http://www.foliovision.com
-*/
-
 
 if( !class_exists('FV_Events') ) :
 
