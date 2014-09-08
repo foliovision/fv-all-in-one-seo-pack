@@ -66,7 +66,6 @@ class FV_Events{
       
     }
     
-    
     add_filter( 'posts_join', array( $this, 'query_join' ), 10, 2 );
     add_filter( 'posts_where', array( $this, 'query_where' ), 10, 2 );
     add_filter( 'posts_orderby', array( $this, 'query_order_by' ), 10, 2) ;
@@ -115,7 +114,7 @@ class FV_Events{
     }
     
     global $wpdb;
-    return "AND fv_events_start.meta_key = '_fv_event_date' AND UNIX_TIMESTAMP(fv_events_start.meta_value) >= UNIX_TIMESTAMP('{$query->query_vars['fv_events_start']}') AND UNIX_TIMESTAMP(fv_events_start.meta_value) <= UNIX_TIMESTAMP('{$query->query_vars['fv_events_end']}') ";   
+    return $where."AND fv_events_start.meta_key = '_fv_event_date' AND UNIX_TIMESTAMP(fv_events_start.meta_value) >= UNIX_TIMESTAMP('{$query->query_vars['fv_events_start']}') AND UNIX_TIMESTAMP(fv_events_start.meta_value) <= UNIX_TIMESTAMP('{$query->query_vars['fv_events_end']}') ";   
   }
     
   
