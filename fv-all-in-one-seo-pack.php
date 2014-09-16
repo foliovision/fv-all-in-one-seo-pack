@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.15
+Version: 1.6.24.16
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.15';
+$fv_simpler_seo_version = '1.6.24.16';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -2145,8 +2145,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				add_post_meta($id, '_aioseop_menulabel', $fvseo_menulabel);
 			}
       
-			if (isset($fvseo_event_date) && !empty($fvseo_event_date))
-			{
+			if( isset($fvseo_event_date) ) {
 				update_post_meta($id, '_fv_event_date', $fvseo_event_date);
 			}				      
 

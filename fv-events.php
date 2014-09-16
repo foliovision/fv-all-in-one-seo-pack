@@ -51,24 +51,31 @@ class FV_Events{
       return $query;
     }
     
-    if( isset($query->query_vars['fv_events']) && strcasecmp($query->query_vars['fv_events'],'week') == 0 ) {
-      if( isset($query->query_vars['fv_events_week_wrap']) && strtotime($query->query_vars['fv_events_week_wrap']) > 0 && current_time('timestamp') > strtotime($query->query_vars['fv_events_week_wrap'])  ) {      
-        $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("next monday", current_time('timestamp') ) ) );
-        $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("next sunday", strtotime("next monday", current_time('timestamp')) ) ) );        
+    $tCurrent = isset($_GET['fv_events_current_time']) ? intval($_GET['fv_events_current_time']) : current_time('timestamp');
+    $tWrap = isset($query->query_vars['fv_events_week_wrap']) ? date( 'NHis', strtotime( $query->query_vars['fv_events_week_wrap'] ) ) : false; 
+      
+    if(isset($query->query_vars['fv_events']) && strcasecmp($query->query_vars['fv_events'],'week') == 0 ) {
+      if( $tWrap && date( 'NHis',$tCurrent) >= $tWrap ) {      
+        $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("next monday", $tCurrent ) ) );
+        $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("next sunday", strtotime("next monday", $tCurrent) ) ) );        
       } else {
-        $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("previous monday", strtotime('tomorrow', current_time('timestamp')) ) ) );
-        $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("next sunday", strtotime('yesterday', current_time('timestamp')) ) ) );
+        $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("previous monday", strtotime('tomorrow', $tCurrent) ) ) );
+        $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("next sunday", strtotime('yesterday', $tCurrent) ) ) );
       }
       
     } else if( isset($query->query_vars['fv_events']) && strcasecmp($query->query_vars['fv_events'],'today') == 0 ) {
-      $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("today", current_time('timestamp')) ) );
-      $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("today", current_time('timestamp')) )." 23:59:59" );
+      $query->set( 'fv_events_start', date( 'Y-m-d', strtotime("today", $tCurrent) ) );
+      $query->set( 'fv_events_end', date( 'Y-m-d', strtotime("today", $tCurrent) )." 23:59:59" );
       
     }
     
     add_filter( 'posts_join', array( $this, 'query_join' ), 10, 2 );
     add_filter( 'posts_where', array( $this, 'query_where' ), 10, 2 );
     add_filter( 'posts_orderby', array( $this, 'query_order_by' ), 10, 2) ;
+    
+    if( isset($_GET['fv_events_debug']) ) {
+      echo "<!--fv_events_debug:\ntWrap: ".$tWrap." vs. ".date( 'NHis',$tCurrent)."\nquery args: ".var_export($query,true)."-->\n\n";
+    }
   }
   
   
