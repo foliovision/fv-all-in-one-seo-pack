@@ -3428,6 +3428,7 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
         $description = wp_trim_words(strip_shortcodes(strip_tags($post->post_content)), 20, ' &hellip;');
       }
       $description = __($this->internationalize(strip_tags($description)));
+      $description = htmlspecialchars($description);
       
       if( !$title = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_title', true) ))) ) {
         $title = get_the_title();
