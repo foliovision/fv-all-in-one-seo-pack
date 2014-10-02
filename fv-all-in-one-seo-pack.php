@@ -1677,7 +1677,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		}
 		elseif (is_category() && !is_feed()     && $fvseop_options['aiosp_rewrite_titles'])
 		{
-			$category_description = $this->internationalize(category_description());
+			$category_description = $this->internationalize(strip_tags(category_description()));
 
 			if($fvseop_options['aiosp_cap_cats'])
 			{
@@ -1687,9 +1687,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			{
 				$category_name = $this->internationalize(single_cat_title('', false));
 			}			
-
+                        
 			$title_format = stripslashes( $fvseop_options['aiosp_category_title_format'] );
-
 			$title = str_replace('%category_title%', $category_name, $title_format);
 			$title = str_replace('%category_description%', $category_description, $title);
 			$title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title);
