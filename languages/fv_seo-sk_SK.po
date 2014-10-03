@@ -2,826 +2,1093 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FV Simpler SEO v1.6.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-17 14:51+0100\n"
-"PO-Revision-Date: 2013-12-18 08:30:43+0000\n"
+"POT-Creation-Date: 2014-10-03 18:10+0100\n"
+"PO-Revision-Date: 2014-10-03 18:32+0100\n"
 "Last-Translator: \n"
 "Language-Team: Foliovision\n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.6.2\n"
-"X-Poedit-Language: \n"
-"X-Poedit-Country: \n"
+"X-Generator: Poedit 1.6.9\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: ..\n"
-"X-Textdomain-Support: yes"
 
-#: fv-all-in-one-seo-pack.php:2026
-#: fv-all-in-one-seo-pack.php:3485
-#: fv-all-in-one-seo-pack.php:3486
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2072 ../fv-all-in-one-seo-pack.php:3666
+#: ../fv-all-in-one-seo-pack.php:3667
 msgid "FV Simpler SEO"
 msgstr "FV Simpler SEO"
 
-#: fv-all-in-one-seo-pack.php:2034
-#: fv-all-in-one-seo-pack.php:2043
-#: fv-all-in-one-seo-pack.php:2052
-#: fv-all-in-one-seo-pack.php:2061
-#: fv-all-in-one-seo-pack.php:2081
-#: fv-all-in-one-seo-pack.php:2092
-#: fv-all-in-one-seo-pack.php:2103
-#: fv-all-in-one-seo-pack.php:2126
-#: fv-all-in-one-seo-pack.php:2137
-#: fv-all-in-one-seo-pack.php:2148
-#: fv-all-in-one-seo-pack.php:2166
-#: fv-all-in-one-seo-pack.php:2175
-#: fv-all-in-one-seo-pack.php:2184
-#: fv-all-in-one-seo-pack.php:2195
-#: fv-all-in-one-seo-pack.php:2217
-#: fv-all-in-one-seo-pack.php:2237
-#: fv-all-in-one-seo-pack.php:2254
-#: fv-all-in-one-seo-pack.php:2270
-#: fv-all-in-one-seo-pack.php:2286
-#: fv-all-in-one-seo-pack.php:2302
-#: fv-all-in-one-seo-pack.php:2320
-#: fv-all-in-one-seo-pack.php:2338
-#: fv-all-in-one-seo-pack.php:2355
-#: fv-all-in-one-seo-pack.php:2365
-#: fv-all-in-one-seo-pack.php:2374
-#: fv-all-in-one-seo-pack.php:2383
-#: fv-all-in-one-seo-pack.php:2392
-#: fv-all-in-one-seo-pack.php:2401
-#: fv-all-in-one-seo-pack.php:2410
-#: fv-all-in-one-seo-pack.php:2419
-#: fv-all-in-one-seo-pack.php:2428
-#: fv-all-in-one-seo-pack.php:2437
-#: fv-all-in-one-seo-pack.php:2446
-#: fv-all-in-one-seo-pack.php:2455
-#: fv-all-in-one-seo-pack.php:2468
-#: fv-all-in-one-seo-pack.php:2481
-#: fv-all-in-one-seo-pack.php:2494
-#: fv-all-in-one-seo-pack.php:2511
-#: fv-all-in-one-seo-pack.php:2520
-#: fv-all-in-one-seo-pack.php:2529
-#: fv-all-in-one-seo-pack.php:2546
-#: fv-all-in-one-seo-pack.php:2555
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2080 ../fv-all-in-one-seo-pack.php:2089
+#: ../fv-all-in-one-seo-pack.php:2098 ../fv-all-in-one-seo-pack.php:2107
+#: ../fv-all-in-one-seo-pack.php:2127 ../fv-all-in-one-seo-pack.php:2138
+#: ../fv-all-in-one-seo-pack.php:2149 ../fv-all-in-one-seo-pack.php:2170
+#: ../fv-all-in-one-seo-pack.php:2181 ../fv-all-in-one-seo-pack.php:2192
+#: ../fv-all-in-one-seo-pack.php:2203 ../fv-all-in-one-seo-pack.php:2221
+#: ../fv-all-in-one-seo-pack.php:2230 ../fv-all-in-one-seo-pack.php:2239
+#: ../fv-all-in-one-seo-pack.php:2250 ../fv-all-in-one-seo-pack.php:2272
+#: ../fv-all-in-one-seo-pack.php:2292 ../fv-all-in-one-seo-pack.php:2309
+#: ../fv-all-in-one-seo-pack.php:2325 ../fv-all-in-one-seo-pack.php:2341
+#: ../fv-all-in-one-seo-pack.php:2358 ../fv-all-in-one-seo-pack.php:2374
+#: ../fv-all-in-one-seo-pack.php:2392 ../fv-all-in-one-seo-pack.php:2410
+#: ../fv-all-in-one-seo-pack.php:2427 ../fv-all-in-one-seo-pack.php:2437
+#: ../fv-all-in-one-seo-pack.php:2446 ../fv-all-in-one-seo-pack.php:2455
+#: ../fv-all-in-one-seo-pack.php:2464 ../fv-all-in-one-seo-pack.php:2473
+#: ../fv-all-in-one-seo-pack.php:2482 ../fv-all-in-one-seo-pack.php:2491
+#: ../fv-all-in-one-seo-pack.php:2500 ../fv-all-in-one-seo-pack.php:2509
+#: ../fv-all-in-one-seo-pack.php:2518 ../fv-all-in-one-seo-pack.php:2527
+#: ../fv-all-in-one-seo-pack.php:2540 ../fv-all-in-one-seo-pack.php:2553
+#: ../fv-all-in-one-seo-pack.php:2566 ../fv-all-in-one-seo-pack.php:2583
+#: ../fv-all-in-one-seo-pack.php:2592 ../fv-all-in-one-seo-pack.php:2601
+#: ../fv-all-in-one-seo-pack.php:2618 ../fv-all-in-one-seo-pack.php:2627
+#: ../fv-all-in-one-seo-pack.php:2636 ../fv-all-in-one-seo-pack.php:2645
+#: ../fv-all-in-one-seo-pack.php:2654 ../fv-all-in-one-seo-pack.php:2663
 msgid "Click for Help!"
 msgstr "Klikni pre pomoc!"
 
-#: fv-all-in-one-seo-pack.php:2035
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2081
 msgid "Home Title:"
 msgstr "Názov hlavnej stránky:"
 
-#: fv-all-in-one-seo-pack.php:2039
-#@ fv_seo
-msgid "As the name implies, this will be the title of your homepage. This is independent of any other option. If not set, the default blog title will get used."
-msgstr "Ako napovedá názov, ide o titul hlavnej stránky, zobrazený v hornom riadku prehliadača. Ten je nezávislý od všetkých  iných nastavení. Ak nie je nastavený, bude použitý predvolený názov blogu."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2085
+msgid ""
+"As the name implies, this will be the title of your homepage. This is "
+"independent of any other option. If not set, the default blog title will get "
+"used."
+msgstr ""
+"Ako napovedá názov, ide o titul hlavnej stránky, zobrazený v hornom riadku "
+"prehliadača. Ten je nezávislý od všetkých  iných nastavení. Ak nie je "
+"nastavený, bude použitý predvolený názov blogu."
 
-#: fv-all-in-one-seo-pack.php:2044
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2090
 msgid "Home Description:"
 msgstr "Popis hlavnej stránky:"
 
-#: fv-all-in-one-seo-pack.php:2048
-#@ fv_seo
-msgid "The META description for your homepage. Independent of any other options, the default is no META description at all if this is not set."
-msgstr "META opis  hlavnej stránky. Je nezávislý od všetkých  iných nastavení. Ak ostane pole prázdne, META opis nebude generovaný."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2094
+msgid ""
+"The META description for your homepage. Independent of any other options, "
+"the default is no META description at all if this is not set."
+msgstr ""
+"META opis  hlavnej stránky. Je nezávislý od všetkých  iných nastavení. Ak "
+"ostane pole prázdne, META opis nebude generovaný."
 
-#: fv-all-in-one-seo-pack.php:2053
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2099
 msgid "Home Keywords (comma separated):"
 msgstr "Kľúčové slová hlavnej stránky (oddelené čiarkou):"
 
-#: fv-all-in-one-seo-pack.php:2057
-#@ fv_seo
-msgid "A comma separated list of your most important keywords for your site that will be written as META keywords on your homepage. Don't stuff everything in here."
-msgstr "Čiarkou oddelený zoznam  najdôležitejších kľúčových slov pre vaše stránky. Budú zapísané ako META keywords na hlavnej stránke. "
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2103
+msgid ""
+"A comma separated list of your most important keywords for your site that "
+"will be written as META keywords on your homepage. Don't stuff everything in "
+"here."
+msgstr ""
+"Čiarkou oddelený zoznam  najdôležitejších kľúčových slov pre vaše stránky. "
+"Budú zapísané ako META keywords na hlavnej stránke. "
 
-#: fv-all-in-one-seo-pack.php:2062
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2108
 msgid "Warn me when publishing without a title or description:"
 msgstr "Upozorni ma pri publikácii bez názvu a popisu"
 
-#: fv-all-in-one-seo-pack.php:2070
-#@ fv_seo
-msgid "Uncheck this if you don't want to be warned in case you are publishing without a title or description. Default: checked."
-msgstr "Odškrtni ak nechceš byť upozornený pri publikovaní bez názvu a popisu. Štandardne: zaškrtnuté"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2116
+msgid ""
+"Uncheck this if you don't want to be warned in case you are publishing "
+"without a title or description. Default: checked."
+msgstr ""
+"Odškrtni ak nechceš byť upozornený pri publikovaní bez názvu a popisu. "
+"Štandardne: zaškrtnuté"
 
-#: fv-all-in-one-seo-pack.php:2082
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2128
 msgid "Add keywords field to post editing screen:"
 msgstr "Pridaj pole kľúčových slov na editačnú stránku článku"
 
-#: fv-all-in-one-seo-pack.php:2087
-#@ fv_seo
-msgid "You don't need this field at all if you are using tags properly. It makes the FV Simpler SEO box in the editing screen more complicated too."
-msgstr "Toto pole nieje potrebné ak používate tagy správne. Takisto to spôsobí, že FV Simpler SEO náročnejšie na nastavenie v editačnej obrazovke."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2133
+msgid ""
+"You don't need this field at all if you are using tags properly. It makes "
+"the FV Simpler SEO box in the editing screen more complicated too."
+msgstr ""
+"Toto pole nieje potrebné ak používate tagy správne. Takisto to spôsobí, že "
+"FV Simpler SEO náročnejšie na nastavenie v editačnej obrazovke."
 
-#: fv-all-in-one-seo-pack.php:2093
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2139
 msgid "Add no index checkbox to post editing screen:"
 msgstr "Pridaj zaškrtávacie pole bez indexu do editačnej stránky článku"
 
-#: fv-all-in-one-seo-pack.php:2098
-#@ fv_seo
-msgid "Adds a powerful checkbox to post editing screens which let's you exclude the post from search engine indexing. <strong>Warning:</strong> only use if you really know what you are doing."
-msgstr "Pridá zaškrtávacie pole do editačnej stránky článku čo Vám dovolí vylúčiť článok z indexovania vyhľadávacim enginom. <strong>Upozornenie:</strong> používajte iba ak viete o čo ide."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2144
+msgid ""
+"Adds a powerful checkbox to post editing screens which let's you exclude the "
+"post from search engine indexing. <strong>Warning:</strong> only use if you "
+"really know what you are doing."
+msgstr ""
+"Pridá zaškrtávacie pole do editačnej stránky článku čo Vám dovolí vylúčiť "
+"článok z indexovania vyhľadávacim enginom. <strong>Upozornenie:</strong> "
+"používajte iba ak viete o čo ide."
 
-#: fv-all-in-one-seo-pack.php:2104
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2150
 msgid "Experimental - Use Custom Canonical URL field:"
 msgstr "Experimentálne - Použi vlastné kanonické pole URL:"
 
-#: fv-all-in-one-seo-pack.php:2121
-#@ fv_seo
-msgid "Use this feature only if you are sure you want to enter custom canonical URLs. This is not affected by the \"Canonical URLs\" Advanced Option (bellow)."
-msgstr "Túto vlastnosť použite iba ak ste si istý, že použijete vlastné kanonické URL. Nieje to ovplyvnené \"Kanonickými URL\" Rozšírené nastavenia (popod)"
+#: ../fv-all-in-one-seo-pack.php:2156
+msgid ""
+"Are you sure you want to turn on this feature? Using wrong custom canonical "
+"URLs can damage your site SEO rankings.\\n\\n If you are not sure, then "
+"leave this off and Wordpress will take care of it on its own."
+msgstr ""
+"Ste si istý  že chcete zapnúť túto funkciu? Použitie nesprávnych vlastných "
+"kanonických URL adries môže poškodiť SEO hodnotenie Vašej stránky.\\n\\nAk "
+"si nie ste istý tým, čo robíte, nezaškrtávajte túto možnosť. Wordpress sa o "
+"to postará sám."
 
-#: fv-all-in-one-seo-pack.php:2127
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2165
+msgid ""
+"Use this feature only if you are sure you want to enter custom canonical "
+"URLs. This is not affected by the \"Canonical URLs\" Advanced Option "
+"(bellow)."
+msgstr ""
+"Túto vlastnosť použite iba ak ste si istý, že použijete vlastné kanonické "
+"URL. Nieje to ovplyvnené \"Kanonickými URL\" Rozšírené nastavenia (popod)"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2171
 msgid "Add Title Attribute field to page editing screen (deprecated):"
 msgstr "Pridaj atribút pre názov na editačnú stránku článku (zastarané):"
 
-#: fv-all-in-one-seo-pack.php:2132
-#@ fv_seo
-msgid "Allows you to set the anchor title for pages in menus. You don't need this field at all because post title or Long Title will be used instead."
-msgstr "Dovolí Vám nastaviť názvy odkazov pre stránky v menu. Toto pole nieje potrebné pretože názov článku alebo dlhý názov bude použitý. "
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2176
+msgid ""
+"Allows you to set the anchor title for pages in menus. You don't need this "
+"field at all because post title or Long Title will be used instead."
+msgstr ""
+"Dovolí Vám nastaviť názvy odkazov pre stránky v menu. Toto pole nieje "
+"potrebné pretože názov článku alebo dlhý názov bude použitý. "
 
-#: fv-all-in-one-seo-pack.php:2138
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2182
 msgid "Add Short Title Attribute field to post editing screen:"
 msgstr "Pridaj atribút pre krátky názov na editačnú stránku článku:"
 
-#: fv-all-in-one-seo-pack.php:2143
-#@ fv_seo
-msgid "Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar post titles when enabled."
-msgstr "Uložené ako _aioseop_menulabel postmeta. Automatický pridané do názvov v bočnom paneli ak je povolené."
+#: ../fv-all-in-one-seo-pack.php:2187
+msgid "Stored as _aioseop_menulabel postmeta."
+msgstr "Uložiť ako _aioseop_menulabel postmeta."
 
-#: fv-all-in-one-seo-pack.php:2149
-#@ fv_seo
-msgid "Add \"Disable on this post/page\" checkbox to post editing screen (deprecated):"
-msgstr "Pridaj \"Vypnút na tejto stránke/článku\" zaškrtávacie pole na editačnú obrazvku článku (zastarané):"
+#: ../fv-all-in-one-seo-pack.php:2193
+msgid "Enable using short titles in sidebars:"
+msgstr "Povoliť používanie krátkych náyvov v sidebaroch:"
 
-#: fv-all-in-one-seo-pack.php:2154
-#@ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2198
+msgid ""
+"Use short titles instead on sidebar post titles. Add Short Title Attribute "
+"field to post editing screen option have to be enabled"
+msgstr ""
+"Použiť krátke názvy v sidebarových názvoch postov.  Add Short Title "
+"Attribute pole musí byť povolené na obrazovke počas editovania postov."
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2204
+msgid ""
+"Add \"Disable on this post/page\" checkbox to post editing screen "
+"(deprecated):"
+msgstr ""
+"Pridaj \"Vypnút na tejto stránke/článku\" zaškrtávacie pole na editačnú "
+"obrazvku článku (zastarané):"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2209
 msgid "Let's you disable the plugin for a specific post or page."
 msgstr "Dovolí vypnút modul pre konkrétny článok alebo stránku."
 
-#: fv-all-in-one-seo-pack.php:2167
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2222
 msgid "Canonical URLs:"
 msgstr "Kanonické odkazy:"
 
-#: fv-all-in-one-seo-pack.php:2171
-#@ fv_seo
-msgid "This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>."
-msgstr "Táto možnosť bude automaticky generovať kanonické adresy URL pre celú vašu WordPress inštaláciu. To pomôže zabrániť duplicitnému obsahu, penalizovanému od <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2226
+msgid ""
+"This option will automatically generate Canonical URLS for your entire "
+"WordPress installation.  This will help to prevent duplicate content "
+"penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/"
+"specify-your-canonical.html' target='_blank'>Google</a>."
+msgstr ""
+"Táto možnosť bude automaticky generovať kanonické adresy URL pre celú vašu "
+"WordPress inštaláciu. To pomôže zabrániť duplicitnému obsahu, penalizovanému "
+"od <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-"
+"canonical.html' target='_blank'>Google</a>."
 
-#: fv-all-in-one-seo-pack.php:2176
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2231
 msgid "Shorten Post / Page name:"
 msgstr "Skrátený článok / Názov stránky:"
 
-#: fv-all-in-one-seo-pack.php:2180
-#@ fv_seo
-msgid "This option will automatically shorten a link to post / page upon first save."
-msgstr "Táto možnosť automaticky skráti odkaz na článok / stránku pri prvom uložení."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2235
+msgid ""
+"This option will automatically shorten a link to post / page upon first save."
+msgstr ""
+"Táto možnosť automaticky skráti odkaz na článok / stránku pri prvom uložení."
 
-#: fv-all-in-one-seo-pack.php:2185
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2240
 msgid "Rewrite Titles:"
 msgstr "Prepísať názvy:"
 
-#: fv-all-in-one-seo-pack.php:2189
-#@ fv_seo
-msgid "Note that this is all about the title tag. This is what you see in your browser's window title bar. This is NOT visible on a page, only in the window title bar and of course in the source. If set, all page, post, category, search and archive page titles get rewritten. You can specify the format for most of them. For example: The default templates puts the title tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've overdone slightly). This is far from optimal. With the default post title format, Rewrite Title rewrites this to Post Title | Blog Name. If you have manually defined a title (in one of the text fields for All in One SEO Plugin input) this will become the title of your post in the format string."
-msgstr "Všimnite si, že všetko sa točí okolo tagu Title. To je to, čo je zobrazené v záhlaví okna (v hornom riadku) prehliadača a v zdrojovom kóde stránky. Ak vyberiete túto možnosť, všetky stránky, príspevky, kategórie, vyhľadávania a stránky archívu budú mať prepísané názvy. Môžete stanoviť formát pre väčšinu z nich. Napríklad:  predvolené šablóny zobrazujú title tag väčšinou takto:  \"Názov blogu>> Blog Archív>>Nadpis príspevku \" , čo nie je zrovna dokonalé. S použitím tejto voľby sa title tag prepíše na \"Nadpis príspevku | Názov blogu \". Formát reťazca si môžte ručne nadefinovať v nižšie umiestnených  textových poliach."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2244
+msgid ""
+"Note that this is all about the title tag. This is what you see in your "
+"browser's window title bar. This is NOT visible on a page, only in the "
+"window title bar and of course in the source. If set, all page, post, "
+"category, search and archive page titles get rewritten. You can specify the "
+"format for most of them. For example: The default templates puts the title "
+"tag of posts like this: Blog Archive >> Blog Name >> Post Title (maybe I've "
+"overdone slightly). This is far from optimal. With the default post title "
+"format, Rewrite Title rewrites this to Post Title | Blog Name. If you have "
+"manually defined a title (in one of the text fields for All in One SEO "
+"Plugin input) this will become the title of your post in the format string."
+msgstr ""
+"Všimnite si, že všetko sa točí okolo tagu Title. To je to, čo je zobrazené v "
+"záhlaví okna (v hornom riadku) prehliadača a v zdrojovom kóde stránky. Ak "
+"vyberiete túto možnosť, všetky stránky, príspevky, kategórie, vyhľadávania a "
+"stránky archívu budú mať prepísané názvy. Môžete stanoviť formát pre väčšinu "
+"z nich. Napríklad:  predvolené šablóny zobrazujú title tag väčšinou takto:  "
+"\"Názov blogu>> Blog Archív>>Nadpis príspevku \" , čo nie je zrovna "
+"dokonalé. S použitím tejto voľby sa title tag prepíše na \"Nadpis príspevku "
+"| Názov blogu \". Formát reťazca si môžte ručne nadefinovať v nižšie "
+"umiestnených  textových poliach."
 
-#: fv-all-in-one-seo-pack.php:2196
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2251
 msgid "Post Title Format:"
 msgstr "Formát názvu príspevku:"
 
-#: fv-all-in-one-seo-pack.php:2201
-#: fv-all-in-one-seo-pack.php:2223
-#: fv-all-in-one-seo-pack.php:2243
-#: fv-all-in-one-seo-pack.php:2260
-#: fv-all-in-one-seo-pack.php:2276
-#: fv-all-in-one-seo-pack.php:2292
-#: fv-all-in-one-seo-pack.php:2308
-#: fv-all-in-one-seo-pack.php:2326
-#: fv-all-in-one-seo-pack.php:2345
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2256 ../fv-all-in-one-seo-pack.php:2278
+#: ../fv-all-in-one-seo-pack.php:2298 ../fv-all-in-one-seo-pack.php:2315
+#: ../fv-all-in-one-seo-pack.php:2331 ../fv-all-in-one-seo-pack.php:2347
+#: ../fv-all-in-one-seo-pack.php:2364 ../fv-all-in-one-seo-pack.php:2380
+#: ../fv-all-in-one-seo-pack.php:2398 ../fv-all-in-one-seo-pack.php:2417
 msgid "The following macros are supported:"
 msgstr "Podporované sú nasledujúce makrá :"
 
-#: fv-all-in-one-seo-pack.php:2203
-#: fv-all-in-one-seo-pack.php:2225
-#: fv-all-in-one-seo-pack.php:2245
-#: fv-all-in-one-seo-pack.php:2262
-#: fv-all-in-one-seo-pack.php:2278
-#: fv-all-in-one-seo-pack.php:2294
-#: fv-all-in-one-seo-pack.php:2310
-#: fv-all-in-one-seo-pack.php:2328
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2258 ../fv-all-in-one-seo-pack.php:2280
+#: ../fv-all-in-one-seo-pack.php:2300 ../fv-all-in-one-seo-pack.php:2317
+#: ../fv-all-in-one-seo-pack.php:2333 ../fv-all-in-one-seo-pack.php:2349
+#: ../fv-all-in-one-seo-pack.php:2366 ../fv-all-in-one-seo-pack.php:2382
+#: ../fv-all-in-one-seo-pack.php:2400
 msgid "%blog_title% - Your blog title"
 msgstr "%blog_title% - Názov vášho blogu"
 
-#: fv-all-in-one-seo-pack.php:2204
-#: fv-all-in-one-seo-pack.php:2226
-#: fv-all-in-one-seo-pack.php:2246
-#: fv-all-in-one-seo-pack.php:2263
-#: fv-all-in-one-seo-pack.php:2279
-#: fv-all-in-one-seo-pack.php:2295
-#: fv-all-in-one-seo-pack.php:2311
-#: fv-all-in-one-seo-pack.php:2329
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2259 ../fv-all-in-one-seo-pack.php:2281
+#: ../fv-all-in-one-seo-pack.php:2301 ../fv-all-in-one-seo-pack.php:2318
+#: ../fv-all-in-one-seo-pack.php:2334 ../fv-all-in-one-seo-pack.php:2350
+#: ../fv-all-in-one-seo-pack.php:2367 ../fv-all-in-one-seo-pack.php:2383
+#: ../fv-all-in-one-seo-pack.php:2401
 msgid "%blog_description% - Your blog description"
 msgstr "%blog_description% - Popis vášho blogu"
 
-#: fv-all-in-one-seo-pack.php:2205
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2260
 msgid "%post_title% - The original title of the post"
 msgstr "%post_title% - Pôvodný názov príspevku"
 
-#: fv-all-in-one-seo-pack.php:2206
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2261
 msgid "%category_title% - The (main) category of the post"
 msgstr "%category_title% - (Hlavná) kategória príspevku"
 
-#: fv-all-in-one-seo-pack.php:2207
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2262
 msgid "%category% - Alias for %category_title%"
 msgstr "%category% - Alias pre %category_title%"
 
-#: fv-all-in-one-seo-pack.php:2208
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2263
 msgid "%post_author_login% - This post's author' login"
 msgstr "%post_author_login% - Prihlásenie autora príspevku"
 
-#: fv-all-in-one-seo-pack.php:2209
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2264
 msgid "%post_author_nicename% - This post's author' nicename"
 msgstr "%post_author_nicename% - Prezývka autora príspevku"
 
-#: fv-all-in-one-seo-pack.php:2210
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2265
 msgid "%post_author_firstname% - This post's author' first name (capitalized)"
-msgstr "%post_author_firstname% - Krstné meno autora príspevku (veľkými písmenami)       "
+msgstr ""
+"%post_author_firstname% - Krstné meno autora príspevku (veľkými "
+"písmenami)       "
 
-#: fv-all-in-one-seo-pack.php:2211
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2266
 msgid "%post_author_lastname% - This post's author' last name (capitalized)"
 msgstr "%post_author_lastname% - Priezvisko autora príspevku"
 
-#: fv-all-in-one-seo-pack.php:2218
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2273
 msgid "Page Title Format:"
 msgstr "Formát názvu stránky:"
 
-#: fv-all-in-one-seo-pack.php:2227
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2282
 msgid "%page_title% - The original title of the page"
 msgstr "%page_title% - Pôvodný názov stránky"
 
-#: fv-all-in-one-seo-pack.php:2228
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2283
 msgid "%page_author_login% - This page's author' login"
 msgstr "%page_author_login% - Prihlásenie autora stránky"
 
-#: fv-all-in-one-seo-pack.php:2229
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2284
 msgid "%page_author_nicename% - This page's author' nicename"
 msgstr "%page_author_nicename% - Prezývka autora stránky"
 
-#: fv-all-in-one-seo-pack.php:2230
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2285
 msgid "%page_author_firstname% - This page's author' first name (capitalized)"
-msgstr "%page_author_firstname% - Krstné meno autora stránky (veľkými písmenami)"
+msgstr ""
+"%page_author_firstname% - Krstné meno autora stránky (veľkými písmenami)"
 
-#: fv-all-in-one-seo-pack.php:2231
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2286
 msgid "%page_author_lastname% - This page's author' last name (capitalized)"
 msgstr "%page_author_lastname% - Priezvisko autora stránky (veľkými písmenami)"
 
-#: fv-all-in-one-seo-pack.php:2238
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2293
 msgid "Category Title Format:"
 msgstr "Formát názvu kategórie:"
 
-#: fv-all-in-one-seo-pack.php:2247
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2302
 msgid "%category_title% - The original title of the category"
 msgstr "%category_title% - Pôvodný názov kategórie"
 
-#: fv-all-in-one-seo-pack.php:2248
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2303
 msgid "%category_description% - The description of the category"
 msgstr "%category_description% - Popis kategórie"
 
-#: fv-all-in-one-seo-pack.php:2255
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2310
 msgid "Archive Title Format:"
 msgstr "Formát názvu archívu:"
 
-#: fv-all-in-one-seo-pack.php:2264
-#, php-format
-#@ fv_seo
-msgid "%date% - The original archive title given by wordpress, e.g. \"2007\" or \"2007 August\""
-msgstr "%date% - Pôvodný názov archívu daný wordpressom, napr \"2007 \" alebo \"2007 August \""
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2319
+msgid ""
+"%date% - The original archive title given by wordpress, e.g. \"2007\" or "
+"\"2007 August\""
+msgstr ""
+"%date% - Pôvodný názov archívu daný wordpressom, napr \"2007 \" alebo \"2007 "
+"August \""
 
-#: fv-all-in-one-seo-pack.php:2271
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2326
 msgid "Tag Title Format:"
 msgstr "Formát názvu značky"
 
-#: fv-all-in-one-seo-pack.php:2280
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2335
 msgid "%tag% - The name of the tag"
 msgstr "%tag% - Názov tagu"
 
-#: fv-all-in-one-seo-pack.php:2287
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2342
+#, fuzzy
+msgid "Custom taxonomy Title Format:"
+msgstr "Formát názvu kategórie:"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2351
+#, fuzzy
+msgid "%tax_title% - Your actual taxonomy category title"
+msgstr "%blog_title% - Názov vášho blogu"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2352
+#, fuzzy
+msgid "%tax_type_title% - Your taxonomy title"
+msgstr "%blog_title% - Názov vášho blogu"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2359
 msgid "Search Title Format:"
 msgstr "Formát názvu vyhľadávania:"
 
-#: fv-all-in-one-seo-pack.php:2296
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2368
 msgid "%search% - What was searched for"
 msgstr "%search% - Čo bolo hľadané pre"
 
-#: fv-all-in-one-seo-pack.php:2303
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2375
 msgid "Description Format:"
 msgstr "Formát popisu:"
 
-#: fv-all-in-one-seo-pack.php:2312
-#, php-format
-#@ fv_seo
-msgid "%description% - The original description as determined by the plugin, e.g. the excerpt if one is set or an auto-generated one if that option is set"
-msgstr "%description% - Pôvodný popis, ako je stanovený modulom, napr výňatok, ak je nastavený, alebo automaticky generovaný, ak je táto možnosť nastavená"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2384
+msgid ""
+"%description% - The original description as determined by the plugin, e.g. "
+"the excerpt if one is set or an auto-generated one if that option is set"
+msgstr ""
+"%description% - Pôvodný popis, ako je stanovený modulom, napr výňatok, ak je "
+"nastavený, alebo automaticky generovaný, ak je táto možnosť nastavená"
 
-#: fv-all-in-one-seo-pack.php:2313
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2385
 msgid "%wp_title% - The original wordpress title, e.g. post_title for posts"
 msgstr "%wp_title% - Pôvodný wordpress titul, napr post_title pre príspevky"
 
-#: fv-all-in-one-seo-pack.php:2314
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2386
 msgid "%page% - Page number for paged category archives"
 msgstr "%page% - Číslo stránky pre stránkované archívy kategórii"
 
-#: fv-all-in-one-seo-pack.php:2321
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2393
 msgid "404 Title Format:"
 msgstr "Formát názvu strany 404:"
 
-#: fv-all-in-one-seo-pack.php:2330
-#, php-format
-#@ fv_seo
-msgid "%request_url% - The original URL path, like \"/url-that-does-not-exist/\""
-msgstr "%request_url% - pôvodná adresa URL, napr:\"/adresa-hľadanej-stránky-neexistuje/\""
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2402
+msgid ""
+"%request_url% - The original URL path, like \"/url-that-does-not-exist/\""
+msgstr ""
+"%request_url% - pôvodná adresa URL, napr:\"/adresa-hľadanej-stránky-"
+"neexistuje/\""
 
-#: fv-all-in-one-seo-pack.php:2331
-#, php-format
-#@ fv_seo
-msgid "%request_words% - The URL path in human readable form, like \"Url That Does Not Exist\""
-msgstr "%request_words% - Adresa URL v pre človeka čitateľnom tvare, napr. \"Stránka, ktorú hľadate neexistuje \""
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2403
+msgid ""
+"%request_words% - The URL path in human readable form, like \"Url That Does "
+"Not Exist\""
+msgstr ""
+"%request_words% - Adresa URL v pre človeka čitateľnom tvare, napr. "
+"\"Stránka, ktorú hľadate neexistuje \""
 
-#: fv-all-in-one-seo-pack.php:2332
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2404
 msgid "%404_title% - Additional 404 title input\""
 msgstr "%404_title%  Ďaľší vstupný názov stránky 404\" "
 
-#: fv-all-in-one-seo-pack.php:2339
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2411
 msgid "Paged Format:"
 msgstr "Formát stránkovania:"
 
-#: fv-all-in-one-seo-pack.php:2344
-#@ fv_seo
-msgid "This string gets appended/prepended to titles when they are for paged index pages (like home or archive pages)."
-msgstr "Tento text zostane pripojený k názvom, ak je pre stránkovaný register stránok ( ako sú hlavná stránka alebo archív stránok )"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2416
+msgid ""
+"This string gets appended/prepended to titles when they are for paged index "
+"pages (like home or archive pages)."
+msgstr ""
+"Tento text zostane pripojený k názvom, ak je pre stránkovaný register "
+"stránok ( ako sú hlavná stránka alebo archív stránok )"
 
-#: fv-all-in-one-seo-pack.php:2347
-#, php-format
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2419
 msgid "%page% - The page number"
 msgstr "%page% - Číslo stránky"
 
-#: fv-all-in-one-seo-pack.php:2356
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2428
 msgid "Use Categories for META keywords:"
 msgstr "Použi názvy kategórií v META keywords:"
 
-#: fv-all-in-one-seo-pack.php:2360
-#@ fv_seo
-msgid "Check this if you want your categories for a given post used as the META keywords for this post (in addition to any keywords and tags you specify on the post edit page)."
-msgstr "Zaškrtnite, ak chcete názvy vašich kategórií použiť ako kľúčové slová v META keywords pre príspevky (táto funkcia pracuje bez ohľadu na kľúčové slová, a tagy zadané pri publikovaní príspevku)"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2432
+msgid ""
+"Check this if you want your categories for a given post used as the META "
+"keywords for this post (in addition to any keywords and tags you specify on "
+"the post edit page)."
+msgstr ""
+"Zaškrtnite, ak chcete názvy vašich kategórií použiť ako kľúčové slová v META "
+"keywords pre príspevky (táto funkcia pracuje bez ohľadu na kľúčové slová, a "
+"tagy zadané pri publikovaní príspevku)"
 
-#: fv-all-in-one-seo-pack.php:2366
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2438
 msgid "Use Tags for META keywords:"
 msgstr "Použi tagy v META keywords:"
 
-#: fv-all-in-one-seo-pack.php:2370
-#@ fv_seo
-msgid "Check this if you want your tags for a given post used as the META keywords for this post (in addition to any keywords you specify on the post edit page)."
-msgstr "Zaškrtnite, ak chcete Tagy pre dané príspevky  použiť ako kľúčové slová v META keywords pre príspevky (popri ostatných kľúčových slovách zadaných pr vydaní / editácii stránky  príspevku)."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2442
+msgid ""
+"Check this if you want your tags for a given post used as the META keywords "
+"for this post (in addition to any keywords you specify on the post edit "
+"page)."
+msgstr ""
+"Zaškrtnite, ak chcete Tagy pre dané príspevky  použiť ako kľúčové slová v "
+"META keywords pre príspevky (popri ostatných kľúčových slovách zadaných pr "
+"vydaní / editácii stránky  príspevku)."
 
-#: fv-all-in-one-seo-pack.php:2375
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2447
 msgid "Dynamically Generate Keywords for Posts Page:"
 msgstr "Dynamicky generovať kľúčové slová pre stránky príspevkov:"
 
-#: fv-all-in-one-seo-pack.php:2379
-#@ fv_seo
-msgid "Check this if you want your keywords on a custom posts page (set it in options->reading) to be dynamically generated from the keywords of the posts showing on that page.  If unchecked, it will use the keywords set in the edit page screen for the posts page."
-msgstr "Zvolte ak chcete aby sa  kľučové slová na stránke článkov (nastaviť v možnosti > čítanie ) dynamicky generovali  z kľúčových slov príspevkov, ktoré sú na tejto stránke"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2451
+msgid ""
+"Check this if you want your keywords on a custom posts page (set it in "
+"options->reading) to be dynamically generated from the keywords of the posts "
+"showing on that page.  If unchecked, it will use the keywords set in the "
+"edit page screen for the posts page."
+msgstr ""
+"Zvolte ak chcete aby sa  kľučové slová na stránke článkov (nastaviť v "
+"možnosti > čítanie ) dynamicky generovali  z kľúčových slov príspevkov, "
+"ktoré sú na tejto stránke"
 
-#: fv-all-in-one-seo-pack.php:2384
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2456
 msgid "Remove Category rel attribute for validation:"
 msgstr "Odstrániť atribút Category rel pre validáciu:"
 
-#: fv-all-in-one-seo-pack.php:2388
-#@ fv_seo
-msgid "Check this if you want to remove attribute rel from links to categories. Useful for validation."
-msgstr "Zaškrtnite ak chcete odstrániť atribút rel z odkazov kategórii. Vhodné pre validáciu"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2460
+msgid ""
+"Check this if you want to remove attribute rel from links to categories. "
+"Useful for validation."
+msgstr ""
+"Zaškrtnite ak chcete odstrániť atribút rel z odkazov kategórii. Vhodné pre "
+"validáciu"
 
-#: fv-all-in-one-seo-pack.php:2393
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2465
 msgid "Use noindex for Categories:"
 msgstr "Použite noindex pre Kategórie:"
 
-#: fv-all-in-one-seo-pack.php:2397
-#@ fv_seo
-msgid "Check this for excluding category pages from being crawled. Useful for avoiding duplicate content."
-msgstr "Použite, ak chcete zabrániť vyhľadávačom indexovať strániky Kategórií, užitočné k zabráneniu duplicity obsahu."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2469
+msgid ""
+"Check this for excluding category pages from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Použite, ak chcete zabrániť vyhľadávačom indexovať strániky Kategórií, "
+"užitočné k zabráneniu duplicity obsahu."
 
-#: fv-all-in-one-seo-pack.php:2402
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2474
 msgid "Use noindex for Archives:"
 msgstr "Použite noindex pre Archív:"
 
-#: fv-all-in-one-seo-pack.php:2406
-#@ fv_seo
-msgid "Check this for excluding archive pages from being crawled. Useful for avoiding duplicate content."
-msgstr "Použite, ak chcete zabrániť vyhľadávačom indexovať stránky Archívu, užitočné k zabráneniu duplicity obsahu."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2478
+msgid ""
+"Check this for excluding archive pages from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Použite, ak chcete zabrániť vyhľadávačom indexovať stránky Archívu, užitočné "
+"k zabráneniu duplicity obsahu."
 
-#: fv-all-in-one-seo-pack.php:2411
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2483
 msgid "Use noindex for Tag Archives:"
 msgstr "Použite pre noindex pre tagy Archívov:"
 
-#: fv-all-in-one-seo-pack.php:2415
-#@ fv_seo
-msgid "Check this for excluding tag pages from being crawled. Useful for avoiding duplicate content."
-msgstr "Použite, ak chcete zabrániť vyhľadávačom indexovanie Tagov, užitočné k zabráneniu duplicity obsahu."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2487
+msgid ""
+"Check this for excluding tag pages from being crawled. Useful for avoiding "
+"duplicate content."
+msgstr ""
+"Použite, ak chcete zabrániť vyhľadávačom indexovanie Tagov, užitočné k "
+"zabráneniu duplicity obsahu."
 
-#: fv-all-in-one-seo-pack.php:2420
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2492
 msgid "Use noindex for Search Results:"
 msgstr "Použite noindex pre Archív:"
 
-#: fv-all-in-one-seo-pack.php:2424
-#@ fv_seo
-msgid "Check this for excluding search results from being crawled. Useful for avoiding duplicate content."
-msgstr "Použite, ak chcete zabrániť vyhľadávačom indexovať stránky Archívu, užitočné k zabráneniu duplicity obsahu."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2496
+msgid ""
+"Check this for excluding search results from being crawled. Useful for "
+"avoiding duplicate content."
+msgstr ""
+"Použite, ak chcete zabrániť vyhľadávačom indexovať stránky Archívu, užitočné "
+"k zabráneniu duplicity obsahu."
 
-#: fv-all-in-one-seo-pack.php:2429
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2501
 msgid "Autogenerate Descriptions:"
 msgstr "Automatické generovanie popisu:"
 
-#: fv-all-in-one-seo-pack.php:2433
-#@ fv_seo
-msgid "Check this and your META descriptions will get autogenerated if there's no excerpt."
-msgstr "Použite, ak chcete aby META popisy, v prípade že chýbajú, boli automaticky generované."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2505
+msgid ""
+"Check this and your META descriptions will get autogenerated if there's no "
+"excerpt."
+msgstr ""
+"Použite, ak chcete aby META popisy, v prípade že chýbajú, boli automaticky "
+"generované."
 
-#: fv-all-in-one-seo-pack.php:2438
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2510
 msgid "Capitalize Category Titles:"
 msgstr "Názvy kategórií meniť na veľké písmená:"
 
-#: fv-all-in-one-seo-pack.php:2442
-#@ fv_seo
-msgid "Check this and Category Titles will have the first letter of each word capitalized."
-msgstr "Použite, a chcete aby každé slovo v názvoch kategórií začínalo veľkým písmenom."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2514
+msgid ""
+"Check this and Category Titles will have the first letter of each word "
+"capitalized."
+msgstr ""
+"Použite, a chcete aby každé slovo v názvoch kategórií začínalo veľkým "
+"písmenom."
 
-#: fv-all-in-one-seo-pack.php:2447
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2519
 msgid "Exclude Pages:"
 msgstr "Vylúčiť stránky:"
 
-#: fv-all-in-one-seo-pack.php:2451
-#@ fv_seo
-msgid "Enter any comma separated pages here to be excluded by All in One SEO Pack.  This is helpful when using plugins which generate their own non-WordPress dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to exclude the virtual pages generated by a forum plugin, all you have to do is give forum or /forum or /forum/ or and any URL with the word \"forum\" in it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage will be excluded from FV Simpler SEO."
-msgstr "Tu môžte vložiť všetky stránky  (oddelené čiarkou), ktoré majú byť vylúčené z All in One SEO Pack. Je to užitočné pri použití modulov, ktoré vytvárajú svoje vlastné dynamické stránky mimo WordPress. Ex: <em>/forum/,/contact/</em> Napríklad, ak chcete vylúčiť virtuálne stránky vytvorené modulom fórum, všetko, čo musíte urobiť, je zadať forum, alebo / forum, alebo / forum /, alebo aj ľubovoľné URL sa slovom \"forum, ako napr.  http://mysite.com/forum alebo http://mysite.com/forum/someforumpage a stránky budú vylúčené z All in One SEO Pack."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2523
+msgid ""
+"Enter any comma separated pages here to be excluded by All in One SEO Pack.  "
+"This is helpful when using plugins which generate their own non-WordPress "
+"dynamic pages.  Ex: <em>/forum/,/contact/</em>  For instance, if you want to "
+"exclude the virtual pages generated by a forum plugin, all you have to do is "
+"give forum or /forum or /forum/ or and any URL with the word \"forum\" in "
+"it, such as http://mysite.com/forum or http://mysite.com/forum/someforumpage "
+"will be excluded from FV Simpler SEO."
+msgstr ""
+"Tu môžte vložiť všetky stránky  (oddelené čiarkou), ktoré majú byť vylúčené "
+"z All in One SEO Pack. Je to užitočné pri použití modulov, ktoré vytvárajú "
+"svoje vlastné dynamické stránky mimo WordPress. Ex: <em>/forum/,/contact/</"
+"em> Napríklad, ak chcete vylúčiť virtuálne stránky vytvorené modulom fórum, "
+"všetko, čo musíte urobiť, je zadať forum, alebo / forum, alebo / forum /, "
+"alebo aj ľubovoľné URL sa slovom \"forum, ako napr.  http://mysite.com/forum "
+"alebo http://mysite.com/forum/someforumpage a stránky budú vylúčené z All in "
+"One SEO Pack."
 
-#: fv-all-in-one-seo-pack.php:2456
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2528
 msgid "Additional Post Headers:"
 msgstr "Dodatkové hlavičky príspevkov:"
 
-#: fv-all-in-one-seo-pack.php:2461
-#@ fv_seo
-msgid "What you enter here will be copied verbatim to your header on post pages. You can enter whatever additional headers you want here, even references to stylesheets."
-msgstr "Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu strany) stránky príspevku. Možete zadať akékoľvek dodatkové META tagy, dokonca aj odkazy na štýly."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2533
+msgid ""
+"What you enter here will be copied verbatim to your header on post pages. "
+"You can enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu "
+"strany) stránky príspevku. Možete zadať akékoľvek dodatkové META tagy, "
+"dokonca aj odkazy na štýly."
 
-#: fv-all-in-one-seo-pack.php:2463
-#: fv-all-in-one-seo-pack.php:2476
-#: fv-all-in-one-seo-pack.php:2489
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2535 ../fv-all-in-one-seo-pack.php:2548
+#: ../fv-all-in-one-seo-pack.php:2561
 msgid "NOTE: This field currently only support meta tags."
 msgstr "POZNÁMKA: Toto pole je momentálne iba pre podporu meta tagov."
 
-#: fv-all-in-one-seo-pack.php:2469
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2541
 msgid "Additional Page Headers:"
 msgstr "Dodatkové hlavičky stránok:"
 
-#: fv-all-in-one-seo-pack.php:2474
-#@ fv_seo
-msgid "What you enter here will be copied verbatim to your header on pages. You can enter whatever additional headers you want here, even references to stylesheets."
-msgstr "Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu strany) stránky. Možete zadať akékoľvek dodatkové META tagy, dokonca aj odkazy na štýly."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2546
+msgid ""
+"What you enter here will be copied verbatim to your header on pages. You can "
+"enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu "
+"strany) stránky. Možete zadať akékoľvek dodatkové META tagy, dokonca aj "
+"odkazy na štýly."
 
-#: fv-all-in-one-seo-pack.php:2482
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2554
 msgid "Additional Home Headers:"
 msgstr "Dodatkové hlavičky hlavnej stránky:"
 
-#: fv-all-in-one-seo-pack.php:2487
-#@ fv_seo
-msgid "What you enter here will be copied verbatim to your header on the home page. You can enter whatever additional headers you want here, even references to stylesheets."
-msgstr "Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu strany) hlavnej stránky. Možete zadať akékoľvek dodatkové META tagy, dokonca aj odkazy na štýly."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2559
+msgid ""
+"What you enter here will be copied verbatim to your header on the home page. "
+"You can enter whatever additional headers you want here, even references to "
+"stylesheets."
+msgstr ""
+"Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu "
+"strany) hlavnej stránky. Možete zadať akékoľvek dodatkové META tagy, dokonca "
+"aj odkazy na štýly."
 
-#: fv-all-in-one-seo-pack.php:2495
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2567
 msgid "Google Verification Meta Tag:"
 msgstr "Google Verification Meta Tag:"
 
-#: fv-all-in-one-seo-pack.php:2500
-#@ fv_seo
-msgid "What you enter here will be copied verbatim to your header on the home page. Webmaster Tools provides the meta tag in XHTML syntax."
-msgstr "Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu strany) hlavnej stránky. Možete zadať akékoľvek dodatkové META tagy, dokonca aj odkazy na štýly."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2572
+msgid ""
+"What you enter here will be copied verbatim to your header on the home page. "
+"Webmaster Tools provides the meta tag in XHTML syntax."
+msgstr ""
+"Všetko, čo tu vpíšete, bude doslovne skopírované do hlavičky (časť head kódu "
+"strany) hlavnej stránky. Možete zadať akékoľvek dodatkové META tagy, dokonca "
+"aj odkazy na štýly."
 
-#: fv-all-in-one-seo-pack.php:2502
-#@ fv_seo
-msgid "On the Webmaster Tools Home page, click Verify this site next to the site you want."
-msgstr "Na hlavnej stránke Webmaster Tools kliknite na Over túto stránku vedľa stránky, ktorú chcete overiť."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2574
+msgid ""
+"On the Webmaster Tools Home page, click Verify this site next to the site "
+"you want."
+msgstr ""
+"Na hlavnej stránke Webmaster Tools kliknite na Over túto stránku vedľa "
+"stránky, ktorú chcete overiť."
 
-#: fv-all-in-one-seo-pack.php:2504
-#@ fv_seo
-msgid "In the Verification method list, select Meta tag, and follow the steps on your screen."
-msgstr "V overovaciom zozname vyberte meta tag a postupujte podľa krokov na obrazovke."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2576
+msgid ""
+"In the Verification method list, select Meta tag, and follow the steps on "
+"your screen."
+msgstr ""
+"V overovaciom zozname vyberte meta tag a postupujte podľa krokov na "
+"obrazovke."
 
-#: fv-all-in-one-seo-pack.php:2506
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2578
 msgid "Once you have added the tag to your home page, click Verify."
 msgstr "Potom čo pridáte tag na hlavnú stránku kliknite na Overiť."
 
-#: fv-all-in-one-seo-pack.php:2512
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2584
 msgid "Yahoo Verification Meta Tag:"
 msgstr "Yahoo Verification Meta Tag:"
 
-#: fv-all-in-one-seo-pack.php:2516
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2588
 msgid "Put your Yahoo site verification tag for your homepage here."
 msgstr "Pridajte Váš Yahoo site verification tag na svoju hlavnú stránku."
 
-#: fv-all-in-one-seo-pack.php:2521
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2593
 msgid "Bing Verification Meta Tag:"
 msgstr "Bing Verification Meta Tag:"
 
-#: fv-all-in-one-seo-pack.php:2525
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2597
 msgid "Put your Bing site verification tag for your homepage here."
 msgstr "Pridajte Váš Bing site verification tag na svoju hlavnú stránku."
 
-#: fv-all-in-one-seo-pack.php:2530
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2602
 msgid "Turn off excerpts for descriptions:"
 msgstr "Automatické generovanie popisu:"
 
-#: fv-all-in-one-seo-pack.php:2535
-#@ fv_seo
-msgid "Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot."
-msgstr "Keďže Typepad export obsahuje automaticky generované výňatky pre väčšinu času používame túto možnosť."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2607
+msgid ""
+"Since Typepad export is containing auto generated excerpts for the most of "
+"the time we use this option a lot."
+msgstr ""
+"Keďže Typepad export obsahuje automaticky generované výňatky pre väčšinu "
+"času používame túto možnosť."
 
-#: fv-all-in-one-seo-pack.php:2547
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2619
 msgid "Google +1 Site Publisher:"
 msgstr "Google +1 Site Publisher:"
 
-#: fv-all-in-one-seo-pack.php:2551
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2623
 msgid "This will be used across the whole site."
 msgstr "Toto bude použité na celej stránke"
 
-#: fv-all-in-one-seo-pack.php:2556
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2628
 msgid "Google +1 Default Author:"
 msgstr "Google +1 Štandardný autor:"
 
-#: fv-all-in-one-seo-pack.php:2560
-#@ fv_seo
-msgid "This will be used across the whole site, however user's Google +1 links will be used for their posts (if filled in)."
-msgstr "Toto bude použité na celej stránke, ale používateľské Google +1 odkazy budú použité na ich články (Ak sa používa filled in)"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2632
+msgid ""
+"This will be used across the whole site, however user's Google +1 links will "
+"be used for their posts (if filled in)."
+msgstr ""
+"Toto bude použité na celej stránke, ale používateľské Google +1 odkazy budú "
+"použité na ich články (Ak sa používa filled in)"
 
-#: fv-all-in-one-seo-pack.php:2585
-#@ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2637
+msgid "Twitter site:"
+msgstr "Twitter stránka:"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2641
+#, fuzzy
+msgid "This will be used across the whole site. Enter @site_username."
+msgstr "Toto bude použité na celej stránke"
+
+#: ../fv-all-in-one-seo-pack.php:2646
+msgid "Tiwtter creator:"
+msgstr "Twitter používateľ:"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2650
+msgid "This will be used across the whole site, enter @your_username."
+msgstr "Toto bude použité na celej stránke, vložte @Vaše_použivateľské_meno."
+
+#: ../fv-all-in-one-seo-pack.php:2655
+msgid "Insert Facebook Open Graph tags:"
+msgstr "Vložiť Facebook Open Graph tagy:"
+
+#: ../fv-all-in-one-seo-pack.php:2659
+msgid ""
+"Automatically inserts Facebook Open Graph tags with your post meta "
+"description and featured image."
+msgstr ""
+"Automatický vložiť Facebook Open Graph tagy s tvojími post meta popismi a "
+"prezentačným obrázkom."
+
+#: ../fv-all-in-one-seo-pack.php:2664
+msgid "Insert Twitter Card meta tags:"
+msgstr "Vložiť Twitter Card meta tagy"
+
+#: ../fv-all-in-one-seo-pack.php:2668
+msgid ""
+"Automatically inserts Twitter Card meta tags with your post meta description "
+"and featured image."
+msgstr ""
+"Automatický vložiť Twitter Open Graph tagy s tvojími post meta popismi a "
+"prezentačným obrázkom."
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2693
 msgid "FV Simpler SEO Options Reset."
 msgstr "Resetovať možnosti FV Simpler SEO."
 
-#: fv-all-in-one-seo-pack.php:2641
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2711
 msgid "FV Simpler SEO Options Updated."
 msgstr "Možnosti FV Simpler SEO aktualizované."
 
-#: fv-all-in-one-seo-pack.php:2715
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2794
 msgid "FV Simpler SEO Options"
 msgstr "FV Simpler SEO Nastavenia"
 
-#: fv-all-in-one-seo-pack.php:2765
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2843
 msgid "Update Options"
 msgstr "Ulož nastavenia"
 
-#: fv-all-in-one-seo-pack.php:2766
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:2844
 msgid "Reset Settings to Defaults"
 msgstr "Obnoviť prednastavené hodnoty"
 
-#: fv-all-in-one-seo-pack.php:2919
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3086
 msgid "Google+"
 msgstr "Google+"
 
-#: fv-all-in-one-seo-pack.php:3341
-#: fv-all-in-one-seo-pack.php:3365
-#@ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3309 ../fv-all-in-one-seo-pack.php:3438
+msgid "Fill in your title"
+msgstr "Vyplniť v tvojom názve\""
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3521 ../fv-all-in-one-seo-pack.php:3545
 msgid "Long Title:"
 msgstr "Názov hlavnej stránky:"
 
-#: fv-all-in-one-seo-pack.php:3341
-#: fv-all-in-one-seo-pack.php:3365
-#@ fv_seo
-msgid "Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options."
-msgstr "Zobrazené v toolbare broswera a výsledkoch vyhľadávačov. Nahradí to formát názvu článku definovaný témou pre tento konkrétny článok/stránku. Pre rozšírené nastavenia použite Rewrite Title v rozšírených nastaveniach."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3521 ../fv-all-in-one-seo-pack.php:3545
+msgid ""
+"Displayed in browser toolbar and search engine results. It will replace your "
+"post title format defined by your template on this single post/page. For "
+"advanced customization use Rewrite Titles in Advanced Options."
+msgstr ""
+"Zobrazené v toolbare broswera a výsledkoch vyhľadávačov. Nahradí to formát "
+"názvu článku definovaný témou pre tento konkrétny článok/stránku. Pre "
+"rozšírené nastavenia použite Rewrite Title v rozšírených nastaveniach."
 
-#: fv-all-in-one-seo-pack.php:3345
-#: fv-all-in-one-seo-pack.php:3369
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3525
 #, php-format
-#@ fv_seo
-msgid " characters. Most search engines use a maximum of %d chars for the title."
-msgstr "znakov. Väčšina vyhľadávačov používa pre popis maximálne %d znakov."
+msgid ""
+" characters. Most search engines use a maximum of %s chars for the title."
+msgstr "znakov. Väčšina vyhľadávačov používa maximum %s znakov pre nadpis."
 
-#: fv-all-in-one-seo-pack.php:3356
-#: fv-all-in-one-seo-pack.php:3382
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3536 ../fv-all-in-one-seo-pack.php:3563
 msgid "Meta Description:"
 msgstr "Popis"
 
-#: fv-all-in-one-seo-pack.php:3356
-#: fv-all-in-one-seo-pack.php:3382
-#@ fv_seo
-msgid "Displayed in search engine results. Can be called inside of template file with"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3536 ../fv-all-in-one-seo-pack.php:3563
+msgid ""
+"Displayed in search engine results. Can be called inside of template file "
+"with"
 msgstr "Zobrazene vo výsledkoch vyhľadávania. Môže byť zavolané vnútri témy "
 
-#: fv-all-in-one-seo-pack.php:3360
-#: fv-all-in-one-seo-pack.php:3387
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3540
 #, php-format
-#@ fv_seo
-msgid " characters. Most search engines use a maximum of %d chars for the description."
+msgid ""
+" characters. Most search engines use a maximum of %s chars for the "
+"description."
+msgstr "znakov. Väčšina vyhľadávačov používa maximum %s znakov pre popis."
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3549
+#, php-format
+msgid ""
+" characters. Most search engines use a maximum of %d chars for the title."
 msgstr "znakov. Väčšina vyhľadávačov používa pre popis maximálne %d znakov."
 
-#: fv-all-in-one-seo-pack.php:3391
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3568
+#, php-format
+msgid ""
+" characters. Most search engines use a maximum of %d chars for the "
+"description."
+msgstr "znakov. Väčšina vyhľadávačov používa pre popis maximálne %d znakov."
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3572
 msgid "SERP Preview:"
 msgstr "Náhľad SERP:"
 
-#: fv-all-in-one-seo-pack.php:3391
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3572
 msgid "Preview of Search Engine Results Page"
 msgstr "Náhľad na Výsledok vyhľadávania"
 
-#: fv-all-in-one-seo-pack.php:3400
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3574
+msgid "Fill in your meta description"
+msgstr "Vložiť do Vašich meta popisov"
+
+#: ../fv-all-in-one-seo-pack.php:3575
+msgid "Cached"
+msgstr "Vyrovnávacia pamäť"
+
+#: ../fv-all-in-one-seo-pack.php:3575
+msgid "Similar"
+msgstr "Podobný"
+
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3581
 msgid "Keywords:"
 msgstr "Kľúčové slová:"
 
-#: fv-all-in-one-seo-pack.php:3408
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3589
 msgid "Custom Canonical URL:"
 msgstr "Vlastné Kanonické odkazy:"
 
-#: fv-all-in-one-seo-pack.php:3408
-#@ fv_seo
-msgid "WARNING - Google will index the URL you enter here instead of the post. Leave empty if you don't want to use it."
-msgstr "UPOZORNENIE - Google zaindexuje URL, ktorú ste zadali tu namiesto článku. Nechajte prázdne ak chcete použiť."
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3589
+msgid ""
+"WARNING - Google will index the URL you enter here instead of the post. "
+"Leave empty if you don't want to use it."
+msgstr ""
+"UPOZORNENIE - Google zaindexuje URL, ktorú ste zadali tu namiesto článku. "
+"Nechajte prázdne ak chcete použiť."
 
-#: fv-all-in-one-seo-pack.php:3424
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3605
 msgid "Title Attribute:"
 msgstr "Názov atribútu:"
 
-#: fv-all-in-one-seo-pack.php:3424
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3605
 msgid "Displayed in search engine results"
 msgstr "Zobrazené vo výsledkoch vyhľadávania"
 
-#: fv-all-in-one-seo-pack.php:3434
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3615
 msgid "Short title | Menu Label:"
 msgstr "Krátky názov | Označenie menu:"
 
-#: fv-all-in-one-seo-pack.php:3436
-#@ fv_seo
-msgid "Used in all your page menus. Long Title or Post Title will be used for mouse rollover. Can be called inside of template file with"
-msgstr "Použité v každom menu na stránke. Dlhý názov alebo Názov článku bude použitý pre rollover efekt. Môže byť zavolaný vnútri témy s"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3617
+msgid ""
+"Used in all your page menus. Long Title or Post Title will be used for mouse "
+"rollover. Can be called inside of template file with"
+msgstr ""
+"Použité v každom menu na stránke. Dlhý názov alebo Názov článku bude použitý "
+"pre rollover efekt. Môže byť zavolaný vnútri témy s"
 
-#: fv-all-in-one-seo-pack.php:3438
-#@ fv_seo
-msgid "This will automatically replace post title in sidebar. Can be called inside of template file with"
-msgstr "Automaticky vymení názvy článkov v bočnom panely. Môže byť zavolané vnútri témy "
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3619
+msgid ""
+"This will automatically replace post title in sidebar. Can be called inside "
+"of template file with"
+msgstr ""
+"Automaticky vymení názvy článkov v bočnom panely. Môže byť zavolané vnútri "
+"témy "
 
-#: fv-all-in-one-seo-pack.php:3447
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3628
 msgid "Disable on this page/post:"
 msgstr "Zakázať pre túto stránku / príspevok"
 
-#: fv-all-in-one-seo-pack.php:3455
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3636
 msgid "Disable post indexing:"
 msgstr "Vypni indexovanie článkov:"
 
-#: fv-all-in-one-seo-pack.php:3455
-#@ fv_seo
-msgid "Only use if you are sure you don't want this post to be indexed in search engines!"
-msgstr "Použite iba ak ste si istý, že nechcete tento článok indexovať vyhľadávačmi!"
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3636
+msgid ""
+"Only use if you are sure you don't want this post to be indexed in search "
+"engines!"
+msgstr ""
+"Použite iba ak ste si istý, že nechcete tento článok indexovať vyhľadávačmi!"
 
-#: fv-all-in-one-seo-pack.php:3455
-#: fv-all-in-one-seo-pack.php:3601
-#: fv-all-in-one-seo-pack.php:3606
-#: fv-all-in-one-seo-pack.php:3616
-#: fv-all-in-one-seo-pack.php:3621
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3636 ../fv-all-in-one-seo-pack.php:3782
+#: ../fv-all-in-one-seo-pack.php:3787 ../fv-all-in-one-seo-pack.php:3797
+#: ../fv-all-in-one-seo-pack.php:3802
 msgid "Warning"
 msgstr "Upozornenie"
 
-#: fv-all-in-one-seo-pack.php:3589
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3770
 msgid "Your post's TITLE is empty, so it cannot be published!"
 msgstr "Názov článku je prázdny a preto nemôže byť publikovaný!"
 
-#: fv-all-in-one-seo-pack.php:3601
-#: fv-all-in-one-seo-pack.php:3616
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3782 ../fv-all-in-one-seo-pack.php:3797
 msgid "Your post's TITLE is empty!"
 msgstr "Názov článku je prázdny!"
 
-#: fv-all-in-one-seo-pack.php:3606
-#: fv-all-in-one-seo-pack.php:3621
-#@ fv_seo
+# @ fv_seo
+#: ../fv-all-in-one-seo-pack.php:3787 ../fv-all-in-one-seo-pack.php:3802
 msgid "Your post's DESCRIPTION is empty!"
 msgstr "Popis článku je prázdny!"
 
-#: fv-all-in-one-seo-pack.php:2110
-#@ fv_seo
-msgid ""
-"Are you sure you want to turn on this feature? Using wrong custom canonical URLs can damage your site SEO rankings.\n"
-"\n"
-" If you are not sure, then leave this off and Wordpress will take care of it on its own."
-msgstr ""
-
+# @ fv_seo
+#~ msgid ""
+#~ "Stored as _aioseop_menulabel postmeta. Automatically applied on sidebar "
+#~ "post titles when enabled."
+#~ msgstr ""
+#~ "Uložené ako _aioseop_menulabel postmeta. Automatický pridané do názvov v "
+#~ "bočnom paneli ak je povolené."
