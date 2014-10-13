@@ -3256,7 +3256,8 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
     }
     return $query;
 	}
-	
+  
+  
   
   
   function initiate_the_title_change() {
@@ -3562,7 +3563,19 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
     $sHTML = preg_replace( '~rel=[\'"].*?[\'"]~', '', $sHTML );
     return $sHTML;
   }
-	
+  
+  
+  
+  
+  function my_searchwp_exclude(  $exclude_array, $engine, $terms ){
+    
+    if( $ids = $this->get_noindex_posts() ) {
+			$exclude_array = array_merge( $exclude_array, $ids );
+		}
+    
+    return $exclude_array;
+  }
+  
 	
 	
 	
@@ -4311,11 +4324,12 @@ add_filter( 'get_user_option_closedpostboxes_fv_simpler_seo_settings', array($fv
 add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99, 5 );
 add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
 add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99, 3 );
-
+add_filter( 'searchwp_exclude', array( $fvseo , 'my_searchwp_exclude'));
 add_filter( 'get_previous_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'get_next_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'pre_get_posts', array( $fvseo, 'pre_get_posts' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
+
 
 add_filter( 'get_sidebar', array( $fvseo, 'initiate_the_title_change' ) );
 add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
