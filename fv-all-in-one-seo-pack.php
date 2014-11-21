@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.16
+Version: 1.6.24
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.16';
+$fv_simpler_seo_version = '1.6.24';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -554,7 +554,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     return $closed;
 	}
 
-
+	
 	
 	
 	//-------------------------------
@@ -606,18 +606,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		///return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
 	}
 	
-  function curPageURL() {
-   $pageURL = 'http';
-   if ( isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-   $pageURL .= "://";
-   if ($_SERVER["SERVER_PORT"] != "80") {
-    $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-   } else {
-    $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-   }
-   return $pageURL;
-  }
-    
 	function is_static_front_page()
 	{
 		global $wp_query;
@@ -844,68 +832,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		global $fvseop_options;
 
 		$post = $wp_query->get_queried_object();
-    
-    global $fvseop_options;
-    if( isset($fvseop_options['fvseo_attachments']) && $fvseop_options['fvseo_attachments'] ) {
-      if( is_attachment() ) {
-        global $post;
-        $aImage = wp_get_attachment_image_src($post->ID, 'full');
-        if( isset($aImage[0]) ) {
-          wp_redirect($aImage[0],301);
-          exit;
-        }
-      }
-    }
-    
-
-    if( $wp_query->is_404 && isset($wp_query->query['paged']) && $wp_query->query['paged'] > 0 ) {
-
-      $aArgs = $wp_query->query;
-      unset($aArgs['paged']);
-      $objCheckPaging = new WP_Query( $aArgs );
-
-      global $wp_rewrite;
-      
-      $sLink = false;
-      if( $objCheckPaging->is_year ) {        
-        $sLink = get_year_link( $aArgs['year'] );
-        
-      } else if( $objCheckPaging->is_month ) {
-        $sLink = get_month_link( $aArgs['year'], intval($aArgs['monthnum']) );
-        
-      } else if( $objCheckPaging->is_day ) {
-        $sLink = get_day_link( $aArgs['year'], $aArgs['monthnum'], $aArgs['day'] );
-        
-      } else if( $objCheckPaging->is_category ) {
-        if( isset($wp_query->query['category_name']) ) {
-          $objCat = get_category_by_path( $wp_query->query['category_name'] ); 
-          $iCatId = $objCat->term_id;
-        }
-        if( isset($iCatId) ) {
-          $sLink = get_category_link($iCatId);
-        }
-        
-      } else if( $objCheckPaging->is_author ) {
-        if( isset($wp_query->query['author_name']) ) {
-          $objAuthor = get_user_by( 'slug', $wp_query->query['author_name'] ); 
-          $iAuthorId = $objAuthor->ID;
-        }
-        if( isset($iAuthorId) ) {
-          $sLink = get_author_posts_url($iAuthorId);
-        }
-        
-      }
-      
-      if( $objCheckPaging->max_num_pages > 0 && $sLink ) {
-        if( $objCheckPaging->max_num_pages > 1 ) {
-          $sLink = user_trailingslashit( trailingslashit($sLink).'page/'.$objCheckPaging->max_num_pages );  
-        }
-        wp_redirect($sLink,301);
-        exit;
-      }
-    }
-    
-
 
 		if ($this->fvseop_mrt_exclude_this_page())
 		{
@@ -1239,34 +1165,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		  } else {
 			  $url = $this->fvseo_mrt_get_url($wp_query);
 		  }
-                      $url = apply_filters('fvseop_canonical_url', $url);
+
 			if ($url)
-			{	
+			{
+				$url = apply_filters('fvseop_canonical_url', $url);
+
 				echo '<link rel="canonical" href="' . esc_url($url) . '" />' . "\n";
 			}
 		}
 	}
-        
-        
-        function hatom_microformat_replace() {
-            global $fvseop_options;
-            
-            if( !isset($fvseop_options['fvseo_hentry']) || ( $fvseop_options['fvseo_hentry'] != '1' && strcmp($fvseop_options['fvseo_hentry'],'on') ) )
-                ob_start(array($this,'hatom_microformat_callback'));
-        }
-        
-        // From here Wordpress starts to process the request
-        
-        // Called whenever the page generation is ended
-        function hatom_microformat_callback($buffer) {
-        
-            $new_buffer = preg_replace( '~(class=["\'][^"\']*)hfeed\s?~', '$1', $buffer );
-            $new_buffer = preg_replace( '~(class=["\'][^"\']*)vcard\s?~', '$1', $new_buffer );
-            return $new_buffer;
-        }
-        
-        
-        
 	
 	function fvseo_mrt_get_url($query)
 	{
@@ -1614,9 +1521,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			}
 
 			$title = $this->internationalize(get_post_meta($post->ID, "_aioseop_title", true));
-                        
-                        $post_type_obj = get_post_type_object( get_post_type( $post->ID ) );
-                        $post_type_name = $post_type_obj->labels->name;
 			
 			if (!$title)
 			{
@@ -1629,15 +1533,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			}
 
                         if( $fvseop_options['aiosp_rewrite_titles'] ) {
-                            if( !is_singular( array('post')) )
-                                $title_format = stripslashes( $fvseop_options['aiosp_custom_post_title_format'] );
-                            else
-                                $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
-                                
+                            $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
+    
                             $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
                             $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
                             $new_title = str_replace('%post_title%', $title, $new_title);
-                            $new_title = str_replace('%post_type_name%', $post_type_name, $new_title);
                             $new_title = str_replace('%category%', $category, $new_title);
                             $new_title = str_replace('%category_title%', $category, $new_title);
                             $new_title = str_replace('%post_author_login%', $authordata->user_login, $new_title);
@@ -1648,7 +1548,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                         /// Addition
                         else
                             $new_title = $title;
-                        
+
 			$title = $new_title;
 			$title = trim($title);
 			$title = apply_filters('fvseo_title_single',$title);
@@ -1677,7 +1577,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		}
 		elseif (is_category() && !is_feed()     && $fvseop_options['aiosp_rewrite_titles'])
 		{
-			$category_description = $this->internationalize(strip_tags(category_description()));
+			$category_description = $this->internationalize(category_description());
 
 			if($fvseop_options['aiosp_cap_cats'])
 			{
@@ -1687,8 +1587,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			{
 				$category_name = $this->internationalize(single_cat_title('', false));
 			}			
-                        
+
 			$title_format = stripslashes( $fvseop_options['aiosp_category_title_format'] );
+
 			$title = str_replace('%category_title%', $category_name, $title_format);
 			$title = str_replace('%category_description%', $category_description, $title);
 			$title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title);
@@ -2093,14 +1994,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         }                    
       }
       else {        
-        $description = ( isset( $_POST["fvseo_description"] ) && $_POST["fvseo_description"] != 'Using post excerpt, type your SEO meta description here.' ) ? $_POST["fvseo_description"] : NULL;
+        $description = isset( $_POST["fvseo_description"] ) ? $_POST["fvseo_description"] : NULL;
         $title = isset( $_POST["fvseo_title"] ) ? $_POST["fvseo_title"] : NULL;
       }
 			$fvseo_meta = isset( $_POST["fvseo_meta"] ) ? $_POST["fvseo_meta"] : NULL;
 			$fvseo_disable = isset( $_POST["fvseo_disable"] ) ? $_POST["fvseo_disable"] : NULL;
 			$fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? $_POST["fvseo_titleatr"] : NULL;
 			$fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? $_POST["fvseo_menulabel"] : NULL;
-      $fvseo_event_date = isset( $_POST["fvseo_event_date"] ) ? $_POST["fvseo_event_date"] : NULL;
 			$custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? $_POST["fvseo_custom_canonical"] : NULL;	
 			$noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;				
 			$nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;							
@@ -2142,11 +2042,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			if (isset($fvseo_menulabel) && !empty($fvseo_menulabel))
 			{
 				add_post_meta($id, '_aioseop_menulabel', $fvseo_menulabel);
-			}
-      
-			if( isset($fvseo_event_date) ) {
-				update_post_meta($id, '_fv_event_date', $fvseo_event_date);
-			}				      
+			}				
 
 			if (isset($fvseo_disable) && !empty($fvseo_disable) && $this->is_admin())
 			{
@@ -2222,24 +2118,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		</p>	
 	<?php
 	}
-  
-  
-	function admin_settings_calendar() {
-		global $fvseop_options;
-	?>
-		<p>
-			 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_events_tip');">
-					<?php _e('Enable Events functionality:', 'fv_seo')?>
-			 </a>
-	          
-			 <input type="checkbox" name="fvseo_events" id="fvseo_events" <?php if ( $fvseop_options['fvseo_events'] == 1 ) echo 'checked="yes"'; ?> value="1">
-	
-			 <div style="max-width:500px; text-align:left; display:none" id="fvseo_events_tip">
-					<?php _e("Check this and an event date field will appear in FV Simpler SEO box. Then use query args like <code>array( 'fv_events_start' => '2013-12-12 12:12:12', 'fv_events_end' => '2013-12-13 13:13:13' )</code> in your WP_Query.", 'fv_seo')?>
-			 </div>
-		</p>	
-	<?php
-	}  
 	
 	
 	function admin_settings_interface() {
@@ -2339,15 +2217,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	function admin_settings_advanced() {
 		global $fvseop_options;
 	?>
-            <p>
-               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
-                  <?php _e('Shorten Page URL / Post Slug:', 'fv_seo')?>
-               </a>
-               <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
-               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_slugs">
-                  <?php _e("This option will automatically shorten the page URL or post slug on first save to the three longest words to avoid accidentally posting really long URLs. You can put in a handwritten URL later which will not change.", 'fv_seo')?>
-               </div>
-            </p>  
 						<p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_can_tip');">
                   <?php _e('Canonical URLs:', 'fv_seo')?>
@@ -2357,33 +2226,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
                 </div>
             </p>
-						<p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_attachments_tip');">
-                  <?php _e('Redirect attachment links to the file URLs:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_attachments" <?php if ($fvseop_options['fvseo_attachments']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_attachments_tip">
-                  <?php _e("Get rid of /?attachment_id={attachment_id} and /year/month/post-name/attachment-name kind of pages. Creates 301 redirections and replaces such links in content. Recommended.", 'fv_seo')?>
-                </div>
-            </p>                 
-						<p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shortlinks_tip');">
-                  <?php _e('Enable shortlinks in header:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_shortlinks" <?php if ($fvseop_options['fvseo_shortlinks']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_shortlinks_tip">
-                  <?php _e("We don't recommend using the Wordpress <a href='http://microformats.org/wiki/rel-shortlink'>shortlinks</a> as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.", 'fv_seo')?>
-                </div>
+            <p>
+               <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shorten_slugs');">
+                  <?php _e('Shorten Post / Page name:', 'fv_seo')?>
+               </a>
+               <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
+               <div style="max-width:500px; text-align:left; display:none" id="fvseo_shorten_slugs">
+                  <?php _e("This option will automatically shorten a link to post / page upon first save.", 'fv_seo')?>
+               </div>
             </p>
-						<p>
-                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_hentry_tip');">
-                  <?php _e('Enable hAtom microformat classes:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_hentry" <?php if ($fvseop_options['fvseo_hentry']) echo 'checked="checked"'; ?>/>
-                <div style="max-width:500px; text-align:left; display:none" id="fvseo_hentry_tip">
-                  <?php _e("hAtom is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need. We removed hfeed, hentry and vcard classes. We also strip rel=\"cateogry tag\" from category links.", 'fv_seo')?>
-                </div>
-            </p>             
             <p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_rewrite_titles_tip');">
                   <?php _e('Rewrite Titles:', 'fv_seo')?>
@@ -2407,29 +2258,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                         echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
                         echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
                         echo('<li>'); _e('%post_title% - The original title of the post', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category_title% - The (main) category of the post', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%category% - Alias for %category_title%', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_login% - This post's author' login", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_nicename% - This post's author' nicename", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_firstname% - This post's author' first name (capitalized)", 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e("%post_author_lastname% - This post's author' last name (capitalized)", 'fv_seo'); echo('</li>');
-                        echo('</ul>');
-                        ?>
-                    </div>
-                </p>
-                <p>
-                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_post_title_format');">
-                        <?php _e('Custom Post Type Title Format:', 'fv_seo')?>
-                    </a><br />
-                    <input size="59" style="width: 100%;" name="fvseo_custom_post_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_custom_post_title_format'])); ?>"/>
-                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_post_title_format">
-                        <?php
-                        _e('The following macros are supported:', 'fv_seo');
-                        echo('<ul>');
-                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%post_title% - The original title of the post', 'fv_seo'); echo('</li>');
-                        echo('<li>'); _e('%post_type_name% - The name of custom post type', 'fv_seo'); echo('</li>');
                         echo('<li>'); _e('%category_title% - The (main) category of the post', 'fv_seo'); echo('</li>');
                         echo('<li>'); _e('%category% - Alias for %category_title%', 'fv_seo'); echo('</li>');
                         echo('<li>'); _e("%post_author_login% - This post's author' login", 'fv_seo'); echo('</li>');
@@ -2768,7 +2596,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                 <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_bing_site_verification_meta_tag">
 									<?php _e('Put your Bing site verification tag for your homepage here.', 'fv_seo'); ?>
                 </div>
-            </p>
+            </p>                        
             <p>
 								<a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_dont_use_excerpt_tip');">
 								<?php _e('Turn off excerpts for descriptions:', 'fv_seo')?>
@@ -2781,165 +2609,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
             </p>	
 	<?php
 	}
-  
-  
-  function admin_settings_tracking_codes(){
-    global $fvseop_options;
-    
-  ?>
-    <p>
-        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_header_tip');">
-          <?php _e('Header tracking code:', 'fv_seo')?>
-        </a><br />
-        <textarea cols="57" rows="1" name="fvseo_custom_header"><?php if (isset($fvseop_options['aiosp_custom_header'])) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_custom_header']))?></textarea>
-        <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_header_tip">
-          <?php _e('Insert any tracking code which should be in the &lt;head&gt; section of the site.', 'fv_seo')?>
-        </div>
-    </p>
-    <p>
-        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_custom_footer_tip');">
-          <?php _e('Footer tracking code:', 'fv_seo')?>
-        </a><br />
-        <textarea cols="57" rows="1" name="fvseo_custom_footer"><?php if (isset($fvseop_options['aiosp_custom_footer'])) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_custom_footer']))?></textarea>
-        <div style="max-width:500px; text-align:left; display:none" id="fvseo_custom_footer_tip">
-          <?php _e('Insert any tracking code which should be right before the closing &lt;/body&gt; tag on the site.', 'fv_seo')?>
-        </div>
-    </p>
-    <p>
-        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_ganalytics_tip');">
-          <?php _e('Google Analytics ID:', 'fv_seo')?>
-        </a><br />
-        <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_ID" value="<?php if (isset($fvseop_options['aiosp_ganalytics_ID'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_ID']))?>" />
-        <div style="max-width:500px; text-align:left; display:none" id="fvseo_ganalytics_tip">
-          <?php _e('Enter your google analytics ID. Example: UA-12345678-9', 'fv_seo')?>
-        </div>
-    </p>
-    <p>
-        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_statcounter_tip');">
-          <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
-        </a><br />
-        <input type="text" class="regular-text" size="63" name="fvseo_statcounter_project" placeholder="sc_project" value="<?php if (isset($fvseop_options['aiosp_statcounter_project'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_project']))?>" />
-        <input type="text" class="regular-text" size="63" name="fvseo_statcounter_security" placeholder="sc_security" value="<?php if (isset($fvseop_options['aiosp_statcounter_security'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_statcounter_security']))?>" />
-        <div style="max-width:500px; text-align:left; display:none" id="fvseo_statcounter_tip">
-          <?php _e('Enter your project ID and security ID. You can obtain them from Statcounter administation > Project > Reinstall Code > Default Guide. Look for <i>sc_project</i> and <i>sc_security</i> variables in code.', 'fv_seo')?>
-        </div>
-    </p>
-  <?php
-  }
 	
-        
-  function admin_settings_sitemap(){
-            
-      if ( !is_plugin_active( 'xml-sitemap-feed/xml-sitemap.php' ) ) {
-        echo '<p>Would you like to add Google XML Sitemap and Google News Sitemap? We recommend <a href="'.admin_url().'plugin-install.php?tab=search&type=term&s=%22XML+Sitemaps+%26+Google+News+feed%22&plugin-search-input=Search+Plugins">XML Sitemaps & Google News feed</a> plugin.</p>';
-      }
-      else{
-        global $fvseop_options;
-        
-        $categories = get_categories();
-        $users =  get_users( array( 'who' => 'authors' ) );
-        $sitemap_option = get_option('xmlsf_sitemaps');
-        
-        $xml_sitemap = ( $sitemap_option === FALSE || ( isset( $sitemap_option['sitemap'] ) && !empty( $sitemap_option['sitemap'] ) ) ) ? true : false;
-        $news_sitemap = ( $sitemap_option !== FALSE && isset( $sitemap_option['sitemap-news'] ) && !empty( $sitemap_option['sitemap-news'] ) ) ? true : false;
-        // $xml_sitemap is TRUE if plugin is on and there are no option xmlsf_sitemaps - this happens if plugin is activated without settings, it is default value
-        
-        if( $xml_sitemap )
-            echo '<input type="hidden" name="xml_sitemap" value=1>';
-        if( $news_sitemap )
-            echo '<input type="hidden" name="news_sitemap" value=1>';
-        ?>
-            <p> <?php _e("To customize more sitemap preferences (post types included) visit your <a href=\"".admin_url()."options-reading.php\">Reading Settings</a>.", 'fv_seo'); ?></p>
-        <?php
-        if( ( $xml_sitemap || $news_sitemap ) ){
-        ?>
-      
-          <p id="fvseo_sitemap_exclude_tip" style="display:none"> <?php _e("You can include almost anything in a <strong>Google Sitemap</strong>. We are excluding your \"noindex\" posts and pages already. If you would like to exclude any other categories or authors, now is your change.", 'fv_seo'); ?></p>
-          <p id="fvseo_sitemap_news_include_tip" style="display:none"><?php _e("<strong>Google News</strong> has scrict requirements (\"Journalistic standards: Original reporting and honest attribution are longstanding journalistic values. If your site publishes aggregated content, you will need to separate it from your original work, or restrict our access to those aggregated articles.\" -- <a target=\"_blank\" href=\"https://support.google.com/news/publisher/answer/40787?hl=en\">https://support.google.com/news/publisher/answer/40787?hl=en</a>). Please decide what you would like to include in your Google News Sitemap.", 'fv_seo'); ?></p>
-              
-          <table id="sitemap_table">
-          <tr valign="top" class="head">
-              <td><br/><u><?php _e("Category name", 'fv_seo'); ?></u></td>
-        <?php   if( $xml_sitemap ){ ?>
-            <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></a></td>
-        <?php   }
-                if( $news_sitemap ){ ?>
-            <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></a></td>
-        <?php   } ?>
-          </tr>
-          <?php
-              foreach( $categories as $category ){
-                  echo '<tr valign="top">' . "\n";
-                  
-                  echo '<td>'.$category->cat_name.'</td>'. "\n";
-                  
-                  if( $xml_sitemap ){
-                      echo '<td align="center"><input type="checkbox" name="sitemap_exclude[]" value="'.$category->term_id.'" ';
-                      if( isset( $fvseop_options['sitemap_exclude'] ) && in_array( $category->term_id, $fvseop_options['sitemap_exclude'] ) ) echo 'checked="1"';
-                      echo '></td>'. "\n";
-                  }
-                  
-                  if( $news_sitemap ){
-                      echo '<td align="center"><input type="checkbox" name="sitemap_news_include[]" value="'.$category->term_id.'" ';
-                      if( isset( $fvseop_options['sitemap_news_include'] ) && in_array( $category->term_id, $fvseop_options['sitemap_news_include'] ) ) echo 'checked="1"';
-                      echo '></td>'. "\n";
-                  }
-                      
-                  echo '</tr>'. "\n";
-              }
-            ?>
-          </table>
-          
-          <table id="sitemap_table_authors">
-          <tr valign="top" class="head">
-              <td><br/><u><?php _e("Author", 'fv_seo'); ?></p></u></td>
-              <?php   if( $xml_sitemap ){ ?>
-                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_exclude_tip','fvseo_sitemap_news_include_tip');"><?php _e("Exclude<br />from Sitemap:", 'fv_seo'); ?></p></a></td>
-              <?php   }
-                      if( $news_sitemap ){ ?>
-                      <td scope="row"><a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_sitemap_news_include_tip','fvseo_sitemap_exclude_tip');"><?php _e("Include in<br />News Sitemap:", 'fv_seo'); ?></p></a></td>
-              <?php   } ?>
-          </tr>
-          <?php
-              foreach( $users as $user ){
-                  echo '<tr valign="top">' . "\n";
-                  
-                      echo '<td>'.$user->data->user_nicename.'</td>'. "\n";
-                      if( $xml_sitemap ){
-                          echo '<td align="center"><input type="checkbox" name="sitemap_exclude_author[]" value="'.$user->data->ID.'" ';
-                          if( isset( $fvseop_options['sitemap_exclude_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_exclude_author'] ) ) echo 'checked="1"';
-                          echo '></td>'. "\n";
-                      }
-                  
-                      if( $news_sitemap ){
-                          echo '<td align="center"><input type="checkbox" name="sitemap_news_include_author[]" value="'.$user->data->ID.'" ';
-                          if( isset( $fvseop_options['sitemap_news_include_author'] ) && in_array( $user->data->ID, $fvseop_options['sitemap_news_include_author'] ) ) echo 'checked="1"';
-                          echo '></td>'. "\n";
-                      }
-                      
-                  echo '</tr>'. "\n";
-              }
-            ?>
-          </table>
-          
-          <div class="clear"></div>
-          <br/>
-          <span class="sub">
-          When adjusting the category properties, make sure you clear your browser cache (or wait until you edit a post) to be able to see the changes in sitemaps.
-          </span>
-            
-          <style>
-          #sitemap_table, #sitemap_table_authors{ display: block; float: left }
-          #sitemap_table .head td, #sitemap_table_authors .head td{ text-align: center; font-weight: bold; padding: 0 20px 0 20px }
-          #sitemap_table tr:hover, #sitemap_table_authors tr:hover{ background-color: #EEE }
-          #sitemap_table_authors{ margin-left: 50px }
-          .sub { color: #666; font-size: 0.9em; font-weight: normal }
-          </style>
-                  
-        <?php
-        }
-    }
-  }
 	
 	function admin_settings_social() {
 		global $fvseop_options;
@@ -3041,15 +2711,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$message = __("FV Simpler SEO Options Updated.", 'fv_seo');
 			
 			$fvseop_options['aiosp_can'] = isset( $_POST['fvseo_can'] ) ? $_POST['fvseo_can'] : NULL;
-                        $fvseop_options['fvseo_shortlinks'] = isset( $_POST['fvseo_shortlinks'] ) ? $_POST['fvseo_shortlinks'] : NULL;
-                        $fvseop_options['fvseo_hentry'] = isset( $_POST['fvseo_hentry'] ) ? $_POST['fvseo_hentry'] : NULL;
 			$fvseop_options['aiosp_home_title'] = isset( $_POST['fvseo_home_title'] ) ? $_POST['fvseo_home_title'] : NULL;
 			$fvseop_options['aiosp_home_description'] = isset( $_POST['fvseo_home_description'] ) ? $_POST['fvseo_home_description'] : NULL;
 			$fvseop_options['aiosp_home_keywords'] = isset( $_POST['fvseo_home_keywords'] ) ? $_POST['fvseo_home_keywords'] : NULL;
 			$fvseop_options['aiosp_max_words_excerpt'] = isset( $_POST['fvseo_max_words_excerpt'] ) ? $_POST['fvseo_max_words_excerpt'] : NULL;
 			$fvseop_options['aiosp_rewrite_titles'] = isset( $_POST['fvseo_rewrite_titles'] ) ? $_POST['fvseo_rewrite_titles'] : NULL;
 			$fvseop_options['aiosp_post_title_format'] = isset( $_POST['fvseo_post_title_format'] ) ? $_POST['fvseo_post_title_format'] : NULL;
-                        $fvseop_options['aiosp_custom_post_title_format'] = isset( $_POST['fvseo_custom_post_title_format'] ) ? $_POST['fvseo_custom_post_title_format'] : NULL;
 			$fvseop_options['aiosp_page_title_format'] = isset( $_POST['fvseo_page_title_format'] ) ? $_POST['fvseo_page_title_format'] : NULL;
 			$fvseop_options['aiosp_category_title_format'] = isset( $_POST['fvseo_category_title_format'] ) ? $_POST['fvseo_category_title_format'] : NULL;
 			$fvseop_options['aiosp_archive_title_format'] = isset( $_POST['fvseo_archive_title_format'] ) ? $_POST['fvseo_archive_title_format'] : NULL;
@@ -3061,7 +2728,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_paged_format'] = isset( $_POST['fvseo_paged_format'] ) ? $_POST['fvseo_paged_format'] : NULL;
 			$fvseop_options['aiosp_use_categories'] = isset( $_POST['fvseo_use_categories'] ) ? $_POST['fvseo_use_categories'] : NULL;
 			$fvseop_options['aiosp_dynamic_postspage_keywords'] = $_POST['fvseo_dynamic_postspage_keywords'];
-                        $fvseop_options['aiosp_remove_category_rel'] = $_POST['fvseo_remove_category_rel'];
+      $fvseop_options['aiosp_remove_category_rel'] = $_POST['fvseo_remove_category_rel'];
 			$fvseop_options['aiosp_category_noindex'] = isset( $_POST['fvseo_category_noindex'] ) ? $_POST['fvseo_category_noindex'] : NULL;
 			$fvseop_options['aiosp_archive_noindex'] = isset( $_POST['fvseo_archive_noindex'] ) ? $_POST['fvseo_archive_noindex'] : NULL;
 			$fvseop_options['aiosp_tags_noindex'] = isset( $_POST['fvseo_tags_noindex'] ) ? $_POST['fvseo_tags_noindex'] : NULL;
@@ -3073,19 +2740,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_home_meta_tags'] = isset( $_POST['fvseo_home_meta_tags'] ) ? $_POST['fvseo_home_meta_tags'] : NULL;
 			$fvseop_options['aiosp_home_google_site_verification_meta_tag'] = isset( $_POST['fvseo_home_google_site_verification_meta_tag'] ) ? $_POST['fvseo_home_google_site_verification_meta_tag'] : NULL;
 			$fvseop_options['aiosp_home_bing_site_verification_meta_tag'] = isset( $_POST['fvseo_home_bing_site_verification_meta_tag'] ) ? $_POST['fvseo_home_bing_site_verification_meta_tag'] : NULL;
-			$fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] = isset( $_POST['fvseo_home_yahoo_site_verification_meta_tag'] ) ? $_POST['fvseo_home_yahoo_site_verification_meta_tag'] : NULL;
-      
-      $fvseop_options['aiosp_custom_header'] = isset( $_POST['fvseo_custom_header'] ) ? $_POST['fvseo_custom_header'] : NULL;
-			$fvseop_options['aiosp_custom_footer'] = isset( $_POST['fvseo_custom_footer'] ) ? $_POST['fvseo_custom_footer'] : NULL;
-			$fvseop_options['aiosp_ganalytics_ID'] = isset( $_POST['fvseo_ganalytics_ID'] ) ? $_POST['fvseo_ganalytics_ID'] : NULL;
-			$fvseop_options['aiosp_statcounter_security'] = isset( $_POST['fvseo_statcounter_security'] ) ? $_POST['fvseo_statcounter_security'] : NULL;
-			$fvseop_options['aiosp_statcounter_project'] = isset( $_POST['fvseo_statcounter_project'] ) ? $_POST['fvseo_statcounter_project'] : NULL;
-      
-      
+			$fvseop_options['aiosp_home_yahoo_site_verification_meta_tag'] = isset( $_POST['fvseo_home_yahoo_site_verification_meta_tag'] ) ? $_POST['fvseo_home_yahoo_site_verification_meta_tag'] : NULL;						
 			$fvseop_options['aiosp_ex_pages'] = isset( $_POST['fvseo_ex_pages'] ) ? $_POST['fvseo_ex_pages'] : NULL;
 			$fvseop_options['aiosp_use_tags_as_keywords'] = isset( $_POST['fvseo_use_tags_as_keywords'] ) ? $_POST['fvseo_use_tags_as_keywords'] : NULL;
 
-                        $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
+      $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
 			$fvseop_options['aiosp_dont_use_excerpt'] = isset( $_POST['fvseo_dont_use_excerpt'] ) ? $_POST['fvseo_dont_use_excerpt'] : NULL;
 			$fvseop_options['aiosp_show_keywords'] = isset( $_POST['fvseo_show_keywords'] ) ? $_POST['fvseo_show_keywords'] : NULL;
 			$fvseop_options['aiosp_show_noindex'] = isset( $_POST['fvseo_show_noindex'] ) ? $_POST['fvseo_show_noindex'] : NULL;			
@@ -3093,11 +2752,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			$fvseop_options['aiosp_show_titleattribute'] = isset( $_POST['fvseo_show_titleattribute'] ) ? $_POST['fvseo_show_titleattribute'] : NULL;
       $fvseop_options['aiosp_show_short_title_post'] = isset( $_POST['fvseo_show_short_title_post'] ) ? $_POST['fvseo_show_short_title_post'] : NULL;
       $fvseop_options['aiosp_sidebar_short_title'] = isset( $_POST['fvseo_sidebar_short_title'] ) ? $_POST['fvseo_sidebar_short_title'] : NULL;
-      $fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
+			$fvseop_options['aiosp_show_disable'] = isset( $_POST['fvseo_show_disable'] ) ? $_POST['fvseo_show_disable'] : NULL;
       $fvseop_options['aiosp_shorten_slugs'] = isset( $_POST['fvseo_shorten_slugs'] ) ? true : false;
-      $fvseop_options['fvseo_attachments'] = isset( $_POST['fvseo_attachments'] ) ? true : false;
       $fvseop_options['fvseo_publ_warnings'] = isset( $_POST['fvseo_publ_warnings'] ) ? $_POST['fvseo_publ_warnings'] : 0;
-      $fvseop_options['fvseo_events'] = isset( $_POST['fvseo_events'] ) ? $_POST['fvseo_events'] : 0;
 
       $fvseop_options['social_google_publisher'] = isset( $_POST['social_google_publisher'] ) ? trim($_POST['social_google_publisher']) : NULL;
       $fvseop_options['social_google_author'] = isset( $_POST['social_google_author'] ) ? trim($_POST['social_google_author']) : NULL;
@@ -3105,20 +2762,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseop_options['social_twitter_site'] = isset( $_POST['social_twitter_site'] ) ? trim($_POST['social_twitter_site']) : NULL;
       $fvseop_options['social_meta_facebook'] = isset( $_POST['social_meta_facebook'] ) ? true : false;
       $fvseop_options['social_meta_twitter'] = isset( $_POST['social_meta_twitter'] ) ? true : false;
-      
-      $fvseop_options['remove_hentry'] = isset( $_POST['remove_hentry'] ) ? true : false;
-      
-      if( isset( $_POST['xml_sitemap'] ) ){
-          $fvseop_options['sitemap_exclude'] = ( isset( $_POST['sitemap_exclude'] ) ) ? $_POST['sitemap_exclude'] : NULL;
-          $fvseop_options['sitemap_exclude_author'] = ( isset( $_POST['sitemap_exclude_author'] ) ) ? $_POST['sitemap_exclude_author'] : NULL;
-      }
-      
-      if( isset( $_POST['news_sitemap'] ) ){
-          $fvseop_options['sitemap_news_include'] = ( isset( $_POST['sitemap_news_include'] ) ) ? $_POST['sitemap_news_include'] : NULL;
-          $fvseop_options['sitemap_news_include_author'] = ( isset( $_POST['sitemap_news_include_author'] ) ) ? $_POST['sitemap_news_include_author'] : NULL;
-      }
-			
-      update_option('aioseop_options', $fvseop_options);
+
+			update_option('aioseop_options', $fvseop_options);
 
 			if (function_exists('wp_cache_flush'))
 			{
@@ -3151,19 +2796,14 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       </div>
     <div style="clear:both;"></div>
 <script type="text/javascript">
-function toggleVisibility( id, hide )
+function toggleVisibility(id)
 {
-
   var e = document.getElementById(id);
 
   if(e.style.display == 'block')
     e.style.display = 'none';
   else
     e.style.display = 'block';
-    
-  if ( hide !== undefined ) {
-    document.getElementById(hide).style.display = 'none';
-  }
 }
 </script>
     <form name="dofollow" action="" method="post">
@@ -3176,10 +2816,6 @@ add_meta_box( 'fv_simpler_seo_basic', 'Basic Options', array( $this, 'admin_sett
 add_meta_box( 'fv_simpler_seo_social', 'Social Networks', array( $this, 'admin_settings_social' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', array( $this, 'admin_settings_interface' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
-add_meta_box( 'admin_settings_tracking_codes', 'Tracking codes', array( $this, 'admin_settings_tracking_codes' ), 'fv_simpler_seo_settings', 'normal' );
-add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
-add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this, 'admin_settings_calendar' ), 'fv_simpler_seo_settings', 'normal' );
-
 ?>            
 
 		<div id="dashboard-widgets" class="metabox-holder columns-1">
@@ -3256,8 +2892,7 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
     }
     return $query;
 	}
-  
-  
+	
   
   
   function initiate_the_title_change() {
@@ -3278,52 +2913,7 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
       }
     } 
     return $title;    
-  }
-  
-    function filter_request_sitemap($request){
-
-        if( !isset($request['feed']) )
-            return $request;
-        
-        global $fvseop_options;
-	$noIndexPosts = $this->get_noindex_posts();
-        
-        
-        if ( strpos($request['feed'],'sitemap') == 0 ) 
-            $request['post__not_in'] = $noIndexPosts;
-            
-            
-        if( $request['feed'] == 'sitemap-news' ){
-            
-            if( isset($fvseop_options['sitemap_news_include']) && !empty($fvseop_options['sitemap_news_include']) ){
-                $include_categ = implode(',', $fvseop_options['sitemap_news_include']);
-                $request['cat'] = $include_categ;
-            }
-            
-            if( isset($fvseop_options['sitemap_news_include_author']) && !empty($fvseop_options['sitemap_news_include_author']) ){
-                $include_author = implode(',', $fvseop_options['sitemap_news_include_author']);
-                $request['author'] = $include_author;
-            }
-            
-        }
-        else if( strpos($request['feed'],'sitemap-posttype') == 0 ){
-            
-            if( isset($fvseop_options['sitemap_exclude']) && !empty($fvseop_options['sitemap_exclude']) ){
-                $exlude_categ = preg_replace('~^~','-',$fvseop_options['sitemap_exclude']);
-                $exlude_categ = implode(',', $exlude_categ);
-                $request['cat'] = $exlude_categ;
-            }
-            
-            if( isset($fvseop_options['sitemap_exclude_author']) && !empty($fvseop_options['sitemap_exclude_author']) ){
-                $exlude_categ_author = preg_replace('~^~','-',$fvseop_options['sitemap_exclude_author']);
-                $exlude_categ_author = implode(',', $exlude_categ_author);
-                $request['author'] = $exlude_categ_author;
-            }
-            
-        }
-        
-        return $request;
-    }
+  }  
 	
 	
 
@@ -3405,16 +2995,6 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
 	}
   
   
-  //return "Front-Street-Entrance" from "/images/2014/07/790/Front-Street-Entrance.jpg"
-  function get_name_from_path( $path ){
-    if( !preg_match('~^.*\/([^\/]+\.[A-Za-z]+)$~',$path, $aFile) )
-      return false;
-    
-    $img_name = preg_replace( '~^/?([^/]+)\.[A-Za-z]+$~', '$1', $aFile[1] );
-    $img_name = preg_replace( '~^/?([^/]+)-[0-9]{1,4}x[0-9]{1,4}$~', '$1', $img_name );
-    
-    return $img_name;
-  }
   
   
 	function social_meta_tags() {
@@ -3425,10 +3005,9 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
     if ( is_singular() ) {
       global $post;
       if( !$description = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_description', true) ))) ) {
-        $description = wp_trim_words(strip_shortcodes(strip_tags($post->post_content)), 20, ' &hellip;');
+        $description = wp_trim_words(strip_shortcodes(strip_tags($post->post_content)), 20, ' &helip;');
       }
       $description = __($this->internationalize(strip_tags($description)));
-      $description = htmlspecialchars($description);
       
       if( !$title = esc_attr(htmlspecialchars(stripcslashes( get_post_meta($post->ID, '_aioseop_title', true) ))) ) {
         $title = get_the_title();
@@ -3438,97 +3017,53 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
       $aImage = array();
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
             if( $thumb = get_the_post_thumbnail($post->ID,'large') ) {
+                if( !empty($thumb) ) $aImage[] = $thumb;
                 $sTwitterCard = 'summary_large_image';
               } else {
                 $thumb = get_the_post_thumbnail($post->ID,'thumbnail');
+                if( !empty($thumb) ) $aImage[] = $thumb;
                 $sTwitterCard = 'summary';
               }
-              
-              //take thumb name for comparing
-              if( !empty($thumb) && preg_match( '~^[\s\S]*src=["\']([^"\']+)["\'][\s\S]*$~', $thumb, $thumb_src ) ){
-                $thumb_name = $this->get_name_from_path( $thumb_src[1] );
-                $aImage[] = ( preg_match('~^/[^/]~', $thumb_src[1]) ) ? home_url($thumb_src[1]) : $thumb_src[1];
-              }
-              else
-                $thumb_name = false;
-               
-               //begin parsing images from content
-              $contentImages = array();
-              if( 0 != preg_match_all( '~<img[^>]*>~', $post->post_content, $parsedImages ) ) {
-               foreach( $parsedImages[0] as $singleImg ){
-                    
-                preg_match( '~^[\s\S]*src=["\']([^"\']+)["\'][\s\S]*$~', $singleImg, $img_src );
-                if( !isset($img_src[1]) || empty($img_src[1]) ) continue;
-                
-                preg_match( '~^[\s\S]*width=["\']([0-9]+)["\'][\s\S]*$~', $singleImg, $img_width );
-                preg_match( '~^[\s\S]*height=["\']([0-9]+)["\'][\s\S]*$~', $singleImg, $img_height );
-                
-                $img_url = ( preg_match('~^/[^/]~', $img_src[1]) ) ? home_url($img_src[1]) : $img_src[1];
-
-                //test this
-                //img tag doesn't have width parameter, get it from url
-                if( !isset($img_width[1]) || empty($img_width[1]) ){
-                  preg_match( '~.*/([0-9]{1,4})/?[^/]+\.[A-Za-z]+$~', $img_src[1], $img_width );
-                  //try it again
-                  if( !isset($img_width[1]) || empty($img_width[1]) )
-                    preg_match( '~.*/?[^/]+-([0-9]{1,4})x[0-9]{1,4}$~', $img_src[1], $img_width );
-                }
-                
-                //compare with thumb name, don't include same images twice
-                $img_name = $this->get_name_from_path($img_src[1]);
-                if( !$img_name || ( $thumb_name != false && $thumb_name == $img_name ) ) continue;
-                
-                //var_dump( array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url ));
-                
-                //pick 2 biggest images, image must be 200px +
-                if( count($contentImages) < 2 ){
-                  //if there are less than 2 images in array, save current, size doesn't matter
-                  $contentImages[] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
-                }
-                else if(intval($img_width[1]) > 200 && intval($img_height[1]) > 200){
-                  
-                  //if actual image is wider than img on postion 0, save to temp for later compare
-                  if( $contentImages[0]['width'] < $img_width[1] ){
-                    $temp = $contentImages[0];
-                    $contentImages[0] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
-                    
-                    if( $contentImages[1]['width'] < $temp['width'] )
-                      $contentImages[1] = $temp;
-                  }
-                  else if( isset($contentImages[1]['width']) && $contentImages[1]['width'] < $img_width[1] ){
-                    $contentImages[1] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
-                  }
-                }
-                
-               }
+            
+              if( 0 != preg_match_all( '~<img[^>]*>~', $post->post_content, $aImgMatches ) ){
+                $aImage = array_merge($aImage, $aImgMatches[0]);
               }
               
-              foreach($contentImages as $img ){
-                $aImage[] = $img['path'];
+              
+              if( !empty($aImage) ) {
+                $aImage = preg_replace( '~^[\s\S]*src=["\'](.*?)["\'][\s\S]*$~', '$1', $aImage );
+                
+                foreach( $aImage as $key => $singleImg )
+                    if( preg_match('~^/[^/]~', $singleImg) )
+                        $aImage[$key] = home_url($singleImg);           
               }
+            
             
       }
       
-  if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
+      if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] ) :
 ?>
   <meta property="og:title" content="<?php echo $title; ?>" />
   <meta property="og:type" content="blog" />
   <meta property="og:description" content="<?php echo $description; ?>" />
-  <?php
+  
+    <?php
+    //FB images
     foreach( $aImage as $singleImg )
-      echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
-  ?>
+        echo "\t" . '<meta property="og:image" content="' . $singleImg .'" />' . "\n";
+    ?>
+    
   <meta property="og:url" content="<?php the_permalink(); ?>" />
   <meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')); ?>" />
 <?php
-  endif;  //  social_meta_facebook
+      endif;  //  social_meta_facebook
       
       if( !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) :
 ?>
   <meta name="twitter:title" content="<?php echo $title; ?>" />
   <meta name="twitter:card" content="<?php echo $sTwitterCard; ?>" />
   <meta name="twitter:description" content="<?php echo $description; ?>" />
-  <?php if( isset($aImage[0]) && !empty($aImage[0])) : ?><meta name="twitter:image" content="<?php echo $aImage[0]; ?>" />
+  <?php if( isset($aImage[0]) && !empty($aImage[0]) ) : ?><meta name="twitter:image" content="<?php echo $aImage[0]; ?>" />
 <?php endif; ?>
   <meta name="twitter:url" content="<?php the_permalink(); ?>" />
   <?php if( isset($fvseop_options['social_twitter_creator']) && strlen(trim($fvseop_options['social_twitter_creator'])) > 0 ) : ?>
@@ -3542,40 +3077,8 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
       
     }
 
-	}
-  
-  
-  
-  
-  function post_class( $classes ) {
-    foreach( $classes AS $key => $item ) {
-      if( $item == 'hentry' ) {
-        unset( $classes[$key] );
-      }
-    }
-    return $classes;  
-  }
-  
-  
-  
-  
-  function microdata_category_links( $sHTML ) {
-    $sHTML = preg_replace( '~rel=[\'"].*?[\'"]~', '', $sHTML );
-    return $sHTML;
-  }
-  
-  
-  
-  
-  function my_searchwp_exclude(  $exclude_array, $engine, $terms ){
-    
-    if( $ids = $this->get_noindex_posts() ) {
-			$exclude_array = array_merge( $exclude_array, $ids );
-		}
-    
-    return $exclude_array;
-  }
-  
+	}	  
+	
 	
 	
 	
@@ -3585,111 +3088,8 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
   }
   
   
-  
-  
-  /*
-   * Matches anchor rel="wp-att-{attachment id}" with image class="wp-image-{attachment id}" and replaces these links with full sizes images
-   */
-  function replace_attachment_links( $content ) {
-    global $fvseop_options;
-    if( isset($fvseop_options['fvseo_attachments']) && !$fvseop_options['fvseo_attachments'] ) {
-      return $content;
-    }
-    
-    global $wpdb;
-    //$wpdb->queries[] = 'start';
-    $content = preg_replace_callback( '~<a[^>]*?href="(.*?)"[^>]*?rel=".*?wp-att-(\d+).*?"[^>]*?>\s*?<img[^>]*?src="(.*?)"[^>]*?class=".*?wp-image-(\d+).*?"[^>]*?>\s*?</a>~', array( $this, 'replace_attachment_links_callback' ), $content );
-    return $content;
-  }
-  
-  
-  
-  
-  function replace_attachment_links_callback( $aMatch ) {  
-    if( $aMatch[4] == $aMatch[2] ) {
-      $aMatch[0] = str_replace( $aMatch[1], preg_replace( '~-\d{3,4}x\d{3,4}(\.\S{3,4})$~', '$1', $aMatch[3]), $aMatch[0] );
-    }
-    
-    return $aMatch[0];
-  }
-
-
-
-
-  function script_permalink_replacement( $data ){
-    
-    $permalink = $this->curPageURL();
-    
-    if( !empty($permalink) ){
-      $data = str_replace('%permalink%', $permalink, $data );
-    }
-    
-    return $data;
-  }
-
-
-  function script_header_content(){
-    global $fvseop_options;
-    
-    if( isset( $fvseop_options['aiosp_custom_header'] ) && !empty( $fvseop_options['aiosp_custom_header'] ) ){
-      
-      $data = $this->script_permalink_replacement( $fvseop_options['aiosp_custom_header'] );
-      echo stripcslashes( $data ) . "\n";
-    } 
-  }
-  
-  
-  
-  
-  function script_footer_content(){
-    global $fvseop_options;
-  
-    if( isset( $fvseop_options['aiosp_custom_footer'] ) && !empty( $fvseop_options['aiosp_custom_footer'] ) ){
-    
-      $data = $this->script_permalink_replacement( $fvseop_options['aiosp_custom_footer'] );
-      echo stripcslashes($data) . "\n";
-    }
-    
-    if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ){
-      echo stripcslashes("<script>
-              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            
-              ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');
-              ga('send', 'pageview');
-            
-            </script>") . "\n";
-      
-    }
-    
-    if( isset( $fvseop_options['aiosp_statcounter_security'] ) && !empty( $fvseop_options['aiosp_statcounter_security'] )
-        && isset( $fvseop_options['aiosp_statcounter_project'] ) && !empty( $fvseop_options['aiosp_statcounter_project'] )){
-      echo stripcslashes('<!-- Start of StatCounter Code for Default Guide -->
-            <script type="text/javascript">
-            var sc_project='.$fvseop_options['aiosp_statcounter_project'].'; 
-            var sc_invisible=1; 
-            var sc_security="'.$fvseop_options['aiosp_statcounter_security'].'"; 
-            var sc_https=1; 
-            var scJsHost = (("https:" == document.location.protocol) ?
-            "https://secure." : "http://www.");
-            document.write("<sc"+"ript type=\'text/javascript\' src=\'" +
-            scJsHost+
-            "statcounter.com/counter/counter.js\'></"+"script>");
-            </script>
-            <noscript><div class="statcounter"><a title="free hit
-            counter" href="http://statcounter.com/free-hit-counter/"
-            target="_blank"><img class="statcounter"
-            src="http://c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$fvseop_options['aiosp_statcounter_security'].'/1/"
-            alt="free hit counter"></a></div></noscript>
-            <!-- End of StatCounter Code for Default Guide -->') . "\n";
-    }
-  }
-
-
-
-
+	
+	
 } // end fv_seo class
 
 global $fvseop_options;
@@ -3704,16 +3104,12 @@ $fvseop_options = get_option('aioseop_options');
 global $fvseop_default_options;
 $fvseop_default_options = array(
   "aiosp_can"=>0,
-  "fvseo_shortlinks"=>0,
-  "fvseo_hentry"=>0,
-  "fvseo_attachments"=>1,
   "aiosp_home_title"=>null,
   "aiosp_home_description"=>'',
   "aiosp_home_keywords"=>null,
   "aiosp_max_words_excerpt"=>'something',
   "aiosp_rewrite_titles"=>0,
   "aiosp_post_title_format"=>'%post_title% | %blog_title%',
-  "aiosp_custom_post_title_format"=>'%post_title% | %post_type_name% | %blog_title%',
   "aiosp_page_title_format"=>'%page_title% | %blog_title%',
   "aiosp_category_title_format"=>'%category_title% | %blog_title%',
   "aiosp_archive_title_format"=>'%date% | %blog_title%',
@@ -3747,7 +3143,6 @@ $fvseop_default_options = array(
   'aiosp_show_custom_canonical'=>0,
   'aiosp_shorten_slugs'=>1,
   'fvseo_publ_warnings'=>1,
-  'fvseo_events'=>0,
   'social_google_publisher'=>'',
   'social_google_author'=>'',
   'social_twitter_site'=>'',
@@ -3905,9 +3300,7 @@ function fvseo_meta()
 	$fvseo_titleatr = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_titleatr', true))));
 	$fvseo_menulabel = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_menulabel', true))));
 	$noindex = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_noindex', true))));	
-	$nofollow = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_nofollow', true))));
-  
-  $event_date = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_fv_event_date', true))));
+	$nofollow = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_nofollow', true))));	
 	
 	if( $title ) {
 	  $title_preview = 	$title;
@@ -4112,7 +3505,6 @@ jQuery(document).ready(function($) {
 #fvsimplerseopack h2 {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
 #fvsimplerseopack h2 a { color:#2200c1; }
 #fvsimplerseopack .fvseo_disabled { color:#aaa; }
-
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
@@ -4157,17 +3549,20 @@ jQuery(document).ready(function($) {
             <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
         </p>
         <p>
-            <?php
-            if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
+        		<?php
+        		$fvseo_description_input_disabled = false;
+        		if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
             	$meta_description_excerpt = 'Using post excerpt, type your SEO meta description here.';
+             	$fvseo_description_input_description = $meta_description_excerpt;
+             	$fvseo_description_input_disabled = true;
             } else {
-                $meta_description_excerpt = 'Type your SEO meta description here.';
+              $meta_description_excerpt = false;
+            	$fvseo_description_input_description = $description;
             }
-            $fvseo_description_input_description = $description;
             ?>
             <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-            <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
-              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" placeholder="<?php echo $meta_description_excerpt; ?>"><?php echo $fvseo_description_input_description ?></textarea>
+            <textarea id="fvseo_description_input" class="input <?php if($fvseo_description_input_disabled) echo 'fvseo_disabled'; ?>" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
+              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" onclick="if(this.value == '<?php echo $meta_description_excerpt; ?>' ) { this.value = ''; jQuery(this).removeClass('fvseo_disabled'); }"><?php echo $fvseo_description_input_description ?></textarea>
             <br />
             <input id="lengthD" class="inputcounter" readonly="readonly" type="text" name="lengthD" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
             <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
@@ -4244,14 +3639,7 @@ jQuery(document).ready(function($) {
             <input id="fvseo_nofollow" class="input" value="1" <?php if( $nofollow ) echo 'checked="checked"'; ?> type="checkbox" name="fvseo_nofollow" />
             <label for="fvseo_nofollow">Add nofollow</label>
         </p>    
-    <?php endif; ?>
-    
-    <?php if ($fvseop_options['fvseo_events']) : ?>
-        <p>
-            <?php _e('Event Date:', 'fv_seo') ?> <small>(YYYY-MM-DD hh:mm:ss)</small>
-            <input class="input" value="<?php echo $event_date ?>" type="text" name="fvseo_event_date" />
-        </p>    
-    <?php endif; ?>    
+    <?php endif; ?>       
     
     <?php if (!function_exists('qtrans_getSortedLanguages')) { ?>
       <script type="text/javascript">
@@ -4293,10 +3681,6 @@ if( isset($fvseop_options['aiosp_can']) && ( $fvseop_options['aiosp_can'] == '1'
 	remove_action('wp_head', 'rel_canonical');
 }
 
-if( !isset($fvseop_options['fvseo_shortlinks']) || ( $fvseop_options['fvseo_shortlinks'] != '1' && strcmp($fvseop_options['fvseo_shortlinks'],'on') ) ) {
-	remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
-}
-
 add_action('admin_menu', 'fvseo_meta_box_add');
 add_action('wp_list_pages', 'fvseop_list_pages');
 add_action('wp_nav_menu', 'fvseop_nav_menu');
@@ -4307,12 +3691,9 @@ add_action('admin_init', array($fvseo, 'admin_init') );
 add_action('init', array($fvseo, 'init'));
 add_action('template_redirect', array($fvseo, 'template_redirect'));
 add_action('wp_head', array($fvseo, 'wp_head'));
-add_action('wp_head', array($fvseo, 'hatom_microformat_replace'));
 add_action('wp_head', array($fvseo, 'remove_canonical'), 0 );
 add_action('wp_head', array($fvseo, 'google_authorship') );
 add_action('wp_head', array($fvseo, 'social_meta_tags') );
-add_action('wp_head', array($fvseo, 'script_header_content') );
-add_action('wp_footer', array($fvseo, 'script_footer_content') );
 add_action('edit_post', array($fvseo, 'post_meta_tags'));
 add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
@@ -4324,18 +3705,14 @@ add_filter( 'get_user_option_closedpostboxes_fv_simpler_seo_settings', array($fv
 add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99, 5 );
 add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
 add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99, 3 );
-add_filter( 'searchwp_exclude', array( $fvseo , 'my_searchwp_exclude'));
+
 add_filter( 'get_previous_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'get_next_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'pre_get_posts', array( $fvseo, 'pre_get_posts' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'wp_list_pages_excludes', array( $fvseo, 'wp_list_pages_excludes' ) );	//	make sure noindex pages don't get into automated wp menus
 
-
 add_filter( 'get_sidebar', array( $fvseo, 'initiate_the_title_change' ) );
 add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
-add_filter( 'the_content', array( $fvseo, 'replace_attachment_links' ), 999 );
-
-add_filter( 'request', array($fvseo, 'filter_request_sitemap'), 0 );
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
@@ -4448,18 +3825,16 @@ function fvseo_remove_category_list_rel( $output ) {
     return str_replace( ' rel="category tag"', '', $output );
 }
 
+function fvseo_check_search_engine_visibility(){
+  if(!get_option('blog_public'))
+        echo '<div class="error fade"><p> Warning: Search Engine Visibility is turned off. Your site is not visible to search engines and will loose traffic. <a href="'.get_bloginfo( 'wpurl' ).'/wp-admin/options-reading.php">(Search Engine Visibility)</a> . </p></div>';
+}
+
+add_action('admin_notices','fvseo_check_search_engine_visibility');
+
 if( isset($fvseop_options['aiosp_remove_category_rel']) && $fvseop_options['aiosp_remove_category_rel'] ) {  
     add_filter( 'wp_list_categories', 'fvseo_remove_category_list_rel' );
     add_filter( 'the_category', 'fvseo_remove_category_list_rel' );
 }
 
 add_action( 'activate_' .plugin_basename(__FILE__), array( $fvseo, 'activate' ) );
-
-if( !isset($fvseop_options['fvseo_hentry']) || ( $fvseop_options['fvseo_hentry'] != '1' && strcmp($fvseop_options['fvseo_hentry'],'on') ) ) {
-    add_filter('post_class', array( $fvseo, 'post_class' ) );
-    add_filter('the_category', array( $fvseo, 'microdata_category_links' ) );
-}
-
-if( isset($fvseop_options['fvseo_events']) && $fvseop_options['fvseo_events'] ) {
-  include( dirname(__FILE__).'/fv-events.php' );
-}
