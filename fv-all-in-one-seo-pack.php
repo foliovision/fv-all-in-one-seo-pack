@@ -4448,6 +4448,13 @@ function fvseo_remove_category_list_rel( $output ) {
     return str_replace( ' rel="category tag"', '', $output );
 }
 
+function fvseo_check_search_engine_visibility(){
+  if(!get_option('blog_public'))
+        echo '<div class="error fade"><p> Warning: Search Engine Visibility is turned off. Your site is not visible to search engines and will loose traffic. <a href="'.get_bloginfo( 'wpurl' ).'/wp-admin/options-reading.php">(Search Engine Visibility)</a> . </p></div>';
+}
+
+add_action('admin_notices','fvseo_check_search_engine_visibility');
+
 if( isset($fvseop_options['aiosp_remove_category_rel']) && $fvseop_options['aiosp_remove_category_rel'] ) {  
     add_filter( 'wp_list_categories', 'fvseo_remove_category_list_rel' );
     add_filter( 'the_category', 'fvseo_remove_category_list_rel' );
