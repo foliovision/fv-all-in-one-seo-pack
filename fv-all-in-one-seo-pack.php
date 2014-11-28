@@ -4446,6 +4446,17 @@ function fvseo_remove_category_list_rel( $output ) {
     return str_replace( ' rel="category tag"', '', $output );
 }
 
+add_filter('plugin_action_links', 'fvseo_plugin_action_links', 10, 2);
+
+function fvseo_plugin_action_links($links, $file) {
+  	$plugin_file = basename(__FILE__);
+  	if (basename($file) == $plugin_file) {
+  		$settings_link = '<a href="options-general.php?page=fv_simpler_seo">Settings</a>';
+  		array_unshift($links, $settings_link);
+  	}
+  	return $links;
+}
+
 function fvseo_check_search_engine_visibility(){
   if(!get_option('blog_public'))
         echo '<div class="error fade"><p> Warning: Search Engine Visibility is turned off. Your site is not visible to search engines and will loose traffic. <a href="'.get_bloginfo( 'wpurl' ).'/wp-admin/options-reading.php">(Search Engine Visibility)</a> . </p></div>';
