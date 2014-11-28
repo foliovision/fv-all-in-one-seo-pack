@@ -4451,7 +4451,7 @@ add_filter('plugin_action_links', 'fvseo_plugin_action_links', 10, 2);
 function fvseo_plugin_action_links($links, $file) {
   	$plugin_file = basename(__FILE__);
   	if (basename($file) == $plugin_file) {
-      $settings_link =  '<a href="'.site_url('wp-admin/options-general.php?page=fv_simpler_seo').'">Settings</a>';;
+      $settings_link =  '<a href="'.site_url('wp-admin/options-general.php?page=fv_simpler_seo').'"> '.__('Settings', 'fv_seo').'</a>';
   		array_unshift($links, $settings_link);
   	}
   	return $links;
