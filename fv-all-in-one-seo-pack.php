@@ -3755,14 +3755,26 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
   function manage_category_fvseo_title_js(){
   ?>
   <script type="text/javascript">
+    function fvseo_show_update_button(){
+      jQuery("input.fv_seo_category_update").show();
+      
+      jQuery(window).bind('beforeunload', function(){
+        return 'Data you have entered are not be saved yet. Are you sure you want to leave?';
+      });
+    }  
+
     jQuery(document).ready( function(){
       
-      var update_fvseo_title_button = "<input class='button button-primary fv_seo_category_update' type='submit' name='fv_seo_category_update' value='Update' style='display:none' />";
+      var update_fvseo_title_button = "<input class='button button-primary fv_seo_category_update' type='submit' name='fv_seo_category_update' value='Save SEO Titles' style='display:none' />";
       jQuery("div.actions").append(update_fvseo_title_button);
       
-      jQuery("input.fvseo_title").change( function() {
-        jQuery("input.fv_seo_category_update").show();
+      jQuery("input.fvseo_title").keydown( fvseo_show_update_button );                         
+      jQuery("input.fvseo_title").change( fvseo_show_update_button );
+      
+      jQuery(".fv_seo_category_update").click( function() {
+        jQuery(window).unbind('beforeunload');
       });
+      
     
     });
     
