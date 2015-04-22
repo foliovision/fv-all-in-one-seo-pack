@@ -8,7 +8,7 @@ Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.17';
+$fv_simpler_seo_version = '1.6.24.18';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -1677,23 +1677,31 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		}
 		elseif (is_category() && !is_feed()     && $fvseop_options['aiosp_rewrite_titles'])
 		{
-			$category_description = $this->internationalize(strip_tags(category_description()));
-
-			if($fvseop_options['aiosp_cap_cats'])
-			{
-				$category_name = ucwords($this->internationalize(single_cat_title('', false)));
-			}
-			else
-			{
-				$category_name = $this->internationalize(single_cat_title('', false));
-			}			
-                        
-			$title_format = stripslashes( $fvseop_options['aiosp_category_title_format'] );
-			$title = str_replace('%category_title%', $category_name, $title_format);
-			$title = str_replace('%category_description%', $category_description, $title);
-			$title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title);
-			$title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $title);
-			$title = $this->paged_title($title);
+      global $cat;
+      $category_titles = get_option('aioseop_category_titles');
+      
+      if( $category_titles !== false && isset($cat) && intval($cat) && isset($category_titles[$cat]) && !empty($category_titles[$cat]) ){
+        $title = $category_titles[$cat];
+      }
+      else{
+        $category_description = $this->internationalize(strip_tags(category_description()));
+  
+        if($fvseop_options['aiosp_cap_cats'])
+        {
+          $category_name = ucwords($this->internationalize(single_cat_title('', false)));
+        }
+        else
+        {
+          $category_name = $this->internationalize(single_cat_title('', false));
+        }			
+                          
+        $title_format = stripslashes( $fvseop_options['aiosp_category_title_format'] );
+        $title = str_replace('%category_title%', $category_name, $title_format);
+        $title = str_replace('%category_description%', $category_description, $title);
+        $title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title);
+        $title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $title);
+        $title = $this->paged_title($title);
+      }
 			
 			$header = $this->replace_title($header, $title);
 		}
@@ -3688,6 +3696,90 @@ add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this,
 
 
 
+  function manage_category_columns( $columns ){
+    add_action('admin_footer', array($this,'manage_category_fvseo_title_js') );
+    
+    $new_columns  = array_slice($columns, 0, 2)
+                  + array('fvseo_title' => "SEO Title")
+                  + array_slice($columns, 2);
+    
+    return $new_columns;
+  }
+
+
+
+
+  function manage_category_custom_columns( $content, $column_name, $term_id ){
+    if( $column_name != 'fvseo_title' ){
+      return $content;
+    }
+    
+    $category_titles = get_option('aioseop_category_titles');
+    $value = ( isset($category_titles[$term_id]) && strlen(trim($category_titles[$term_id])) > 0 ) ? $category_titles[$term_id] : '';
+    
+    $content .= "<input class='fvseo_title' type='text' name='fvseo_title[$term_id]' value='$value'>";
+
+    return $content;
+  }
+  
+  
+  
+  
+  function manage_category_process_action(){
+    if( !isset( $_POST['fv_seo_category_update'] ) ){
+      return;
+    }
+    
+    $seo_titles = $_POST['fvseo_title'];
+    if( isset($seo_titles) && !empty($seo_titles) ){
+      $category_titles = get_option('aioseop_category_titles');
+      
+      if( !$category_titles){
+        $category_titles = array();
+      }
+      
+      foreach($seo_titles as $term_id => $title ){
+        if(  strlen(trim($title)) > 0 ){
+          $category_titles[$term_id] = $title;
+        }
+      }
+      
+      update_option('aioseop_category_titles',$category_titles);
+    }
+    
+    //clear after process, 
+    $_POST = array();
+  }
+  
+  
+  function manage_category_fvseo_title_js(){
+  ?>
+  <script type="text/javascript">
+    jQuery(document).ready( function(){
+      
+      var update_fvseo_title_button = "<input class='button button-primary fv_seo_category_update' type='submit' name='fv_seo_category_update' value='Update' style='display:none' />";
+      jQuery("div.actions").append(update_fvseo_title_button);
+      
+      jQuery("input.fvseo_title").change( function() {
+        jQuery("input.fv_seo_category_update").show();
+      });
+    
+    });
+    
+  </script>
+  
+  <style>
+    input.fvseo_title{
+      width: 100%;
+    }
+  </style>
+  
+  <?php
+  }
+
+
+
+
 } // end fv_seo class
 
 global $fvseop_options;
@@ -4334,6 +4426,10 @@ add_filter( 'yarpp_results', array( $fvseo, 'yarpp_results' ), 10, 2 );
 add_filter( 'the_content', array( $fvseo, 'replace_attachment_links' ), 999 );
 
 add_filter( 'request', array($fvseo, 'filter_request_sitemap'), 0 );
+
+add_filter( 'manage_edit-category_columns', array($fvseo,'manage_category_columns') );
+add_filter( 'manage_category_custom_column', array($fvseo,'manage_category_custom_columns'), 10, 3 );
+add_action( 'init', array($fvseo,'manage_category_process_action') );
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
