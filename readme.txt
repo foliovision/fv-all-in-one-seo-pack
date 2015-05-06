@@ -41,7 +41,8 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.25 - 26 June 2014 =
+= Version 1.6.25 - 05 May 2015 =
+* Improvement - Added importer from Wordpress Seo by Yoast
 * Fix - only feature image and 2 widest images from content are available for og:image tag (limitation for fb algorithm)
 * Improvement - Added options for Include/Exclude categories and authors in sitemap from XML Sitemaps & Google News feed plugin
 * Improvement - Added function for removing hAtom microformats
