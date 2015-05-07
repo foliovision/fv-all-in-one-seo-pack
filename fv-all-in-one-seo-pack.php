@@ -2283,7 +2283,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     else{
     ?>
       <p>
-            <?php _e('Wordpress SEO by Yoast SEO information found, but all your posts already use FV Simpler SEO fields!', 'fv_seo'); ?>
+            <?php _e('Nothing to import.', 'fv_seo'); ?>
       </p>
     <?php
     }
