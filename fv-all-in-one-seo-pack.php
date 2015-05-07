@@ -2268,7 +2268,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     ?>
       <p>
         <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_import_tip');">
-            <?php echo '<strong>'. $import_sum . '</strong>', _e(' post titles and descriptions can be imported!', 'fv_seo'); ?>
+            <?php echo 'Wordpress SEO by Yoast - <strong>'. $import_sum . '</strong>', _e(' SEO fields (post titles and descriptions) can be imported!', 'fv_seo'); ?>
         </a>
         <br/>
         <br/>
@@ -2283,7 +2283,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     else{
     ?>
       <p>
-            <?php _e('There are no more posts for import!', 'fv_seo'); ?>
+            <?php _e('Wordpress SEO by Yoast SEO information found, but all your posts already use FV Simpler SEO fields!', 'fv_seo'); ?>
       </p>
     <?php
     }
