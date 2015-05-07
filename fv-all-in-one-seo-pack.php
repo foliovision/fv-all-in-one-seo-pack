@@ -2245,7 +2245,49 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			 </div>
 		</p>	
 	<?php
-	}  
+	}
+  
+  function admin_settings_import(){
+    global $wpdb;
+    
+    $metadesc = $wpdb->get_var(
+      "SELECT count(*) FROM {$wpdb->postmeta}
+      WHERE meta_key = '_yoast_wpseo_metadesc'
+      AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_description' )"
+    );
+    
+    $titles = $wpdb->get_var(
+      "SELECT count(*) FROM {$wpdb->postmeta}
+      WHERE meta_key = '_yoast_wpseo_title'
+      AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_title' )"
+    );
+    
+    $import_sum = $metadesc + $titles;
+    
+    if( $import_sum ){
+    ?>
+      <p>
+        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_import_tip');">
+            <?php echo 'Wordpress SEO by Yoast - <strong>'. $import_sum . '</strong>', _e(' SEO fields (post titles and descriptions) can be imported!', 'fv_seo'); ?>
+        </a>
+        <br/>
+        <br/>
+        <input class="button" type="submit" name="fvseo_import_desc" id="fvseo_import_desc" value="Import" />
+    
+        <div style="max-width:500px; text-align:left; display:none" id="fvseo_import_tip">
+            <?php _e("Import your seo titles and meta descriptions from WordPress SEO by Yoast plugin.", 'fv_seo')?>
+        </div>
+      </p>	
+    <?php
+    }
+    else{
+    ?>
+      <p>
+            <?php _e('Nothing to import.', 'fv_seo'); ?>
+      </p>
+    <?php
+    }
+  }
 	
 	
 	function admin_settings_interface() {
@@ -3131,6 +3173,68 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				wp_cache_flush();
 			}
 		}
+    
+    if( isset($_POST['action']) && $_POST['action'] == 'fvseo_update' && isset( $_POST['fvseo_import_desc'] ) && $_POST['fvseo_import_desc'] )
+		{
+			$nonce = $_POST['nonce-fvseop'];
+			
+			if (!wp_verify_nonce($nonce, 'fvseopnonce'))
+				die ( 'Security Check - If you receive this in error, log out and back in to WordPress');
+			
+      global $wpdb;
+      $max_execution_time = ini_get('max_execution_time') - 5;
+      $start_time = time();
+      
+      $seo_titles = $wpdb->get_results(
+        "SELECT post_id, meta_value FROM {$wpdb->postmeta}
+        WHERE meta_key = '_yoast_wpseo_title'
+        AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_title' )"
+      );
+      
+      $titles_updated = 0;
+      foreach( $seo_titles as $stitle ){
+        if( ( $start_time - time() ) > $max_execution_time ){
+          break;
+        }
+        
+        update_post_meta( $stitle->post_id, '_aioseop_title', $stitle->meta_value);
+        $titles_updated++;
+      }
+      
+      $meta_desc = $wpdb->get_results(
+        "SELECT post_id, meta_value FROM {$wpdb->postmeta}
+        WHERE meta_key = '_yoast_wpseo_metadesc'
+        AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_description' )"
+      );
+
+      $description_updated = 0;
+      foreach( $meta_desc as $mdesc ){
+        if( ( $start_time - time() ) > $max_execution_time ){
+          break;
+        }
+        
+        update_post_meta( $mdesc->post_id, '_aioseop_description', $mdesc->meta_value);
+        $description_updated++;
+      }
+      
+      $message = $titles_updated . __(" seo titles and ", 'fv_seo') . $description_updated . __(" meta description have been imported.", 'fv_seo');
+      
+      $continue_message = '';
+      //remaining?
+      if( count($seo_titles) > $titles_updated ){
+        $continue_message .= count($seo_titles) - $titles_updated . __(" titles", 'fv_seo');
+      }
+      
+      if( count($meta_desc) > $description_updated ){
+        $continue_message .= ( !empty($continue_message) ) ? ' and ' : '';
+        $continue_message .= count($meta_desc) - $description_updated . __(" descriptions", 'fv_seo');
+      }
+      
+      if( !empty($continue_message) ){
+        $message .= '<br/>' . $continue_message . __(" remaining. Please run this import again.", 'fv_seo');
+      }
+      
+		}
 		
 		// TODO: Important, I can't change the four textareas for the additional headers until I change the whole concept in this fields. I need to do it.
 ?>
@@ -3185,6 +3289,7 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 add_meta_box( 'admin_settings_tracking_codes', 'Tracking codes', array( $this, 'admin_settings_tracking_codes' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this, 'admin_settings_calendar' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_import' ), 'fv_simpler_seo_settings', 'normal' );
 
 ?>            
 
