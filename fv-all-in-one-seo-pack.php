@@ -3289,7 +3289,7 @@ add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admi
 add_meta_box( 'admin_settings_tracking_codes', 'Tracking codes', array( $this, 'admin_settings_tracking_codes' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this, 'admin_settings_calendar' ), 'fv_simpler_seo_settings', 'normal' );
-add_meta_box( 'fv_simpler_seo_import', 'Import data from WordPress SEO by Yoast plugin', array( $this, 'admin_settings_import' ), 'fv_simpler_seo_settings', 'normal' );
+add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_import' ), 'fv_simpler_seo_settings', 'normal' );
 
 ?>            
 
