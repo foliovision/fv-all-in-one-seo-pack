@@ -1697,11 +1697,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                           
         $title_format = stripslashes( $fvseop_options['aiosp_category_title_format'] );
         $title = str_replace('%category_title%', $category_name, $title_format);
-        $title = str_replace('%category_description%', $category_description, $title);
-        $title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title);
-        $title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $title);
-        $title = $this->paged_title($title);
       }
+        
+      $title = str_replace('%category_description%', $category_description, $title);
+      $title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title);
+      $title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $title);
+      $title = $this->paged_title($title);
+      
 			
 			$header = $this->replace_title($header, $title);
 		}
