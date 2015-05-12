@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 4.1
+Tested up to: 4.2.1
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -40,6 +40,19 @@ Some features:
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 == Changelog ==
+
+= Version 1.6.25 - 12 May 2015 =
+* Feature - Category SEO title option added
+* Feature - Custom post type title rewritting
+* Feature - use this plugin to insert your Google Analytics, Statcounter and custom HTML in header and footer
+* Feature - Wordpress Seo by Yoast import function
+* Feature - XML Sitemaps & Google News feed plugin support - use our plugin to include/exclude categories and authors from XML sitemap
+* Improvement - hAtom microformats (.hentry element class inserted by Wordpress) removed by default. hEntry is a microformat declaration which makes sure Google reads your post tags better, but we turn it off by default to keep the site structured data clean - only add what you really need.
+* Improvement - Open Graph - added checking for duplicate images in og:image tag
+* Improvement - Open Graph - only featured image and 2 widest images from content will be used (Facebook only picks the biggest images from Open Graph)
+* Improvement - Wordpress shortlink - removed by default as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.
+* SEO - get rid of /?attachment_id={attachment_id} and /year/month/post-name/attachment-name kind of pages. Creates 301 redirections and replaces such links in content - enabled by default!
+* Bugfix - meta description hint outputted by javascript was saved to postmeta if custom excerpt was set 
 
 = Version 1.6.24 - 16 May 2014 =
 * Improvement - all images from content are available for Facebook Open Graph now
