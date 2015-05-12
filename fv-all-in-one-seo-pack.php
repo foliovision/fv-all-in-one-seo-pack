@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.24.17
+Version: 1.6.25
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.24.18';
+$fv_simpler_seo_version = '1.6.25';
 
 $UTF8_TABLES['strtolower'] = array(
 	"Ôº∫" => "ÔΩö",	"Ôºπ" => "ÔΩô",	"Ôº∏" => "ÔΩò",
@@ -506,6 +506,25 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	   	if( get_option('fv_simpler_seo_version') != $fv_simpler_seo_version ) {
 	   		$this->activate();
 	   	}
+
+      if( empty($fvseop_options['fvseo_changes_1_6_25']) ) {
+        $sURL = site_url('wp-admin/options-general.php?page=fv_simpler_seo');
+        $aNotices = array();
+        if( empty($fvseop_options['fvseo_attachments']) || $fvseop_options['fvseo_attachments'] ) $aNotices[] = "<strong>Wordpress attachment URLs</strong> are now redirected to the post where they are attached. <a href='".$sURL."#fvseo_attachments' target='_blank'>Show me the setting</a>";
+        if( empty($fvseop_options['fvseo_hentry']) ) $aNotices[] = "<strong>hAtom microformats</strong> are now removed. <a href='".$sURL."#fvseo_hentry' target='_blank'>Show me the setting</a>";
+        if( empty($fvseop_options['fvseo_hentry']) ) $aNotices[] = "<strong>Wordpress shortlink</strong> tags are removed. <a href='".$sURL."#fvseo_shortlinks' target='_blank'>Show me the setting</a>";
+        $sNotices = "<li>".implode( "</li><li>",$aNotices )."</li>";
+        
+        $this->pointer_boxes['fvseo_changes_1_6_25'] = array(
+          'id' => '#wp-admin-bar-my-account',
+          'pointerClass' => 'fvseo_changes_1_6_25',
+          'heading' => __('FV Simpler SEO 1.6.25', 'fv_flowplayer'),
+          'content' => __("<p>Please check the latest changes below:</p><ol>".$sNotices."</ol>", 'fv_flowplayer'),
+          'position' => array( 'edge' => 'top', 'align' => 'right' ),
+          'button1' => __('I understand', 'fv_flowplayer'),
+          'button2' => __('I\'ll check this later', 'fv_flowplayer')
+        );
+      }
 		}		
 	}
 	
@@ -543,6 +562,20 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 			wp_enqueue_script('postbox');
 		}	
 	}
+  
+  
+  
+  
+  function ajax__pointers() {
+    if( isset($_POST['key']) && $_POST['key'] == 'fvseo_changes_1_6_25' && isset($_POST['value']) && $_POST['value'] == "true" ) {
+      check_ajax_referer('fvseo_changes_1_6_25');
+
+      $fvseop_options = get_option('aioseop_options');
+      $fvseop_options['fvseo_changes_1_6_25'] = true;
+      update_option( 'aioseop_options', $fvseop_options );
+      die();
+    }    
+  }
 	
 	
 	
@@ -2407,7 +2440,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
                 </div>
             </p>
-						<p>
+						<p id="fvseo_attachments">
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_attachments_tip');">
                   <?php _e('Redirect attachment links to the file URLs:', 'fv_seo')?>
                 </a>
@@ -2416,7 +2449,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("Get rid of /?attachment_id={attachment_id} and /year/month/post-name/attachment-name kind of pages. Creates 301 redirections and replaces such links in content. Recommended.", 'fv_seo')?>
                 </div>
             </p>                 
-						<p>
+						<p id="fvseo_shortlinks">
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_shortlinks_tip');">
                   <?php _e('Enable shortlinks in header:', 'fv_seo')?>
                 </a>
@@ -2425,7 +2458,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("We don't recommend using the Wordpress <a href='http://microformats.org/wiki/rel-shortlink'>shortlinks</a> as they are bit against the concept of permalinks where the link doesn't change. Shortlinks can change as they are using post ID, so then you loose the link to your blog. Twitter has its own link shortening service.", 'fv_seo')?>
                 </div>
             </p>
-						<p>
+						<p id="fvseo_hentry">
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_hentry_tip');">
                   <?php _e('Enable hAtom microformat classes:', 'fv_seo')?>
                 </a>
@@ -3328,6 +3361,12 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
 				$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 				// postboxes setup
 				postboxes.add_postbox_toggles('fv_simpler_seo_settings');
+        
+        var match;
+        if( match = window.location.hash.match(/fvseo\S+/) ){
+          $('#'+match[0]).parents('.postbox').removeClass('closed');
+          $('#'+match[0]+'_tip').show();
+        }
 			});
 			//]]>
 		</script>    
@@ -4549,6 +4588,8 @@ add_filter( 'request', array($fvseo, 'filter_request_sitemap'), 0 );
 add_filter( 'manage_edit-category_columns', array($fvseo,'manage_category_columns') );
 add_filter( 'manage_category_custom_column', array($fvseo,'manage_category_custom_columns'), 10, 3 );
 add_action( 'init', array($fvseo,'manage_category_process_action') );
+
+add_action( 'wp_ajax_fv_foliopress_ajax_pointers',  array($fvseo,'ajax__pointers' ) );
 
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
