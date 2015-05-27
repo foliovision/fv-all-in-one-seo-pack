@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.26 - 27 May 2015 =
+* Bugfix - qTranslate tags fix for OG and Twitter Cards tags
+
 = Version 1.6.25 - 12 May 2015 =
 * Feature - Category SEO title option added
 * Feature - Custom post type title rewritting
