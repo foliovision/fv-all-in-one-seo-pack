@@ -961,7 +961,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		}
 
 		///	Let's do this also if longer title is specified or if it's homepage
-		if ($fvseop_options['aiosp_rewrite_titles']     || ( is_object( $post ) && get_post_meta($post->ID, "_aioseop_title", true) ) || is_home() )
+		if ($fvseop_options['aiosp_rewrite_titles']     || isset($post->ID) && ( is_object( $post ) && get_post_meta($post->ID, "_aioseop_title", true) ) || is_home() )
 		{
 			ob_start(array($this, 'output_callback_for_title')); // this ob_start is matched with ob_end_flush in wp_head
 		}
@@ -983,12 +983,65 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		{
 			return;
 		}
-
+                
 		global $wp_query;
 		global $fvseop_options;
 
 		$post = $wp_query->get_queried_object();
-
+                
+        //Add link rel="next/prev" when displaying archive
+        global $wp_rewrite;
+                
+        if($wp_rewrite->using_permalinks() && (is_category() || is_tag() || is_tax())){
+            $taxonomy = $wp_query->tax_query->queries[0]["taxonomy"];
+            $term = $wp_query->tax_query->queries[0]["terms"][0];
+                
+            $prev = "";
+            $next = "";
+              
+            $page = 0;
+              
+            if(isset($wp_query->query["paged"]))
+                $page = intval($wp_query->query["paged"]);
+                
+            $posts_per_page = $wp_query->query_vars["posts_per_page"];
+            $found_posts = $wp_query->found_posts;
+            $root = get_term_link($term,$taxonomy);                        
+            
+            
+            if($page){
+                    
+                //set prev links
+                if($page-1<2){
+                    $prev = user_trailingslashit( trailingslashit($root) );
+                }else{
+                    $prev = user_trailingslashit( trailingslashit($root).'page/'.($page-1) );
+                }
+                    
+                //set next link
+                if($found_posts>$posts_per_page*$page){
+                    $next = user_trailingslashit( trailingslashit($root).'page/'.($page+1) );
+                }
+                  
+            }else{
+                //set next link if necessary
+                if($found_posts > $posts_per_page){
+                    $next = user_trailingslashit( trailingslashit($root).'page/2/' );
+                }
+                   
+            }
+            
+            if($prev){
+                echo "<link rel='prev' href='$prev' />";
+            }
+                
+            if($next){
+                echo "<link rel='next' href='$next' />";
+            }
+            // end adding link rel='next/prev'
+               
+        }
+                
 		$meta_string = null;
 
 		if ($this->is_static_posts_page())
@@ -1010,7 +1063,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		if (is_single() || is_page())
 		{
 			$fvseo_disable = htmlspecialchars(stripcslashes(get_post_meta($post->ID, '_aioseop_disable', true)));
-
 			if ($fvseo_disable)
 			{
 				return;
@@ -4717,6 +4769,7 @@ function fvseo_plugin_action_links($links, $file) {
   	}
   	return $links;
 }
+
 
 function fvseo_check_search_engine_visibility(){
   if(!get_option('blog_public'))
