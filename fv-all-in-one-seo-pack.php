@@ -2232,7 +2232,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				add_post_meta($id, '_aioseop_titleatr', $fvseo_titleatr);
 			}
 
-			if (isset($fvseo_menulabel) && !empty($fvseo_menulabel))
+			if (isset($fvseo_menulabel) && !empty(trim($fvseo_menulabel)))
 			{
 				add_post_meta($id, '_aioseop_menulabel', $fvseo_menulabel);
 			}
@@ -4522,12 +4522,12 @@ jQuery(document).ready(function($) {
 <?php if($post->post_type == 'page' || (isset($fvseop_options['aiosp_show_short_title_post']) && $fvseop_options['aiosp_show_short_title_post']) ) { ?>
         
         <p>
-            <?php _e('Short title | Menu Label:', 'fv_seo') ?> <abbr title="<?php
-            if( $post->post_type == 'page' ) : ?> 
-            <?php _e('Used in all your page menus. Long Title or Post Title will be used for mouse rollover. Can be called inside of template file with','fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;
+            <?php _e('Short title | Menu Label:', 'fv_seo') ?> 
+            <?php if( $post->post_type == 'page' ) : ?> 
+            <abbr title="<?php _e('Used in all your page menus. Long Title or Post Title will be used for mouse rollover. Can be called inside of template file with','fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;">(?)</abbr>
             <?php else : ?>
-            <?php _e('This will automatically replace post title in sidebar. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;
-            <?php endif; ?>">(?)</abbr>
+            <abbr title="<?php _e('This will automatically replace post title in sidebar. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_menulabel',$post->ID); ?&gt;">(?)</abbr>
+            <?php endif; ?>
             <input class="input" value="<?php echo $fvseo_menulabel ?>" type="text" name="fvseo_menulabel" size="62"/>
         </p>
 
