@@ -732,112 +732,110 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	// ACTIONS
 	//-------------------------------
 
-   function SortByLength( $strA, $strB ){
-      return strlen( $strB ) - strlen( $strA );
-   }
+  function SortByLength( $strA, $strB ){
+    return strlen( $strB ) - strlen( $strA );
+  }
 
 
-	function GeneratePostSlug( $strSlug, $idPost, $keywords = 3 ){
-		global $wpdb;
-		
-		$aSlug = explode( '-', $strSlug );
-		
-		if( 3 >= count( $aSlug ) ) return $strSlug;
-		//if( 4 == count( $aSlug ) && preg_match( '~\d+$~', $aSlug[3] ) ) return $strSlug;	//	todo: this is really not a good way.
-		if( 20 >= strlen( $strSlug ) ) return $strSlug;
-		
-		$aSlug = array_unique( $aSlug );
-		$aSortSlug = $aSlug;
-		usort( $aSortSlug, array( $this, 'SortByLength' ) );
-		$aSortSlug = array_slice( $aSortSlug, 0, $keywords );
-		
-		$aSlug = array_intersect( $aSlug, $aSortSlug );
-		$strSlugNew = implode( '-', $aSlug );
-		
-		if( $idPost ){
-			$aPost = $wpdb->get_var( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strSlugNew )."' AND `ID` != {$idPost} AND post_type != 'revision'" );
-			$i = 0;
-			
-			if( count($aSortSlug) >= $keywords ) {
-				if( $aPost ) {
-				   $strSlug = $this->GeneratePostSlug( $strSlug, $idPost, ++$keywords );
-				} else {
-				   $strSlug = $strSlugNew;
-				}
-			} else {
-				while( count( $aPosts ) ) {
-					if( $i ) $strNewSlug = $strSlug . '-' . ($i+1);
-					else $strNewSlug = $strSlug . '-1';
-					
-					$i++;
-					$aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strNewSlug )."' AND `ID` != {$idPost}" );
-				}	
-				if( $strNewSlug ) $strSlug = $strNewSlug;
-			}
-		}
-		
-		return $strSlug;
-	}
+  function GeneratePostSlug( $strSlug, $idPost, $keywords = 3 ){
+    global $wpdb;
+        
+    $aSlug = explode( '-', $strSlug );
+    
+    if( 3 >= count( $aSlug ) ) return $strSlug;
+    //if( 4 == count( $aSlug ) && preg_match( '~\d+$~', $aSlug[3] ) ) return $strSlug;	//	todo: this is really not a good way.
+    if( 20 >= strlen( $strSlug ) ) return $strSlug;
+    
+    $aSlug = array_unique( $aSlug );
+    $aSortSlug = $aSlug;
+    usort( $aSortSlug, array( $this, 'SortByLength' ) );
+    $aSortSlug = array_slice( $aSortSlug, 0, $keywords );
+    
+    $aSlug = array_intersect( $aSlug, $aSortSlug );
+    $strSlugNew = implode( '-', $aSlug );
+    
+    if( $idPost ){
+      $aPost = $wpdb->get_var( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strSlugNew )."' AND `ID` != {$idPost} AND post_type != 'revision'" );
+      $i = 0;
+      
+      if( count($aSortSlug) >= $keywords ) {
+        if( $aPost ) {
+          $strSlug = $this->GeneratePostSlug( $strSlug, $idPost, ++$keywords );
+        } else {
+          $strSlug = $strSlugNew;
+        }
+      } else {
+        while( count( $aPosts ) ) {
+          if( $i ) $strNewSlug = $strSlug . '-' . ($i+1);
+          else $strNewSlug = $strSlug . '-1';
+          
+          $i++;
+          $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strNewSlug )."' AND `ID` != {$idPost}" );
+        }	
+        if( $strNewSlug ) $strSlug = $strNewSlug;
+      }
+    }
+    
+    return $strSlug;
+  }
 	
 
-   function EditPostSlug( $strSlug, $idPost = null, $strPostStatus = null, $strPostType = null, $idPostParent = null ){
-      global $fvseop_options, $wpdb;
+  function EditPostSlug( $strSlug, $idPost = null, $strPostStatus = null, $strPostType = null, $idPostParent = null ){
+    global $fvseop_options, $wpdb;
 
-      if( !$fvseop_options['aiosp_shorten_slugs'] || $strPostType == 'revision' )
-         return $strSlug;
-
-      if( !$idPost ){
-         if( isset( $_GET['post'] ) )
-            $idPost = intval( $_GET['post'] );
-         if( isset( $_POST['post_id'] ) )
-            $idPost = intval( $_POST['post_id'] );
-         if( isset( $_POST['post_ID'] ) )
-            $idPost = intval( $_POST['post_ID'] );
-      }
-
-      if( !$idPost )
-         $strSlug = $this->GeneratePostSlug( $strSlug, false );
-      else{
-         $strName = $wpdb->get_var( "SELECT `post_name` FROM `{$wpdb->posts}` WHERE `ID` = $idPost" );
-         if( !$strName )
-            $strSlug = $this->GeneratePostSlug( $strSlug, $idPost );
-      }
-
-      return $strSlug;
-   }
-
-   function SavePostSlug( $aData, $aPostArg ){
-      global $fvseop_options;
-      
-      if( !$fvseop_options['aiosp_shorten_slugs'] || $aPostArg['post_type'] == 'revision' )
-         return $aData;
-
-      if( isset( $aPostArg['post_id'] ) )
-         $idPost = intval( $aPostArg['post_id'] );
-      if( isset( $aPostArg['post_ID'] ) )
-         $idPost = intval( $aPostArg['post_ID'] );
-      if( isset( $aPostArg['ID'] ) )
-         $idPost = intval( $aPostArg['ID'] );
-      if( isset( $aData['ID'] ) )
-         $idPost = intval( $aData['ID'] );
-
-      if( !$aData['post_name'] ){
-         $this->idEmptyPostName = $idPost;
-         $this->strTitleForReference = $aData['post_title'];
-      }
-
+    if( !$fvseop_options['aiosp_shorten_slugs'] || $strPostType == 'revision' )
+    return $strSlug;
+    
+    if( !$idPost ){
+      if( isset( $_GET['post'] ) )
+        $idPost = intval( $_GET['post'] );
+      if( isset( $_POST['post_id'] ) )
+        $idPost = intval( $_POST['post_id'] );
+      if( isset( $_POST['post_ID'] ) )
+        $idPost = intval( $_POST['post_ID'] );
+    }
+    
+    if( !$idPost ) {
+      $strSlug = $this->GeneratePostSlug( $strSlug, false );
+    } else if ( isset($_POST['new_slug']) && $_POST['new_slug'] == '' ) {
+      $strSlug = $this->GeneratePostSlug( $strSlug, $idPost );
+    }
+    
+    return $strSlug;
+  }
+  
+  function SavePostSlug( $aData, $aPostArg ){
+    global $fvseop_options;
+    
+    if( !$fvseop_options['aiosp_shorten_slugs'] || $aPostArg['post_type'] == 'revision' )
       return $aData;
-   }
-
-   function SanitizeTitleForShortening( $strTitle, $strRawTitle = '', $strContext = false ){
-      global $fvseop_options;    
-
-			if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] && $strContext == 'save' && $this->idEmptyPostName && $strRawTitle == $this->strTitleForReference ) {
-				$strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
-			}
-      
-      return $strTitle;
-   }
+    
+    if( isset( $aPostArg['post_id'] ) )
+      $idPost = intval( $aPostArg['post_id'] );
+    if( isset( $aPostArg['post_ID'] ) )
+      $idPost = intval( $aPostArg['post_ID'] );
+    if( isset( $aPostArg['ID'] ) )
+      $idPost = intval( $aPostArg['ID'] );
+    if( isset( $aData['ID'] ) )
+      $idPost = intval( $aData['ID'] );
+    
+    if( !$aData['post_name'] ){
+      $this->idEmptyPostName = $idPost;
+      $this->strTitleForReference = $aData['post_title'];
+    }
+    
+    return $aData;
+  }
+  
+  function SanitizeTitleForShortening( $strTitle, $strRawTitle = '', $strContext = false ){
+    global $fvseop_options;    
+    
+    if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] && $strContext == 'save' && $this->idEmptyPostName && $strRawTitle == $this->strTitleForReference ) {
+      $strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
+    }
+    
+    return $strTitle;
+  }
 
 
 
