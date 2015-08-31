@@ -959,7 +959,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 		}
 
 		///	Let's do this also if longer title is specified or if it's homepage
-		if ($fvseop_options['aiosp_rewrite_titles']     ||  is_object( $post ) && isset($post->ID) && get_post_meta($post->ID, "_aioseop_title", true) ) || is_home() )
+		if ($fvseop_options['aiosp_rewrite_titles'] || ( is_object( $post ) && isset($post->ID) && get_post_meta($post->ID, "_aioseop_title", true) ) || is_home() )
 		{
 			ob_start(array($this, 'output_callback_for_title')); // this ob_start is matched with ob_end_flush in wp_head
 		}
