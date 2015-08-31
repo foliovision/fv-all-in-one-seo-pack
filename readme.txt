@@ -41,9 +41,10 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.27 - 21 July 2015 =
+= Version 1.6.27 - 31 August 2015 =
 * Feature - link rel next/prev links for archives!
 * Bugfix - short title tooltip whitespace fix
+* Bugfix - shortened post slug editing
 
 = Version 1.6.26 - 27 May 2015 =
 * Bugfix - qTranslate tags fix for OG and Twitter Cards tags
