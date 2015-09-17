@@ -1526,7 +1526,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	 */
 	function replace_title($content, $title)
 	{
-    $title = __($title);
+        $title = strip_tags(__($title));
 		return preg_replace('/<title>(.*?)<\/title>/ms', '<title>' . esc_html($title) . '</title>', $content, 1);
 	}
 	
