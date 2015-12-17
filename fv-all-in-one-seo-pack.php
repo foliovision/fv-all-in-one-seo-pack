@@ -2187,12 +2187,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $description = ( isset( $_POST["fvseo_description"] ) && $_POST["fvseo_description"] != 'Using post excerpt, type your SEO meta description here.' ) ? $_POST["fvseo_description"] : NULL;
         $title = isset( $_POST["fvseo_title"] ) ? $_POST["fvseo_title"] : NULL;
       }
-			$fvseo_meta = isset( $_POST["fvseo_meta"] ) ? $_POST["fvseo_meta"] : NULL;
+			$fvseo_meta = isset( $_POST["fvseo_meta"] ) ? trim($_POST["fvseo_meta"]) : NULL;
 			$fvseo_disable = isset( $_POST["fvseo_disable"] ) ? $_POST["fvseo_disable"] : NULL;
-			$fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? $_POST["fvseo_titleatr"] : NULL;
-			$fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? $_POST["fvseo_menulabel"] : NULL;
+			$fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? trim($_POST["fvseo_titleatr"]) : NULL;
+			$fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? trim($_POST["fvseo_menulabel"]) : NULL;
       $fvseo_event_date = isset( $_POST["fvseo_event_date"] ) ? $_POST["fvseo_event_date"] : NULL;
-			$custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? $_POST["fvseo_custom_canonical"] : NULL;	
+			$custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? trim($_POST["fvseo_custom_canonical"]) : NULL;	
 			$noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;				
 			$nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;							
 				
@@ -2230,7 +2230,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 				add_post_meta($id, '_aioseop_titleatr', $fvseo_titleatr);
 			}
 
-			if (isset($fvseo_menulabel) && !empty(trim($fvseo_menulabel)))
+			if (isset($fvseo_menulabel) && !empty($fvseo_menulabel))
 			{
 				add_post_meta($id, '_aioseop_menulabel', $fvseo_menulabel);
 			}
