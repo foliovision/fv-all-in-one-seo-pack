@@ -3336,7 +3336,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 	</style>
   <div class="wrap">
       <div style="position: absolute; top: 10px; right: 10px;">
-          <a href="https://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack" target="_blank" title="Documentation"><img alt="visit foliovision" src="http://foliovision.com/shared/fv-logo.png" /></a>
+          <a href="https://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack" target="_blank" title="Documentation"><img alt="visit foliovision" src="//foliovision.com/shared/fv-logo.png" /></a>
       </div>
       <div>
           <div id="icon-options-general" class="icon32"><br /></div>
@@ -3888,7 +3888,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
             <noscript><div class="statcounter"><a title="free hit
             counter" href="http://statcounter.com/free-hit-counter/"
             target="_blank"><img class="statcounter"
-            src="http://c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$fvseop_options['aiosp_statcounter_security'].'/1/"
+            src="//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$fvseop_options['aiosp_statcounter_security'].'/1/"
             alt="free hit counter"></a></div></noscript>
             <!-- End of StatCounter Code for Default Guide -->') . "\n";
     }
