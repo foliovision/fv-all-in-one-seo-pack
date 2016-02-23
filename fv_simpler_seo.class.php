@@ -35,6 +35,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
    */
   function __construct(){
     global $fvseop_options;
+    $fvseop_options = get_option('aioseop_options');
     
     if( is_admin() ) {
       parent::__construct();

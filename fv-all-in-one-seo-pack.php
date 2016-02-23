@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.28
+Version: 1.6.29
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.28';
+$fv_simpler_seo_version = '1.6.29';
 
 
 require( dirname(__FILE__).'/utf8_tables.php' );
@@ -816,6 +816,10 @@ function fvseo_genesis_disable_seo_functons() {
   if( !defined("GENESIS_SEO_SETTINGS_FIELD") ){
     return;
   }
+  
+  if( isset( $_GET['page'] ) && $_GET['page'] == 'seo-settings' ){
+    add_action( 'admin_notices', 'fvseo_genesis_waring' );
+  }
 
   // remove_filter('wp_title', 'genesis_default_title', 10, 3); 
   remove_action('get_header', 'genesis_doc_head_control'); 
@@ -838,4 +842,13 @@ function fvseo_genesis_disable_seo_functons() {
 
   remove_theme_support('genesis-seo-settings-menu'); 
   add_filter('pre_option_' . GENESIS_SEO_SETTINGS_FIELD, '__return_empty_array'); 
+}
+
+function fvseo_genesis_waring(){
+  echo "\n<div class='error'><p>";
+  echo "<strong>Genesis SEO is disabled:</strong> ";
+
+  $simpler_seo_link = get_admin_url( null, 'options-general.php?page=fv_simpler_seo' );
+  _e( 'These settings won\'t be applied on frontend. Use <a href="'.$simpler_seo_link.'">FV Simpler SEO</a> instead.', 'fv_seo' );
+  echo "</p></div>";
 }
