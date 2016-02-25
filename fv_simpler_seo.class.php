@@ -35,7 +35,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
    */
   function __construct(){
     global $fvseop_options;
-    $fvseop_options = get_option('aioseop_options');
     
     if( is_admin() ) {
       parent::__construct();
@@ -421,7 +420,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
     $post = $wp_query->get_queried_object();
     
-    global $fvseop_options;
     if( isset($fvseop_options['fvseo_attachments']) && $fvseop_options['fvseo_attachments'] ) {
       if( is_attachment() ) {
         global $post;
