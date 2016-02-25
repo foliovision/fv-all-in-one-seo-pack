@@ -3,27 +3,13 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.29
+Version: 1.6.30
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.29';
-
-
-require( dirname(__FILE__).'/utf8_tables.php' );
-require( dirname(__FILE__).'/fv_simpler_seo.class.php' );
-
-global $fvseop_options;
-
-if (!get_option('aioseop_options'))
-{
-	fvseop_mrt_mkarry();
-}
-
+$fv_simpler_seo_version = '1.6.30';
 $fvseop_options = get_option('aioseop_options');
-
-global $fvseop_default_options;
 $fvseop_default_options = array(
   "aiosp_can"=>0,
   "fvseo_shortlinks"=>0,
@@ -76,33 +62,38 @@ $fvseop_default_options = array(
   'social_twitter_creator'=>'',
   'social_meta_facebook'=>true,
   'social_meta_twitter'=>true
-  );
-  
+);
+
+if( !$fvseop_options ) fvseop_mrt_mkarry();
+
+require( dirname(__FILE__).'/utf8_tables.php' );
+require( dirname(__FILE__).'/fv_simpler_seo.class.php' );
 
 function fvseop_mrt_mkarry()
 {
 
-  global $fvseop_default_options;
-  $nfvseop_options = $fvseop_default_options;
+  global $fvseop_default_options, $fvseop_options;
+  $fvseop_options = $fvseop_default_options;
+  
 	if (get_option('aiosp_post_title_format'))
 	{
-		foreach ($nfvseop_options as $fvseop_opt_name => $value )
+		foreach ($fvseop_options as $fvseop_opt_name => $value )
 		{
 			if ($fvseop_oldval = get_option($fvseop_opt_name))
 			{
-				$nfvseop_options[$fvseop_opt_name] = $fvseop_oldval;
+				$fvseop_options[$fvseop_opt_name] = $fvseop_oldval;
 			}
 			
 			if ($fvseop_oldval == '')
 			{
-				$nfvseop_options[$fvseop_opt_name] = '';
+				$fvseop_options[$fvseop_opt_name] = '';
 			}
         
 			delete_option($fvseop_opt_name);
 		}
 	}
 
-	add_option('aioseop_options',$nfvseop_options);
+	update_option('aioseop_options',$fvseop_options);
 
   /// this displays a warning message in WP 3.0
 	//echo "<div class='updated fade' style='background-color:green;border-color:green;'><p><strong>Updating FV All in One SEO Pack configuration options in database</strong></p></div>";

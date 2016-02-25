@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.30 - 25 February 2016 =
+* Fix loading of plugin settings
+
 = Version 1.6.29 - 23 February 2016 =
 * Added import for Genesis SEO
 * Disabled Genesis SEO functionality along with FV Simpler SEO installed
