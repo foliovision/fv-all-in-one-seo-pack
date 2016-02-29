@@ -3197,7 +3197,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
           
       
       if( !$title = stripcslashes( get_post_meta($post->ID, '_aioseop_title', true) ) ) {
-        $title = get_the_title();
+        $title = strip_tags( get_the_title() );
       }
       
       $title = esc_attr( __($this->internationalize($title)) );
