@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.30
+Version: 1.6.31
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.30';
+$fv_simpler_seo_version = '1.6.31';
 $fvseop_options = get_option('aioseop_options');
 $fvseop_default_options = array(
   "aiosp_can"=>0,
@@ -632,9 +632,7 @@ add_action('admin_menu', array($fvseo, 'admin_menu'));
 
 add_filter( 'get_user_option_closedpostboxes_fv_simpler_seo_settings', array($fvseo, 'fv_simpler_seo_settings_closed_meta_boxes' ) );
 
-add_filter( 'wp_unique_post_slug', array( $fvseo, 'EditPostSlug' ), 99, 5 );
-add_filter( 'wp_insert_post_data', array( $fvseo, 'SavePostSlug' ), 99, 2 );
-add_filter( 'sanitize_title', array( $fvseo, 'SanitizeTitleForShortening' ), 99, 3 );
+add_filter( 'wp_unique_post_slug', array( $fvseo, 'fvseo_unique_post_slug' ), 99, 6 );
 add_filter( 'searchwp_exclude', array( $fvseo , 'my_searchwp_exclude'));
 add_filter( 'get_previous_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
 add_filter( 'get_next_post_where', array( $fvseo, 'get_adjacent_post_where' ) );	//	make sure noindex posts don't turn up in the search
