@@ -323,67 +323,37 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     return $strSlug;
   }
   
-
-  function EditPostSlug( $strSlug, $idPost = null, $strPostStatus = null, $strPostType = null, $idPostParent = null ){
-    global $fvseop_options, $wpdb;
-
-    if( !$fvseop_options['aiosp_shorten_slugs'] || $strPostType == 'revision' )
-    return $strSlug;
+  function fvseo_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug ){
+    global $fvseop_options, $post;
     
-    if( !$idPost ){
-      if( isset( $_GET['post'] ) )
-        $idPost = intval( $_GET['post'] );
-      if( isset( $_POST['post_id'] ) )
-        $idPost = intval( $_POST['post_id'] );
-      if( isset( $_POST['post_ID'] ) )
-        $idPost = intval( $_POST['post_ID'] );
+    //file_put_contents( ABSPATH . 'wp_unique_post_slug.txt', date('r')."\n".var_export( array( $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug ), true ), FILE_APPEND );
+    
+    if( !isset($fvseop_options['aiosp_shorten_slugs']) || !$fvseop_options['aiosp_shorten_slugs'] )
+      return $slug;
+    
+    
+    if( null === $post ){
+      // get the link on auto-draft edit screen:
+      
+      if( !isset( $_POST['action'] ) || isset( $_POST['new_slug'] ) )
+        return $slug;
+      
+      //post-status is hacked during ajax call on auto-draft, we need to get it via separate function:
+      $status = get_post_status( $post_ID );
+      
+      if( ! in_array( $status, array( 'draft' ) ) )
+        return $slug;
+    }
+    else{
+      // publishing post:
+      
+      if( !empty( $_POST['post_name'] ) || !empty( $post->post_name ) )
+        return $slug;
     }
     
-    if( !$idPost ) {
-      $strSlug = $this->GeneratePostSlug( $strSlug, false );
-    } else if ( isset($_POST['new_slug']) && $_POST['new_slug'] == '' ) {
-      $strSlug = $this->GeneratePostSlug( $strSlug, $idPost );
-    }
-    
-    return $strSlug;
+    $slug = $this->GeneratePostSlug( $slug, $post_ID );
+    return $slug;
   }
-  
-  function SavePostSlug( $aData, $aPostArg ){
-    global $fvseop_options;
-    
-    if( !$fvseop_options['aiosp_shorten_slugs'] || $aPostArg['post_type'] == 'revision' )
-      return $aData;
-    
-    if( isset( $aPostArg['post_id'] ) )
-      $idPost = intval( $aPostArg['post_id'] );
-    if( isset( $aPostArg['post_ID'] ) )
-      $idPost = intval( $aPostArg['post_ID'] );
-    if( isset( $aPostArg['ID'] ) )
-      $idPost = intval( $aPostArg['ID'] );
-    if( isset( $aData['ID'] ) )
-      $idPost = intval( $aData['ID'] );
-    
-    if( !$aData['post_name'] ){
-      $this->idEmptyPostName = $idPost;
-      $this->strTitleForReference = $aData['post_title'];
-    }
-    
-    return $aData;
-  }
-  
-  function SanitizeTitleForShortening( $strTitle, $strRawTitle = '', $strContext = false ){
-    global $fvseop_options;    
-    
-    if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] && $strContext == 'save' && $this->idEmptyPostName && $strRawTitle == $this->strTitleForReference ) {
-      $strTitle = $this->GeneratePostSlug( $strTitle, $this->idEmptyPostName );
-    }
-    
-    return $strTitle;
-  }
-
-
-
-
 
   /**
    * Runs after WordPress admin has finished loading but before any headers are sent.
