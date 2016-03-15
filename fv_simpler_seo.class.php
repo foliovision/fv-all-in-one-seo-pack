@@ -89,7 +89,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       update_option( $this->plugin_slug.'_deferred_notices', $deferred.'FV Simpler SEO will from now on automatically add Facebook Open Graph and Twitter Card meta tags to your posts. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
     }
     
-    global $fvseop_default_options;    
+    global $fvseop_default_options;
+    if( $fvseop_default_options === null ) return;
+    
     $fvseop_options = array_merge( $fvseop_default_options, $fvseop_options );
     update_option( 'aioseop_options', $fvseop_options );
     
