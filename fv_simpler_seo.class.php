@@ -2431,7 +2431,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                 <div style="max-width:500px; text-align:left; display:none" id="fvseo_dont_use_excerpt_tip">
                   <?php _e("Since Typepad export is containing auto generated excerpts for the most of the time we use this option a lot.", 'fv_seo'); ?>
                 </div>
-            </p>  
+            </p>
+            <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fv_seo_ads_disabled_tip');">
+                <?php _e('Disable ads:', 'fv_seo')?>
+                </a>
+            
+                <input type="checkbox" name="fv_seo_ads_disabled" <?php if ( get_option('fv_seo_ads_disabled') ) echo "checked=\"1\""; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="fv_seo_ads_disabled_tip">
+                  With this feature you can use code like <tt>!get_option('fv_seo_ads_disabled')</tt> in your <a href="https://wordpress.org/plugins/widget-logic/" target="_blank">Widget Logic</a> conditions to make all ad widgets disappear at once.
+                </div>
+            </p>             
   <?php
   }
   
@@ -2665,6 +2675,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseop_options['aiosp_cap_cats'] = '1';
     
     if( isset($_POST['action']) && $_POST['action'] == 'fvseo_update'){
+      
+      if( isset($_POST['fv_seo_ads_disabled']) ) {
+        update_option('fv_seo_ads_disabled', 1 );
+      } else {
+        update_option('fv_seo_ads_disabled', 0 );
+      }
+      
       
       if( isset( $_POST['Submit_Default'] ) && $_POST['Submit_Default'] != '')
       {

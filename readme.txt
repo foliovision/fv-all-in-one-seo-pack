@@ -43,6 +43,7 @@ Some features:
 
 = Version 1.6.31 - 14 March 2016 =
 * Fix slug shortening for new version of WordPress.
+* Advanced -> Disable Ads option added - use !get_option('fv_seo_ads_disabled') in your Widget Logic conditions to make all ad widgets disappear at once when enabled
 
 = Version 1.6.30 - 25 February 2016 =
 * Fix loading of plugin settings
