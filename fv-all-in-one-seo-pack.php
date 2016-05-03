@@ -10,6 +10,8 @@ Author URI: http://foliovision.com
 
 $fv_simpler_seo_version = '1.6.31';
 $fvseop_options = get_option('aioseop_options');
+
+global $fvseop_default_options;
 $fvseop_default_options = array(
   "aiosp_can"=>0,
   "fvseo_shortlinks"=>0,
