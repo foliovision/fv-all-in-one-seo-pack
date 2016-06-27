@@ -625,7 +625,7 @@ add_action('wp_head', array($fvseo, 'remove_canonical'), 0 );
 add_action('wp_head', array($fvseo, 'google_authorship') );
 add_action('wp_head', array($fvseo, 'social_meta_tags') );
 add_action('wp_head', array($fvseo, 'script_header_content') );
-add_action('wp_footer', array($fvseo, 'script_footer_content') );
+add_action('wp_footer', array($fvseo, 'script_footer_content'), 999999 );
 add_action('edit_post', array($fvseo, 'post_meta_tags'));
 add_action('publish_post', array($fvseo, 'post_meta_tags'));
 add_action('save_post', array($fvseo, 'post_meta_tags'));
