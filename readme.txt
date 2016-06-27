@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.32 -
+* Fixed exclusion from search for SearchWP plugin
+
 = Version 1.6.31 - 14 March 2016 =
 * Fix slug shortening for new version of WordPress.
 * Advanced -> Disable Ads option added - use !get_option('fv_seo_ads_disabled') in your Widget Logic conditions to make all ad widgets disappear at once when enabled
