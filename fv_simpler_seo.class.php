@@ -1203,18 +1203,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       // we're not in the loop :(
       $authordata = get_userdata($post->post_author);
-      $categories = get_the_category();
-      $category = '';
-      
-      if (count($categories) > 0)
-      {
-        $category = $categories[0]->cat_name;
-      }
-
       $title = $this->internationalize(get_post_meta($post->ID, "_aioseop_title", true));
                         
-                        $post_type_obj = get_post_type_object( get_post_type( $post->ID ) );
-                        $post_type_name = $post_type_obj->labels->name;
+      $post_type_obj = get_post_type_object( get_post_type( $post->ID ) );
+      $post_type_name = $post_type_obj->labels->name;
       
       if (!$title)
       {
@@ -1226,26 +1218,54 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         }
       }
 
-                        if( $fvseop_options['aiosp_rewrite_titles'] ) {
-                            if( !is_singular( array('post')) )
-                                $title_format = stripslashes( $fvseop_options['aiosp_custom_post_title_format'] );
-                            else
-                                $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
-                                
-                            $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
-                            $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
-                            $new_title = str_replace('%post_title%', $title, $new_title);
-                            $new_title = str_replace('%post_type_name%', $post_type_name, $new_title);
-                            $new_title = str_replace('%category%', $category, $new_title);
-                            $new_title = str_replace('%category_title%', $category, $new_title);
-                            $new_title = str_replace('%post_author_login%', $authordata->user_login, $new_title);
-                            $new_title = str_replace('%post_author_nicename%', $authordata->user_nicename, $new_title);
-                            $new_title = str_replace('%post_author_firstname%', ucwords($authordata->first_name), $new_title);
-                            $new_title = str_replace('%post_author_lastname%', ucwords($authordata->last_name), $new_title);
-                        }
-                        /// Addition
-                        else
-                            $new_title = $title;
+      $category = '';
+
+      if( $fvseop_options['aiosp_rewrite_titles'] ) {
+
+        if( !is_singular( array('post')) ) {
+          $taxonomies = get_post_taxonomies( $post->ID );
+          //$term_names = array();
+          foreach( $taxonomies as $taxonomy_name ) {
+            if( in_array( $taxonomy_name, array( 'category', 'post_tag', 'nav_menu' ) ) )
+              continue;
+
+            $terms = get_the_terms( $post->id, $taxonomy_name );
+            if( !$terms )
+              continue;
+
+            foreach( $terms as $term ){
+              $category = $term->name;
+            }
+
+            // it will pick first taxonomy:
+            break;
+          }
+
+          $title_format = stripslashes( $fvseop_options['aiosp_custom_post_title_format'] );
+        }
+        else {
+          $categories = get_the_category();
+          
+          if (count($categories) > 0)
+            $category = $categories[0]->cat_name;
+
+          $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
+        }
+
+        $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
+        $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
+        $new_title = str_replace('%post_title%', $title, $new_title);
+        $new_title = str_replace('%post_type_name%', $post_type_name, $new_title);
+        $new_title = str_replace('%category%', $category, $new_title);
+        $new_title = str_replace('%category_title%', $category, $new_title);
+        $new_title = str_replace('%post_author_login%', $authordata->user_login, $new_title);
+        $new_title = str_replace('%post_author_nicename%', $authordata->user_nicename, $new_title);
+        $new_title = str_replace('%post_author_firstname%', ucwords($authordata->first_name), $new_title);
+        $new_title = str_replace('%post_author_lastname%', ucwords($authordata->last_name), $new_title);
+      }
+      /// Addition
+      else
+          $new_title = $title;
                         
       $title = $new_title;
       $title = trim($title);

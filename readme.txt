@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 4.5
+Tested up to: 4.5.3
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -40,6 +40,10 @@ Some features:
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 == Changelog ==
+
+= Version 1.6.32 - 18 July 2016 =
+* Fixed exclusion from search for SearchWP plugin
+* Fix for %category% in title for custom post types
 
 = Version 1.6.31 - 14 March 2016 =
 * Fix slug shortening for new version of WordPress.
