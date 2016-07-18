@@ -43,6 +43,7 @@ Some features:
 
 = Version 1.6.32 -
 * Fixed exclusion from search for SearchWP plugin
+* Fix for %category% in title for custom post types
 
 = Version 1.6.31 - 14 March 2016 =
 * Fix slug shortening for new version of WordPress.
