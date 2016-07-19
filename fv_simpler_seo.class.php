@@ -613,9 +613,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $active_handlers = array();
       }
       
-      if ((sizeof($active_handlers) > 0) &&
-        (strtolower($active_handlers[sizeof($active_handlers) - 1]) ==
-        strtolower('FV_Simpler_SEO_Pack::output_callback_for_title')))
+      if(
+        sizeof($active_handlers) > 0 &&
+        is_string($active_handlers[sizeof($active_handlers) - 1]) && strtolower($active_handlers[sizeof($active_handlers) - 1]) == strtolower('FV_Simpler_SEO_Pack::output_callback_for_title') &&
+        isset($active_handlers[sizeof($active_handlers) - 1][1]) && is_string($active_handlers[sizeof($active_handlers) - 1][1]) && $active_handlers[sizeof($active_handlers) - 1][1] == 'output_callback_for_title'
+        )
       {
         ob_end_flush(); // this ob_end_flush is matched with ob_start in template_redirect
       }
