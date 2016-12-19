@@ -69,7 +69,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           'button2' => __('I\'ll check this later', 'fv_flowplayer')
         );
       }
-    }   
+      
+    } else {    
+      if( !isset($fvseop_options['aiosp_dont_use_desc_for_excerpt']) || !$fvseop_options['aiosp_dont_use_desc_for_excerpt'] ) {
+        add_filter( 'get_the_excerpt', array( $this, 'description_for_excerpt' ) );
+      }
+      
+    }
   }
   
   
@@ -125,7 +131,20 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   
   
-    
+  
+  function description_for_excerpt( $excerpt ) {
+    global $post;
+    if( $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
+      if( strlen($description) > 0 ) {
+        return $description;
+      }
+    }
+    return $excerpt;
+  }
+  
+  
+  
+  
   function fv_simpler_seo_settings_closed_meta_boxes( $closed ) {
     if ( false === $closed )
         $closed = array( 'fv_simpler_seo_interface_options', 'fv_simpler_seo_advanced' );
@@ -2455,6 +2474,16 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                 </div>
             </p>
             <p>
+                <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('aiosp_dont_use_desc_for_excerpt_tip');">
+                <?php _e('Turn off descriptions for excerpts:', 'fv_seo')?>
+                </a>
+            
+                <input type="checkbox" name="aiosp_dont_use_desc_for_excerpt" <?php if ($fvseop_options['aiosp_dont_use_desc_for_excerpt']) echo "checked=\"1\""; ?>/>
+                <div style="max-width:500px; text-align:left; display:none" id="aiosp_dont_use_desc_for_excerpt_tip">
+                  <?php _e("By default FV Simpler SEO will show meta description when post excerpt is called in the theme and it's not filled in.", 'fv_seo'); ?>
+                </div>
+            </p>            
+            <p>
                 <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fv_seo_ads_disabled_tip');">
                 <?php _e('Disable ads:', 'fv_seo')?>
                 </a>
@@ -2779,6 +2808,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
         $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
         $fvseop_options['aiosp_dont_use_excerpt'] = isset( $_POST['fvseo_dont_use_excerpt'] ) ? $_POST['fvseo_dont_use_excerpt'] : NULL;
+        $fvseop_options['aiosp_dont_use_desc_for_excerpt'] = isset( $_POST['aiosp_dont_use_desc_for_excerpt'] ) ? $_POST['aiosp_dont_use_desc_for_excerpt'] : NULL;
         $fvseop_options['aiosp_show_keywords'] = isset( $_POST['fvseo_show_keywords'] ) ? $_POST['fvseo_show_keywords'] : NULL;
         $fvseop_options['aiosp_show_noindex'] = isset( $_POST['fvseo_show_noindex'] ) ? $_POST['fvseo_show_noindex'] : NULL;      
         $fvseop_options['aiosp_show_custom_canonical'] = isset( $_POST['fvseo_show_custom_canonical'] ) ? $_POST['fvseo_show_custom_canonical'] : NULL;

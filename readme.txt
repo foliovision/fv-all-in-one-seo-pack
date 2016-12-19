@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.33 - ?? ? 2017 =
+* Excerpts - meta description will be used if excerpt is called by it's not filled in for the post. You can use the "Turn off descriptions for excerpts" option to disable this.
+
 = Version 1.6.32 - 18 July 2016 =
 * Fixed exclusion from search for SearchWP plugin
 * Fix for category in title for custom post types
