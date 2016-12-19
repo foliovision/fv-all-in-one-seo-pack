@@ -2635,7 +2635,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         </a><br />
         <input type="text" class="regular-text" size="63" name="social_google_publisher" value="<?php if (isset($fvseop_options['social_google_publisher'])) { echo esc_attr(stripcslashes($fvseop_options['social_google_publisher'])); }?>" />
         <div style="max-width:500px; text-align:left; display:none" id="fvseo_social_google_publisher_tip">
-          <?php _e('This will be used across the whole site.', 'fv_seo')?>
+          <?php _e('This will be used across the whole site. Example: https://plus.google.com/{the numerical ID}', 'fv_seo')?>
         </div>
     </p>
     <p>
@@ -2644,7 +2644,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         </a><br />
         <input type="text" class="regular-text" size="63" name="social_google_author" value="<?php if (isset($fvseop_options['social_google_author'])) echo esc_attr(stripcslashes($fvseop_options['social_google_author']))?>" />
         <div style="max-width:500px; text-align:left; display:none" id="fvseo_social_google_author_tip">
-          <?php _e('This will be used across the whole site, however user\'s Google +1 links will be used for their posts (if filled in).', 'fv_seo')?>
+          <?php _e('This will be used across the whole site, however user\'s Google +1 links will be used for their posts (if filled in). Example: https://plus.google.com/{the numerical ID}', 'fv_seo')?>
         </div>
     </p>
     <p>
