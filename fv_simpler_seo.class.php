@@ -2998,6 +2998,7 @@ function toggleVisibility( id, hide )
 }
 </script>
     <form name="dofollow" action="" method="post">
+      <div id="poststuff">
 
 <?php
 
@@ -3014,13 +3015,52 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
 
 ?>            
 
-    <div id="dashboard-widgets" class="metabox-holder columns-1">
-      <div id='postbox-container-1' class='postbox-container'>    
+  <style>
+  .fvplayer-ad a.fvplayer-link{text-decoration:none;color:#333;}
+  .fvplayer-ad h3{color:#333;text-align:center;margin-top:0;}
+  .fvplayer-ad h4{color:#bf0000;font-size:16px;font-weight:400;}
+  .fvplayer-ad ul{list-style:none;}
+  .fvplayer-ad ul li{list-style-type:none;}
+  .fvplayer-ad ul li:before{display:inline-block;font:normal 400 20px/1 "dashicons";vertical-align:middle;content:"\f147";}
+  .fvplayer-ad .red-button{background-color:#bf0000;color:#fff;padding:6px 12px;text-transform:uppercase;border-radius:4px;font-weight:600;font-size:14px;display: inline-block;min-width: 200px;}
+  .fvplayer-ad .red-button span{float:right;}
+  .fvplayer-ad .red-button del{margin:0 auto 0 13%;}
+</style>
+
+    <div id="post-body" class="metabox-holder columns-2">
+      <div id="postbox-container-1" class="postbox-container">
+      <div class="inner-sidebar">
+      <div class="fvplayer-ad">
+      <a class="fvplayer-link" class="" href="https://foliovision.com/player/download"><h3>FV Player PRO</h3>
+        <img src="<?php echo plugins_url( 'fv-all-in-one-seo-pack/fvplayer-monitor-bg.png', dirname(__FILE__) ); ?>" alt="FV Player PRO"/>
+      <h4>WordPress's most reliable, easy to use and feature-rich video player.</h4>
+      Supports:
+      <ul><li>YouTube</li>
+<li>Vimeo</li>
+<li>HTML links</li>
+<li>Preroll Ads</li>
+<li>Captions</li>
+<li>Searchable transcripts</li>
+<li>Lightbox</li>
+</ul>
+      <p>and more</p>
+<span class="red-button">now only <del>$75</del> <span>$50</span></span></a></div>
+      </div>
+    </div>
+      <div id="postbox-container-2" class="postbox-container">    
         <?php
         do_meta_boxes( 'fv_simpler_seo_settings', 'normal', false );
         wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
         wp_nonce_field( 'meta-box-order-nonce', 'meta-box-order-nonce', false );
         ?>
+        
+        <p class="submit">        
+        <input type="hidden" name="action" value="fvseo_update" />
+        <input type="hidden" name="nonce-fvseop" value="<?php echo esc_attr(wp_create_nonce('fvseopnonce')); ?>" />
+        <input type="hidden" name="page_options" value="fvseo_home_description" />
+        <input type="submit" class='button-primary' name="Submit" value="<?php _e('Update Options', 'fv_seo')?> &raquo;" />
+        <input type="submit" class='button-primary' name="Submit_Default" value="<?php _e('Reset Settings to Defaults', 'fv_seo')?> &raquo;" />        
+      </p>
       </div>
     </div>  
     
@@ -3029,16 +3069,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
                             
                 </div>
 
-            
-
-
-      <p class="submit">        
-        <input type="hidden" name="action" value="fvseo_update" />
-        <input type="hidden" name="nonce-fvseop" value="<?php echo esc_attr(wp_create_nonce('fvseopnonce')); ?>" />
-        <input type="hidden" name="page_options" value="fvseo_home_description" />
-        <input type="submit" class='button-primary' name="Submit" value="<?php _e('Update Options', 'fv_seo')?> &raquo;" />
-        <input type="submit" class='button-primary' name="Submit_Default" value="<?php _e('Reset Settings to Defaults', 'fv_seo')?> &raquo;" />        
-      </p>
+      </div><!-- #poststuff -->
     </form>
     <script type="text/javascript">
       //<![CDATA[
