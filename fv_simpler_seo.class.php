@@ -3484,6 +3484,40 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
   
   
   
+  function amp_post_template_analytics( $analytics ){
+    global $fvseop_options;
+    if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ) {
+      
+      if ( ! is_array( $analytics ) ) {
+        $analytics = array();
+      }
+
+      // https://developers.google.com/analytics/devguides/collection/amp-analytics/
+      $analytics['googleanalytics'] = array(
+        'type' => 'googleanalytics',
+        'attributes' => array(
+          // 'data-credentials' => 'include',
+        ),
+        'config_data' => array(
+          'vars' => array(
+            'account' => $fvseop_options['aiosp_ganalytics_ID']
+          ),
+          'triggers' => array(
+            'trackPageview' => array(
+              'on' => 'visible',
+              'request' => 'pageview',
+            ),
+          ),
+        ),
+      );
+    }
+    
+    return $analytics;
+  }  
+  
+  
+  
+  
   function script_footer_content(){
     global $fvseop_options;
   
