@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.6.32
+Version: 1.6.33
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.6.32';
+$fv_simpler_seo_version = '1.6.33';
 $fvseop_options = get_option('aioseop_options');
 
 global $fvseop_default_options;
@@ -26,6 +26,7 @@ $fvseop_default_options = array(
   "aiosp_custom_post_title_format"=>'%post_title% | %post_type_name% | %blog_title%',
   "aiosp_page_title_format"=>'%page_title% | %blog_title%',
   "aiosp_category_title_format"=>'%category_title% | %blog_title%',
+  "aiosp_author_title_format"=>'%author% | %blog_title%',
   "aiosp_archive_title_format"=>'%date% | %blog_title%',
   "aiosp_tag_title_format"=>'%tag% | %blog_title%',
   "aiosp_search_title_format"=>'%search% | %blog_title%',

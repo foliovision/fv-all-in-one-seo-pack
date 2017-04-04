@@ -41,9 +41,10 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.33 - ?? ? 2017 =
+= Version 1.6.33 - 4 April 2017 =
 * Excerpts - meta description will be used if excerpt is called by it's not filled in for the post. You can use the "Turn off descriptions for excerpts" option to disable this.
 * Genesis - the above setting also affect you if you use setting 'Display post content' for 'Content archives'. It will put in the meta description instead if no read more tag if found and also remove the images and keep only the featured image there.
+* Added option for adjusting author archive pages titles
 
 = Version 1.6.32 - 18 July 2016 =
 * Fixed exclusion from search for SearchWP plugin
