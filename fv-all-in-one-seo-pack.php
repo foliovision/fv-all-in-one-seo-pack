@@ -49,6 +49,7 @@ $fvseop_default_options = array(
   'aiosp_use_tags_as_keywords' => 1,
   'aiosp_search_noindex'=>1,
   'aiosp_dont_use_excerpt'=>0,
+  'aiosp_dont_use_desc_for_excerpt'=>0,
   'aiosp_show_keywords'=>0,
   'aiosp_show_titleattribute'=>0,
   'aiosp_show_short_title_post'=>0,
