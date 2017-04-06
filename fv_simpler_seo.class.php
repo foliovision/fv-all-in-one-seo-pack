@@ -1026,7 +1026,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       $link = trailingslashit($link) ."page/". "$page";
 
-      if ($has_ut)
+      if ( function_exists('user_trailingslashit') )
       {
         $link = user_trailingslashit($link, 'paged');
       }
@@ -1352,12 +1352,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       global $cat;
       $category_titles = get_option('aioseop_category_titles');
+      $category_description = $this->internationalize(strip_tags(category_description()));      
       
       if( $category_titles !== false && isset($cat) && intval($cat) && isset($category_titles[$cat]) && !empty($category_titles[$cat]) ){
         $title = $category_titles[$cat];
       }
-      else{
-        $category_description = $this->internationalize(strip_tags(category_description()));
+      else{        
   
         if($fvseop_options['aiosp_cap_cats'])
         {
@@ -3326,7 +3326,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
                 //pick 2 biggest images, image must be 200px +
                 if( count($contentImages) < 2 ){
                   //if there are less than 2 images in array, save current, size doesn't matter
-                  $contentImages[] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
+                  $contentImages[] = array( 'width' => isset($img_width[1]) ? $img_width[1] : 0, 'height' => isset($img_height[1]) ? $img_height[1] : 0, 'path'=> $img_url );
                 }
                 else if(intval($img_width[1]) > 200 && intval($img_height[1]) > 200){
                   
