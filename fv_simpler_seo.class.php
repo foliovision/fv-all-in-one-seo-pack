@@ -151,10 +151,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     global $post;
     if( !is_singular() ) {
       if( stripos($post->post_content,'<!--more-->') === false ) {  //   If there is no read more tag it should show just the description.
-        if( $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
-          if( strlen($description) > 0 ) {
-            return $description;
-          }
+        $description = trim( get_post_meta( $post->ID, '_aioseop_description', true ) );
+        if( strlen($description) > 0 ) {
+          return $description;        
+        } else {
+          remove_filter( 'the_content', array( $this, 'description_for_genesis' ) );
+          $output = get_the_excerpt();
+          add_filter( 'the_content', array( $this, 'description_for_genesis' ) );
         }
         
       } else {  //  In addition, no images from the posts should be shown only text and the featured image as now.
