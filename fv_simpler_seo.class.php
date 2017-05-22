@@ -154,7 +154,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $description = trim( get_post_meta( $post->ID, '_aioseop_description', true ) );
         if( strlen($description) > 0 ) {
           return $description;        
-        } else {
+        } else if( isset($post->post_type) && ( $post == 'post' || $post == 'page' ) ) {
           remove_filter( 'the_content', array( $this, 'description_for_genesis' ) );
           $output = get_the_excerpt();
           add_filter( 'the_content', array( $this, 'description_for_genesis' ) );
