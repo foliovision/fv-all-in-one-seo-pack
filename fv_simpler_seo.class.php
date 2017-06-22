@@ -151,10 +151,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     global $post;
     if( !is_singular() ) {
       if( stripos($post->post_content,'<!--more-->') === false ) {  //   If there is no read more tag it should show just the description.
-        if( $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
-          if( strlen($description) > 0 ) {
-            return $description;
-          }
+        $description = trim( get_post_meta( $post->ID, '_aioseop_description', true ) );
+        if( strlen($description) > 0 ) {
+          return $description;        
+        } else if( isset($post->post_type) && ( $post == 'post' || $post == 'page' ) ) {
+          remove_filter( 'the_content', array( $this, 'description_for_genesis' ) );
+          $output = get_the_excerpt();
+          add_filter( 'the_content', array( $this, 'description_for_genesis' ) );
         }
         
       } else {  //  In addition, no images from the posts should be shown only text and the featured image as now.
@@ -1026,7 +1029,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       $link = trailingslashit($link) ."page/". "$page";
 
-      if ($has_ut)
+      if ( function_exists('user_trailingslashit') )
       {
         $link = user_trailingslashit($link, 'paged');
       }
@@ -1352,12 +1355,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       global $cat;
       $category_titles = get_option('aioseop_category_titles');
+      $category_description = $this->internationalize(strip_tags(category_description()));      
       
       if( $category_titles !== false && isset($cat) && intval($cat) && isset($category_titles[$cat]) && !empty($category_titles[$cat]) ){
         $title = $category_titles[$cat];
       }
-      else{
-        $category_description = $this->internationalize(strip_tags(category_description()));
+      else{        
   
         if($fvseop_options['aiosp_cap_cats'])
         {
@@ -3358,7 +3361,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
                 //pick 2 biggest images, image must be 200px +
                 if( count($contentImages) < 2 ){
                   //if there are less than 2 images in array, save current, size doesn't matter
-                  $contentImages[] = array( 'width' => $img_width[1], 'height' => $img_height[1], 'path'=> $img_url );
+                  $contentImages[] = array( 'width' => isset($img_width[1]) ? $img_width[1] : 0, 'height' => isset($img_height[1]) ? $img_height[1] : 0, 'path'=> $img_url );
                 }
                 else if(intval($img_width[1]) > 200 && intval($img_height[1]) > 200){
                   
@@ -3512,6 +3515,40 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       echo stripcslashes( $data ) . "\n";
     } 
   }
+  
+  
+  
+  
+  function amp_post_template_analytics( $analytics ){
+    global $fvseop_options;
+    if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ) {
+      
+      if ( ! is_array( $analytics ) ) {
+        $analytics = array();
+      }
+
+      // https://developers.google.com/analytics/devguides/collection/amp-analytics/
+      $analytics['googleanalytics'] = array(
+        'type' => 'googleanalytics',
+        'attributes' => array(
+          // 'data-credentials' => 'include',
+        ),
+        'config_data' => array(
+          'vars' => array(
+            'account' => $fvseop_options['aiosp_ganalytics_ID']
+          ),
+          'triggers' => array(
+            'trackPageview' => array(
+              'on' => 'visible',
+              'request' => 'pageview',
+            ),
+          ),
+        ),
+      );
+    }
+    
+    return $analytics;
+  }  
   
   
   
