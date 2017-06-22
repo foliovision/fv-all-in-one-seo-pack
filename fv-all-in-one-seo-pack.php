@@ -26,6 +26,7 @@ $fvseop_default_options = array(
   "aiosp_custom_post_title_format"=>'%post_title% | %post_type_name% | %blog_title%',
   "aiosp_page_title_format"=>'%page_title% | %blog_title%',
   "aiosp_category_title_format"=>'%category_title% | %blog_title%',
+  "aiosp_author_title_format"=>'%author% | %blog_title%',
   "aiosp_archive_title_format"=>'%date% | %blog_title%',
   "aiosp_tag_title_format"=>'%tag% | %blog_title%',
   "aiosp_search_title_format"=>'%search% | %blog_title%',

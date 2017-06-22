@@ -1490,37 +1490,50 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
     else if (is_archive()       && $fvseop_options['aiosp_rewrite_titles'])
     {
-      $title_format = stripslashes( $fvseop_options['aiosp_archive_title_format'] );
-      $t_sep = ' ';
-      if( is_date() ) {
-        //  taken from wp_title()
-        global $wp_locale;
-        $m = get_query_var('m');
-        $year = get_query_var('year');
-        $monthnum = get_query_var('monthnum');
-        $day = get_query_var('day');
-        
-        if( !empty($m) ) {
-          $my_year = substr($m, 0, 4);
-          $my_month = $wp_locale->get_month(substr($m, 4, 2));
-          $my_day = intval(substr($m, 6, 2));
-          $archive_title = $my_year . ( $my_month ? $t_sep . $my_month : '' ) . ( $my_day ? $t_sep . $my_day : '' );
-        } 
-        if( !empty($year) ) {
-          $archive_title = $year;
-          if ( !empty($monthnum) )
-            $archive_title .= $t_sep . $wp_locale->get_month($monthnum);
-          if ( !empty($day) )
-            $archive_title .= $t_sep . zeroise($day, 2);
-        }
-      } else if (is_post_type_archive()) {
-        $term = get_queried_object();
-        $archive_title = $term->labels->name;
-      }
+      if ( is_author() ) {
+        $title_format = stripslashes( $fvseop_options['aiosp_author_title_format'] );
 
-      $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
-      $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
-      $new_title = str_replace('%date%', $archive_title, $new_title);
+        $author     = $wp_query->get_queried_object();
+
+        $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
+        $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
+        $new_title = str_replace('%author%', $author->display_name, $new_title);
+        $new_title = str_replace('%author_firstname%', $author->first_name, $new_title);
+        $new_title = str_replace('%author_lastname%', $author->last_name, $new_title);
+      }
+      else {
+        $title_format = stripslashes( $fvseop_options['aiosp_archive_title_format'] );
+        $t_sep = ' ';
+        if( is_date() ) {
+          //  taken from wp_title()
+          global $wp_locale;
+          $m = get_query_var('m');
+          $year = get_query_var('year');
+          $monthnum = get_query_var('monthnum');
+          $day = get_query_var('day');
+          
+          if( !empty($m) ) {
+            $my_year = substr($m, 0, 4);
+            $my_month = $wp_locale->get_month(substr($m, 4, 2));
+            $my_day = intval(substr($m, 6, 2));
+            $archive_title = $my_year . ( $my_month ? $t_sep . $my_month : '' ) . ( $my_day ? $t_sep . $my_day : '' );
+          } 
+          if( !empty($year) ) {
+            $archive_title = $year;
+            if ( !empty($monthnum) )
+              $archive_title .= $t_sep . $wp_locale->get_month($monthnum);
+            if ( !empty($day) )
+              $archive_title .= $t_sep . zeroise($day, 2);
+          }
+        } else if (is_post_type_archive()) {
+          $term = get_queried_object();
+          $archive_title = $term->labels->name;
+        }
+
+        $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
+        $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
+        $new_title = str_replace('%date%', $archive_title, $new_title);
+      }
 
       $title = trim($new_title);
       $title = $this->paged_title($title);
@@ -2207,7 +2220,25 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                         echo('</ul>');
                         ?>
                     </div>
-                </p>   
+                </p>
+                <p>
+                    <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_author_title_format_tip');">
+                      <?php _e('Author Title Format:', 'fv_seo')?>
+                    </a><br />
+                    <input size="59" style="width: 100%;" name="fvseo_author_title_format" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_author_title_format'])); ?>"/>
+                    <div style="max-width:500px; text-align:left; display:none" id="fvseo_author_title_format_tip">
+                        <?php
+                        _e('The following macros are supported:', 'fv_seo');
+                        echo('<ul>');
+                        echo('<li>'); _e('%blog_title% - Your blog title', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%blog_description% - Your blog description', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%author% - Author name (display name)"', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%author_firstname% - Author first name"', 'fv_seo'); echo('</li>');
+                        echo('<li>'); _e('%author_lastname% - Author last name"', 'fv_seo'); echo('</li>');
+                        echo('</ul>');
+                        ?>
+                    </div>
+                </p>
                 <p>
                     <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_archive_title_format_tip');">
                       <?php _e('Archive Title Format:', 'fv_seo')?>
@@ -2810,6 +2841,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_custom_post_title_format'] = isset( $_POST['fvseo_custom_post_title_format'] ) ? $_POST['fvseo_custom_post_title_format'] : NULL;
         $fvseop_options['aiosp_page_title_format'] = isset( $_POST['fvseo_page_title_format'] ) ? $_POST['fvseo_page_title_format'] : NULL;
         $fvseop_options['aiosp_category_title_format'] = isset( $_POST['fvseo_category_title_format'] ) ? $_POST['fvseo_category_title_format'] : NULL;
+        $fvseop_options['aiosp_author_title_format'] = isset( $_POST['fvseo_author_title_format'] ) ? $_POST['fvseo_author_title_format'] : NULL;
         $fvseop_options['aiosp_archive_title_format'] = isset( $_POST['fvseo_archive_title_format'] ) ? $_POST['fvseo_archive_title_format'] : NULL;
         $fvseop_options['aiosp_custom_taxonomy_title_format'] = isset( $_POST['fvseo_custom_taxonomy_title_format'] ) ? $_POST['fvseo_custom_taxonomy_title_format'] : NULL;
         $fvseop_options['aiosp_tag_title_format'] = isset( $_POST['fvseo_tag_title_format'] ) ? $_POST['fvseo_tag_title_format'] : NULL;
