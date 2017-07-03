@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.34 - 3 July 2017 =
+* Feature - Polylang plugin support. Allow you to add different title, description and keywords for each language on homepage.
+
 = Version 1.6.33 - 4 April 2017 =
 * Excerpts - meta description will be used if excerpt is called by it's not filled in for the post. You can use the "Turn off descriptions for excerpts" option to disable this.
 * Genesis - the above setting also affect you if you use setting 'Display post content' for 'Content archives'. It will put in the meta description instead if no read more tag if found and also remove the images and keep only the featured image there. If there is no meta description, it will use get_the_excerpt() to get the excerpt field or auto-generate it.

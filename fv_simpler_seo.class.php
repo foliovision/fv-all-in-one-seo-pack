@@ -308,8 +308,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
    * TODO: This function seems to translate the text to the current language.
    * Actually I don't have any insight that this is really effective.
    */
-  function internationalize($in)
+  function internationalize($in, $key = '')
   {
+    global $fvseop_options;
+
     if (function_exists('langswitch_filter_langs_with_message'))
     {
       $in = langswitch_filter_langs_with_message($in);
@@ -323,6 +325,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     if (function_exists('qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage'))
     {
       $in = qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage($in);
+    }
+
+    if (!empty($key) && function_exists('pll_default_language'))
+    {
+      $lang     = pll_current_language() ?: pll_default_language();
+      $lang_key = $key.'_'.$lang;
+      if (!empty($fvseop_options[$lang_key])) {
+        $in = $fvseop_options[$lang_key];
+      }
     }
 
     $in = apply_filters('localization', $in);
@@ -685,10 +696,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       }
     }
 
-    if ((is_home() && stripcslashes( $this->internationalize( $fvseop_options['aiosp_home_keywords'] ) ) &&
+    if ((is_home() && stripcslashes( $this->internationalize( $fvseop_options['aiosp_home_keywords'], 'aiosp_home_keywords' ) ) &&
       !$this->is_static_posts_page()) || $this->is_static_front_page())
     {
-      $keywords = trim( stripcslashes( $this->internationalize($fvseop_options['aiosp_home_keywords']) ) );
+      $keywords = trim( stripcslashes( $this->internationalize($fvseop_options['aiosp_home_keywords'], 'aiosp_home_keywords') ) );
     }
     elseif ($this->is_static_posts_page() && !$fvseop_options['aiosp_dynamic_postspage_keywords']) // and if option = use page set keywords instead of keywords from recent posts
     {
@@ -703,7 +714,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       if ($this->is_static_front_page())
       {
-        $description = trim(stripcslashes($this->internationalize($fvseop_options['aiosp_home_description'])));
+        $description = trim(stripcslashes($this->internationalize($fvseop_options['aiosp_home_description'], 'aiosp_home_description')));
       }
       else
       {
@@ -713,7 +724,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
     elseif (is_home())
     {
-      $description = trim(stripcslashes($this->internationalize($fvseop_options['aiosp_home_description'])));
+      $description = trim(stripcslashes($this->internationalize($fvseop_options['aiosp_home_description'], 'aiosp_home_description')));
     }
     elseif (is_category())
     {
@@ -1240,9 +1251,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     global $STagging;
 
     //  change homepage title only if there is some in configuration. 
-    if (is_home() && !$this->is_static_posts_page() && stripcslashes( $this->internationalize($fvseop_options['aiosp_home_title']) ) != '' /*&& $fvseop_options['aiosp_rewrite_titles']*/)
+    if (is_home() && !$this->is_static_posts_page() && stripcslashes( $this->internationalize($fvseop_options['aiosp_home_title'], 'aiosp_home_title') ) != '' )
     {
-      $title = stripcslashes( $this->internationalize( $fvseop_options['aiosp_home_title'] ) );
+      $title = stripcslashes( $this->internationalize( $fvseop_options['aiosp_home_title'], 'aiosp_home_title' ) );
       
       if (empty($title))
       {
@@ -1393,10 +1404,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
       if ($this->is_static_front_page())
       {
-        if ( stripcslashes( $this->internationalize($fvseop_options['aiosp_home_title']) ) )
+        if ( stripcslashes( $this->internationalize($fvseop_options['aiosp_home_title'], 'aiosp_home_title') ) )
         {
           //home title filter
-          $home_title = stripcslashes( $this->internationalize( $fvseop_options['aiosp_home_title'] ) );
+          $home_title = stripcslashes( $this->internationalize( $fvseop_options['aiosp_home_title'], 'aiosp_home_title' ) );
           $home_title = apply_filters('fvseop_home_page_title',$home_title);
           
           $header = $this->replace_title($header, $home_title);
@@ -1873,37 +1884,79 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     add_submenu_page('options-general.php', __('FV Simpler SEO', 'fv_seo'), __('FV Simpler SEO', 'fv_seo'), 'manage_options', $this->plugin_slug, array($this, 'options_panel'));
   }
   
+  function admin_basic_item() {
+
+  }
+
   
   function admin_settings_basic() {
     global $fvseop_options;
+
+    if( !function_exists('pll_languages_list') ) {
+      $languages      = array();
+      $default_lang   = '';
+    }
+    else {
+      $language_list  = pll_languages_list();
+      $default_lang   = pll_default_language();
+      $languages      = array_diff( $language_list, array( $default_lang ) ); // additional lang without default one
+    }
+
   ?>
     <p>
         <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_title_tip');">
           <?php _e('Home Title:', 'fv_seo')?>
         </a><br />
         <input type="text" class="regular-text" size="63" name="fvseo_home_title" value="<?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_title']))?>" />
+        <strong><?php echo strtoupper($default_lang) ?></strong>
+        <?php
+        foreach ( $languages as $lang ){
+          echo '<br/>'."\n";
+          echo '<input type="text" class="regular-text" size="63" name="fvseo_home_title_'.$lang.'" value="'.esc_attr(stripcslashes($fvseop_options['aiosp_home_title_'.$lang])).'" />'."\n";
+          echo '<strong>'.strtoupper($lang).'</strong>'."\n";
+        }
+        ?>
         <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_title_tip">
           <?php _e('As the name implies, this will be the title of your homepage. This is independent of any other option. If not set, the default blog title will get used.', 'fv_seo')?>
         </div>
     </p>
+
     <p>
         <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_description_tip');">
           <?php _e('Home Description:', 'fv_seo')?>
         </a><br />
         <textarea cols="57" rows="2" name="fvseo_home_description"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_description']))?></textarea>
+        <strong><?php echo strtoupper( $default_lang ) ?></strong>
+        <?php
+        foreach ( $languages as $lang ){
+          echo '<br/>'."\n";
+          echo '<textarea cols="57" rows="2" name="fvseo_home_description_'.$lang.'">'.esc_attr( stripcslashes($fvseop_options['aiosp_home_description_'.$lang])).'</textarea>'."\n";
+          echo '<strong>'.strtoupper($lang).'</strong>'."\n";
+        }
+        ?>
         <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_description_tip">
           <?php _e('The META description for your homepage. Independent of any other options, the default is no META description at all if this is not set.', 'fv_seo')?>
         </div>
     </p>
+
     <p>
         <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_home_keywords_tip');">
           <?php _e('Home Keywords (comma separated):', 'fv_seo')?>
         </a><br />
         <textarea cols="57" rows="2" name="fvseo_home_keywords"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_home_keywords'])); ?></textarea>
+        <strong><?php echo strtoupper( $default_lang ) ?></strong>
+        <?php
+        foreach ( $languages as $lang ){
+          echo '<br/>'."\n";
+          echo '<textarea cols="57" rows="2" name="fvseo_home_keywords_'.$lang.'">'.esc_attr(stripcslashes($fvseop_options['aiosp_home_keywords_'.$lang])).'</textarea>'."\n";
+          echo '<strong>'.strtoupper($lang).'</strong>'."\n";
+        }
+        ?>
         <div style="max-width:500px; text-align:left; display:none" id="fvseo_home_keywords_tip">
           <?php _e("A comma separated list of your most important keywords for your site that will be written as META keywords on your homepage. Don't stuff everything in here.", 'fv_seo')?>
         </div>
     </p>
+
     <p>
        <a style="cursor:pointer;" title="<?php _e('Click for Help!', 'fv_seo')?>" onclick="toggleVisibility('fvseo_warnings_tip');">
           <?php _e('Warn me when publishing without a title or description:', 'fv_seo')?>
@@ -2835,6 +2888,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_home_title'] = isset( $_POST['fvseo_home_title'] ) ? $_POST['fvseo_home_title'] : NULL;
         $fvseop_options['aiosp_home_description'] = isset( $_POST['fvseo_home_description'] ) ? $_POST['fvseo_home_description'] : NULL;
         $fvseop_options['aiosp_home_keywords'] = isset( $_POST['fvseo_home_keywords'] ) ? $_POST['fvseo_home_keywords'] : NULL;
+
+        if( function_exists('pll_languages_list') ) {
+          foreach ( pll_languages_list() as $lang ) {
+            if ( $lang == pll_default_language() ) continue;
+
+            $fvseop_options['aiosp_home_title_'.$lang] = isset( $_POST['fvseo_home_title_'.$lang] ) ? $_POST['fvseo_home_title_'.$lang] : NULL;
+            $fvseop_options['aiosp_home_description_'.$lang] = isset( $_POST['fvseo_home_description_'.$lang] ) ? $_POST['fvseo_home_description_'.$lang] : NULL;
+            $fvseop_options['aiosp_home_keywords_'.$lang] = isset( $_POST['fvseo_home_keywords_'.$lang] ) ? $_POST['fvseo_home_keywords_'.$lang] : NULL;
+          }
+        }
+
         $fvseop_options['aiosp_max_words_excerpt'] = isset( $_POST['fvseo_max_words_excerpt'] ) ? $_POST['fvseo_max_words_excerpt'] : NULL;
         $fvseop_options['aiosp_rewrite_titles'] = isset( $_POST['fvseo_rewrite_titles'] ) ? $_POST['fvseo_rewrite_titles'] : NULL;
         $fvseop_options['aiosp_post_title_format'] = isset( $_POST['fvseo_post_title_format'] ) ? $_POST['fvseo_post_title_format'] : NULL;
