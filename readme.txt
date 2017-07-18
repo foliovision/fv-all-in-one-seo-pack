@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.35 - 18 July 2017 =
+* Bugfix for old PHP versions
+
 = Version 1.6.34 - 3 July 2017 =
 * Feature - Polylang plugin support. Allow you to add different title, description and keywords for each language on homepage.
 

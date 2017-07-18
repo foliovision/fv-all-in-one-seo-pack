@@ -329,7 +329,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
     if (!empty($key) && function_exists('pll_default_language'))
     {
-      $lang     = pll_current_language() ?: pll_default_language();
+      $lang     = pll_current_language() ? pll_current_language() : pll_default_language();
       $lang_key = $key.'_'.$lang;
       if (!empty($fvseop_options[$lang_key])) {
         $in = $fvseop_options[$lang_key];
