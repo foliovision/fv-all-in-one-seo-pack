@@ -592,26 +592,29 @@ function fvseo_get_localized_string($string, $language)
 
 function fvseo_meta_box_add()
 {
-	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post');
-	add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
-   
-   global $fvseop_options;
-   if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
-      add_action('admin_head', 'fvseo_check_empty_clientside', 1);
-   } else {
-      fvseo_removetitlechecker();
-   }
+  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post');
+  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
+  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'download');
+  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'product');
+  
+  global $fvseop_options;
+  if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
+    add_action('admin_head', 'fvseo_check_empty_clientside', 1);
+  } else {
+    fvseo_removetitlechecker();
+  }
 
-if( false === get_option( 'aiosp-shorten-link-install' ) )
-      add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
+  if( false === get_option( 'aiosp-shorten-link-install' ) ) {
+    add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
+  }
 }
 
 if( isset($fvseop_options['aiosp_can']) && ( $fvseop_options['aiosp_can'] == '1' || $fvseop_options['aiosp_can'] === 'on') ) {
-	remove_action('wp_head', 'rel_canonical');
+  remove_action('wp_head', 'rel_canonical');
 }
 
 if( !isset($fvseop_options['fvseo_shortlinks']) || ( $fvseop_options['fvseo_shortlinks'] != '1' && strcmp($fvseop_options['fvseo_shortlinks'],'on') ) ) {
-	remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
+  remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 }
 
 add_action('admin_menu', 'fvseo_meta_box_add');

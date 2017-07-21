@@ -41,6 +41,10 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.36 - ?? July 2017 =
+* Easy Digital Downloads - support for Downloads (products) added
+* WooCommerce - support for Products added
+
 = Version 1.6.35 - 18 July 2017 =
 * Bugfix for old PHP versions
 
