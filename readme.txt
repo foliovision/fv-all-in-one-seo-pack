@@ -43,6 +43,7 @@ Some features:
 
 = Version 1.6.36 - ?? July 2017 =
 * Easy Digital Downloads - support for Downloads (products) added
+* Statcounter - setting deferred loading for its script
 * WooCommerce - support for Products added
 
 = Version 1.6.35 - 18 July 2017 =

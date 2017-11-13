@@ -3652,7 +3652,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
             "https://secure." : "http://www.");
             document.write("<sc"+"ript type=\'text/javascript\' src=\'" +
             scJsHost+
-            "statcounter.com/counter/counter.js\'></"+"script>");
+            "statcounter.com/counter/counter.js\' defer></"+"script>");
             </script>
             <noscript><div class="statcounter"><a title="free hit
             counter" href="http://statcounter.com/free-hit-counter/"
