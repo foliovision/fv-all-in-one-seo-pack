@@ -41,7 +41,8 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.36 - ?? July 2017 =
+= Version 1.6.36 - 11 December 2017 =
+* AMP - plugin won't put in the Google Analytics tracking code if you use AMP for WP plugin as it would result in duplicate code
 * Easy Digital Downloads - support for Downloads (products) added
 * Statcounter - setting deferred loading for its script
 * WooCommerce - support for Products added

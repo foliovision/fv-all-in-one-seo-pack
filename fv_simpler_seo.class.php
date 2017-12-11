@@ -2645,6 +2645,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           <?php _e('Google Analytics ID:', 'fv_seo')?>
         </a><br />
         <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_ID" value="<?php if (isset($fvseop_options['aiosp_ganalytics_ID'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_ID']))?>" />
+        <?php if( function_exists('ampforwp_analytics') || defined('AMPFORWP_PLUGIN_DIR') ) : ?>
+          <br /><strong>AMP for WP</strong> plugin detected, please enter the Google Analytics code for AMP in it settings.
+        <?php endif; ?>
         <div style="max-width:500px; text-align:left; display:none" id="fvseo_ganalytics_tip">
           <?php _e('Enter your google analytics ID. Example: UA-12345678-9', 'fv_seo')?>
         </div>
@@ -3584,6 +3587,10 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
   
   
   function amp_post_template_analytics( $analytics ){
+    if( function_exists('ampforwp_analytics') || defined('AMPFORWP_PLUGIN_DIR') ) {
+      return $analytics;
+    }
+    
     global $fvseop_options;
     if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ) {
       
