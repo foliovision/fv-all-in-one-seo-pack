@@ -3647,13 +3647,13 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       
     }
     
-    if( isset( $fvseop_options['aiosp_statcounter_security'] ) && !empty( $fvseop_options['aiosp_statcounter_security'] )
-        && isset( $fvseop_options['aiosp_statcounter_project'] ) && !empty( $fvseop_options['aiosp_statcounter_project'] )){
+    if( !empty($fvseop_options['aiosp_statcounter_project']) ) {
+      $security = !empty($fvseop_options['aiosp_statcounter_security']) ? $fvseop_options['aiosp_statcounter_security'] : false;
       echo stripcslashes('<!-- Start of StatCounter Code for Default Guide -->
             <script type="text/javascript">
             var sc_project='.$fvseop_options['aiosp_statcounter_project'].'; 
             var sc_invisible=1; 
-            var sc_security="'.$fvseop_options['aiosp_statcounter_security'].'"; 
+            var sc_security="'.$security.'"; 
             var sc_https=1; 
             var scJsHost = (("https:" == document.location.protocol) ?
             "https://secure." : "http://www.");
@@ -3664,7 +3664,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
             <noscript><div class="statcounter"><a title="free hit
             counter" href="http://statcounter.com/free-hit-counter/"
             target="_blank"><img class="statcounter"
-            src="//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$fvseop_options['aiosp_statcounter_security'].'/1/"
+            src="//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$security.'/1/"
             alt="free hit counter"></a></div></noscript>
             <!-- End of StatCounter Code for Default Guide -->') . "\n";
     }

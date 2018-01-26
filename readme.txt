@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.6.37 - ? =
+* Statcounter - some projects come without security number, making it optional
+
 = Version 1.6.36 - 11 December 2017 =
 * AMP - plugin won't put in the Google Analytics tracking code if you use AMP for WP plugin as it would result in duplicate code
 * Easy Digital Downloads - support for Downloads (products) added
