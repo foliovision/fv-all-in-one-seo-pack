@@ -41,7 +41,8 @@ Some features:
 
 == Changelog ==
 
-= Version 1.6.37 - ? =
+= Version 1.7 - ?? February 2018 =
+* Statcounter - using a more basic tracking method, but faster - not increasing DOM Content Loaded at all
 * Statcounter - some projects come without security number, making it optional
 
 = Version 1.6.36 - 11 December 2017 =
