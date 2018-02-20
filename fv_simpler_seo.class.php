@@ -3650,6 +3650,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
     if( !empty($fvseop_options['aiosp_statcounter_project']) ) {
       $security = !empty($fvseop_options['aiosp_statcounter_security']) ? $fvseop_options['aiosp_statcounter_security'] : false;
       echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$security.'/1/";var src = document.getElementById("x");</script>') . "\n";
+      echo stripcslashes('<noscript><img class="statcounter" src="//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$security.'/1/" alt="free hit counter"></noscript>');
     }
   }
 
