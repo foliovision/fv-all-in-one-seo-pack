@@ -498,6 +498,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           $sLink = get_category_link($iCatId);
         }
         
+      } else if( $objCheckPaging->is_tag ) {
+        if( isset($wp_query->query['tag']) ) {
+          $objTag = get_term_by( 'slug', $wp_query->query['tag'], 'post_tag' ); 
+          $tag_id = $objTag->term_id;
+        }
+        if( isset($tag_id) ) {
+          $sLink = get_term_link('post_tag',$tag_id);
+        }
+        
       } else if( $objCheckPaging->is_author ) {
         if( isset($wp_query->query['author_name']) ) {
           $objAuthor = get_user_by( 'slug', $wp_query->query['author_name'] ); 
