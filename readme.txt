@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 4.8
+Tested up to: 4.9.6
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -40,6 +40,9 @@ Some features:
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 == Changelog ==
+
+= Version 1.8 - 23 May 2018 =
+* GDPR compliance setting for Google Analytics - prevents IP address tracking
 
 = Version 1.7 - 20 February 2018 =
 * Statcounter - using a more basic tracking method, but faster - not increasing DOM Content Loaded at all
