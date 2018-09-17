@@ -2665,7 +2665,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         <?php _e('Google Analytics GDPR Compatiblity:', 'fv_seo')?>
         </a>
     
-        <input type="checkbox" name="fv_seo_ganalytics_gdpr" <?php if ( $fvseop_options['aiosp_ganalytics_gdpr'] ) echo "checked=\"1\""; ?>/>
+        <input type="checkbox" name="fv_seo_ganalytics_gdpr" <?php if ( !empty($fvseop_options['aiosp_ganalytics_gdpr']) && $fvseop_options['aiosp_ganalytics_gdpr'] ) echo "checked=\"1\""; ?>/>
         <div class="help-text">
           Enables <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/ip-anonymization" target="_blank">IP Anonymization</a> for GDPR compliance.
         </div>

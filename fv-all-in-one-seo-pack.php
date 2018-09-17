@@ -722,35 +722,18 @@ jQuery(document).ready(function() {
       } 
    });
    
-   jQuery("#publish").hover( function() {// Publish button
+   jQuery("#publish, #save-post, #post-preview").hover( function() {// buttons: Publish, Save Draft, Preview
+     var where = jQuery(this).parents('#major-publishing-actions, #minor-publishing-actions');
       if (jQuery("#title").val() == '') {
-         jQuery("#major-publishing-actions").append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s TITLE is empty!', 'fv_seo') ?></b></div>"
-         ));
+         where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post TITLE is empty', 'fv_seo') ?></b></div>');
       } 
       if (jQuery("#fvseo_description_input").val() == '') {
-         jQuery("#major-publishing-actions").append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s DESCRIPTION is empty!', 'fv_seo') ?></b></div>"
-         ));
+         where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post DESCRIPTION is empty!', 'fv_seo') ?></b></div>' );
       }
    }, function() {
       jQuery(".hovered-warning").remove();
    });
-   
-   jQuery("#minor-publishing-actions").hover( function() {// Draft, Preview
-      if (jQuery("#title").val() == '') {
-         jQuery(this).append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s TITLE is empty!', 'fv_seo') ?></b></div>"
-         ));
-      }
-      if (jQuery("#fvseo_description_input").val() == '') {
-         jQuery(this).append(jQuery(
-            "<div class=\"hovered-warning\" style=\"text-align: left;\"><b><span style=\"color:red;\"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post\'s DESCRIPTION is empty!', 'fv_seo') ?></b></div>"
-         ));
-      }
-   }, function() {
-      jQuery(".hovered-warning").remove();
-   });
+
 });
 </script>
 <?php
