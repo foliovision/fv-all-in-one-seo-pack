@@ -41,6 +41,10 @@ Some features:
 
 == Changelog ==
 
+= Version 1.9 - 23 May 2018 =
+* Fix for no title and no description warnings positioning
+* Removing deprecated function calls
+
 = Version 1.8 - 23 May 2018 =
 * GDPR compliance setting for Google Analytics - prevents IP address tracking
 

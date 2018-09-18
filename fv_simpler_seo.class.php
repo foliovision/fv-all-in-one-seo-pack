@@ -368,7 +368,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     $strSlugNew = implode( '-', $aSlug );
     
     if( $idPost ){
-      $aPost = $wpdb->get_var( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strSlugNew )."' AND `ID` != {$idPost} AND post_type != 'revision'" );
+      $aPost = $wpdb->get_var( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".esc_sql( $strSlugNew )."' AND `ID` != {$idPost} AND post_type != 'revision'" );
       $i = 0;
       
       if( count($aSortSlug) >= $keywords ) {
@@ -383,7 +383,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           else $strNewSlug = $strSlug . '-1';
           
           $i++;
-          $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".$wpdb->escape( $strNewSlug )."' AND `ID` != {$idPost}" );
+          $aPosts = $wpdb->get_results( "SELECT `ID` FROM `{$wpdb->posts}` WHERE `post_name` = '".esc_sql( $strNewSlug )."' AND `ID` != {$idPost}" );
         } 
         if( $strNewSlug ) $strSlug = $strNewSlug;
       }
