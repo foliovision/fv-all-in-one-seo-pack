@@ -895,7 +895,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
     if ($meta_string != null)
     {
-      echo wp_kses($meta_string, array('meta' => array('name' => array(), 'content' => array()))) . "\n";
+      echo wp_kses($meta_string, array('meta' => array(
+        'name' => array(),
+        'content' => array(),
+        'property' => array()
+      ))) . "\n";
     }
 
     /// Modification  2010/11/30, adding custom_canonical url
