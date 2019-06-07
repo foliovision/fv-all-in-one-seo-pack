@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 4.9.6
+Tested up to: 5.2.1
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -40,6 +40,10 @@ Some features:
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 == Changelog ==
+
+= Version 1.9.1 - 7th June 2019 = 
+* Allowing OG tags to be entered in "Additional Home Headers".
+* No issues found with WordPress 5.2.1
 
 = Version 1.9 - 23 May 2018 =
 * Fix for no title and no description warnings positioning
