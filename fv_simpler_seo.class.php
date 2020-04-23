@@ -3705,8 +3705,8 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
         if( count($cats) > 0 ) {
           $post_categories = "var fv_simpler_seo_ga_cats = ".json_encode($cats)."
           for (var i = 0; i < fv_simpler_seo_ga_cats.length; i++) {
-            setTimeout( function(i) {
-              ga('send', 'event', 'Post Category', 'Category View', fv_simpler_seo_ga_cats[i], 1);
+            setTimeout( function() {
+              ga('send', 'event', 'Post Category', 'Category View', fv_simpler_seo_ga_cats.pop(), 1);
             }, (i+1)*250);
           }";
         }
