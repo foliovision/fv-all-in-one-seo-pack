@@ -2672,6 +2672,16 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     </p>
     <p>
         <a class="help-trigger">
+        <?php _e('Google Analytics Events for Categories:', 'fv_seo')?>
+        </a>
+    
+        <input type="checkbox" name="fvseo_ganalytics_cats" <?php if ( !empty($fvseop_options['aiosp_ganalytics_cats']) && $fvseop_options['aiosp_ganalytics_cats'] ) echo "checked=\"1\""; ?>/>
+        <div class="help-text">
+          <?php _e('Every post category will be sent as a "Post Category" event category and "Category View" as action and finally actual category name as the event label.', 'fv_seo')?>
+        </div>
+    </p>    
+    <p>
+        <a class="help-trigger">
         <?php _e('Google Analytics GDPR Compatiblity:', 'fv_seo')?>
         </a>
     
@@ -2975,6 +2985,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_custom_header'] = isset( $_POST['fvseo_custom_header'] ) ? $_POST['fvseo_custom_header'] : NULL;
         $fvseop_options['aiosp_custom_footer'] = isset( $_POST['fvseo_custom_footer'] ) ? $_POST['fvseo_custom_footer'] : NULL;
         $fvseop_options['aiosp_ganalytics_ID'] = isset( $_POST['fvseo_ganalytics_ID'] ) ? $_POST['fvseo_ganalytics_ID'] : NULL;
+        $fvseop_options['aiosp_ganalytics_cats'] = isset( $_POST['fvseo_ganalytics_cats'] ) ? $_POST['fvseo_ganalytics_cats'] : NULL;
         $fvseop_options['aiosp_ganalytics_gdpr'] = isset( $_POST['fv_seo_ganalytics_gdpr'] ) ? $_POST['fv_seo_ganalytics_gdpr'] : NULL;
         $fvseop_options['aiosp_statcounter_security'] = isset( $_POST['fvseo_statcounter_security'] ) ? $_POST['fvseo_statcounter_security'] : NULL;
         $fvseop_options['aiosp_statcounter_project'] = isset( $_POST['fvseo_statcounter_project'] ) ? $_POST['fvseo_statcounter_project'] : NULL;
@@ -3686,6 +3697,22 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       echo stripcslashes($data) . "\n";
     }
     
+    $post_categories = "";
+    if( isset( $fvseop_options['aiosp_ganalytics_cats'] ) && !empty( $fvseop_options['aiosp_ganalytics_cats'] ) ){
+      global $post;
+      if( !empty($post) && is_single() ) {
+        $cats = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
+        if( count($cats) > 0 ) {
+          $post_categories = "var fv_simpler_seo_ga_cats = ".json_encode($cats)."
+          for (var i = 0; i < fv_simpler_seo_ga_cats.length; i++) {
+            setTimeout( function(i) {
+              ga('send', 'event', 'Post Category', 'Category View', fv_simpler_seo_ga_cats[i], 1);
+            }, (i+1)*250);
+          }";
+        }
+      }
+    }
+    
     if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ){
       $anonymize = isset( $fvseop_options['aiosp_ganalytics_gdpr'] ) && !empty( $fvseop_options['aiosp_ganalytics_gdpr'] ) ? "\n              ga('set', 'anonymizeIp', true);" : "";
       
@@ -3696,6 +3723,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
               ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');".$anonymize."
               ga('send', 'pageview');
+              ".$post_categories."
             </script>") . "\n";
       
     }
