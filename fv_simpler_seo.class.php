@@ -822,6 +822,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       }
       
       $meta_string .= '<meta name="robots" content="noindex,follow" />';
+      
+      // retain indexing for Swiftype
+      if( stripos( implode( get_option('active_plugins') ), 'swiftype' ) !== false ) {
+        $meta_string .= '<meta name="st:robots" content="index,follow">';
+      }
     }
     
     $page_meta = stripcslashes($fvseop_options['aiosp_page_meta_tags']);
