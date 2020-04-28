@@ -2689,7 +2689,25 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         <div class="help-text">
           Enables <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/ip-anonymization" target="_blank">IP Anonymization</a> for GDPR compliance.
         </div>
-    </p>        
+    </p>
+    <p>
+        <a class="help-trigger">
+          <?php _e('Google Analytics dimension for post date:', 'fv_seo')?>
+        </a><br />
+        <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_dim_date" value="<?php if (isset($fvseop_options['aiosp_ganalytics_dim_date'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_dim_date']))?>" />
+        <div class="help-text">
+          <?php _e('Google Analytics dimension for post date, example: dimension2', 'fv_seo')?>
+        </div>
+    </p>
+    <p>
+        <a class="help-trigger">
+          <?php _e('Google Analytics dimension for author:', 'fv_seo')?>
+        </a><br />
+        <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_dim_author" value="<?php if (isset($fvseop_options['aiosp_ganalytics_dim_author'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_dim_author']))?>" />
+        <div class="help-text">
+          <?php _e('Google Analytics dimension for author, example: dimension3', 'fv_seo')?>
+        </div>
+    </p>    
     <p>
         <a class="help-trigger">
           <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
@@ -2987,6 +3005,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_ganalytics_ID'] = isset( $_POST['fvseo_ganalytics_ID'] ) ? $_POST['fvseo_ganalytics_ID'] : NULL;
         $fvseop_options['aiosp_ganalytics_cats'] = isset( $_POST['fvseo_ganalytics_cats'] ) ? $_POST['fvseo_ganalytics_cats'] : NULL;
         $fvseop_options['aiosp_ganalytics_gdpr'] = isset( $_POST['fv_seo_ganalytics_gdpr'] ) ? $_POST['fv_seo_ganalytics_gdpr'] : NULL;
+        $fvseop_options['aiosp_ganalytics_dim_date'] = isset( $_POST['fvseo_ganalytics_dim_date'] ) ? $_POST['fvseo_ganalytics_dim_date'] : NULL;
+        $fvseop_options['aiosp_ganalytics_dim_author'] = isset( $_POST['fvseo_ganalytics_dim_author'] ) ? $_POST['fvseo_ganalytics_dim_author'] : NULL;
+        
         $fvseop_options['aiosp_statcounter_security'] = isset( $_POST['fvseo_statcounter_security'] ) ? $_POST['fvseo_statcounter_security'] : NULL;
         $fvseop_options['aiosp_statcounter_project'] = isset( $_POST['fvseo_statcounter_project'] ) ? $_POST['fvseo_statcounter_project'] : NULL;
         $fvseop_options['aiosp_statcounter_full'] = isset( $_POST['fvseo_statcounter_full'] ) ? $_POST['fvseo_statcounter_full'] : NULL;
@@ -3689,7 +3710,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
   
   
   function script_footer_content(){
-    global $fvseop_options;
+    global $fvseop_options, $post;
   
     if( isset( $fvseop_options['aiosp_custom_footer'] ) && !empty( $fvseop_options['aiosp_custom_footer'] ) ){
     
@@ -3697,9 +3718,24 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       echo stripcslashes($data) . "\n";
     }
     
+    $send_pageview = "ga('send', 'pageview');";
+    
+    $extra_dimensions = array();
+    if( isset( $fvseop_options['aiosp_ganalytics_dim_date'] ) && !empty( $fvseop_options['aiosp_ganalytics_dim_date'] ) ) {
+      $extra_dimensions[ $fvseop_options['aiosp_ganalytics_dim_date'] ] = $post->post_date_gmt;
+    }
+    if( isset( $fvseop_options['aiosp_ganalytics_dim_author'] ) && !empty( $fvseop_options['aiosp_ganalytics_dim_author'] ) ) {
+      $user = get_userdata($post->post_author);
+      $extra_dimensions[ $fvseop_options['aiosp_ganalytics_dim_author'] ] = $user->display_name;
+    }
+    
+    if( count($extra_dimensions) > 0 ) {
+      $send_pageview = "ga('send', 'pageview', ".json_encode($extra_dimensions).");";
+    }
+    
     $post_categories = "";
     if( isset( $fvseop_options['aiosp_ganalytics_cats'] ) && !empty( $fvseop_options['aiosp_ganalytics_cats'] ) ){
-      global $post;
+      
       if( !empty($post) && is_single() ) {
         $cats = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
         if( count($cats) > 0 ) {
@@ -3721,8 +3757,9 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-              ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');".$anonymize."
-              ga('send', 'pageview');
+              ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');
+              ".$anonymize."
+              ".$send_pageview."
               ".$post_categories."
             </script>") . "\n";
       
