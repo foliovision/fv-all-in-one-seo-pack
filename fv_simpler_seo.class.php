@@ -73,9 +73,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     } else {    
       if( !isset($fvseop_options['aiosp_dont_use_desc_for_excerpt']) || !$fvseop_options['aiosp_dont_use_desc_for_excerpt'] ) {
         add_filter( 'get_the_excerpt', array( $this, 'description_for_excerpt' ) );
+        
+        add_action( 'genesis_entry_content', array( $this, 'description_for_genesis_maybe' ) );
       }
-      
-      add_action( 'genesis_entry_content', array( $this, 'description_for_genesis_maybe' ) );
       
     }
   }
