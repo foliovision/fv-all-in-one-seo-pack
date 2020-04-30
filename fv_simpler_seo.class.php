@@ -83,6 +83,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   
   
+  function _get_setting( $key ) {
+    global $fvseop_options;
+    if( isset( $fvseop_options[$key] ) && !empty( $fvseop_options[$key] ) ){
+      return $fvseop_options[$key];
+    }
+    return false;
+  }
+  
+  
+  
+  
   function activate() {
     global $fv_simpler_seo_version;
     $fvseop_options = ( get_option('aioseop_options') ) ? get_option('aioseop_options') : array();
@@ -3712,31 +3723,28 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
   function script_footer_content(){
     global $fvseop_options, $post;
   
-    if( isset( $fvseop_options['aiosp_custom_footer'] ) && !empty( $fvseop_options['aiosp_custom_footer'] ) ){
-    
-      $data = $this->script_permalink_replacement( $fvseop_options['aiosp_custom_footer'] );
+    if( $custom_footer = $this->_get_setting('aiosp_custom_footer') ){
+      $data = $this->script_permalink_replacement($custom_footer);
       echo stripcslashes($data) . "\n";
     }
     
-    $send_pageview = "ga('send', 'pageview');";
-    
-    $extra_dimensions = array();
-    if( isset( $fvseop_options['aiosp_ganalytics_dim_date'] ) && !empty( $fvseop_options['aiosp_ganalytics_dim_date'] ) ) {
-      $extra_dimensions[ $fvseop_options['aiosp_ganalytics_dim_date'] ] = $post->post_date_gmt;
-    }
-    if( isset( $fvseop_options['aiosp_ganalytics_dim_author'] ) && !empty( $fvseop_options['aiosp_ganalytics_dim_author'] ) ) {
-      $user = get_userdata($post->post_author);
-      $extra_dimensions[ $fvseop_options['aiosp_ganalytics_dim_author'] ] = $user->display_name;
-    }
-    
-    if( count($extra_dimensions) > 0 ) {
-      $send_pageview = "ga('send', 'pageview', ".json_encode($extra_dimensions).");";
-    }
-    
+    /*
+    Google Analytics
+    */
+    $anonymize = $this->_get_setting('aiosp_ganalytics_gdpr') ? "ga('set', 'anonymizeIp', true);\n" : "";
+    $extra_dimensions = "";
     $post_categories = "";
-    if( isset( $fvseop_options['aiosp_ganalytics_cats'] ) && !empty( $fvseop_options['aiosp_ganalytics_cats'] ) ){
+    
+    if( !empty($post) && is_single() ) {
+      if( $dim_date = $this->_get_setting('aiosp_ganalytics_dim_date') ) {
+        $extra_dimensions .= "ga('set','".esc_js($dim_date)."','".esc_js($post->post_date_gmt)."');\n";
+      }
+      if( $dim_author = $this->_get_setting('aiosp_ganalytics_dim_author') ) {
+        $user = get_userdata($post->post_author);
+        $extra_dimensions .= "ga('set','".esc_js($dim_author)."','".esc_js($user->display_name)."');\n";
+      }
       
-      if( !empty($post) && is_single() ) {
+      if( $this->_get_setting('aiosp_ganalytics_cats') ){
         $cats = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
         if( count($cats) > 0 ) {
           $post_categories = "var fv_simpler_seo_ga_cats = ".json_encode($cats)."
@@ -3747,32 +3755,30 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
           }";
         }
       }
+      
     }
     
-    if( isset( $fvseop_options['aiosp_ganalytics_ID'] ) && !empty( $fvseop_options['aiosp_ganalytics_ID'] ) ){
-      $anonymize = isset( $fvseop_options['aiosp_ganalytics_gdpr'] ) && !empty( $fvseop_options['aiosp_ganalytics_gdpr'] ) ? "\n              ga('set', 'anonymizeIp', true);" : "";
-      
+    if( $ga_it = $this->_get_setting('aiosp_ganalytics_ID') ){
       echo stripcslashes("<script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-              ga('create', '".$fvseop_options['aiosp_ganalytics_ID']."', 'auto');
-              ".$anonymize."
-              ".$send_pageview."
+              ga('create', '".esc_js($ga_it)."', 'auto');
+              ".$anonymize.$extra_dimensions."ga('send', 'pageview');
               ".$post_categories."
             </script>") . "\n";
       
     }
     
-    if( !empty($fvseop_options['aiosp_statcounter_project']) ) {
+    if( $sc_project = $this->_get_setting('aiosp_statcounter_project') ) {
 
-      $security = !empty($fvseop_options['aiosp_statcounter_security']) ? $fvseop_options['aiosp_statcounter_security'] : false;
+      $security = $this->_get_setting('aiosp_statcounter_security');
 
-      if ( !empty($fvseop_options['aiosp_statcounter_full']) && $fvseop_options['aiosp_statcounter_full'] ) {
+      if( $this->_get_setting('aiosp_statcounter_full') ) {
         echo stripcslashes('<!-- Start of StatCounter Code for Default Guide -->
               <script type="text/javascript">
-              var sc_project='.$fvseop_options['aiosp_statcounter_project'].'; 
+              var sc_project='.$sc_project.'; 
               var sc_invisible=1; 
               var sc_security="'.$security.'"; 
               var sc_https=1; 
@@ -3785,13 +3791,13 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
               <noscript><div class="statcounter"><a title="free hit
               counter" href="http://statcounter.com/free-hit-counter/"
               target="_blank"><img class="statcounter"
-              src="//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$security.'/1/"
+              src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
               alt="free hit counter"></a></div></noscript>
               <!-- End of StatCounter Code for Default Guide -->') . "\n";
 
       } else {
-        echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$security.'/1/";var src = document.getElementById("x");</script>') . "\n";
-        echo stripcslashes('<noscript><img class="statcounter" src="//c.statcounter.com/'.$fvseop_options['aiosp_statcounter_project'].'/0/'.$security.'/1/" alt="free hit counter"></noscript>');
+        echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/";var src = document.getElementById("x");</script>') . "\n";
+        echo stripcslashes('<noscript><img class="statcounter" src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/" alt="free hit counter"></noscript>');
 
       }
     }
