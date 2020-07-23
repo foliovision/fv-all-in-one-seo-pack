@@ -41,6 +41,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.9.2 - 23th Jly 2019 = 
+* Fixes for Gutenberg
+
 = Version 1.9.1 - 7th June 2019 = 
 * Allowing OG tags to be entered in "Additional Home Headers".
 * No issues found with WordPress 5.2.1

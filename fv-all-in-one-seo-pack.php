@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.9.1
+Version: 1.9.1.1
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.9.1';
+$fv_simpler_seo_version = '1.9.1.1';
 $fvseop_options = get_option('aioseop_options');
 
 global $fvseop_default_options;
@@ -247,52 +247,43 @@ fvseop_languages =  <?php echo json_encode(qtrans_getSortedLanguages()); ?>;
 function countChars(field, cntfield, lang)
 {
   if( !field.value ) return;
+
+  var el_description_length = jQuery('#fvseo_description_length'),
+    el_description_length_lang = jQuery('#fvseo_description_length_' + lang),
+    el_title_length = jQuery('#fvseo_title_length'),
+    el_title_length_lang = jQuery('#fvseo_title_length_' + lang);
   
   cntfield.value = field.value.length;
 
   if( field.name == 'fvseo_description' || field.name == 'fvseo_description' + '_' + lang ) {
+    var background = 'white';
+
 	  if( field.value.length > <?php echo $fvseo->maximum_description_length; ?> ) {
-	  	if (lang == 'default') {
-        jQuery('#lengthD').css('background', 'red').css('color', 'black');
-      }
-      else {
-        jQuery('#lengthD' + '_' + lang).css('background', 'red').css('color', 'black');
-      }
+	  	background = 'red';
 	  }
 	  else if( field.value.length > <?php echo $fvseo->maximum_description_length_yellow; ?> ) {
-	  	if (lang == 'default') {
-        jQuery('#lengthD').css('background', 'yellow').css('color', 'black');
-      }
-      else {
-        jQuery('#lengthD' + '_' + lang).css('background', 'yellow').css('color', 'black');
-      }
+	  	background = 'yellow';
 	  }
-	  else {
-	  	if (lang == 'default') {
-        jQuery('#lengthD').css('background', 'white').css('color', 'black');
-      }
-      else {
-        jQuery('#lengthD' + '_' + lang).css('background', 'white').css('color', 'black');
-      }
-	  }
+
+    if (lang == 'default') {
+      el_description_length.css('background', background);
+    }
+    else {
+      el_description_length_lang.css('background', background);
+    }
   }
   else if( field.name == 'fvseo_title' || field.name == 'fvseo_title' + '_' + lang ) {
+    var background = 'white';
 	  if( field.value.length > <?php echo $fvseo->maximum_title_length; ?> ) {
-	  	if (lang == 'default') {
-        jQuery('#lengthT').css('background', 'red').css('color', 'black');
-      }
-      else {
-        jQuery('#lengthT' + '_' + lang).css('background', 'red').css('color', 'black');
-      }
+	  	background = 'red';
 	  }
-	  else {
-      if (lang == 'default') {
-        jQuery('#lengthT').css('background', 'white').css('color', 'black');
-      }
-      else {
-        jQuery('#lengthT' + '_' + lang).css('background', 'white').css('color', 'black');
-      }
-	  }
+
+    if (lang == 'default') {
+      el_title_length.css('background', background);
+    }
+    else {
+      el_title_length_lang.css('background', background);
+    }
   }
 }
 function fvseo_timeout() {
@@ -444,9 +435,11 @@ jQuery(document).ready(function($) {
             ?>
             <p>
                 <?php _e('Long Title:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.', 'fv_seo') ?> ">(?)</abbr>
-                <input id="s<?php echo $language; ?>" class="input" value="<?php echo $localized_title ?>" type="text" name="fvseo_title_<?php echo $language; ?>" onkeydown="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" onkeyup="countChars(document.post.fvseo_title_<?php echo $language; ?>,document.post.lengthT_<?php echo $language; ?>, '<?php echo $language ?>');" />
+                <input id="fvseo_title_input_<?php echo $language; ?>" class="input" value="<?php echo $localized_title ?>" type="text" name="fvseo_title_<?php echo $language; ?>"
+                  onkeydown="countChars( this, document.getElementById('fvseo_title_length_<?php echo $language; ?>'), '<?php echo $language ?>');"
+                  onkeyup="countChars( this, document.getElementById('fvseo_title_length_<?php echo $language; ?>'), '<?php echo $language ?>');" />
                 <br />
-                <input id="lengthT_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthT_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_title);?>" />
+                <input id="fvseo_title_length_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="fvseo_title_length_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_title);?>" />
                 <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the title.', 'fv_seo'), intval($fvseo->maximum_title_length)) ?></small>
             </p>
                     
@@ -459,18 +452,20 @@ jQuery(document).ready(function($) {
             ?>
             <p>
                 <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?>&lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-                <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" onkeydown="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>')" onkeyup="countChars(document.post.fvseo_description_<?php echo $language; ?>,document.post.lengthD_<?php echo $language; ?>, '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
+                <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" 
+                  onkeydown="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>')" 
+                  onkeyup="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
                 <br />
-                <input id="lengthD_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="lengthD_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
+                <input id="fvseo_description_length_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="fvseo_description_length_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
                 <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
             </p>
         <?php } ?>
         <?php } else { ?>
         <p>
             <?php _e('Long Title:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.', 'fv_seo') ?>">(?)</abbr>
-            <input id="fvseo_title_input" class="input" value="<?php echo $title ?>" type="text" name="fvseo_title" onkeydown="countChars(document.post.fvseo_title,document.post.lengthT, 'default');" onkeyup="countChars(document.post.fvseo_title,document.post.lengthT, 'default');" />
+            <input id="fvseo_title_input" class="input" value="<?php echo $title ?>" type="text" name="fvseo_title" onkeydown="countChars( this, document.getElementById('fvseo_title_length'), 'default');" onkeyup="countChars( this, document.getElementById('fvseo_title_length'), 'default');" />
             <br />
-            <input id="lengthT" class="inputcounter" readonly="readonly" type="text" name="lengthT" size="3" maxlength="3" value="<?php echo strlen($title);?>" />
+            <input id="fvseo_title_length" class="inputcounter" readonly="readonly" type="text" name="fvseo_title_length" size="3" maxlength="3" value="<?php echo strlen($title);?>" />
             <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the title.', 'fv_seo'), $fvseo->maximum_title_length) ?></small>
         </p>
         <p>
@@ -483,10 +478,10 @@ jQuery(document).ready(function($) {
             $fvseo_description_input_description = $description;
             ?>
             <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-            <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars(document.post.fvseo_description,document.post.lengthD, 'default')"
-              onkeyup="countChars(document.post.fvseo_description,document.post.lengthD, 'default');" placeholder="<?php echo $meta_description_excerpt; ?>"><?php echo $fvseo_description_input_description ?></textarea>
+            <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars( this, document.getElementById('fvseo_description_length'), 'default')"
+              onkeyup="countChars( this, document.getElementById('fvseo_description_length'), 'default');" placeholder="<?php echo $meta_description_excerpt; ?>"><?php echo $fvseo_description_input_description ?></textarea>
             <br />
-            <input id="lengthD" class="inputcounter" readonly="readonly" type="text" name="lengthD" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
+            <input id="fvseo_description_length" class="inputcounter" readonly="readonly" type="text" name="fvseo_description_length" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
             <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
         </p>
         <?php } ?>
@@ -572,8 +567,8 @@ jQuery(document).ready(function($) {
     
     <?php if (!function_exists('qtrans_getSortedLanguages')) { ?>
       <script type="text/javascript">
-      countChars(document.post.fvseo_description,document.post.lengthD, 'default');
-      countChars(document.post.fvseo_title,document.post.lengthT, 'default');
+      countChars( document.getElementById('fvseo_description_input'), document.getElementById('fvseo_description_length'), 'default');
+      countChars( document.getElementById('fvseo_title_input'), document.getElementById('fvseo_title_length'), 'default');
       </script>
     <?php } ?>
 <?php
