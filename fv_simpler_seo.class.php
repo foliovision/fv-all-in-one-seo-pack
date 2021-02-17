@@ -2703,6 +2703,16 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     </p>
     <p>
         <a class="help-trigger">
+        <?php _e('Google Analytics AdBlock Detection:', 'fv_seo')?>
+        </a>
+    
+        <input type="checkbox" name="fv_seo_ganalytics_adblock" <?php if ( !empty($fvseop_options['aiosp_ganalytics_adblock']) && $fvseop_options['aiosp_ganalytics_adblock'] ) echo "checked=\"1\""; ?>/>
+        <div class="help-text">
+          Tracks users using AdBlock using the "AdBlock Detected" event action. The code also detects Ghostery and uBlock Origin, but the tracking for these won't work.
+        </div>
+    </p>
+    <p>
+        <a class="help-trigger">
           <?php _e('Google Analytics dimension for post date:', 'fv_seo')?>
         </a><br />
         <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_dim_date" value="<?php if (isset($fvseop_options['aiosp_ganalytics_dim_date'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_dim_date']))?>" />
@@ -3016,6 +3026,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_ganalytics_ID'] = isset( $_POST['fvseo_ganalytics_ID'] ) ? $_POST['fvseo_ganalytics_ID'] : NULL;
         $fvseop_options['aiosp_ganalytics_cats'] = isset( $_POST['fvseo_ganalytics_cats'] ) ? $_POST['fvseo_ganalytics_cats'] : NULL;
         $fvseop_options['aiosp_ganalytics_gdpr'] = isset( $_POST['fv_seo_ganalytics_gdpr'] ) ? $_POST['fv_seo_ganalytics_gdpr'] : NULL;
+        $fvseop_options['aiosp_ganalytics_adblock'] = isset( $_POST['fv_seo_ganalytics_adblock'] ) ? $_POST['fv_seo_ganalytics_adblock'] : NULL;
         $fvseop_options['aiosp_ganalytics_dim_date'] = isset( $_POST['fvseo_ganalytics_dim_date'] ) ? $_POST['fvseo_ganalytics_dim_date'] : NULL;
         $fvseop_options['aiosp_ganalytics_dim_author'] = isset( $_POST['fvseo_ganalytics_dim_author'] ) ? $_POST['fvseo_ganalytics_dim_author'] : NULL;
         
@@ -3758,6 +3769,28 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       
     }
     
+    $adblock_detect = false;
+    if( $this->_get_setting('aiosp_ganalytics_adblock') ) {
+      $adblock_detect = <<< JS
+window.requestAnimationFrame( function() {
+  var ad = document.createElement( 'div' );
+  ad.innerHTML = '&nbsp;';
+  ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/gpt.js' );
+  ad.setAttribute( 'class', 'ad_unit ad-unit text-ad text_ad pub_300x250' );
+  ad.setAttribute( 'style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: 0px !important; top: 0px !important; overflow: hidden !important;' );
+  document.body.appendChild( ad );
+
+  window.requestAnimationFrame( function() {
+    var styles = window.getComputedStyle( ad );
+    var moz_binding = styles && styles.getPropertyValue( '-moz-binding' );
+    if( ( styles && styles.getPropertyValue( 'display' ) === 'none' ) || ( typeof moz_binding === 'string' && moz_binding.indexOf( 'about:' ) !== -1 ) ) {
+      ga('send', 'event', 'FV Simpler SEO', 'AdBlock Detected', 'Yes', 1);
+    }
+  } );
+} );
+JS;
+    }
+        
     if( $ga_it = $this->_get_setting('aiosp_ganalytics_ID') ){
       echo stripcslashes("<script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -3767,6 +3800,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
               ga('create', '".esc_js($ga_it)."', 'auto');
               ".$anonymize.$extra_dimensions."ga('send', 'pageview');
               ".$post_categories."
+              ".$adblock_detect."
             </script>") . "\n";
       
     }
