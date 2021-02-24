@@ -3771,6 +3771,10 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
     
     $adblock_detect = false;
     if( $this->_get_setting('aiosp_ganalytics_adblock') ) {
+      $event_label = base64_encode("AdBlock Detected");
+      // Should be excluded from CDN rewrite
+      $tracking_image = site_url("wp-includes/images/blank.gif");
+      
       $adblock_detect = <<< JS
 window.requestAnimationFrame( function() {
   var ad = document.createElement( 'div' );
@@ -3783,8 +3787,17 @@ window.requestAnimationFrame( function() {
   window.requestAnimationFrame( function() {
     var styles = window.getComputedStyle( ad );
     var moz_binding = styles && styles.getPropertyValue( '-moz-binding' );
+    var newImg = new Image;
     if( ( styles && styles.getPropertyValue( 'display' ) === 'none' ) || ( typeof moz_binding === 'string' && moz_binding.indexOf( 'about:' ) !== -1 ) ) {
-      ga('send', 'event', 'FV Simpler SEO', 'AdBlock Detected', 'Yes', 1);
+      var elements = document.getElementsByClassName('fv-seo-revenue-notice');
+      for (i = 0; i < elements.length; i++) {
+        elements[i].style.display = "block";
+      }
+
+      ga('send', 'event', 'FV Simpler SEO', atob('$event_label'), 'Yes', 1);
+      newImg.src = '$tracking_image?fvseo=1-'+btoa( Math.random() )
+    } else {
+      newImg.src = '$tracking_image?fvseo=0-'+btoa( Math.random() );
     }
   } );
 } );
