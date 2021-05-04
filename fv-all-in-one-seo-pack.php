@@ -291,7 +291,7 @@ function fvseo_timeout() {
   FVSimplerSEO_updateTitleFromWPTitle();
   FVSimplerSEO_updateMeta();
   FVSimplerSEO_updateLink();
-  window.setTimeout("fvseo_timeout();", 100);
+  window.setTimeout("fvseo_timeout();", 1000);
 }
 function FVSimplerSEO_noindex_toggle() {
 	jQuery('.fvseo-noindex').toggle();
