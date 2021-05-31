@@ -3779,7 +3779,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
 window.requestAnimationFrame( function() {
   var ad = document.createElement( 'div' );
   ad.innerHTML = '&nbsp;';
-  ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/gpt.js' );
+  ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/g'+'pt.js' );
   ad.setAttribute( 'class', 'ad_unit ad-unit text-ad text_ad pub_300x250' );
   ad.setAttribute( 'style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: 0px !important; top: 0px !important; overflow: hidden !important;' );
   document.body.appendChild( ad );
