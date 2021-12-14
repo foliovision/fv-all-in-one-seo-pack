@@ -973,7 +973,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       return false;
     }
 
-    $haspost = count($query->posts) > 0;
+    $haspost = is_array($query->posts) && count($query->posts) > 0;
     $has_ut = function_exists('user_trailingslashit');
 
     if (get_query_var('m'))
