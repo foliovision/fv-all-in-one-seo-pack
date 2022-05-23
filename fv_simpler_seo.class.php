@@ -2167,7 +2167,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   ?>
             <p>
                <a class="help-trigger">
-                  <?php _e('Shorten Page URL / Post Slug:', 'fv_seo')?>
+                  <?php _e('Shorten Page URL / Post Slug (Classic Editor):', 'fv_seo')?>
                </a>
                <input type="checkbox" name="fvseo_shorten_slugs" <?php if( isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] ) echo 'checked="checked"'; ?>/>
                <div class="help-text">
