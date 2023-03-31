@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 6.0
+Tested up to: 6.2
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -17,11 +17,13 @@ Optimizes your Wordpress blog for Search Engines (Search Engine Optimization).
 
 **If upgrading from All in One SEO Pack, please back up your database first!**
 
-[Support](http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack/) |
-[Change Log](http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack/changelog/) |
+[Support](https://foliovision.com/wordpress/plugins/fv-simpler-seo) |
+[Change Log](https://foliovision.com/wordpress/plugins/fv-simpler-seo/changelog) |
 
 Some features:
 
+* Shorten long post slugs to 3 longest keywords when creating new post in the Classic Editor
+* Get warning about missing title and meta description when creating new post in the Classic Editor 
 * support for Google authorship and publisher fields
 * support for Facebook Open Graph and Twitter Cards
 * Canonical URLs
@@ -41,7 +43,11 @@ Some features:
 
 == Changelog ==
 
-= Version 1.9.2 - 23th Jly 2019 = 
+= Version 1.9.3 - 31th March 2023 =
+* Settings: Better editing of Header/Footer tracking codes
+* Tested with WordPress 6.2
+
+= Version 1.9.2 - 23th July 2019 = 
 * Fixes for Gutenberg
 
 = Version 1.9.1 - 7th June 2019 = 
