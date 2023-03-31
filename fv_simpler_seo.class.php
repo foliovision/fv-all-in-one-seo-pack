@@ -945,6 +945,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         
         
   function hatom_microformat_replace() {
+      if ( defined('REST_REQUEST') ) {
+        return;
+      }
+
       global $fvseop_options;
       
       if( !isset($fvseop_options['fvseo_hentry']) || ( $fvseop_options['fvseo_hentry'] != '1' && strcmp($fvseop_options['fvseo_hentry'],'on') ) )

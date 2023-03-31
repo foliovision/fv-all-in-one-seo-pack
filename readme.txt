@@ -44,7 +44,8 @@ Some features:
 == Changelog ==
 
 = Version 1.9.3 - 31th March 2023 =
-* Settings: Better editing of Header/Footer tracking codes
+* Bugfix - avoid breaking Widget previews
+* Settings - Better editing of Header/Footer tracking codes
 * Tested with WordPress 6.2
 
 = Version 1.9.2 - 23th July 2019 = 
