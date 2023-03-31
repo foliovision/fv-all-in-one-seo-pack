@@ -1918,7 +1918,18 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
   }
 
-  
+  function admin_settings__textarea( $name, $key ) {
+    global $fvseop_options;
+    $value = isset( $fvseop_options[ $key ] ) ? stripcslashes( $fvseop_options[ $key ] ): '';
+    $rows  = substr_count( $value, "\n" );
+    if ( $rows > 20 ) {
+      $rows = 20;
+    }
+    ?>
+    <textarea rows="<?php echo intval( $rows + 1); ?>" name="<?php echo esc_attr( $name ); ?>" class="large-text code"><?php echo esc_textarea( $value ); ?></textarea>
+    <?php
+  }
+
   function admin_settings_basic() {
     global $fvseop_options;
 
@@ -2655,7 +2666,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         <a class="help-trigger">
           <?php _e('Header tracking code:', 'fv_seo')?>
         </a><br />
-        <textarea cols="57" rows="1" name="fvseo_custom_header"><?php if (isset($fvseop_options['aiosp_custom_header'])) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_custom_header']))?></textarea>
+        <?php $this->admin_settings__textarea( 'fvseo_custom_header', 'aiosp_custom_header' ); ?>
         <div class="help-text">
           <?php _e('Insert any tracking code which should be in the &lt;head&gt; section of the site.', 'fv_seo')?>
         </div>
@@ -2664,7 +2675,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         <a class="help-trigger">
           <?php _e('Footer tracking code:', 'fv_seo')?>
         </a><br />
-        <textarea cols="57" rows="1" name="fvseo_custom_footer"><?php if (isset($fvseop_options['aiosp_custom_footer'])) echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_custom_footer']))?></textarea>
+        <?php $this->admin_settings__textarea( 'fvseo_custom_footer', 'aiosp_custom_footer' ); ?>
         <div class="help-text">
           <?php _e('Insert any tracking code which should be right before the closing &lt;/body&gt; tag on the site.', 'fv_seo')?>
         </div>
