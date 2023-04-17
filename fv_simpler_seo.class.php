@@ -2743,7 +2743,16 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         <div class="help-text">
           <?php _e('Google Analytics dimension for author, example: dimension3', 'fv_seo')?>
         </div>
-    </p>    
+    </p>
+    <p>
+        <a class="help-trigger">
+          <?php _e('Google Analytics 4 ID:', 'fv_seo')?>
+        </a><br />
+        <input type="text" class="regular-text" size="63" name="fvseo_ga4_id" value="<?php if (isset($fvseop_options['fvseo_ga4_id'])) echo esc_attr(stripcslashes($fvseop_options['fvseo_ga4_id']))?>" />
+        <div class="help-text">
+          <?php _e('Enter your Google Analytics 4 ID. Example: G-1234567890', 'fv_seo')?>
+        </div>
+    </p>
     <p>
         <a class="help-trigger">
           <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
@@ -3044,7 +3053,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_ganalytics_adblock'] = isset( $_POST['fv_seo_ganalytics_adblock'] ) ? $_POST['fv_seo_ganalytics_adblock'] : NULL;
         $fvseop_options['aiosp_ganalytics_dim_date'] = isset( $_POST['fvseo_ganalytics_dim_date'] ) ? $_POST['fvseo_ganalytics_dim_date'] : NULL;
         $fvseop_options['aiosp_ganalytics_dim_author'] = isset( $_POST['fvseo_ganalytics_dim_author'] ) ? $_POST['fvseo_ganalytics_dim_author'] : NULL;
-        
+
+        $fvseop_options['fvseo_ga4_id'] = isset( $_POST['fvseo_ga4_id'] ) ? $_POST['fvseo_ga4_id'] : NULL;
+
         $fvseop_options['aiosp_statcounter_security'] = isset( $_POST['fvseo_statcounter_security'] ) ? $_POST['fvseo_statcounter_security'] : NULL;
         $fvseop_options['aiosp_statcounter_project'] = isset( $_POST['fvseo_statcounter_project'] ) ? $_POST['fvseo_statcounter_project'] : NULL;
         $fvseop_options['aiosp_statcounter_full'] = isset( $_POST['fvseo_statcounter_full'] ) ? $_POST['fvseo_statcounter_full'] : NULL;
@@ -3832,7 +3843,18 @@ JS;
             </script>") . "\n";
       
     }
-    
+
+    if( $ga4_id = $this->_get_setting('fvseo_ga4_id') ){
+      echo stripcslashes("<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src='https://www.googletagmanager.com/gtag/js?id=" . $ga4_id . "'></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '" . $ga4_id . "');
+</script>") . "\n";
+    }
+
     if( $sc_project = $this->_get_setting('aiosp_statcounter_project') ) {
 
       $security = $this->_get_setting('aiosp_statcounter_security');
