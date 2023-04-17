@@ -3846,12 +3846,12 @@ JS;
 
     if( $ga4_id = $this->_get_setting('fvseo_ga4_id') ){
       echo stripcslashes("<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src='https://www.googletagmanager.com/gtag/js?id=" . $ga4_id . "'></script>
+<script async src='https://www.googletagmanager.com/gtag/js?id=" . trim($ga4_id) . "'></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '" . $ga4_id . "');
+gtag('config', '" . trim($ga4_id) . "');
 </script>") . "\n";
     }
 
