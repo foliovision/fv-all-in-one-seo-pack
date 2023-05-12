@@ -147,7 +147,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   function description_for_excerpt( $excerpt ) {
     global $post;
-    if( $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
+    if( empty( $post->post_excerpt) && $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
       if( strlen($description) > 0 ) {
         return $description;
       }
