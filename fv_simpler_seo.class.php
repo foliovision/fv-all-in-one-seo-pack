@@ -3829,6 +3829,8 @@ window.requestAnimationFrame( function() {
 } );
 JS;
     }
+
+    $login_detect = is_user_logged_in() ? "ga('send', 'event', 'FV Simpler SEO', 'Logged in', 'Yes', 1);" : false;
         
     if( $ga_it = $this->_get_setting('aiosp_ganalytics_ID') ){
       echo stripcslashes("<script>
@@ -3840,6 +3842,7 @@ JS;
               ".$anonymize.$extra_dimensions."ga('send', 'pageview');
               ".$post_categories."
               ".$adblock_detect."
+              ".$login_detect."
             </script>") . "\n";
       
     }
