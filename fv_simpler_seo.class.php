@@ -515,7 +515,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           $tag_id = $objTag->term_id;
         }
         if( isset($tag_id) ) {
-          $sLink = get_term_link('post_tag',$tag_id);
+          $sLink = get_term_link( $tag_id, 'post_tag' );
         }
         
       } else if( $objCheckPaging->is_author ) {
