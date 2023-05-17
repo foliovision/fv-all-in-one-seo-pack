@@ -2728,6 +2728,16 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     </p>
     <p>
         <a class="help-trigger">
+        <?php _e('Google Analytics AdBlock Detection URL:', 'fv_seo')?>
+        </a><br />
+    
+        <input type="text" class="regular-text" size="63" name="aiosp_ganalytics_adblock_url" value="<?php if ( !empty($fvseop_options['aiosp_ganalytics_adblock_url']) ) echo esc_attr( $fvseop_options['aiosp_ganalytics_adblock_url'] ); ?>" />
+        <div class="help-text">
+          Provide a URL of a script on your website which is blocked by the ad blockers.
+        </div>
+    </p>    
+    <p>
+        <a class="help-trigger">
           <?php _e('Google Analytics dimension for post date:', 'fv_seo')?>
         </a><br />
         <input type="text" class="regular-text" size="63" name="fvseo_ganalytics_dim_date" value="<?php if (isset($fvseop_options['aiosp_ganalytics_dim_date'])) echo esc_attr(stripcslashes($fvseop_options['aiosp_ganalytics_dim_date']))?>" />
@@ -3051,6 +3061,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_ganalytics_cats'] = isset( $_POST['fvseo_ganalytics_cats'] ) ? $_POST['fvseo_ganalytics_cats'] : NULL;
         $fvseop_options['aiosp_ganalytics_gdpr'] = isset( $_POST['fv_seo_ganalytics_gdpr'] ) ? $_POST['fv_seo_ganalytics_gdpr'] : NULL;
         $fvseop_options['aiosp_ganalytics_adblock'] = isset( $_POST['fv_seo_ganalytics_adblock'] ) ? $_POST['fv_seo_ganalytics_adblock'] : NULL;
+        $fvseop_options['aiosp_ganalytics_adblock_url'] = isset( $_POST['aiosp_ganalytics_adblock_url'] ) ? trim( $_POST['aiosp_ganalytics_adblock_url'] ) : NULL;
         $fvseop_options['aiosp_ganalytics_dim_date'] = isset( $_POST['fvseo_ganalytics_dim_date'] ) ? $_POST['fvseo_ganalytics_dim_date'] : NULL;
         $fvseop_options['aiosp_ganalytics_dim_author'] = isset( $_POST['fvseo_ganalytics_dim_author'] ) ? $_POST['fvseo_ganalytics_dim_author'] : NULL;
 
@@ -3796,37 +3807,60 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
     }
     
     $adblock_detect = false;
+
+    $adblock_detect_on = $this->_get_setting('aiosp_ganalytics_adblock');
+    $detection_url = trim( $this->_get_setting('aiosp_ganalytics_adblock_url') );
+
     if( $this->_get_setting('aiosp_ganalytics_adblock') ) {
+    if( $adblock_detect_on && $detection_url ) {
       $event_label = base64_encode("AdBlock Detected");
       // Should be excluded from CDN rewrite
       $tracking_image = site_url("wp-includes/images/blank.gif");
       
       $adblock_detect = <<< JS
-window.requestAnimationFrame( function() {
-  var ad = document.createElement( 'div' );
-  ad.innerHTML = '&nbsp;';
-  ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/g'+'pt.js' );
-  ad.setAttribute( 'class', 'ad_unit ad-unit text-ad text_ad pub_300x250' );
-  ad.setAttribute( 'style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: 0px !important; top: 0px !important; overflow: hidden !important;' );
-  document.body.appendChild( ad );
+document.addEventListener("DOMContentLoaded", function(event) {
+  jQuery.ajax({
+    url: '$detection_url',
+    cache: false,
+    type: 'GET',
+    success: function() {
+      var ad = document.createElement( 'div' );
+      ad.innerHTML = '&nbsp;';
+      ad.setAttribute( 'id', 'div-gpt-ad-1510343294000-1' );
+      ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/g'+'pt.js' );
+      ad.setAttribute( 'class', 'ad_unit ad-unit text-ad text_ad pub_300x250' );
+      ad.setAttribute( 'style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: 0px !important; top: 0px !important; overflow: hidden !important;' );
+      document.body.appendChild( ad );
 
-  window.requestAnimationFrame( function() {
-    var styles = window.getComputedStyle( ad );
-    var moz_binding = styles && styles.getPropertyValue( '-moz-binding' );
-    var newImg = new Image;
-    if( ( styles && styles.getPropertyValue( 'display' ) === 'none' ) || ( typeof moz_binding === 'string' && moz_binding.indexOf( 'about:' ) !== -1 ) ) {
+      window.requestAnimationFrame( function() {
+        var styles = window.getComputedStyle( ad );
+        var moz_binding = styles && styles.getPropertyValue( '-moz-binding' );
+        var newImg = new Image;
+        if( styles && ( styles.getPropertyValue( 'display' ) === 'none' || styles.getPropertyValue( 'opacity' ) == 0 ) || typeof moz_binding === 'string' && moz_binding.indexOf( 'about:' ) !== -1 ) {
+          var elements = document.getElementsByClassName('fv-seo-revenue-notice');
+          for (i = 0; i < elements.length; i++) {
+            elements[i].style.display = "block";
+          }
+
+          ga('send', 'event', 'FV Simpler SEO', atob('$event_label'), 'Yes', 1);
+          newImg.src = '$tracking_image?fvseo=1-'+btoa( Math.random() )
+        } else {
+          newImg.src = '$tracking_image?fvseo=0-'+btoa( Math.random() );
+        }
+      });
+    },
+    error: function(d) {
       var elements = document.getElementsByClassName('fv-seo-revenue-notice');
       for (i = 0; i < elements.length; i++) {
         elements[i].style.display = "block";
       }
 
+      var newImg = new Image;
       ga('send', 'event', 'FV Simpler SEO', atob('$event_label'), 'Yes', 1);
       newImg.src = '$tracking_image?fvseo=1-'+btoa( Math.random() )
-    } else {
-      newImg.src = '$tracking_image?fvseo=0-'+btoa( Math.random() );
     }
-  } );
-} );
+  });
+});
 JS;
     }
 
