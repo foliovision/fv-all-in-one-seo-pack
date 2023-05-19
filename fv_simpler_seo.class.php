@@ -2718,7 +2718,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     </p>
     <p>
         <a class="help-trigger">
-        <?php _e('Google Analytics AdBlock Detection:', 'fv_seo')?>
+        <?php _e('Google Analytics AdBlock Detection (desktop):', 'fv_seo')?>
         </a>
     
         <input type="checkbox" name="fv_seo_ganalytics_adblock" <?php if ( !empty($fvseop_options['aiosp_ganalytics_adblock']) && $fvseop_options['aiosp_ganalytics_adblock'] ) echo "checked=\"1\""; ?>/>
@@ -3811,7 +3811,6 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
     $adblock_detect_on = $this->_get_setting('aiosp_ganalytics_adblock');
     $detection_url = trim( $this->_get_setting('aiosp_ganalytics_adblock_url') );
 
-    if( $this->_get_setting('aiosp_ganalytics_adblock') ) {
     if( $adblock_detect_on && $detection_url ) {
       $event_label = base64_encode("AdBlock Detected");
       // Should be excluded from CDN rewrite
@@ -3819,6 +3818,10 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       
       $adblock_detect = <<< JS
 document.addEventListener("DOMContentLoaded", function(event) {
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    return;
+  }
+
   jQuery.ajax({
     url: '$detection_url',
     cache: false,
