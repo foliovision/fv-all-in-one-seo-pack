@@ -655,6 +655,7 @@ add_action( 'init', array($fvseo,'manage_category_process_action') );
 
 add_action( 'wp_ajax_fv_foliopress_ajax_pointers',  array($fvseo,'ajax__pointers' ) );
 
+add_filter( 'get_canonical_url', array( $fvseo, 'fix_get_canonical_url_comment_page' ), 10, 2 );
 
 //this function removes final periods from post slugs as such urls don't work with nginx; it only gets applied if the "Slugs with periods" plugin has replaced the original sanitize_title function
 function sanitize_title_no_final_period ($title) {

@@ -3983,7 +3983,26 @@ gtag('config', '" . trim($ga4_id) . "');
   <?php
   }
 
+  /**
+   * Fix canonical link for the paged comments.
+   * 
+   * WordPress permits any comment page number for the /2023/06/post-slug/comment-page-99999 kind of URL
+   * for the canonical URL.
+   * 
+   * So here we check the number of comments for the post and if the URL points to a non-existent page,
+   * we just remove the comment page from the canonical URL.
+   */
+  function fix_get_canonical_url_comment_page(  $canonical_url, $post ) {
+    $cpage = get_query_var( 'cpage', 0 );
+		if ( $cpage ) {
+      $max = ceil( $post->comment_count / (int) get_option( 'comments_per_page' ) );
 
+      if ( $cpage > $max ) {
+        $canonical_url = str_replace( '/comment-page-' . $cpage, '', $canonical_url );
+      }
+    }
+    return $canonical_url;
+  }
 
 
 } // end fv_seo class
