@@ -43,6 +43,9 @@ Some features:
 
 == Changelog ==
 
+= Version 1.9.4 - 12th May 2023 =
+* Google Analytics 4 support
+
 = Version 1.9.3 - 31th March 2023 =
 * Bugfix - avoid breaking Widget previews
 * Settings - Better editing of Header/Footer tracking codes

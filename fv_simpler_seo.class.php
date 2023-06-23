@@ -147,7 +147,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   function description_for_excerpt( $excerpt ) {
     global $post;
-    if( $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
+    if( empty( $post->post_excerpt) && $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
       if( strlen($description) > 0 ) {
         return $description;
       }
@@ -515,7 +515,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           $tag_id = $objTag->term_id;
         }
         if( isset($tag_id) ) {
-          $sLink = get_term_link('post_tag',$tag_id);
+          $sLink = get_term_link( $tag_id, 'post_tag' );
         }
         
       } else if( $objCheckPaging->is_author ) {
@@ -2666,6 +2666,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     global $fvseop_options;
     
   ?>
+    <h3>General</h3>
     <p>
         <a class="help-trigger">
           <?php _e('Header tracking code:', 'fv_seo')?>
@@ -2684,6 +2685,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           <?php _e('Insert any tracking code which should be right before the closing &lt;/body&gt; tag on the site.', 'fv_seo')?>
         </div>
     </p>
+
+    <h3>Google Analytics</h3>
     <p>
         <a class="help-trigger">
           <?php _e('Google Analytics ID:', 'fv_seo')?>
@@ -2698,6 +2701,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     </p>
     <p>
         <a class="help-trigger">
+          <?php _e('Google Analytics 4 ID:', 'fv_seo')?>
+        </a><br />
+        <input type="text" class="regular-text" size="63" name="fvseo_ga4_id" value="<?php if (isset($fvseop_options['fvseo_ga4_id'])) echo esc_attr(stripcslashes($fvseop_options['fvseo_ga4_id']))?>" />
+        <div class="help-text">
+          <?php _e('Enter your Google Analytics 4 ID. Example: G-1234567890', 'fv_seo')?>
+        </div>
+    </p>
+    <p>
+        <a class="help-trigger">
         <?php _e('Google Analytics Events for Categories:', 'fv_seo')?>
         </a>
     
@@ -2705,20 +2717,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         <div class="help-text">
           <?php _e('Every post category will be sent as a "Post Category" event category and "Category View" as action and finally actual category name as the event label.', 'fv_seo')?>
         </div>
-    </p>    
-    <p>
-        <a class="help-trigger">
-        <?php _e('Google Analytics GDPR Compatiblity:', 'fv_seo')?>
-        </a>
-    
-        <input type="checkbox" name="fv_seo_ganalytics_gdpr" <?php if ( !empty($fvseop_options['aiosp_ganalytics_gdpr']) && $fvseop_options['aiosp_ganalytics_gdpr'] ) echo "checked=\"1\""; ?>/>
-        <div class="help-text">
-          Enables <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/ip-anonymization" target="_blank">IP Anonymization</a> for GDPR compliance.
-        </div>
     </p>
     <p>
         <a class="help-trigger">
-        <?php _e('Google Analytics AdBlock Detection:', 'fv_seo')?>
+        <?php _e('Google Analytics AdBlock Detection (desktop):', 'fv_seo')?>
         </a>
     
         <input type="checkbox" name="fv_seo_ganalytics_adblock" <?php if ( !empty($fvseop_options['aiosp_ganalytics_adblock']) && $fvseop_options['aiosp_ganalytics_adblock'] ) echo "checked=\"1\""; ?>/>
@@ -2726,6 +2728,16 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           Tracks users using AdBlock using the "AdBlock Detected" event action. The code also detects Ghostery and uBlock Origin, but the tracking for these won't work.
         </div>
     </p>
+    <p>
+        <a class="help-trigger">
+        <?php _e('Google Analytics AdBlock Detection URL:', 'fv_seo')?>
+        </a><br />
+    
+        <input type="text" class="regular-text" size="63" name="aiosp_ganalytics_adblock_url" value="<?php if ( !empty($fvseop_options['aiosp_ganalytics_adblock_url']) ) echo esc_attr( $fvseop_options['aiosp_ganalytics_adblock_url'] ); ?>" />
+        <div class="help-text">
+          Provide a URL of a script on your website which is blocked by the ad blockers.
+        </div>
+    </p>    
     <p>
         <a class="help-trigger">
           <?php _e('Google Analytics dimension for post date:', 'fv_seo')?>
@@ -2744,15 +2756,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           <?php _e('Google Analytics dimension for author, example: dimension3', 'fv_seo')?>
         </div>
     </p>
-    <p>
-        <a class="help-trigger">
-          <?php _e('Google Analytics 4 ID:', 'fv_seo')?>
-        </a><br />
-        <input type="text" class="regular-text" size="63" name="fvseo_ga4_id" value="<?php if (isset($fvseop_options['fvseo_ga4_id'])) echo esc_attr(stripcslashes($fvseop_options['fvseo_ga4_id']))?>" />
-        <div class="help-text">
-          <?php _e('Enter your Google Analytics 4 ID. Example: G-1234567890', 'fv_seo')?>
-        </div>
-    </p>
+
+    <h3>Statcounter</h3>
     <p>
         <a class="help-trigger">
           <?php _e('Statcounter Project ID and Security ID:', 'fv_seo')?>
@@ -3049,8 +3054,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $fvseop_options['aiosp_custom_footer'] = isset( $_POST['fvseo_custom_footer'] ) ? $_POST['fvseo_custom_footer'] : NULL;
         $fvseop_options['aiosp_ganalytics_ID'] = isset( $_POST['fvseo_ganalytics_ID'] ) ? $_POST['fvseo_ganalytics_ID'] : NULL;
         $fvseop_options['aiosp_ganalytics_cats'] = isset( $_POST['fvseo_ganalytics_cats'] ) ? $_POST['fvseo_ganalytics_cats'] : NULL;
-        $fvseop_options['aiosp_ganalytics_gdpr'] = isset( $_POST['fv_seo_ganalytics_gdpr'] ) ? $_POST['fv_seo_ganalytics_gdpr'] : NULL;
         $fvseop_options['aiosp_ganalytics_adblock'] = isset( $_POST['fv_seo_ganalytics_adblock'] ) ? $_POST['fv_seo_ganalytics_adblock'] : NULL;
+        $fvseop_options['aiosp_ganalytics_adblock_url'] = isset( $_POST['aiosp_ganalytics_adblock_url'] ) ? trim( $_POST['aiosp_ganalytics_adblock_url'] ) : NULL;
         $fvseop_options['aiosp_ganalytics_dim_date'] = isset( $_POST['fvseo_ganalytics_dim_date'] ) ? $_POST['fvseo_ganalytics_dim_date'] : NULL;
         $fvseop_options['aiosp_ganalytics_dim_author'] = isset( $_POST['fvseo_ganalytics_dim_author'] ) ? $_POST['fvseo_ganalytics_dim_author'] : NULL;
 
@@ -3768,67 +3773,96 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
     /*
     Google Analytics
     */
-    $anonymize = $this->_get_setting('aiosp_ganalytics_gdpr') ? "ga('set', 'anonymizeIp', true);\n" : "";
-    $extra_dimensions = "";
+    $extra_dimensions_config = array();
+    $extra_dimensions_values = array();
     $post_categories = "";
     
     if( !empty($post) && is_single() ) {
       if( $dim_date = $this->_get_setting('aiosp_ganalytics_dim_date') ) {
-        $extra_dimensions .= "ga('set','".esc_js($dim_date)."','".esc_js($post->post_date_gmt)."');\n";
+        $extra_dimensions_config[ $dim_date ] = 'post_date'; 
+        $extra_dimensions_values['post_date'] = $post->post_date_gmt;
       }
+
       if( $dim_author = $this->_get_setting('aiosp_ganalytics_dim_author') ) {
         $user = get_userdata($post->post_author);
-        $extra_dimensions .= "ga('set','".esc_js($dim_author)."','".esc_js($user->display_name)."');\n";
+        $extra_dimensions_config[ $dim_date ] = 'post_author'; 
+        $extra_dimensions_values['post_author'] = $user->display_name;
       }
       
       if( $this->_get_setting('aiosp_ganalytics_cats') ){
         $cats = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
         if( count($cats) > 0 ) {
-          $post_categories = "var fv_simpler_seo_ga_cats = ".json_encode($cats)."
-          for (var i = 0; i < fv_simpler_seo_ga_cats.length; i++) {
-            setTimeout( function() {
-              ga('send', 'event', 'Post Category', 'Category View', fv_simpler_seo_ga_cats.pop(), 1);
-            }, (i+1)*250);
-          }";
+          $post_categories = "var fv_simpler_seo_ga_cats = ".json_encode($cats).";
+          for (var i = 0; i < " . count( $cats ) . "; i++) {
+            gtag('event', 'Category View', { 'event_category': 'Post Category', 'event_label': fv_simpler_seo_ga_cats.pop(), 'value': 1 } );
+          }\n";
         }
       }
       
     }
     
     $adblock_detect = false;
-    if( $this->_get_setting('aiosp_ganalytics_adblock') ) {
+
+    $adblock_detect_on = $this->_get_setting('aiosp_ganalytics_adblock');
+    $detection_url = trim( $this->_get_setting('aiosp_ganalytics_adblock_url') );
+
+    if( $adblock_detect_on && $detection_url ) {
       $event_label = base64_encode("AdBlock Detected");
       // Should be excluded from CDN rewrite
       $tracking_image = site_url("wp-includes/images/blank.gif");
       
       $adblock_detect = <<< JS
-window.requestAnimationFrame( function() {
-  var ad = document.createElement( 'div' );
-  ad.innerHTML = '&nbsp;';
-  ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/g'+'pt.js' );
-  ad.setAttribute( 'class', 'ad_unit ad-unit text-ad text_ad pub_300x250' );
-  ad.setAttribute( 'style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: 0px !important; top: 0px !important; overflow: hidden !important;' );
-  document.body.appendChild( ad );
+document.addEventListener("DOMContentLoaded", function(event) {
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    return;
+  }
 
-  window.requestAnimationFrame( function() {
-    var styles = window.getComputedStyle( ad );
-    var moz_binding = styles && styles.getPropertyValue( '-moz-binding' );
-    var newImg = new Image;
-    if( ( styles && styles.getPropertyValue( 'display' ) === 'none' ) || ( typeof moz_binding === 'string' && moz_binding.indexOf( 'about:' ) !== -1 ) ) {
+  jQuery.ajax({
+    url: '$detection_url',
+    cache: false,
+    type: 'GET',
+    success: function() {
+      var ad = document.createElement( 'div' );
+      ad.innerHTML = '&nbsp;';
+      ad.setAttribute( 'id', 'div-gpt-ad-1510343294000-1' );
+      ad.setAttribute( 'src', 'https://www.googletagservices.com/tag/js/g'+'pt.js' );
+      ad.setAttribute( 'class', 'ad_unit ad-unit text-ad text_ad pub_300x250' );
+      ad.setAttribute( 'style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: 0px !important; top: 0px !important; overflow: hidden !important;' );
+      document.body.appendChild( ad );
+
+      window.requestAnimationFrame( function() {
+        var styles = window.getComputedStyle( ad );
+        var moz_binding = styles && styles.getPropertyValue( '-moz-binding' );
+        var newImg = new Image;
+        if( styles && ( styles.getPropertyValue( 'display' ) === 'none' || styles.getPropertyValue( 'opacity' ) == 0 ) || typeof moz_binding === 'string' && moz_binding.indexOf( 'about:' ) !== -1 ) {
+          var elements = document.getElementsByClassName('fv-seo-revenue-notice');
+          for (i = 0; i < elements.length; i++) {
+            elements[i].style.display = "block";
+          }
+
+          gtag('event', atob('$event_label'), { 'event_category': 'FV Simpler SEO', 'event_label': 'Yes', 'value': 1 } );
+          newImg.src = '$tracking_image?fvseo=1-'+btoa( Math.random() )
+        } else {
+          newImg.src = '$tracking_image?fvseo=0-'+btoa( Math.random() );
+        }
+      });
+    },
+    error: function(d) {
       var elements = document.getElementsByClassName('fv-seo-revenue-notice');
       for (i = 0; i < elements.length; i++) {
         elements[i].style.display = "block";
       }
 
-      ga('send', 'event', 'FV Simpler SEO', atob('$event_label'), 'Yes', 1);
+      var newImg = new Image;
+      gtag('event', atob('$event_label'), { 'event_category': 'FV Simpler SEO', 'event_label': 'Yes', 'value': 1 } );
       newImg.src = '$tracking_image?fvseo=1-'+btoa( Math.random() )
-    } else {
-      newImg.src = '$tracking_image?fvseo=0-'+btoa( Math.random() );
     }
-  } );
-} );
+  });
+});
 JS;
     }
+
+    $login_detect = is_user_logged_in() ? "gtag('event', 'Logged in', { 'event_category': 'FV Simpler SEO', 'event_label': 'Yes', 'value': 1 } );" : false;
         
     if( $ga_it = $this->_get_setting('aiosp_ganalytics_ID') ){
       echo stripcslashes("<script>
@@ -3837,21 +3871,32 @@ JS;
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
               ga('create', '".esc_js($ga_it)."', 'auto');
-              ".$anonymize.$extra_dimensions."ga('send', 'pageview');
-              ".$post_categories."
-              ".$adblock_detect."
+              ga('send', 'pageview');
             </script>") . "\n";
       
     }
 
     if( $ga4_id = $this->_get_setting('fvseo_ga4_id') ){
+      $track = "gtag('config', '" . trim($ga4_id) . "');";
+
+      if ( count( $extra_dimensions_config ) > 0 ) {
+        $config = array(
+          'send_page_view' => false,
+          'custom_map'     => $extra_dimensions_config,
+        );
+
+        $track = "gtag('config', '" . trim($ga4_id) . "', " . json_encode( $config ) . ");\n";
+
+        $track .= "gtag('event', 'page_view', " . json_encode( $extra_dimensions_values ) . ");\n";
+      }
+
       echo stripcslashes("<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src='https://www.googletagmanager.com/gtag/js?id=" . trim($ga4_id) . "'></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '" . trim($ga4_id) . "');
+" . $track . $post_categories. $adblock_detect . $login_detect . "
 </script>") . "\n";
     }
 
