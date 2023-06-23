@@ -4035,6 +4035,7 @@ gtag('js', new Date());
    * for the canonical URL.
    * 
    * So here we check the number of comments for the post and if the URL points to a non-existent page,
+   * or if the comment-page-1 is there for no reason
    * we just remove the comment page from the canonical URL.
    */
   function fix_get_canonical_url_comment_page(  $canonical_url, $post ) {
@@ -4042,7 +4043,7 @@ gtag('js', new Date());
 		if ( $cpage ) {
       $max = ceil( $post->comment_count / (int) get_option( 'comments_per_page' ) );
 
-      if ( $cpage > $max ) {
+      if ( $cpage > $max || $cpage == 1 && $max == 1 ) {
         $canonical_url = str_replace( '/comment-page-' . $cpage, '', $canonical_url );
       }
     }
