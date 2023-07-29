@@ -1026,7 +1026,7 @@ msgid "This will be used across the whole site. Enter @site_username."
 msgstr "Toto bude použité na celej stránke. Zadajte @meno_stránky."
 
 #: ../fv-all-in-one-seo-pack.php:2976
-msgid "Tiwtter creator:"
+msgid "Twitter creator:"
 msgstr "Twitter meno:"
 
 # @ fv_seo
