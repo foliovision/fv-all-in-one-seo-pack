@@ -2929,7 +2929,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     </p>
     <p>
         <a class="help-trigger">
-          <?php _e('Tiwtter creator:', 'fv_seo')?>
+          <?php _e('Twitter creator:', 'fv_seo')?>
         </a><br />
         <input type="text" class="regular-text" size="63" name="social_twitter_creator" value="<?php if (isset($fvseop_options['social_twitter_creator'])) echo esc_attr(stripcslashes($fvseop_options['social_twitter_creator']))?>" />
         <div class="help-text">
