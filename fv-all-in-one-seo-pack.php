@@ -653,6 +653,9 @@ add_filter( 'manage_edit-category_columns', array($fvseo,'manage_category_column
 add_filter( 'manage_category_custom_column', array($fvseo,'manage_category_custom_columns'), 10, 3 );
 add_action( 'init', array($fvseo,'manage_category_process_action') );
 
+// Genesis puts up canonical URL for paged archive and while doing so it accepts any kind of query argument for it. We remove that here.
+add_filter( 'genesis_canonical', array( $fvseo, 'fix_genesis_paged_archive_canonical_url' ) );
+
 add_action( 'wp_ajax_fv_foliopress_ajax_pointers',  array($fvseo,'ajax__pointers' ) );
 
 add_filter( 'get_canonical_url', array( $fvseo, 'fix_get_canonical_url_comment_page' ), 10, 2 );

@@ -193,6 +193,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   
   
+  function fix_genesis_paged_archive_canonical_url( $canonical_url ) {
+    $url_parts = wp_parse_url( $canonical_url );
+    if ( ! empty( $url_parts['query'] ) ) {
+      $canonical_url = str_replace( '?' . $url_parts['query'], '', $canonical_url );
+    }
+    return $canonical_url; 
+  }
+
+
+
+
   function fv_simpler_seo_settings_closed_meta_boxes( $closed ) {
     if ( false === $closed )
         $closed = array( 'fv_simpler_seo_interface_options', 'fv_simpler_seo_advanced' );
