@@ -3,12 +3,12 @@
 Plugin Name: FV Simpler SEO
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/fv-all-in-one-seo-pack
 Description: Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects. | <a href="options-general.php?page=fv_simpler_seo">Options configuration panel</a>
-Version: 1.9.4
+Version: 1.9.1.1
 Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.9.4';
+$fv_simpler_seo_version = '1.9.1.1';
 $fvseop_options = get_option('aioseop_options');
 
 global $fvseop_default_options;
@@ -792,7 +792,7 @@ if( isset($fvseop_options['fvseo_events']) && $fvseop_options['fvseo_events'] ) 
 add_action( 'init', 'fvseo_genesis_disable_seo_functons' );
 
 function fvseo_genesis_disable_seo_functons() {
-  if( !defined("GENESIS_SEO_SETTINGS_FIELD") ){
+  if( ! function_exists( 'genesis_disable_seo' ) ) {
     return;
   }
   
@@ -800,27 +800,7 @@ function fvseo_genesis_disable_seo_functons() {
     add_action( 'admin_notices', 'fvseo_genesis_waring' );
   }
 
-  // remove_filter('wp_title', 'genesis_default_title', 10, 3); 
-  remove_action('get_header', 'genesis_doc_head_control'); 
-  remove_action('genesis_meta','genesis_seo_meta_description'); 
-  remove_action('genesis_meta','genesis_seo_meta_keywords'); 
-  remove_action('genesis_meta','genesis_robots_meta'); 
-  remove_action('wp_head','genesis_canonical'); 
-  add_action('wp_head', 'rel_canonical'); 
-
-  remove_action('admin_menu', 'genesis_add_inpost_seo_box'); 
-  remove_action('save_post', 'genesis_inpost_seo_save', 1, 2); 
-
-  remove_action('admin_init', 'genesis_add_taxonomy_seo_options'); 
-  remove_action('edit_term', 'genesis_term_meta_save', 10, 2); 
-
-  remove_action('show_user_profile', 'genesis_user_seo_fields'); 
-  remove_action('edit_user_profile', 'genesis_user_seo_fields'); 
-  remove_action('personal_options_update', 'genesis_user_meta_save'); 
-  remove_action('edit_user_profile_update', 'genesis_user_meta_save'); 
-
-  remove_theme_support('genesis-seo-settings-menu'); 
-  add_filter('pre_option_' . GENESIS_SEO_SETTINGS_FIELD, '__return_empty_array'); 
+  genesis_disable_seo();
 }
 
 function fvseo_genesis_waring(){
