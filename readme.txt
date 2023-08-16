@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 6.2
+Tested up to: 6.3
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -247,3 +247,41 @@ If you are doing some custom stuff (for example) with your templates, it might c
 = What about the rest of the original plugin functionality? =
 
 It's all there.
+
+== Testing ==
+
+1. Add new post
+
+1.1. Before publishing there will be a warning if you don't have title or meta description filled in
+
+1.2. Fill in title and meta description and publish the post
+
+1.3. Post will have only 1 <title> tag and 3 <meta> tags (description, og:description, twitter:description)
+
+2. Go To Settings -> FV Simpler SEO
+
+2.1. Check "Add no index checkbox to post editing screen"
+
+2.2. Go to post editing screen
+
+2.3. Check "noindex" checkbox
+
+2.4. Post now wont be in wp search results and will have noindex meta tag
+
+3. Go To Settings -> FV Simpler SEO
+
+3.1. Check "Rewrite Titles"
+
+3.2. Go to post page
+
+3.3. Page will now have title in format "%post_title% | %blog_title%"
+
+4. Go To Settings -> FV Simpler SEO
+
+4.1. Setting "Redirect attachment links to the file URLs" is checked by default
+
+4.2. Go to post page
+
+4.3. Click on image
+
+4.4. You will be redirected to image URL
