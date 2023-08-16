@@ -702,36 +702,54 @@ function fvseo_check_empty_clientside() {
 ?>
 <script language="javascript" type="text/javascript">
 jQuery(document).ready(function() {
-   var target = null;
-    jQuery('#post :input, #post-preview').focus(function() {
-        target = this;
-        // console.log(target);
-    });
-      
-   jQuery("#post").submit(function(){
-    
-      if(jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#title").val() == '') {
-         //console.log(target);
-         alert("<?php _e('Your post\'s TITLE is empty, so it cannot be published!', 'fv_seo')  ?>");
-         
-         jQuery('#ajax-loading').removeAttr('style');
-         jQuery('#save-post').removeClass('button-disabled');
-         jQuery('#publish').removeClass('button-primary-disabled');
-         return false;
-      } 
-   });
-   
-   jQuery("#publish, #save-post, #post-preview").hover( function() {// buttons: Publish, Save Draft, Preview
-     var where = jQuery(this).parents('#major-publishing-actions, #minor-publishing-actions');
-      if (jQuery("#title").val() == '') {
-         where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post TITLE is empty', 'fv_seo') ?></b></div>');
-      } 
-      if (jQuery("#fvseo_description_input").val() == '') {
-         where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('Your post DESCRIPTION is empty!', 'fv_seo') ?></b></div>' );
+  var target = null;
+  jQuery('#post :input, #post-preview').focus(function() {
+      target = this;
+      // console.log(target);
+  });
+
+  jQuery("#post").submit(function(){
+  
+    if(jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#title").val() == '') {
+        //console.log(target);
+        alert("<?php _e('Your post\'s TITLE is empty, so it cannot be published!', 'fv_seo')  ?>");
+        
+        jQuery('#ajax-loading').removeAttr('style');
+        jQuery('#save-post').removeClass('button-disabled');
+        jQuery('#publish').removeClass('button-primary-disabled');
+        return false;
+    } 
+  });
+
+  jQuery("#publish, #save-post, #post-preview").hover( function() {// buttons: Publish, Save Draft, Preview
+    var where = jQuery(this).parents('#major-publishing-actions, #minor-publishing-actions');
+    if (jQuery("#title").val() == '') {
+        where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('post title is empty', 'fv_seo') ?></b></div>');
+    } 
+    if (jQuery("#fvseo_description_input").val() == '') {
+        where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('meta description is empty!', 'fv_seo') ?></b></div>' );
+    }
+  }, function() {
+    jQuery(".hovered-warning").remove();
+  });
+
+  setInterval(function() {
+    var where = jQuery('.editor-post-publish-panel__prepublish');
+
+    if( where.length > 0 ) {
+      if(jQuery(".wp-block-post-title").text().trim() == '' && jQuery('.hovered-warning-1').length == 0) {
+        where.prepend( '<div class="hovered-warning hovered-warning-1" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('post title is empty', 'fv_seo') ?></b></div>');
+      } else if(jQuery(".wp-block-post-title").text().trim() != '' && jQuery('.hovered-warning-1').length > 0) {
+        jQuery('.hovered-warning-1').remove();
       }
-   }, function() {
-      jQuery(".hovered-warning").remove();
-   });
+
+      if(jQuery("#fvseo_description_input").val() == '' && jQuery('.hovered-warning-2').length == 0) {
+        where.prepend( '<div class="hovered-warning hovered-warning-2" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('meta description is empty!', 'fv_seo') ?></b></div>' );
+      } else if(jQuery("#fvseo_description_input").val() != '' && jQuery('.hovered-warning-2').length > 0) {
+        jQuery('.hovered-warning-2').remove();
+      }
+    }
+  }, 500);
 
 });
 </script>
