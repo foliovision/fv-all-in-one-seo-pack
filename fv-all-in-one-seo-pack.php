@@ -829,3 +829,31 @@ function fvseo_genesis_waring(){
   _e( 'These settings won\'t be applied on frontend. Use <a href="'.$simpler_seo_link.'">FV Simpler SEO</a> instead.', 'fv_seo' );
   echo "</p></div>";
 }
+
+/**
+ * Register the important post meta field to make sure they can be updated using XML-RCP tools
+ */
+foreach(
+  array(
+    '_aioseop_title' => 'FV Long Title',
+    '_aioseop_description' => 'FV Meta Description',
+  ) as $meta_key => $description
+) {
+  register_meta( 'post', $meta_key, array(
+    'auth_callback' => 'fv_simpler_seo_meta_fields_auth_always_allow',
+    'default' => '',
+    'description' => $description,
+    'sanitize_callback' => 'fv_simpler_seo_meta_fields_no_sanitization', 
+    'show_in_rest' => true,
+    'single' => true,
+    'type' => 'string'
+  ) );  
+}
+
+function fv_simpler_seo_meta_fields_no_sanitization( $meta_value, $meta_key, $meta_type ) {
+  return $meta_value;
+}
+
+function fv_simpler_seo_meta_fields_auth_always_allow( $allowed, $meta_key, $post_id, $user_id, $cap, $caps ) {
+  return true;
+}
