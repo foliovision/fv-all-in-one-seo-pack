@@ -1159,7 +1159,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     return preg_replace('/<title>(.*?)<\/title>/ms', '<title>' . esc_html($title) . '</title>', $content, 1);
   }
   
-  /** @return The original title as delivered by WP (well, in most cases) */
+  /**
+   * @return string The original title as delivered by WP (well, in most cases)
+   */
   function get_original_title()
   {
     global $wp_query;
@@ -1613,7 +1615,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   }
   
   /**
-   * @return User-readable nice words for a given request.
+   * @return string User-readable nice words for a given request.
    */
   function request_as_words($request)
   {
