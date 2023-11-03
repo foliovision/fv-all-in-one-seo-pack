@@ -3918,24 +3918,18 @@ gtag('js', new Date());
       $security = $this->_get_setting('aiosp_statcounter_security');
 
       if( $this->_get_setting('aiosp_statcounter_full') ) {
-        echo stripcslashes('<!-- Start of StatCounter Code for Default Guide -->
-              <script type="text/javascript">
-              var sc_project='.$sc_project.'; 
-              var sc_invisible=1; 
-              var sc_security="'.$security.'"; 
-              var sc_https=1; 
-              var scJsHost = (("https:" == document.location.protocol) ?
-              "https://secure." : "http://www.");
-              document.write("<sc"+"ript type=\'text/javascript\' src=\'" +
-              scJsHost+
-              "statcounter.com/counter/counter.js\' defer></"+"script>");
-              </script>
-              <noscript><div class="statcounter"><a title="free hit
-              counter" href="http://statcounter.com/free-hit-counter/"
-              target="_blank"><img class="statcounter"
-              src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
-              alt="free hit counter"></a></div></noscript>
-              <!-- End of StatCounter Code for Default Guide -->') . "\n";
+        echo stripcslashes('
+<script type="text/javascript">
+var sc_project='.$sc_project.'; 
+var sc_invisible=1; 
+var sc_security="'.$security.'"; 
+</script>
+<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
+alt=Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>') . "\n";
 
       } else {
         echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/";var src = document.getElementById("x");</script>') . "\n";
