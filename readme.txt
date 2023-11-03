@@ -43,6 +43,12 @@ Some features:
 
 == Changelog ==
 
+= Version 1.9.5 - 3rd November 2023 =
+* StatCounter - no longer using the tracking pixel by default as it won't capture the referring page in modern browsers and the standard tracking code has no impact on page load speed
+* StatCounter - updated the tracking code to the latest version with async and without document.write()
+* Canonical links - Discard out of bounds post comment pages
+* Genesis - Improve Genesis SEO disabling
+
 = Version 1.9.4 - 12th May 2023 =
 * Google Analytics 4 support
 
