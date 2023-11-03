@@ -2781,16 +2781,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           <?php _e('Enter your project ID and security ID. You can obtain them from Statcounter administation > Project > Reinstall Code > Default Guide. Look for <i>sc_project</i> and <i>sc_security</i> variables in code.', 'fv_seo')?>
         </div>
     </p>
-    <p>
-        <a class="help-trigger">
-        <?php _e('Use full-featured StatCounter tracking code:', 'fv_seo')?>
-        </a>
-    
-        <input type="checkbox" name="fvseo_statcounter_full" <?php if ( !empty($fvseop_options['aiosp_statcounter_full']) && $fvseop_options['aiosp_statcounter_full'] ) echo "checked=\"1\""; ?>/>
-        <div class="help-text">
-          Normally we only load the tracking image to avoid loading external scripts, but in turn you don't get stats about user browser size etc. Enable this to get full StatCounter tracking.
-        </div>
-    </p>  
   <?php
   }
   
@@ -3076,7 +3066,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
         $fvseop_options['aiosp_statcounter_security'] = isset( $_POST['fvseo_statcounter_security'] ) ? $_POST['fvseo_statcounter_security'] : NULL;
         $fvseop_options['aiosp_statcounter_project'] = isset( $_POST['fvseo_statcounter_project'] ) ? $_POST['fvseo_statcounter_project'] : NULL;
-        $fvseop_options['aiosp_statcounter_full'] = isset( $_POST['fvseo_statcounter_full'] ) ? $_POST['fvseo_statcounter_full'] : NULL;
 
 
         $fvseop_options['aiosp_ex_pages'] = isset( $_POST['fvseo_ex_pages'] ) ? $_POST['fvseo_ex_pages'] : NULL;
@@ -3917,8 +3906,7 @@ gtag('js', new Date());
 
       $security = $this->_get_setting('aiosp_statcounter_security');
 
-      if( $this->_get_setting('aiosp_statcounter_full') ) {
-        echo stripcslashes('
+      echo stripcslashes('
 <script type="text/javascript">
 var sc_project='.$sc_project.'; 
 var sc_invisible=1; 
@@ -3930,12 +3918,6 @@ target="_blank"><img class="statcounter"
 src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
 alt=Web Analytics"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>') . "\n";
-
-      } else {
-        echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/";var src = document.getElementById("x");</script>') . "\n";
-        echo stripcslashes('<noscript><img class="statcounter" src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/" alt="free hit counter"></noscript>');
-
-      }
     }
   }
 
