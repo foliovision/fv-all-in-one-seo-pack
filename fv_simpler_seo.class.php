@@ -493,7 +493,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
     
 
-    if( $wp_query->is_404 && isset($wp_query->query['paged']) && $wp_query->query['paged'] > 0 ) {
+    /**
+     * Detect 404 error due to paging out of bounds for archives.
+     * 
+     * Do not do this for search.
+     */
+    if( $wp_query->is_404 && isset($wp_query->query['paged']) && $wp_query->query['paged'] > 0 && empty( $wp_query->query['s'] ) ) {
 
       $aArgs = $wp_query->query;
       unset($aArgs['paged']);
