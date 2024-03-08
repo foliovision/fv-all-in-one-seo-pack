@@ -840,7 +840,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     if ((is_category() && $fvseop_options['aiosp_category_noindex']) ||
       (!is_category() && is_archive() &&!$is_tag && $fvseop_options['aiosp_archive_noindex']) ||
       ($fvseop_options['aiosp_tags_noindex'] && $is_tag) ||
-                        (is_search() && $fvseop_options['aiosp_search_noindex'])
+      ( is_search() || ! empty( $_GET['s'] ) ) && $fvseop_options['aiosp_search_noindex']
                         )
     {
       if (isset($meta_string))
