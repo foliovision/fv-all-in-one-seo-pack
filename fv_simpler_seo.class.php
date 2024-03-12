@@ -252,17 +252,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
    */
   function capitalize($s)
   {
-    $s = trim($s);
-    $tokens = explode(' ', $s);
-    while (list($key, $val) = each($tokens)) {
-            $tokens[$key] = trim($tokens[$key]);
-            $tokens[$key] = strtoupper(substr($tokens[$key], 0, 1)) . substr($tokens[$key], 1);
+    if ( function_exists( 'mb_convert_case' ) ) {
+      return mb_convert_case( trim( $s ), MB_CASE_TITLE, 'UTF-8');
+    } else {
+      return ucwords( trim( $s ) );
     }
-    $s = implode(' ', $tokens);
-    return $s;
-    ///return mb_convert_case($s, MB_CASE_TITLE, 'UTF-8');
   }
-  
+
   function curPageURL() {
    $pageURL = 'http';
    if ( isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
