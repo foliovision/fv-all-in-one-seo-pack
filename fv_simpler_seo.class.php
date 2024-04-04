@@ -1060,13 +1060,13 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       {
         $link = get_permalink($pageid);
         $link = $this->yoast_get_paged($link);
-        $link = trailingslashit($link);
+        $link = user_trailingslashit($link);
       }
       else
       {
         $link = get_option('home');
         $link = $this->yoast_get_paged($link);
-        $link = trailingslashit($link);
+        $link = user_trailingslashit($link);
       }
     }
     else
