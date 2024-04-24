@@ -2212,15 +2212,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                   <?php _e("This option will automatically generate Canonical URLS for your entire WordPress installation.  This will help to prevent duplicate content penalties by <a href='http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html' target='_blank'>Google</a>.", 'fv_seo')?>
                 </div>
             </p>
-            <p id="fvseo_attachments">
-                <a class="help-trigger">
-                  <?php _e('Redirect attachment links to the file URLs:', 'fv_seo')?>
-                </a>
-                <input type="checkbox" name="fvseo_attachments" <?php if ($fvseop_options['fvseo_attachments']) echo 'checked="checked"'; ?>/>
-                <div class="help-text">
-                  <?php _e("Get rid of /?attachment_id={attachment_id} and /year/month/post-name/attachment-name kind of pages. Creates 301 redirections and replaces such links in content. Recommended.", 'fv_seo')?>
-                </div>
-            </p>                 
+            <?php if ( $fvseop_options['fvseo_attachments'] || get_option( 'wp_attachment_pages_enabled' ) ) : ?>
+              <p id="fvseo_attachments">
+                  <a class="help-trigger">
+                    <?php _e('Redirect attachment links to the file URLs:', 'fv_seo')?>
+                  </a>
+                  <input type="checkbox" name="fvseo_attachments" <?php if ($fvseop_options['fvseo_attachments']) echo 'checked="checked"'; ?>/>
+                  <div class="help-text">
+                    <?php _e("Get rid of /?attachment_id={attachment_id} and /year/month/post-name/attachment-name kind of pages. Creates 301 redirections and replaces such links in content. Recommended.", 'fv_seo')?>
+                  </div>
+              </p>
+            <?php endif; ?>
             <p id="fvseo_shortlinks">
                 <a class="help-trigger">
                   <?php _e('Enable shortlinks in header:', 'fv_seo')?>
