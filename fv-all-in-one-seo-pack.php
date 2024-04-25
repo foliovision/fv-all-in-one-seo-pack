@@ -421,6 +421,18 @@ jQuery(document).ready(function($) {
 #fv-simpler-seo h2#fvseo_title a { color:#2200c1; }
 #fv-simpler-seo .fvseo_disabled { color:#aaa; }
 
+.fv_simpler_seo_warning {
+  border-left: 2px solid #d63638;
+  border-top: 1px solid #dcdcde;
+  font-weight: bold;
+  color: #b32d2e;
+  display: block;
+  padding: 1em;
+  text-decoration: none;
+}
+.fv_simpler_seo_warning span {
+  color: red;
+}
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
   <input type="hidden" name="nonce-fvseopedit" value="<?php echo esc_attr(wp_create_nonce('edit-fvseopnonce')) ?>" />
@@ -473,7 +485,7 @@ jQuery(document).ready(function($) {
             if( strlen( trim($post->post_excerpt) ) > 0 && strlen( trim($description) ) == 0 && !$fvseop_options['aiosp_dont_use_excerpt'] ) {
             	$meta_description_excerpt = 'Using post excerpt, type your SEO meta description here.';
             } else {
-                $meta_description_excerpt = 'Type your SEO meta description here.';
+                $meta_description_excerpt = 'Type a one sentence introduction to your article.';
             }
             $fvseo_description_input_description = $description;
             ?>
@@ -701,55 +713,84 @@ add_action( 'plugins_loaded', 'replace_title_sanitization' );
 function fvseo_check_empty_clientside() {
 ?>
 <script language="javascript" type="text/javascript">
-jQuery(document).ready(function() {
+jQuery(document).ready( function($) {
   var target = null;
   jQuery('#post :input, #post-preview').focus(function() {
-      target = this;
-      // console.log(target);
+    target = this;
   });
 
+  <?php // Prevent post saving if meta description is empty ?>
   jQuery("#post").submit(function(){
   
-    if(jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#title").val() == '') {
-        //console.log(target);
-        alert("<?php _e('Your post\'s TITLE is empty, so it cannot be published!', 'fv_seo')  ?>");
-        
-        jQuery('#ajax-loading').removeAttr('style');
-        jQuery('#save-post').removeClass('button-disabled');
-        jQuery('#publish').removeClass('button-primary-disabled');
-        return false;
+    if ( jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#fvseo_description_input").val() == '' ) {
+      if ( jQuery( '#fvseo_noindex' ).prop( 'checked' ) ) {
+        $( '.fv_simpler_seo_warning' ).remove();
+        return;
+      }
+
+      alert("<?php _e( "The meta-description is a very important signal to search engines about the content of your page. It's equally important for WordPress archive pages.", 'fv_seo')  ?>");
+      
+      jQuery('#ajax-loading').removeAttr('style');
+      jQuery('#save-post').removeClass('button-disabled');
+      jQuery('#publish').removeClass('button-primary-disabled');
+      return false;
     } 
   });
 
-  jQuery("#publish, #save-post, #post-preview").hover( function() {// buttons: Publish, Save Draft, Preview
-    var where = jQuery(this).parents('#major-publishing-actions, #minor-publishing-actions');
-    if (jQuery("#title").val() == '') {
-        where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('post title is empty', 'fv_seo') ?></b></div>');
-    } 
-    if (jQuery("#fvseo_description_input").val() == '') {
-        where.append( '<div class="hovered-warning" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('meta description is empty!', 'fv_seo') ?></b></div>' );
+  function show_missing_seo_warnings() {
+    if ( jQuery( '#fvseo_noindex' ).prop( 'checked' ) ) {
+      $( '.fv_simpler_seo_warning' ).remove();
+      return;
     }
-  }, function() {
-    jQuery(".hovered-warning").remove();
+
+    <?php // Selectors for: Classic Editor, Block Editor ?>
+    let where = $( '#major-publishing-actions, .edit-post-header__settings .is-primary' );
+
+    <?php // When using Gutenberg .editor-post-save-draft might not be there yet, so try again later ?>
+    if ( 0 === where.length ) {
+      setTimeout( show_missing_seo_warnings, 1000 );
+      return;
+    }
+
+    $( '.fv_simpler_seo_warning' ).remove();
+
+    if ( $("#fvseo_description_input").val() == '') {
+      let warning = '<a href="#fvseo_description_input" class="fv_simpler_seo_warning"><?php _e('Please add a meta description', 'fv_seo') ?></a>';
+
+      <?php // Alternative placement for Block Editor ?>
+      if ( where.hasClass( 'is-primary' ) ) {
+        where.before( warning );
+      } else {
+        where.after( warning );
+      }
+    }
+  }
+
+  $( "#title, #fvseo_description_input, #fvseo_noindex" ).on( 'change keyup', function() {
+    show_missing_seo_warnings();
   });
 
-  setInterval(function() {
-    var where = jQuery('.editor-post-publish-panel__prepublish');
+  <?php // Show instantly if editing a post ?>
+  if ( location.href.match( /post\.php/ ) ) {
+    show_missing_seo_warnings();
 
-    if( where.length > 0 ) {
-      if(jQuery(".wp-block-post-title").text().trim() == '' && jQuery('.hovered-warning-1').length == 0) {
-        where.prepend( '<div class="hovered-warning hovered-warning-1" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('post title is empty', 'fv_seo') ?></b></div>');
-      } else if(jQuery(".wp-block-post-title").text().trim() != '' && jQuery('.hovered-warning-1').length > 0) {
-        jQuery('.hovered-warning-1').remove();
+  <?php // If it's a new post wait until user is going to save it ?>
+  } else {
+    function show_missing_seo_warnings_init() {
+      <?php // Selectors for: Classic Editor, Block Editor ?>
+      let where = $( '#submitdiv, .edit-post-header' );
+
+      <?php // When using Gutenberg .edit-post-header might not be there yet, so try again later ?>
+      if ( 0 === where.length ) {
+        setTimeout( show_missing_seo_warnings_init, 1000 );
+        return;
       }
 
-      if(jQuery("#fvseo_description_input").val() == '' && jQuery('.hovered-warning-2').length == 0) {
-        where.prepend( '<div class="hovered-warning hovered-warning-2" style="text-align: left"><b><span style="color:red"><?php _e('Warning', 'fv_seo') ?></span>: <?php _e('meta description is empty!', 'fv_seo') ?></b></div>' );
-      } else if(jQuery("#fvseo_description_input").val() != '' && jQuery('.hovered-warning-2').length > 0) {
-        jQuery('.hovered-warning-2').remove();
-      }
+      where.hover( show_missing_seo_warnings );
     }
-  }, 500);
+
+    show_missing_seo_warnings_init();
+  }
 
 });
 </script>
