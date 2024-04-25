@@ -407,19 +407,19 @@ jQuery(document).ready(function($) {
 });
 </script>
 <style type="text/css">
-#fvsimplerseopack th { font-size: 90%; } 
-#fvsimplerseopack .inputcounter { font-size: 85%; padding: 0px; text-align: center; background: white; color: #000;  }
-#fvsimplerseopack .input { width: 99%; }
-#fvsimplerseopack .input[type=checkbox] { width: auto; }
-#fvsimplerseopack small { color: #999; }
-#fvsimplerseopack abbr { color: #999; margin-right: 10px;}
-#fvsimplerseopack small.link {color:#36C;font-size:13px;cursor:pointer;}
-#fvsimplerseopack small#fvseo_href { color: #0E774A !important; margin-left:15px; font-family:arial, sans-serif;font-style:normal;font-size:13px;}
-#fvsimplerseopack small.link:hover {text-decoration:underline;}
-#fvsimplerseopack p#fvseo_meta {margin:0;padding:0; margin-left:15px; font-family:arial, sans-serif;font-style:normal;font-size:13px;max-width:546px;}
-#fvsimplerseopack h2#fvseo_title {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
-#fvsimplerseopack h2#fvseo_title a { color:#2200c1; }
-#fvsimplerseopack .fvseo_disabled { color:#aaa; }
+#fv-simpler-seo th { font-size: 90%; } 
+#fv-simpler-seo .inputcounter { font-size: 85%; padding: 0px; text-align: center; background: white; color: #000;  }
+#fv-simpler-seo .input { width: 99%; }
+#fv-simpler-seo .input[type=checkbox] { width: auto; }
+#fv-simpler-seo small { color: #999; }
+#fv-simpler-seo abbr { color: #999; margin-right: 10px;}
+#fv-simpler-seo small.link {color:#36C;font-size:13px;cursor:pointer;}
+#fv-simpler-seo small#fvseo_href { color: #0E774A !important; margin-left:15px; font-family:arial, sans-serif;font-style:normal;font-size:13px;}
+#fv-simpler-seo small.link:hover {text-decoration:underline;}
+#fv-simpler-seo p#fvseo_meta {margin:0;padding:0; margin-left:15px; font-family:arial, sans-serif;font-style:normal;font-size:13px;max-width:546px;}
+#fv-simpler-seo h2#fvseo_title {margin:0;padding:0; color:#2200c1; font-family:arial, sans-serif; font-style:normal; font-size:16px; text-decoration:underline; margin-left:15px; display:inline; padding-bottom:0px; cursor:pointer; line-height: 18px; }
+#fv-simpler-seo h2#fvseo_title a { color:#2200c1; }
+#fv-simpler-seo .fvseo_disabled { color:#aaa; }
 
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
@@ -587,10 +587,10 @@ function fvseo_get_localized_string($string, $language)
 
 function fvseo_meta_box_add()
 {
-  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post');
-  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page');
-  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'download');
-  add_meta_box('fvsimplerseopack',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'product');
+  add_meta_box('fv-simpler-seo',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'post', 'normal', 'high');
+  add_meta_box('fv-simpler-seo',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'page', 'normal', 'high');
+  add_meta_box('fv-simpler-seo',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'download', 'normal', 'high');
+  add_meta_box('fv-simpler-seo',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'product', 'normal', 'high');
   
   global $fvseop_options;
   if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
