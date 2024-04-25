@@ -755,7 +755,7 @@ jQuery(document).ready( function($) {
     $( '.fv_simpler_seo_warning' ).remove();
 
     if ( $("#fvseo_description_input").val() == '') {
-      let warning = '<a href="#fvseo_description_input" class="fv_simpler_seo_warning"><?php _e('Please add a meta description', 'fv_seo') ?></a>';
+      let warning = '<a href="#" onclick="document.getElementById(\'fv-simpler-seo\').scrollIntoView({behavior: \'smooth\'}); document.getElementById(\'fvseo_description_input\').focus(); return false" class="fv_simpler_seo_warning"><?php _e('Please add a meta description', 'fv_seo') ?></a>';
 
       <?php // Alternative placement for Block Editor ?>
       if ( where.hasClass( 'is-primary' ) ) {
