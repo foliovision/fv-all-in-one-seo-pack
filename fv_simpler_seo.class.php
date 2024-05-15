@@ -3683,22 +3683,35 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
     if( isset($fvseop_options['fvseo_attachments']) && !$fvseop_options['fvseo_attachments'] ) {
       return $content;
     }
-    
-    global $wpdb;
-    //$wpdb->queries[] = 'start';
-    $content = preg_replace_callback( '~<a[^>]*?href="(.*?)"[^>]*?rel=".*?wp-att-(\d+).*?"[^>]*?>\s*?<img[^>]*?src="(.*?)"[^>]*?class=".*?wp-image-(\d+).*?"[^>]*?>\s*?</a>~', array( $this, 'replace_attachment_links_callback' ), $content );
+
+    // Get all anchors which nest image and have wp-att-{attachment id} in rel attribute
+    $content = preg_replace_callback( '~<a[^>]*rel="[^"]*wp-att-[^>]*>\s*<img[^>]*>\s*</a>~', array( $this, 'replace_attachment_links_callback' ), $content );
     return $content;
   }
   
   
   
   
-  function replace_attachment_links_callback( $aMatch ) {  
-    if( $aMatch[4] == $aMatch[2] ) {
-      $aMatch[0] = str_replace( $aMatch[1], preg_replace( '~-\d{3,4}x\d{3,4}(\.\S{3,4})$~', '$1', $aMatch[3]), $aMatch[0] );
+  function replace_attachment_links_callback( $aMatch ) {
+    $html = $aMatch[0];
+
+    // Is the linked to attachment ID matching the image ID?
+    preg_match( '~wp-att-(\d+)~', $html, $rel_id );
+    preg_match( '~wp-image-(\d+)~', $html, $image_id );
+
+    if ( $rel_id && $image_id && $rel_id[1] == $image_id[1] ) {
+      preg_match( '~href=[\'"](.*?)[\'"]~', $html, $href );
+      preg_match( '~src=[\'"](.*?)[\'"]~', $html, $src );
+
+      if ( $href && $src ) {
+
+        // Remove the image dimensions from the URL to get full size
+        $full_size = preg_replace( '~-\d{3,4}x\d{3,4}(\.\S{3,4})$~', '$1', $src[1] );
+        $html = str_replace( $href[1], $full_size, $html );
+      }
     }
-    
-    return $aMatch[0];
+
+    return $html;
   }
 
 
