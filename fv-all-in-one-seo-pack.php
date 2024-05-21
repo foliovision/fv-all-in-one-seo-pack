@@ -410,6 +410,7 @@ jQuery(document).ready(function($) {
 #fv-simpler-seo th { font-size: 90%; } 
 #fv-simpler-seo .inputcounter { font-size: 85%; padding: 0px; text-align: center; background: white; color: #000;  }
 #fv-simpler-seo .input { width: 99%; }
+#fv-simpler-seo .input::placeholder { color: rgb(187, 187, 187) }
 #fv-simpler-seo .input[type=checkbox] { width: auto; }
 #fv-simpler-seo small { color: #999; }
 #fv-simpler-seo abbr { color: #999; margin-right: 10px;}
