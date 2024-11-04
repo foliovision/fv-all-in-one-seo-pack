@@ -596,8 +596,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       return;
     }
                 
-    global $wp_query;
-    global $fvseop_options;
+    global $wp_query, $fvseop_options, $wp_locale;
 
     $post = $wp_query->get_queried_object();
                 
@@ -762,6 +761,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       $description = $this->internationalize(category_description());
     }
+    elseif ( ! empty( $fvseop_options['aiosp_date_archive_description'] ) && is_month() )
+    {
+      $description = $fvseop_options['aiosp_date_archive_description'];
+    }
 
     if (isset($description) && (strlen($description) > $this->minimum_description_length) &&
       !(is_home() && is_paged()))
@@ -793,6 +796,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $description = str_replace('%blog_description%', get_bloginfo('description'), $description);
       $description = str_replace('%wp_title%', $this->get_original_title(), $description);
       $description = trim( str_replace('%page%', $this->paged_description(), $description) );
+
+      $description = trim( str_replace('%month%', $wp_locale->get_month( get_query_var( 'monthnum' ) ), $description) );
+      $description = trim( str_replace('%year%', get_query_var( 'year' ), $description) );
+
       $description = __( $description );
 
       if ($fvseop_options['aiosp_can'] && is_attachment())
@@ -2572,6 +2579,15 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
             </p>
             <p>
                 <a class="help-trigger">
+                  <?php _e('Date Archives Description:', 'fv_seo')?>
+                </a><br />
+                <textarea cols="57" rows="2" name="fvseo_date_archive_description"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_date_archive_description']))?></textarea>
+                <div class="help-text">
+                  <?php _e('The META description for date archives, you can use %month% and %year%. Independent of any other options, the default is no META description at all if this is not set.', 'fv_seo')?>
+                </div>
+            </p>
+            <p>
+                <a class="help-trigger">
                   <?php _e('Additional Post Headers:', 'fv_seo')?>
                 </a><br />
                 <textarea cols="57" rows="2" name="fvseo_post_meta_tags"><?php echo htmlspecialchars(stripcslashes($fvseop_options['aiosp_post_meta_tags']))?></textarea>
@@ -3072,6 +3088,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
 
         $fvseop_options['aiosp_ex_pages'] = isset( $_POST['fvseo_ex_pages'] ) ? $_POST['fvseo_ex_pages'] : NULL;
+        $fvseop_options['aiosp_date_archive_description'] = isset( $_POST['fvseo_date_archive_description'] ) ? $_POST['fvseo_date_archive_description'] : NULL;
         $fvseop_options['aiosp_use_tags_as_keywords'] = isset( $_POST['fvseo_use_tags_as_keywords'] ) ? $_POST['fvseo_use_tags_as_keywords'] : NULL;
 
         $fvseop_options['aiosp_search_noindex'] = isset( $_POST['fvseo_search_noindex'] ) ? $_POST['fvseo_search_noindex'] : NULL;
