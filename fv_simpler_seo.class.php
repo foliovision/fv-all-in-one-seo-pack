@@ -452,7 +452,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     load_plugin_textdomain('fv_seo', false, dirname(plugin_basename(__FILE__)) . "/languages");
   }
   
-  function remove_canonical() {
+  function remove_canonical_for_custom_canonical() {
     if (is_single() || is_page() || $this->is_static_posts_page()) {
       global $wp_query, $fvseop_options;
       $post = $wp_query->get_queried_object();
