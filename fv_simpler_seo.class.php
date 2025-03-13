@@ -1099,7 +1099,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   }
   
   
-  function paged_description($description = NULL)
+  function paged_description( $description = '' )
   {
     // the page number if paged
     global $paged;
