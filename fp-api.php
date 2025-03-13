@@ -39,6 +39,7 @@ class FV_Simpler_SEO_Plugin
    */
   var $plugin_slug;
   
+  var $class_name;
   
   function __construct(){
   	$this->class_name = sanitize_title( get_class($this) );
