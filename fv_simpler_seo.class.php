@@ -3553,12 +3553,17 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       
       $aImage = array();
       if( !isset($fvseop_options['social_meta_facebook']) || $fvseop_options['social_meta_facebook'] || !isset($fvseop_options['social_meta_twitter']) || $fvseop_options['social_meta_twitter'] ) {
+
+            add_filter( 'pre_wp_get_loading_optimization_attributes', '__return_empty_array' );
+
             if( $thumb = get_the_post_thumbnail($post->ID,'large') ) {
                 $sTwitterCard = 'summary_large_image';
               } else {
                 $thumb = get_the_post_thumbnail($post->ID,'thumbnail');
                 $sTwitterCard = 'summary';
               }
+
+              remove_filter( 'pre_wp_get_loading_optimization_attributes', '__return_empty_array' );
               
               //take thumb name for comparing
               if( !empty($thumb) && preg_match( '~^[\s\S]*src=["\']([^"\']+)["\'][\s\S]*$~', $thumb, $thumb_src ) ){
