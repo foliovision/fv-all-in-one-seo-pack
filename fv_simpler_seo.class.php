@@ -533,10 +533,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       } else if( $objCheckPaging->is_author ) {
         if( isset($wp_query->query['author_name']) ) {
           $objAuthor = get_user_by( 'slug', $wp_query->query['author_name'] ); 
-          $iAuthorId = $objAuthor->ID;
-        }
-        if( isset($iAuthorId) ) {
-          $sLink = get_author_posts_url($iAuthorId);
+          if ( ! empty( $objAuthor->ID ) ) {
+            $sLink = get_author_posts_url( $objAuthor->ID );
+          }
         }
         
       }
@@ -699,7 +698,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
 
                 /// Modification - always enabled
-    if ($fvseop_options['aiosp_rewrite_titles']     || 1>0)
+    if ( ! empty( $fvseop_options['aiosp_rewrite_titles'] ) && $fvseop_options['aiosp_rewrite_titles'] || 1>0)
     {
       // make the title rewrite as short as possible
       if (function_exists('ob_list_handlers'))
@@ -840,12 +839,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
     
                 /// Added noindex for search
-    if ((is_category() && $fvseop_options['aiosp_category_noindex']) ||
-      (!is_category() && is_archive() &&!$is_tag && $fvseop_options['aiosp_archive_noindex']) ||
-      ($fvseop_options['aiosp_tags_noindex'] && $is_tag) ||
-      ( is_search() || ! empty( $_GET['s'] ) ) && $fvseop_options['aiosp_search_noindex']
-                        )
-    {
+    if (
+      ! empty( $fvseop_options['aiosp_category_noindex'] ) && $fvseop_options['aiosp_category_noindex'] && is_category() ||
+      ! empty( $fvseop_options['aiosp_archive_noindex'] ) && $fvseop_options['aiosp_archive_noindex'] && ! is_category() && is_archive() && ! $is_tag ||
+      ! empty( $fvseop_options['aiosp_tags_noindex'] ) && $fvseop_options['aiosp_tags_noindex'] && $is_tag ||
+      ! empty( $fvseop_options['aiosp_search_noindex'] ) && $fvseop_options['aiosp_search_noindex'] && ( is_search() || ! empty( $_GET['s'] ) )
+    ) {
       if (isset($meta_string))
       {
         $meta_string .= "\n";
@@ -859,9 +858,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       }
     }
     
-    $page_meta = stripcslashes($fvseop_options['aiosp_page_meta_tags']);
-    $post_meta = stripcslashes($fvseop_options['aiosp_post_meta_tags']);
-    $home_meta = stripcslashes($fvseop_options['aiosp_home_meta_tags']);
+    $page_meta = ! empty( $fvseop_options['aiosp_page_meta_tags'] ) ? stripcslashes($fvseop_options['aiosp_page_meta_tags']) : false;
+    $post_meta = ! empty( $fvseop_options['aiosp_post_meta_tags'] ) ? stripcslashes($fvseop_options['aiosp_post_meta_tags']) : false;
+    $home_meta = ! empty( $fvseop_options['aiosp_home_meta_tags'] ) ? stripcslashes($fvseop_options['aiosp_home_meta_tags']) : false;
     
     if (is_page() && isset($page_meta) && !empty($page_meta) || $this->is_static_posts_page())
     {
@@ -945,9 +944,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
     ///
     
-    //if ($fvseop_options['aiosp_can'])
-    if ($fvseop_options['aiosp_can'] || ( isset( $custom_canonical ) && isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']  ) )
-    /// End of modification
+    if ( ! empty( $fvseop_options['aiosp_can'] ) && $fvseop_options['aiosp_can'] || ( isset( $custom_canonical ) && isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']  ) )
     {
       if( (isset($custom_canonical) && $custom_canonical) && (isset($fvseop_options['aiosp_show_custom_canonical']) && $fvseop_options['aiosp_show_custom_canonical']) ) {
         $url = $custom_canonical;
@@ -1370,8 +1367,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         else {
           $categories = get_the_category();
           
-          if (count($categories) > 0)
+          if ( ! empty( $categories[0] ) ) {
             $category = $categories[0]->cat_name;
+          }
 
           $title_format = stripslashes( $fvseop_options['aiosp_post_title_format'] );
         }
@@ -1382,10 +1380,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $new_title = str_replace('%post_type_name%', $post_type_name, $new_title);
         $new_title = str_replace('%category%', $category, $new_title);
         $new_title = str_replace('%category_title%', $category, $new_title);
-        $new_title = str_replace('%post_author_login%', $authordata->user_login, $new_title);
-        $new_title = str_replace('%post_author_nicename%', $authordata->user_nicename, $new_title);
-        $new_title = str_replace('%post_author_firstname%', ucwords($authordata->first_name), $new_title);
-        $new_title = str_replace('%post_author_lastname%', ucwords($authordata->last_name), $new_title);
+        $new_title = str_replace('%post_author_login%', ! empty( $authordata->user_login ) ? $authordata->user_login : '', $new_title);
+        $new_title = str_replace('%post_author_nicename%', ! empty( $authordata->user_nicename ) ? $authordata->user_nicename : '', $new_title);
+        $new_title = str_replace('%post_author_firstname%', ! empty( $authordata->first_name ) ? ucwords($authordata->first_name) : '', $new_title);
+        $new_title = str_replace('%post_author_lastname%', ! empty( $authordata->last_name ) ? ucwords($authordata->last_name) : '', $new_title);
       }
       /// Addition
       else
@@ -1477,22 +1475,24 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
           $title = $this->internationalize( /*wp_title('', false)*/ get_the_title($post->ID) );
         }
                                 
-                                if( $fvseop_options['aiosp_rewrite_titles'] ) {
+        if( $fvseop_options['aiosp_rewrite_titles'] ) {
+          $title_format = stripslashes( $fvseop_options['aiosp_page_title_format'] );
 
-                                    $title_format = stripslashes( $fvseop_options['aiosp_page_title_format'] );
-    
-                                    $new_title = str_replace('%blog_title%', $this->internationalize(get_bloginfo('name')), $title_format);
-                                    $new_title = str_replace('%blog_description%', $this->internationalize(get_bloginfo('description')), $new_title);
-                                    $new_title = str_replace('%page_title%', $title, $new_title);
-                                    $new_title = str_replace('%page_author_login%', $authordata->user_login, $new_title);
-                                    $new_title = str_replace('%page_author_nicename%', $authordata->user_nicename, $new_title);
-                                    $new_title = str_replace('%page_author_firstname%', ucwords($authordata->first_name), $new_title);
-                                    $new_title = str_replace('%page_author_lastname%', ucwords($authordata->last_name), $new_title);
-                                
-                                }
-                                /// Addition
-                                else
-                                    $new_title = $title;
+          $replacements = array(
+            '%blog_title%'            => $this->internationalize( get_bloginfo( 'name' ) ),
+            '%blog_description%'      => $this->internationalize( get_bloginfo( 'description' ) ),
+            '%page_title%'            => $title,
+            '%page_author_login%'     => ! empty( $authordata->user_login ) ? $authordata->user_login : '',
+            '%page_author_nicename%'  => ! empty( $authordata->user_nicename ) ? $authordata->user_nicename : '',
+            '%page_author_firstname%' => ! empty( $authordata->first_name ) ? ucwords( $authordata->first_name ) : '',
+            '%page_author_lastname%'  => ! empty( $authordata->last_name ) ? ucwords( $authordata->last_name ) : '',
+          );
+
+          $new_title = str_replace( array_keys( $replacements ), array_values( $replacements ), $title_format );
+
+        } else {
+          $new_title = $title;
+        }
 
         $title = trim($new_title);
         $title = apply_filters('fvseop_title_page', $title);
@@ -3606,7 +3606,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
                   //if there are less than 2 images in array, save current, size doesn't matter
                   $contentImages[] = array( 'width' => isset($img_width[1]) ? $img_width[1] : 0, 'height' => isset($img_height[1]) ? $img_height[1] : 0, 'path'=> $img_url );
                 }
-                else if(intval($img_width[1]) > 200 && intval($img_height[1]) > 200){
+                else if ( ! empty( $img_width[1] ) && intval( $img_width[1] ) > 200 && ! empty( $img_height[1] ) && intval( $img_height[1] ) > 200 ) {
                   
                   //if actual image is wider than img on postion 0, save to temp for later compare
                   if( $contentImages[0]['width'] < $img_width[1] ){
@@ -3837,7 +3837,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       if( $dim_author = $this->_get_setting('aiosp_ganalytics_dim_author') ) {
         $user = get_userdata($post->post_author);
         $extra_dimensions_config[ $dim_date ] = 'post_author'; 
-        $extra_dimensions_values['post_author'] = $user->display_name;
+        $extra_dimensions_values['post_author'] = ! empty( $user->display_name ) ? $user->display_name : 'no-user';
       }
       
       if( $this->_get_setting('aiosp_ganalytics_cats') ){
