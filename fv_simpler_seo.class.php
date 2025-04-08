@@ -596,8 +596,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       return;
     }
                 
-    global $wp_query;
-    global $fvseop_options;
+    global $wp_query, $fvseop_options, $wp_locale;
 
     $post = $wp_query->get_queried_object();
                 
