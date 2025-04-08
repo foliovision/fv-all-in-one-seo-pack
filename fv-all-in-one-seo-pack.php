@@ -261,9 +261,9 @@ function countChars(field, cntfield, lang)
 
 	  if( field.value.length > <?php echo $fvseo->maximum_description_length; ?> ) {
 	  	background = 'red';
-	  } else if( field.value.length > <?php echo $fvseo->maximum_description_length_green; ?> ) {
+	  } else if( field.value.length >= <?php echo $fvseo->maximum_description_length_green; ?> ) {
 	  	background = 'green';
-	  } else if( field.value.length > <?php echo $fvseo->maximum_description_length_yellow; ?> ) {
+	  } else if( field.value.length >= <?php echo $fvseo->maximum_description_length_yellow; ?> ) {
 	  	background = 'yellow';
       color = 'black';
 	  }
