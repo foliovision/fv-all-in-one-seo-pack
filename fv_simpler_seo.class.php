@@ -8,12 +8,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   // FIELDS
   //-------------------------------
 
-  /** Max numbers of chars in auto-generated description */
-  //var $maximum_description_length = 160;
-  var $maximum_description_length = 145;
-  
-  var $maximum_description_length_yellow = 134;
-  //var $maximum_title_length = 61;
+  /** Max numbers of chars in meta description */
+  var $maximum_description_length        = 145;
+  var $maximum_description_length_yellow = 70;
+  var $maximum_description_length_green  = 110;
+
   var $maximum_title_length = 56;
   
   /** Minimum number of chars an excerpt should be so that it can be used

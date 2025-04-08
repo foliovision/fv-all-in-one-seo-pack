@@ -246,7 +246,7 @@ fvseop_languages =  <?php echo json_encode(qtrans_getSortedLanguages()); ?>;
 
 function countChars(field, cntfield, lang)
 {
-  if( !field.value ) return;
+  if( typeof field.value.length == "undefined" ) return;
 
   var el_description_length = jQuery('#fvseo_description_length'),
     el_description_length_lang = jQuery('#fvseo_description_length_' + lang),
@@ -256,34 +256,38 @@ function countChars(field, cntfield, lang)
   cntfield.value = field.value.length;
 
   if( field.name == 'fvseo_description' || field.name == 'fvseo_description' + '_' + lang ) {
-    var background = 'white';
+    var background = 'red',
+      color = 'white';
 
 	  if( field.value.length > <?php echo $fvseo->maximum_description_length; ?> ) {
 	  	background = 'red';
-	  }
-	  else if( field.value.length > <?php echo $fvseo->maximum_description_length_yellow; ?> ) {
+	  } else if( field.value.length > <?php echo $fvseo->maximum_description_length_green; ?> ) {
+	  	background = 'green';
+	  } else if( field.value.length > <?php echo $fvseo->maximum_description_length_yellow; ?> ) {
 	  	background = 'yellow';
+      color = 'black';
 	  }
 
     if (lang == 'default') {
-      el_description_length.css('background', background);
+      el_description_length.css('background', background).css('color', color);
     }
-    else {
-      el_description_length_lang.css('background', background);
-    }
+
+    jQuery( cntfield ).css('background', background).css('color', color);
   }
   else if( field.name == 'fvseo_title' || field.name == 'fvseo_title' + '_' + lang ) {
-    var background = 'white';
+    var background = 'white',
+      color = 'black';
+
 	  if( field.value.length > <?php echo $fvseo->maximum_title_length; ?> ) {
 	  	background = 'red';
+      color = 'white';
 	  }
 
     if (lang == 'default') {
-      el_title_length.css('background', background);
+      el_title_length.css('background', background).css('color', color);
     }
-    else {
-      el_title_length_lang.css('background', background);
-    }
+
+    jQuery( cntfield ).css('background', background).css('color', color);
   }
 }
 function fvseo_timeout() {
