@@ -413,7 +413,7 @@ jQuery(document).ready(function($) {
 <style type="text/css">
 #fv-simpler-seo th { font-size: 90%; } 
 #fv-simpler-seo .inputcounter { font-size: 85%; padding: 0px; text-align: center; background: white; color: #000;  }
-#fv-simpler-seo .input { width: 99%; }
+#fv-simpler-seo .input, #fv-seo-modal-content .input { width: 99%; }
 #fv-simpler-seo .input::placeholder { color: rgb(187, 187, 187) }
 #fv-simpler-seo .input[type=checkbox] { width: auto; }
 #fv-simpler-seo small { color: #999; }
@@ -437,6 +437,28 @@ jQuery(document).ready(function($) {
 }
 .fv_simpler_seo_warning span {
   color: red;
+}
+.fv-seo-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 100000;
+}
+.fv-seo-modal-wrap {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+#fv-seo-modal-publish {
+  float: right;
 }
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
@@ -463,20 +485,23 @@ jQuery(document).ready(function($) {
         <?php } ?>
         <?php
           $languages = qtrans_getSortedLanguages();
-          foreach($languages as $language) { ?>
-            <?php            
-              $localized_description = fvseo_get_localized_string($description, $language);
-            ?>
-            <p>
-                <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?>&lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-                <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" 
-                  onkeydown="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>')" 
-                  onkeyup="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
-                <br />
-                <input id="fvseo_description_length_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="fvseo_description_length_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
-                <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
-            </p>
-        <?php } ?>
+          ?>
+          <div id="fv-seo-description-input-container">
+            <?php foreach($languages as $language) { ?>
+              <?php            
+                $localized_description = fvseo_get_localized_string($description, $language);
+              ?>
+              <p>
+                  <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?>&lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
+                  <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" 
+                    onkeydown="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>')" 
+                    onkeyup="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
+                  <br />
+                  <input id="fvseo_description_length_<?php echo $language; ?>" class="inputcounter" readonly="readonly" type="text" name="fvseo_description_length_<?php echo $language; ?>" size="3" maxlength="3" value="<?php echo strlen($localized_description);?>" />
+                  <small><?php printf(__(' characters. Most search engines use a maximum of %s chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
+              </p>
+            <?php } ?>
+          </div>
         <?php } else { ?>
         <p>
             <?php _e('Long Title:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in browser toolbar and search engine results. It will replace your post title format defined by your template on this single post/page. For advanced customization use Rewrite Titles in Advanced Options.', 'fv_seo') ?>">(?)</abbr>
@@ -495,11 +520,14 @@ jQuery(document).ready(function($) {
             $fvseo_description_input_description = $description;
             ?>
             <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
-            <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars( this, document.getElementById('fvseo_description_length'), 'default')"
-              onkeyup="countChars( this, document.getElementById('fvseo_description_length'), 'default');" placeholder="<?php echo $meta_description_excerpt; ?>"><?php echo $fvseo_description_input_description ?></textarea>
-            <br />
-            <input id="fvseo_description_length" class="inputcounter" readonly="readonly" type="text" name="fvseo_description_length" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
-            <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
+
+            <div id="fv-seo-description-input-container">
+              <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars( this, document.getElementById('fvseo_description_length'), 'default')"
+                onkeyup="countChars( this, document.getElementById('fvseo_description_length'), 'default');" placeholder="<?php echo $meta_description_excerpt; ?>"><?php echo $fvseo_description_input_description ?></textarea>
+              <br />
+              <input id="fvseo_description_length" class="inputcounter" readonly="readonly" type="text" name="fvseo_description_length" size="3" maxlength="3" value="<?php echo strlen($description);?>" />
+              <small><?php printf(__(' characters. Most search engines use a maximum of %d chars for the description.', 'fv_seo'), $fvseo->maximum_description_length) ?></small>
+            </div>
         </p>
         <?php } ?>
         <div>
@@ -733,8 +761,53 @@ jQuery(document).ready( function($) {
         return;
       }
 
-      alert("<?php _e( "The meta-description is a very important signal to search engines about the content of your page. It's equally important for WordPress archive pages.", 'fv_seo')  ?>");
+      // Check if modal already exists to prevent multiple modals
+      if ($('.fv-seo-modal').length > 0) {
+        return false;
+      }
+
+      // Show the meta description field in a modal
+      var $modal = $('<div class="fv-seo-modal"><div class="fv-seo-modal-wrap"><h2><?php _e("Meta Description Required", "fv_seo"); ?></h2><p><?php _e("Please write a meta-description.", "fv_seo"); ?> <span class="dashicons dashicons-info" title="<?php _e("The metadescription is often used by search engines as a default summary of the page. It should be between 120 and 145 characters.", "fv_seo"); ?>"></span></p><div id="fv-seo-modal-content"></div><div style="clear: both;"></div></div></div>');
+
+      // Add the modal to the page
+      $('body').append($modal);
+
+      // Close modal when clicking outside of it
+      $modal.on('click', function(e) {
+        if ($(e.target).is('.fv-seo-modal')) {
+          $modal.fadeOut(function() {
+            $(this).remove();
+          });
+        }
+      });
+
+      // Clone the meta description field into the modal
+      var $descriptionField = $('#fv-seo-description-input-container').clone();
+      $descriptionField.attr('id', 'fvseo_description_input_modal');
+      $('#fv-seo-modal-content').append($descriptionField);
       
+      // Clone the publish button from the page
+      var $publishButton = $('#publish').clone();
+      $publishButton
+        .attr('id', 'fv-seo-modal-publish')
+        .on( 'click', function() {
+          $('#publish').trigger( 'click' );
+        });
+ 
+      $('#fv-seo-modal-content').append($publishButton);
+      
+      // Sync the modal field with the main field
+      $descriptionField.find('textarea').on('keydown keyup', function() {
+        $('#fvseo_description_input').val($(this).val());
+        countChars( this, $( '#fv-seo-modal-content #fvseo_description_length')[0], 'default');
+      });
+
+      $modal.fadeIn();
+
+      // Focus on the meta description field
+      $('#fvseo_description_input_modal').focus();
+      
+      // Prevent form submission
       jQuery('#ajax-loading').removeAttr('style');
       jQuery('#save-post').removeClass('button-disabled');
       jQuery('#publish').removeClass('button-primary-disabled');
