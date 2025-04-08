@@ -285,7 +285,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     
     $post = $wp_query->get_queried_object();
     
-    return get_option('show_on_front') == 'page' && is_home() && $post->ID == get_option('page_for_posts');
+    return get_option('show_on_front') == 'page' && is_home() && ! empty( $post->ID ) && $post->ID == get_option('page_for_posts');
   }
 
   /**
@@ -456,9 +456,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       global $wp_query, $fvseop_options;
       $post = $wp_query->get_queried_object();
     
+      if ( ! empty( $post->ID ) ) {
       $custom_canonical = trim( get_post_meta($post->ID, "_aioseop_custom_canonical", true) );
       if( $custom_canonical && $fvseop_options['aiosp_show_custom_canonical'] ) {
         remove_action('wp_head', 'rel_canonical');
+        }
       }
     }
   }
@@ -594,7 +596,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       return;
     }
                 
-    global $wp_query, $fvseop_options, $wp_locale;
+    global $wp_query;
+    global $fvseop_options;
 
     $post = $wp_query->get_queried_object();
                 
@@ -652,22 +655,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         }
                 
     $meta_string = null;
-
-    if ($this->is_static_posts_page())
-    {
-      // TODO: strip_tags return a string with all HTML and PHP tags stripped from a given str. Since
-      // it uses a tag stripping state machine, probably it's better to remove this function if you
-      // never use weird post titles.
-      //
-      // The apply_filters on 'single_post_title' ensure any previous plugin is applied.
-      //
-      // I would like to change this line to
-      //
-      // $title = $post->post_title;
-      //
-      // and save a lot of CPU cycles.
-      $title = strip_tags(apply_filters('single_post_title', $post->post_title));
-    }
 
     if (is_single() || is_page())
     {
@@ -939,7 +926,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     
     /// check if meta is present
     if (is_single() || is_page() || $this->is_static_posts_page()) {
-      $custom_canonical = trim( get_post_meta($post->ID, "_aioseop_custom_canonical", true) );
+      $custom_canonical = ! empty( $post->ID ) ? trim( get_post_meta($post->ID, "_aioseop_custom_canonical", true) ) : false;
     }
     ///
     
@@ -1130,17 +1117,18 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   {
     global $fvseop_options;
 
-    $description = trim(stripcslashes($this->internationalize(get_post_meta($post->ID, "_aioseop_description", true))));
+    $description = ! empty( $post->ID ) ? get_post_meta($post->ID, "_aioseop_description", true) : false;
+    $description = trim(stripcslashes($this->internationalize( $description )));
 
     if (!$description)
     {
       /// Addition - condition added
-      if(!$fvseop_options['aiosp_dont_use_excerpt']) {
+      if ( ! $fvseop_options['aiosp_dont_use_excerpt'] && ! empty( $post->post_excerpt ) ) {
         $description = $this->trim_excerpt_without_filters_full_length($this->internationalize($post->post_excerpt));
       }
       /// End of addition
 
-      if (!$description && $fvseop_options["aiosp_generate_descriptions"])
+      if ( ! $description && $fvseop_options["aiosp_generate_descriptions"] && ! empty( $post->post_content ) )
       {
         $description = $this->trim_excerpt_without_filters($this->internationalize($post->post_content));
       }       
@@ -1569,6 +1557,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       else {
         $title_format = stripslashes( $fvseop_options['aiosp_archive_title_format'] );
         $t_sep = ' ';
+        $archive_title = false;
+
         if( is_date() ) {
           //  taken from wp_title()
           global $wp_locale;
@@ -1701,7 +1691,11 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
          /// optimalization HACKs by peter
          /// Pre-cache post meta and tags and categories if needed and if WP version permits it
          $aIDs = array();
-         foreach( $posts as $objPost ) $aIDs[] = $objPost->ID;
+         foreach( $posts as $objPost ) {
+            if ( ! empty( $objPost->ID ) ) {
+               $aIDs[] = $objPost->ID;
+            }
+         }
 
          if( function_exists( 'update_meta_cache' ) ) update_meta_cache( 'post', $aIDs );
          if( ( $fvseop_options['aiosp_use_tags_as_keywords'] || ( $fvseop_options['aiosp_use_categories'] && !is_page() ) )
@@ -3605,7 +3599,10 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
                   //if there are less than 2 images in array, save current, size doesn't matter
                   $contentImages[] = array( 'width' => isset($img_width[1]) ? $img_width[1] : 0, 'height' => isset($img_height[1]) ? $img_height[1] : 0, 'path'=> $img_url );
                 }
-                else if ( ! empty( $img_width[1] ) && intval( $img_width[1] ) > 200 && ! empty( $img_height[1] ) && intval( $img_height[1] ) > 200 ) {
+                else if(
+                  ! empty( $img_width[1] ) && intval( $img_width[1] ) > 200 &&
+                  ! empty( $img_height[1] ) && intval( $img_height[1] ) > 200
+                ) {
                   
                   //if actual image is wider than img on postion 0, save to temp for later compare
                   if( $contentImages[0]['width'] < $img_width[1] ){
