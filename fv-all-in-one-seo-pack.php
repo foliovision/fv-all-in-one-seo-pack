@@ -203,6 +203,10 @@ function fvseop_filter_callback($matches)
 
 function fvseo_meta()
 {
+  // Enqueue Block Editor styles for the meta description modal
+  wp_enqueue_style('wp-components');
+  wp_enqueue_style('wp-block-editor');
+
 	global $post;
 	global $fvseo;
 	
@@ -253,7 +257,11 @@ function countChars(field, cntfield, lang)
     el_title_length = jQuery('#fvseo_title_length'),
     el_title_length_lang = jQuery('#fvseo_title_length_' + lang);
   
-  cntfield.value = field.value.length;
+  if ( 'SPAN' === cntfield.tagName ) {
+    cntfield.innerHTML = field.value.length;
+  } else {
+    cntfield.value = field.value.length;
+  }
 
   if( field.name == 'fvseo_description' || field.name == 'fvseo_description' + '_' + lang ) {
     var background = 'red',
@@ -413,7 +421,7 @@ jQuery(document).ready(function($) {
 <style type="text/css">
 #fv-simpler-seo th { font-size: 90%; } 
 #fv-simpler-seo .inputcounter { font-size: 85%; padding: 0px; text-align: center; background: white; color: #000;  }
-#fv-simpler-seo .input, #fv-seo-modal-content .input { width: 99%; }
+#fv-simpler-seo .input { width: 99%; }
 #fv-simpler-seo .input::placeholder { color: rgb(187, 187, 187) }
 #fv-simpler-seo .input[type=checkbox] { width: auto; }
 #fv-simpler-seo small { color: #999; }
@@ -438,27 +446,24 @@ jQuery(document).ready(function($) {
 .fv_simpler_seo_warning span {
   color: red;
 }
-.fv-seo-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: 100000;
-}
-.fv-seo-modal-wrap {
-  position: relative;
-  width: 80%;
+/* Modal styles are now using WordPress Block Editor classes */
+.fv-seo-modal .components-modal__frame {
   max-width: 600px;
-  margin: 50px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
+  width: 100%;
 }
-#fv-seo-modal-publish {
-  float: right;
+.fv-seo-modal p.help-text {
+  margin-top: 0;
+}
+.fv-seo-modal #fv-seo-modal-character-count span {
+  padding: .5em;
+}
+/* Styles which are not included in the WP Components CSS are added inline by their JS code */
+.fv-seo-modal .components-textarea-control__input {
+  width: 100%; line-height: 20px; padding: 9px 11px; border-radius: 2px; border: 1px solid
+}
+.fv-seo-modal .items-justified-right {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
   <input value="fvseo_edit" type="hidden" name="fvseo_edit" />
@@ -744,6 +749,7 @@ replace_title_sanitization();
 add_action( 'plugins_loaded', 'replace_title_sanitization' );
 
 function fvseo_check_empty_clientside() {
+  global $fvseo;
 ?>
 <script language="javascript" type="text/javascript">
 jQuery(document).ready( function($) {
@@ -755,7 +761,7 @@ jQuery(document).ready( function($) {
   <?php // Prevent post saving if meta description is empty ?>
   jQuery("#post").submit(function(){
   
-    if ( jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#fvseo_description_input").val() == '' ) {
+    if ( jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#fvseo_description_input").val().length < <?php echo absint( $fvseo->maximum_description_length_yellow ); ?> ) {
       if ( jQuery( '#fvseo_noindex' ).prop( 'checked' ) ) {
         $( '.fv_simpler_seo_warning' ).remove();
         return;
@@ -767,42 +773,65 @@ jQuery(document).ready( function($) {
       }
 
       // Show the meta description field in a modal
-      var $modal = $('<div class="fv-seo-modal"><div class="fv-seo-modal-wrap"><h2><?php _e("Meta Description Required", "fv_seo"); ?></h2><p><?php _e("Please write a meta-description.", "fv_seo"); ?> <span class="dashicons dashicons-info" title="<?php _e("The metadescription is often used by search engines as a default summary of the page. It should be between 120 and 145 characters.", "fv_seo"); ?>"></span></p><div id="fv-seo-modal-content"></div><div style="clear: both;"></div></div></div>');
+      var $modal = $('\
+<div class="components-modal__screen-overlay fv-seo-modal">\
+  <div class="components-modal__frame" role="dialog" aria-labelledby="fv-seo-modal-header" tabindex="-1">\
+    <div class="components-modal__content" role="document">\
+      <div class="components-modal__header">\
+        <div class="components-modal__header-heading-container">\
+          <h1 id="fv-seo-modal-header" class="components-modal__header-heading"><?php _e("Meta Description Required", "fv_seo"); ?></h1>\
+        </div>\
+        <div class="components-spacer"></div>\
+        <button type="button" class="components-button is-small has-icon fv-seo-modal-close" aria-label="<?php _e("Close", "fv_seo"); ?>">\
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">\
+            <path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path>\
+          </svg>\
+        </button>\
+      </div>\
+      <div class="components-modal__body">\
+        <p class="help-text"><?php _e("Please write a meta-description.", "fv_seo"); ?> <span class="dashicons dashicons-info" title="<?php _e("The metadescription is often used by search engines as a default summary of the page. It should be between 120 and 145 characters.", "fv_seo"); ?>"></span></p>\
+        <div class="components-tools-panel-item">\
+          <div class="components-base-control">\
+            <div class="components-base-control__field">\
+              <textarea name="fvseo_description" class="components-textarea-control__input" rows="4"></textarea>\
+            </div>\
+            <p id="fv-seo-modal-character-count"><span>0</span> / 145 characters</p>\
+          </div>\
+        </div>\
+      </div>\
+      <div class="components-modal__footer">\
+        <div class="components-flex components-h-stack items-justified-right">\
+          <button type="button" id="fv-seo-modal-publish" class="components-button is-next-40px-default-size is-primary"><?php _e("Publish", "fv_seo"); ?></button>\
+        </div>\
+      </div>\
+    </div>\
+  </div>\
+</div>');
 
       // Add the modal to the page
       $('body').append($modal);
 
-      // Close modal when clicking outside of it
+      // Close modal when clicking outside of it or on the close button
       $modal.on('click', function(e) {
-        if ($(e.target).is('.fv-seo-modal')) {
-          $modal.fadeOut(function() {
-            $(this).remove();
-          });
+        if ($(e.target).is('.fv-seo-modal') || $(e.target).closest('.fv-seo-modal-close').length) {
+          $(this).remove();
         }
       });
 
-      // Clone the meta description field into the modal
-      var $descriptionField = $('#fv-seo-description-input-container').clone();
-      $descriptionField.attr('id', 'fvseo_description_input_modal');
-      $('#fv-seo-modal-content').append($descriptionField);
-      
-      // Clone the publish button from the page
-      var $publishButton = $('#publish').clone();
-      $publishButton
-        .attr('id', 'fv-seo-modal-publish')
-        .on( 'click', function() {
-          $('#publish').trigger( 'click' );
-        });
- 
-      $('#fv-seo-modal-content').append($publishButton);
-      
-      // Sync the modal field with the main field
-      $descriptionField.find('textarea').on('keydown keyup', function() {
-        $('#fvseo_description_input').val($(this).val());
-        countChars( this, $( '#fv-seo-modal-content #fvseo_description_length')[0], 'default');
+      // Set up the publish button click handler
+      $('#fv-seo-modal-publish').on('click', function() {
+        $('#publish').trigger('click');
       });
+      
+      countChars( $modal.find('textarea')[0], $( '#fv-seo-modal-character-count span')[0], 'default');
 
-      $modal.fadeIn();
+      // Sync the modal field with the main field
+      $modal.find('textarea')
+        .on('keydown keyup', function() {
+          $('#fvseo_description_input').val($(this).val());
+          countChars( this, $( '#fv-seo-modal-character-count span')[0], 'default');
+        })
+        .val( $('#fvseo_description_input').val() );
 
       // Focus on the meta description field
       $('#fvseo_description_input_modal').focus();
