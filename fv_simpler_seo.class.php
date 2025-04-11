@@ -781,7 +781,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $description = str_replace('%wp_title%', $this->get_original_title(), $description);
       $description = trim( str_replace('%page%', $this->paged_description(), $description) );
 
-      $description = trim( str_replace('%month%', $wp_locale->get_month( get_query_var( 'monthnum' ) ), $description) );
+      $description = trim( str_replace('%month%', is_month() ? $wp_locale->get_month( get_query_var( 'monthnum' ) ) : '', $description) );
       $description = trim( str_replace('%year%', get_query_var( 'year' ), $description) );
 
       $description = __( $description );
