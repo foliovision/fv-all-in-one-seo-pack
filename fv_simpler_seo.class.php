@@ -2573,7 +2573,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
                 <a class="help-trigger">
                   <?php _e('Date Archives Description:', 'fv_seo')?>
                 </a><br />
-                <textarea cols="57" rows="2" name="fvseo_date_archive_description"><?php echo esc_attr(stripcslashes($fvseop_options['aiosp_date_archive_description']))?></textarea>
+                <textarea cols="57" rows="2" name="fvseo_date_archive_description"><?php if( isset( $fvseop_options['aiosp_date_archive_description'] ) ) echo esc_attr(stripcslashes($fvseop_options['aiosp_date_archive_description']))?></textarea>
                 <div class="help-text">
                   <?php _e('The META description for date archives, you can use %month% and %year%. Independent of any other options, the default is no META description at all if this is not set.', 'fv_seo')?>
                 </div>
