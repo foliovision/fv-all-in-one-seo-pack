@@ -3263,7 +3263,12 @@ add_meta_box( 'fv_simpler_seo_interface_options', 'Extra Interface Options', arr
 add_meta_box( 'fv_simpler_seo_advanced', 'Advanced Options', array( $this, 'admin_settings_advanced' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'admin_settings_tracking_codes', 'Tracking codes', array( $this, 'admin_settings_tracking_codes' ), 'fv_simpler_seo_settings', 'normal' );
 add_meta_box( 'fv_simpler_seo_sitemap', 'XML Sitemaps & Google News feed', array( $this, 'admin_settings_sitemap' ), 'fv_simpler_seo_settings', 'normal' );
-add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this, 'admin_settings_calendar' ), 'fv_simpler_seo_settings', 'normal' );
+
+// Deprecated
+if ( ! empty( $fvseop_options['fvseo_events'] ) && $fvseop_options['fvseo_events'] ) {
+  add_meta_box( 'fv_simpler_seo_calendar', 'Basic Events Functions', array( $this, 'admin_settings_calendar' ), 'fv_simpler_seo_settings', 'normal' );
+}
+
 add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_import' ), 'fv_simpler_seo_settings', 'normal' );
 
 ?>            
