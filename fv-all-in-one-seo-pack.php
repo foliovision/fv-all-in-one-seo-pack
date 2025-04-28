@@ -828,10 +828,14 @@ jQuery(document).ready( function($) {
       // Sync the modal field with the main field
       $modal.find('textarea')
         .on('keydown keyup', function() {
-          $('#fvseo_description_input').val($(this).val());
+          $('#fvseo_description_input')
+            .val( $(this).val() )
+            .trigger('keyup');
+
           countChars( this, $( '#fv-seo-modal-character-count span')[0], 'default');
         })
-        .val( $('#fvseo_description_input').val() );
+        .val( $('#fvseo_description_input').val() )
+        .trigger('keyup');
 
       // Focus on the meta description field
       $('#fvseo_description_input_modal').focus();
