@@ -3976,7 +3976,7 @@ src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
               <!-- End of StatCounter Code for Default Guide -->') . "\n";
 
       } else {
-        echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/";var src = document.getElementById("x");</script>') . "\n";
+        echo stripcslashes('<script type="text/javascript">var img = document.createElement("img");img.src = "//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"</script>') . "\n";
         echo stripcslashes('<noscript><img class="statcounter" src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/" alt="free hit counter"></noscript>');
 
       }
