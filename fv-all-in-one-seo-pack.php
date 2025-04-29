@@ -645,10 +645,7 @@ function fvseo_meta_box_add()
   add_meta_box('fv-simpler-seo',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'download', 'normal', 'high');
   add_meta_box('fv-simpler-seo',__('FV Simpler SEO', 'fv_seo'), 'fvseo_meta', 'product', 'normal', 'high');
   
-  global $fvseop_options;
-  if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
-    add_action('admin_head', 'fvseo_check_empty_clientside', 1);
-  }
+  add_action('admin_head', 'fvseo_check_empty_clientside', 1);
 
   if( false === get_option( 'aiosp-shorten-link-install' ) ) {
     add_option( 'aiosp-shorten-link-install', date( 'Y-m-d H:i:s' ) );
@@ -750,7 +747,7 @@ replace_title_sanitization();
 add_action( 'plugins_loaded', 'replace_title_sanitization' );
 
 function fvseo_check_empty_clientside() {
-  global $fvseo;
+  global $fvseo, $fvseop_options;
 ?>
 <script language="javascript" type="text/javascript">
 jQuery(document).ready( function($) {
@@ -759,22 +756,22 @@ jQuery(document).ready( function($) {
     target = this;
   });
 
-  <?php // Prevent post saving if meta description is empty ?>
+  <?php // Prevent post saving if meta description is empty and fvseo_publ_warnings is enabled ?>
   jQuery("#post").submit(function(){
-  
     if ( jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#fvseo_description_input").val().length < <?php echo absint( $fvseo->maximum_description_length_yellow ); ?> ) {
       if ( jQuery( '#fvseo_noindex' ).prop( 'checked' ) ) {
         $( '.fv_simpler_seo_warning' ).remove();
         return;
       }
 
-      // Check if modal already exists to prevent multiple modals
-      if ($('.fv-seo-modal').length > 0) {
-        return false;
-      }
+      <?php if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) : ?>
+        // Check if modal already exists to prevent multiple modals
+        if ($('.fv-seo-modal').length > 0) {
+          return false;
+        }
 
-      // Show the meta description field in a modal
-      var $modal = $('\
+        // Show the meta description field in a modal
+        var $modal = $('\
 <div class="components-modal__screen-overlay fv-seo-modal">\
   <div class="components-modal__frame" role="dialog" aria-labelledby="fv-seo-modal-header" tabindex="-1">\
     <div class="components-modal__content" role="document">\
@@ -809,43 +806,44 @@ jQuery(document).ready( function($) {
   </div>\
 </div>');
 
-      // Add the modal to the page
-      $('body').append($modal);
+        // Add the modal to the page
+        $('body').append($modal);
 
-      // Close modal when clicking outside of it or on the close button
-      $modal.on('click', function(e) {
-        if ($(e.target).is('.fv-seo-modal') || $(e.target).closest('.fv-seo-modal-close').length) {
-          $(this).remove();
-        }
-      });
+        // Close modal when clicking outside of it or on the close button
+        $modal.on('click', function(e) {
+          if ($(e.target).is('.fv-seo-modal') || $(e.target).closest('.fv-seo-modal-close').length) {
+            $(this).remove();
+          }
+        });
 
-      // Set up the publish button click handler
-      $('#fv-seo-modal-publish').on('click', function() {
-        $('#publish').trigger('click');
-      });
-      
-      countChars( $modal.find('textarea')[0], $( '#fv-seo-modal-character-count span')[0], 'default');
+        // Set up the publish button click handler
+        $('#fv-seo-modal-publish').on('click', function() {
+          $('#publish').trigger('click');
+        });
+        
+        countChars( $modal.find('textarea')[0], $( '#fv-seo-modal-character-count span')[0], 'default');
 
-      // Sync the modal field with the main field
-      $modal.find('textarea')
-        .on('keydown keyup', function() {
-          $('#fvseo_description_input')
-            .val( $(this).val() )
-            .trigger('keyup');
+        // Sync the modal field with the main field
+        $modal.find('textarea')
+          .on('keydown keyup', function() {
+            $('#fvseo_description_input')
+              .val( $(this).val() )
+              .trigger('keyup');
 
-          countChars( this, $( '#fv-seo-modal-character-count span')[0], 'default');
-        })
-        .val( $('#fvseo_description_input').val() )
-        .trigger('keyup');
+            countChars( this, $( '#fv-seo-modal-character-count span')[0], 'default');
+          })
+          .val( $('#fvseo_description_input').val() )
+          .trigger('keyup');
 
-      // Focus on the meta description field
-      $('#fvseo_description_input_modal').focus();
-      
-      // Prevent form submission
-      jQuery('#ajax-loading').removeAttr('style');
-      jQuery('#save-post').removeClass('button-disabled');
-      jQuery('#publish').removeClass('button-primary-disabled');
-      return false;
+        // Focus on the meta description field
+        $('#fvseo_description_input_modal').focus();
+        
+        // Prevent form submission
+        jQuery('#ajax-loading').removeAttr('style');
+        jQuery('#save-post').removeClass('button-disabled');
+        jQuery('#publish').removeClass('button-primary-disabled');
+        return false;
+      <?php endif; ?>
     } 
   });
 
