@@ -645,8 +645,6 @@ function fvseo_meta_box_add()
   global $fvseop_options;
   if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
     add_action('admin_head', 'fvseo_check_empty_clientside', 1);
-  } else {
-    fvseo_removetitlechecker();
   }
 
   if( false === get_option( 'aiosp-shorten-link-install' ) ) {
@@ -906,16 +904,6 @@ jQuery(document).ready( function($) {
 });
 </script>
 <?php
-}
-
-function fvseo_removetitlechecker() {
-   if ( has_action( 'admin_head', 'fvseo_check_empty_clientside' ) ) {
-      remove_action( 'admin_head', 'fvseo_check_empty_clientside' );
-   }
-}
-
-if( is_admin() ){
-   register_deactivation_hook( __FILE__, 'fvseo_removetitlechecker' );
 }
 
 function fvseo_remove_category_list_rel( $output ) {
