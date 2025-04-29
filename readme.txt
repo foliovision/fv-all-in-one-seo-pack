@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 6.5
+Tested up to: 6.8
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -42,6 +42,14 @@ Some features:
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 == Changelog ==
+
+= 1.9.6 - 29th April 2025 =
+* Publishing post without meta description shows a modal popup asking the user to enter the meta description
+* Change meta box to high priority
+* New Setting: Date Archives Description
+* New Setting: StatCounter: Use full-featured StatCounter tracking code
+* PHP 8.2 fixes
+* Bugfix: Canonical links: Avoid trailing slash
 
 = Version 1.9.5 - 3rd November 2023 =
 * StatCounter - no longer using the tracking pixel by default as it won't capture the referring page in modern browsers and the standard tracking code has no impact on page load speed
