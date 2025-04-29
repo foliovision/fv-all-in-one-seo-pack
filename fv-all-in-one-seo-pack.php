@@ -203,12 +203,13 @@ function fvseop_filter_callback($matches)
 
 function fvseo_meta()
 {
-  // Enqueue Block Editor styles for the meta description modal
-  wp_enqueue_style('wp-components');
-  wp_enqueue_style('wp-block-editor');
+	global $post, $fvseo, $fvseop_options;
 
-	global $post;
-	global $fvseo;
+	if ( $fvseop_options['fvseo_publ_warnings'] == 1 ) {
+		// Enqueue Block Editor styles for the meta description modal
+		wp_enqueue_style('wp-components');
+		wp_enqueue_style('wp-block-editor');
+	}
 	
 	$post_id = $post;
 	
