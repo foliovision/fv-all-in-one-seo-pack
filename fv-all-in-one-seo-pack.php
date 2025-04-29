@@ -446,6 +446,9 @@ jQuery(document).ready(function($) {
 .fv_simpler_seo_warning span {
   color: red;
 }
+.editor-header__settings .fv_simpler_seo_warning {
+  width: 19em;
+}
 /* Modal styles are now using WordPress Block Editor classes */
 .fv-seo-modal .components-modal__frame {
   max-width: 600px;
@@ -853,7 +856,7 @@ jQuery(document).ready( function($) {
     }
 
     <?php // Selectors for: Classic Editor, Block Editor ?>
-    let where = $( '#major-publishing-actions, .edit-post-header__settings .is-primary' );
+    let where = $( '#major-publishing-actions, .editor-header__settings .is-primary' );
 
     <?php // When using Gutenberg .editor-post-save-draft might not be there yet, so try again later ?>
     if ( 0 === where.length ) {
