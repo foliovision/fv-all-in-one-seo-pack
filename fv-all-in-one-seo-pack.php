@@ -751,9 +751,9 @@ function fvseo_check_empty_clientside() {
   global $fvseo, $fvseop_options;
 ?>
 <script language="javascript" type="text/javascript">
-jQuery(document).ready( function($) {
+jQuery( function($) {
   var target = null;
-  jQuery('#post :input, #post-preview').focus(function() {
+  jQuery('#post :input, #post-preview').on( 'focus', function() {
     target = this;
   });
 
