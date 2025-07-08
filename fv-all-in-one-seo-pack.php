@@ -758,7 +758,7 @@ jQuery( function($) {
   });
 
   <?php // Prevent post saving if meta description is empty and fvseo_publ_warnings is enabled ?>
-  jQuery("#post").submit(function(){
+  jQuery("#post").on( 'submit', function(){
     if ( jQuery(target).is(':input') && ( jQuery(target).val() == 'Publish' || jQuery(target).val() == 'Update' ) && jQuery("#fvseo_description_input").val().length < <?php echo absint( $fvseo->maximum_description_length_yellow ); ?> ) {
       if ( jQuery( '#fvseo_noindex' ).prop( 'checked' ) ) {
         $( '.fv_simpler_seo_warning' ).remove();
@@ -897,7 +897,7 @@ jQuery( function($) {
         return;
       }
 
-      where.hover( show_missing_seo_warnings );
+      where.on( 'mouseenter', show_missing_seo_warnings );
     }
 
     show_missing_seo_warnings_init();
