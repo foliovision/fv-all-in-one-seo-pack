@@ -516,21 +516,19 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       } else if( $objCheckPaging->is_category ) {
         if( isset($wp_query->query['category_name']) ) {
           $objCat = get_category_by_path( $wp_query->query['category_name'] ); 
-          $iCatId = $objCat->term_id;
+          if( isset( $objCat->term_id ) ) {
+            $sLink = get_category_link( $objCat->term_id );
+          }
         }
-        if( isset($iCatId) ) {
-          $sLink = get_category_link($iCatId);
-        }
-        
+
       } else if( $objCheckPaging->is_tag ) {
         if( isset($wp_query->query['tag']) ) {
           $objTag = get_term_by( 'slug', $wp_query->query['tag'], 'post_tag' ); 
-          $tag_id = $objTag->term_id;
+          if( isset( $objTag->term_id ) ) {
+            $sLink = get_term_link( $objTag->term_id, 'post_tag' );
+          }
         }
-        if( isset($tag_id) ) {
-          $sLink = get_term_link( $tag_id, 'post_tag' );
-        }
-        
+
       } else if( $objCheckPaging->is_author ) {
         if( isset($wp_query->query['author_name']) ) {
           $objAuthor = get_user_by( 'slug', $wp_query->query['author_name'] ); 
