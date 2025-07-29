@@ -276,7 +276,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     
     $post = $wp_query->get_queried_object();
     
-    return get_option('show_on_front') == 'page' && is_page() && $post->ID == get_option('page_on_front');
+    return get_option('show_on_front') === 'page' && is_page() && ! empty( $post->ID ) && $post->ID === absint( get_option('page_on_front') );
   }
   
   function is_static_posts_page()
@@ -285,7 +285,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     
     $post = $wp_query->get_queried_object();
     
-    return get_option('show_on_front') == 'page' && is_home() && ! empty( $post->ID ) && $post->ID == get_option('page_for_posts');
+    return get_option('show_on_front') === 'page' && is_home() && ! empty( $post->ID ) && $post->ID === absint( get_option('page_for_posts') );
   }
 
   /**
