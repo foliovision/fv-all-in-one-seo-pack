@@ -72,6 +72,7 @@ if( !$fvseop_options ) fvseop_mrt_mkarry();
 
 require( dirname(__FILE__).'/utf8_tables.php' );
 require( dirname(__FILE__).'/fv_simpler_seo.class.php' );
+require( dirname(__FILE__).'/class.fv-simpler-seo-json-ld.php' );
 
 function fvseop_mrt_mkarry()
 {
