@@ -112,7 +112,55 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     
     $fvseop_options = array_merge( $fvseop_default_options, $fvseop_options );
     update_option( 'aioseop_options', $fvseop_options );
-    
+
+    /**
+     * Upgrade database to new meta keys
+     * - _aioseop_description -> _aioseo_description
+     * - _aioseop_keywords -> _aioseo_keywords
+     * - _aioseop_title -> _aioseo_title
+     */
+    global $wpdb;
+    if (
+      $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key IN( '_aioseop_description', '_aioseop_keywords', '_aioseop_title' ) LIMIT 1" )
+    ) {
+      /**
+       * Backup old meta keys that belong to orignal All in One SEO Pack,
+       * as we are going to overwrite these.
+       */
+      $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_key' => '_aioseo_description_backup' ),
+        array( 'meta_key' => '_aioseo_description' )
+      );
+      $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_key' => '_aioseo_keywords_backup' ),
+        array( 'meta_key' => '_aioseo_keywords' )
+      );
+      $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_key' => '_aioseo_title_backup' ),
+        array( 'meta_key' => '_aioseo_title' )
+      );
+
+      // Upgrade
+      $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_key' => '_aioseo_description' ),
+        array( 'meta_key' => '_aioseop_description' )
+      );
+      $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_key' => '_aioseo_keywords' ),
+        array( 'meta_key' => '_aioseop_keywords' )
+      );
+      $wpdb->update(
+        $wpdb->postmeta,
+        array( 'meta_key' => '_aioseo_title' ),
+        array( 'meta_key' => '_aioseop_title' )
+      );
+    }
+
     update_option('fv_simpler_seo_version', $fv_simpler_seo_version);
   }
 
@@ -146,7 +194,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   function description_for_excerpt( $excerpt ) {
     global $post;
-    if( empty( $post->post_excerpt) && $description = get_post_meta( $post->ID, '_aioseop_description', true ) ) {
+    if( empty( $post->post_excerpt) && $description = get_post_meta( $post->ID, '_aioseo_description', true ) ) {
       if( strlen($description) > 0 ) {
         return $description;
       }
@@ -161,7 +209,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     global $post;
     if( !is_singular() ) {
       if( stripos($post->post_content,'<!--more-->') === false ) {  //   If there is no read more tag it should show just the description.
-        $description = trim( get_post_meta( $post->ID, '_aioseop_description', true ) );
+        $description = trim( get_post_meta( $post->ID, '_aioseo_description', true ) );
         if( strlen($description) > 0 ) {
           return $description;        
         } else if( isset($post->post_type) && ( $post == 'post' || $post == 'page' ) ) {
@@ -571,7 +619,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
 
     /// Let's do this also if longer title is specified or if it's homepage
-    if ($fvseop_options['aiosp_rewrite_titles'] || ( is_object( $post ) && isset($post->ID) && get_post_meta($post->ID, "_aioseop_title", true) ) || is_home() )
+    if ($fvseop_options['aiosp_rewrite_titles'] || ( is_object( $post ) && isset($post->ID) && get_post_meta($post->ID, "_aioseo_title", true) ) || is_home() )
     {
       ob_start(array($this, 'output_callback_for_title')); // this ob_start is matched with ob_end_flush in wp_head
     }
@@ -716,7 +764,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     }
     elseif ($this->is_static_posts_page() && !$fvseop_options['aiosp_dynamic_postspage_keywords']) // and if option = use page set keywords instead of keywords from recent posts
     {
-      $keywords = stripcslashes($this->internationalize(get_post_meta($post->ID, "_aioseop_keywords", true)));
+      $keywords = stripcslashes($this->internationalize(get_post_meta($post->ID, "_aioseo_keywords", true)));
     }
     else
     {
@@ -1114,7 +1162,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   {
     global $fvseop_options;
 
-    $description = ! empty( $post->ID ) ? get_post_meta($post->ID, "_aioseop_description", true) : false;
+    $description = ! empty( $post->ID ) ? get_post_meta($post->ID, "_aioseo_description", true) : false;
     $description = trim(stripcslashes($this->internationalize( $description )));
 
     if (!$description)
@@ -1308,7 +1356,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       // we're not in the loop :(
       $authordata = get_userdata($post->post_author);
-      $title = $this->internationalize(get_post_meta($post->ID, "_aioseop_title", true));
+      $title = $this->internationalize(get_post_meta($post->ID, "_aioseo_title", true));
                         
       $post_type_obj = get_post_type_object( get_post_type( $post->ID ) );
       $post_type_name = $post_type_obj->labels->name;
@@ -1452,7 +1500,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       }
       else
       {
-        $title = $this->internationalize(get_post_meta($post->ID, "_aioseop_title", true));
+        $title = $this->internationalize(get_post_meta($post->ID, "_aioseo_title", true));
         
         if (!$title)
         {
@@ -1737,7 +1785,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
           $id = is_attachment() ? $post->post_parent : $post->ID; // if attachment then use parent post id
 
-          $keywords_i = stripcslashes($this->internationalize(get_post_meta($id, "_aioseop_keywords", true)));
+          $keywords_i = stripcslashes($this->internationalize(get_post_meta($id, "_aioseo_keywords", true)));
           $keywords_i = str_replace('"', '', $keywords_i);
                   
           if (isset($keywords_i) && !empty($keywords_i))
@@ -1858,9 +1906,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;       
       $nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;             
         
-      delete_post_meta($id, '_aioseop_keywords');
-      delete_post_meta($id, '_aioseop_description');
-      delete_post_meta($id, '_aioseop_title');
+      delete_post_meta($id, '_aioseo_keywords');
+      delete_post_meta($id, '_aioseo_description');
+      delete_post_meta($id, '_aioseo_title');
       delete_post_meta($id, '_aioseop_titleatr');
       delete_post_meta($id, '_aioseop_menulabel');
       delete_post_meta($id, '_aioseop_custom_canonical');   
@@ -1874,17 +1922,17 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
       if (isset($keywords) && !empty($keywords))
       {
-        add_post_meta($id, '_aioseop_keywords', $keywords);
+        add_post_meta($id, '_aioseo_keywords', $keywords);
       }
 
       if (isset($description) && !empty($description))
       {
-        add_post_meta($id, '_aioseop_description', $description);
+        add_post_meta($id, '_aioseo_description', $description);
       }
 
       if (isset($title) && !empty($title) && $title != get_the_title( $id ) )
       {
-        add_post_meta($id, '_aioseop_title', $title);
+        add_post_meta($id, '_aioseo_title', $title);
       }
         
       if (isset($fvseo_titleatr) && !empty($fvseo_titleatr))
@@ -2052,12 +2100,12 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     $titles = $wpdb->get_var(
       "SELECT count(*) FROM {$wpdb->postmeta}
       WHERE meta_key = '$title_meta'
-      AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_title' )"
+      AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseo_title' )"
     );
     $metadesc = $wpdb->get_var(
       "SELECT count(*) FROM {$wpdb->postmeta}
       WHERE meta_key = '$description_meta'
-      AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_description' )"
+      AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseo_description' )"
     );
     $import_sum = $metadesc + $titles;
     
@@ -3160,7 +3208,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         $seo_titles = $wpdb->get_results(
           "SELECT post_id, meta_value FROM {$wpdb->postmeta}
           WHERE meta_key = '$title_meta_value'
-          AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_title' )"
+          AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseo_title' )"
         );
         
         $titles_updated = 0;
@@ -3169,14 +3217,14 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
             break;
           }
           
-          update_post_meta( $stitle->post_id, '_aioseop_title', $stitle->meta_value);
+          update_post_meta( $stitle->post_id, '_aioseo_title', $stitle->meta_value);
           $titles_updated++;
         }
         
         $meta_desc = $wpdb->get_results(
           "SELECT post_id, meta_value FROM {$wpdb->postmeta}
           WHERE meta_key = '$desc_meta_value'
-          AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseop_description' )"
+          AND post_id NOT IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_aioseo_description' )"
         );
 
         $description_updated = 0;
@@ -3185,7 +3233,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
             break;
           }
           
-          update_post_meta( $mdesc->post_id, '_aioseop_description', $mdesc->meta_value);
+          update_post_meta( $mdesc->post_id, '_aioseo_description', $mdesc->meta_value);
           $description_updated++;
         }
         
@@ -3530,7 +3578,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
 
     if ( is_singular() ) {
       global $post;
-      if( !$description = stripcslashes( get_post_meta($post->ID, '_aioseop_description', true) ) ) {
+      if( !$description = stripcslashes( get_post_meta($post->ID, '_aioseo_description', true) ) ) {
         $description = wp_trim_words(strip_shortcodes(strip_tags($post->post_content)), 20, ' &hellip;');
       }
       
@@ -3539,7 +3587,7 @@ add_meta_box( 'fv_simpler_seo_import', 'Import', array( $this, 'admin_settings_i
       $description = htmlspecialchars(strip_tags($description));
           
       
-      if( !$title = stripcslashes( get_post_meta($post->ID, '_aioseop_title', true) ) ) {
+      if( !$title = stripcslashes( get_post_meta($post->ID, '_aioseo_title', true) ) ) {
         $title = strip_tags( get_the_title() );
       }
       

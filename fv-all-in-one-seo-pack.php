@@ -8,7 +8,7 @@ Author: Foliovision
 Author URI: http://foliovision.com
 */
 
-$fv_simpler_seo_version = '1.9.6';
+$fv_simpler_seo_version = '1.9.6.1';
 $fvseop_options = get_option('aioseop_options');
 
 global $fvseop_default_options;
@@ -180,7 +180,7 @@ function fvseop_filter_callback($matches)
 		$menulabel = $matches[4];
                
   /// Addition
-  $longtitle = stripslashes(get_post_meta($postID, '_aioseop_title', true));
+  $longtitle = stripslashes(get_post_meta($postID, '_aioseo_title', true));
             
   $menulabel = __( $menulabel );  
   $longtitle = __( $longtitle );  
@@ -219,10 +219,10 @@ function fvseo_meta()
 		$post_id = $post_id->ID;
 	}
 	$url = str_replace('http://','',get_permalink());
- 	$keywords = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_keywords', true))));
-	$title = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_title', true))));
+ 	$keywords = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseo_keywords', true))));
+	$title = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseo_title', true))));
 	$custom_canonical = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_custom_canonical', true))));
-	$description = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_description', true))));
+	$description = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseo_description', true))));
 	$fvseo_meta = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_meta', true))));
 	$fvseo_disable = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_disable', true))));
 	$fvseo_titleatr = esc_attr(htmlspecialchars(stripcslashes(get_post_meta($post_id, '_aioseop_titleatr', true))));
@@ -502,7 +502,7 @@ jQuery(document).ready(function($) {
                 $localized_description = fvseo_get_localized_string($description, $language);
               ?>
               <p>
-                  <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?>&lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
+                  <?php _e('Meta Description:', 'fv_seo') ?> (<?php echo qtrans_getLanguageName($language); ?>) <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?>&lt;?php echo get_post_meta('_aioseo_description',$post->ID); ?&gt;">(?)</abbr>
                   <textarea id="fvseo_description_input_<?php echo $language; ?>" class="input" name="fvseo_description_<?php echo $language; ?>" rows="2" 
                     onkeydown="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>')" 
                     onkeyup="countChars( this, document.getElementById('fvseo_description_length_<?php echo $language; ?>'), '<?php echo $language ?>');"><?php echo $localized_description ?></textarea>
@@ -529,7 +529,7 @@ jQuery(document).ready(function($) {
             }
             $fvseo_description_input_description = $description;
             ?>
-            <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseop_description',$post->ID); ?&gt;">(?)</abbr>
+            <?php _e('Meta Description:', 'fv_seo') ?> <abbr title="<?php _e('Displayed in search engine results. Can be called inside of template file with', 'fv_seo') ?> &lt;?php echo get_post_meta('_aioseo_description',$post->ID); ?&gt;">(?)</abbr>
 
             <div id="fv-seo-description-input-container">
               <textarea id="fvseo_description_input" class="input" name="fvseo_description" rows="2" onkeydown="countChars( this, document.getElementById('fvseo_description_length'), 'default')"
@@ -978,8 +978,8 @@ function fvseo_genesis_waring(){
  */
 foreach(
   array(
-    '_aioseop_title' => 'FV Long Title',
-    '_aioseop_description' => 'FV Meta Description',
+    '_aioseo_title' => 'FV Long Title',
+    '_aioseo_description' => 'FV Meta Description',
   ) as $meta_key => $description
 ) {
   register_meta( 'post', $meta_key, array(
