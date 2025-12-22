@@ -46,7 +46,9 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
       
       global $fv_simpler_seo_version;
-      if( get_option('fv_simpler_seo_version') != $fv_simpler_seo_version ) {
+      if ( get_option('fv_simpler_seo_version') != $fv_simpler_seo_version ) {
+        update_option( 'fv_simpler_seo_version', $fv_simpler_seo_version, false );
+
         $this->activate();
       }
 
@@ -94,7 +96,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
   
   
   function activate() {
-    global $fv_simpler_seo_version;
     $fvseop_options = ( get_option('aioseop_options') ) ? get_option('aioseop_options') : array();
     if( /*isset($fvseop_options['aiosp_shorten_slugs']) && $fvseop_options['aiosp_shorten_slugs'] || */!isset($fvseop_options['aiosp_shorten_slugs']) ) {
       update_option( $this->plugin_slug.'_deferred_notices', 'FV Simpler SEO will from now on automatically shorten your new post slugs to 3 most important keywords. You can disable this option in its <a href="'.$this->get_admin_page_url().'">Settings</a>.' );     
@@ -120,9 +121,10 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
      * - _aioseop_title -> _aioseo_title
      */
     global $wpdb;
-    if (
-      $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key IN( '_aioseop_description', '_aioseop_keywords', '_aioseop_title' ) LIMIT 1" )
-    ) {
+    if ( empty( $fvseop_options['convert_meta_keys'] ) ) {
+      $fvseop_options['convert_meta_keys'] = true;
+      update_option( 'aioseop_options', $fvseop_options );
+
       /**
        * Backup old meta keys that belong to orignal All in One SEO Pack,
        * as we are going to overwrite these.
@@ -160,8 +162,6 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
         array( 'meta_key' => '_aioseop_title' )
       );
     }
-
-    update_option('fv_simpler_seo_version', $fv_simpler_seo_version);
   }
 
 
