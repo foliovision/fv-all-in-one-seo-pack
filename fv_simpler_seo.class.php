@@ -641,64 +641,60 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
     {
       return;
     }
-                
+
     global $wp_query, $fvseop_options, $wp_locale;
 
     $post = $wp_query->get_queried_object();
-                
-        //Add link rel="next/prev" when displaying archive
-        global $wp_rewrite;
-                
-        if($wp_rewrite->using_permalinks() && (is_category() || is_tag() || is_tax())){
-            $taxonomy = $wp_query->tax_query->queries[0]["taxonomy"];
-            $term = $wp_query->tax_query->queries[0]["terms"][0];
-                
-            $prev = "";
-            $next = "";
-              
-            $page = 0;
-              
-            if(isset($wp_query->query["paged"]))
-                $page = intval($wp_query->query["paged"]);
-                
-            $posts_per_page = $wp_query->query_vars["posts_per_page"];
-            $found_posts = $wp_query->found_posts;
-            $root = get_term_link($term,$taxonomy);                        
-            
-            
-            if($page){
-                    
-                //set prev links
-                if($page-1<2){
-                    $prev = user_trailingslashit( trailingslashit($root) );
-                }else{
-                    $prev = user_trailingslashit( trailingslashit($root).'page/'.($page-1) );
-                }
-                    
-                //set next link
-                if($found_posts>$posts_per_page*$page){
-                    $next = user_trailingslashit( trailingslashit($root).'page/'.($page+1) );
-                }
-                  
-            }else{
-                //set next link if necessary
-                if($found_posts > $posts_per_page){
-                    $next = user_trailingslashit( trailingslashit($root).'page/2/' );
-                }
-                   
+
+    // Add link rel="next/prev" when displaying archive
+    global $wp_rewrite;
+
+    if ( $wp_rewrite->using_permalinks() && ( is_category() || is_tag() || is_tax() ) ){
+
+      // If the term exists, we can get the taxonomy and term from $wp_query->tax_query
+      if ( ! empty( $wp_query->tax_query->queries[0] ) ) {
+        $prev = false;
+        $next = false;
+
+        $taxonomy  = $wp_query->tax_query->queries[0]["taxonomy"];
+        $term      = $wp_query->tax_query->queries[0]["terms"][0];
+        $term_link = get_term_link( $term,$taxonomy );
+
+        if ( ! is_wp_error( $term_link ) ) {
+          $posts_per_page = absint( $wp_query->query_vars["posts_per_page"] );
+          $found_posts    = absint( $wp_query->found_posts );
+          $paged          = ! empty( $wp_query->query["paged"] ) ? absint( $wp_query->query["paged"] ) : 0;
+
+          
+          if ( $paged ) {
+            if ( $paged - 1 < 2 ) {
+              $prev = user_trailingslashit( trailingslashit( $term_link ) );
+            } else {
+              $prev = user_trailingslashit( trailingslashit( $term_link ) . 'page/'. ( $paged - 1 ) );
             }
-            
-            if($prev){
-                echo "<link rel='prev' href='$prev' />";
+
+            if ( $found_posts > $posts_per_page * $paged ){
+              $next = user_trailingslashit( trailingslashit( $term_link ) . 'page/'. ( $paged + 1 ) );
             }
-                
-            if($next){
-                echo "<link rel='next' href='$next' />";
+
+          } else {
+            if ( $found_posts > $posts_per_page ){
+              $next = user_trailingslashit( trailingslashit( $term_link ) . 'page/2/' );
             }
-            // end adding link rel='next/prev'
-               
+          }
+
+          if ( $prev ) {
+            echo "<link rel='prev' href='" . esc_attr( $prev ) . "' />\n";
+          }
+
+          if ( $next ) {
+            echo "<link rel='next' href='" . esc_attr( $next ) . "' />\n";
+          }
         }
-                
+      }
+
+    }
+
     $meta_string = null;
 
     if (is_single() || is_page())
