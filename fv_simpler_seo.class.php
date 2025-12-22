@@ -4062,27 +4062,37 @@ src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
   
   
   function manage_category_process_action(){
-    if( !isset( $_POST['fv_seo_category_update'] ) ){
+    if ( ! isset( $_POST['fv_seo_category_update'] ) ) {
       return;
     }
-    
+
+    if ( ! current_user_can( 'manage_categories' ) ) {
+      return;
+    }
+
+    if ( ! wp_verify_nonce( $_POST['fv_seo_category_update_nonce'], 'fv_seo_category_update_nonce' ) ) {
+      wp_die(
+        __( 'FV Simpler SEO: Save Category SEO Titles failed due to security check.', 'fv_seo' ),
+        'FV Simpler SEO: Save Category SEO Titles',
+        array(
+          'back_link' => true
+        )
+      );
+    }
+
     $seo_titles = $_POST['fvseo_title'];
-    if( isset($seo_titles) && !empty($seo_titles) ){
-      $category_titles = get_option('aioseop_category_titles');
-      
-      if( !$category_titles){
-        $category_titles = array();
-      }
-      
-      foreach($seo_titles as $term_id => $title ){
-        if(  strlen(trim($title)) > 0 ){
-          $category_titles[$term_id] = $title;
+    if ( ! empty( $seo_titles ) && is_array( $seo_titles ) ){
+      $category_titles = get_option( 'aioseop_category_titles', array() );
+
+      foreach ( $seo_titles as $term_id => $title ){
+        if ( strlen( trim( $title ) ) > 0 ) {
+          $category_titles[ absint( $term_id ) ] = sanitize_text_field( $title );
         }
       }
-      
-      update_option('aioseop_category_titles',$category_titles);
+
+      update_option( 'aioseop_category_titles', $category_titles );
     }
-    
+
     //clear after process, 
     $_POST = array();
   }
@@ -4103,6 +4113,9 @@ src="//c.statcounter.com/'.$sc_project.'/0/'.$security.'/1/"
       
       var update_fvseo_title_button = "<input class='button button-primary fv_seo_category_update' type='submit' name='fv_seo_category_update' value='Save SEO Titles' style='display:none' />";
       jQuery("div.actions").append(update_fvseo_title_button);
+
+      var update_fvseo_title_button_nonce = "<input type='hidden' name='fv_seo_category_update_nonce' value='<?php echo wp_create_nonce('fv_seo_category_update_nonce'); ?>' />";
+      jQuery("div.actions").append( update_fvseo_title_button_nonce );
       
       jQuery("input.fvseo_title").keydown( fvseo_show_update_button );                         
       jQuery("input.fvseo_title").change( fvseo_show_update_button );
