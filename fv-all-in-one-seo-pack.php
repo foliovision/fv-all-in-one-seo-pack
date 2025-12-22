@@ -856,7 +856,7 @@ jQuery( function($) {
     }
 
     <?php // Selectors for: Classic Editor, Block Editor ?>
-    let where = $( '#major-publishing-actions, .editor-header__settings .is-primary' );
+    let where = $( '#major-publishing-actions:first, .editor-header__settings .is-primary' );
 
     <?php // When using Gutenberg .editor-post-save-draft might not be there yet, so try again later ?>
     if ( 0 === where.length ) {
