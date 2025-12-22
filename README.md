@@ -11,9 +11,9 @@ Simple and effective SEO. Non-invasive, elegant. Ideal for client facing project
 
   2. Fill in "Long Title" and "Meta Description" in "FV Simpler SEO" box and publish the post
 
-  3. Post will have only 1 <title> tag and 3 <meta> tags (description, og:description, twitter:description)
+  3. Post will have only 1 `<title>` tag and 3 `<meta>` tags (description, og:description, twitter:description)
 
-  4. <title> will match the "Long Title" and <meta name="description" ... /> will match "Meta Description"
+  4. `<title>` will match the "Long Title" and `<meta name="description" ... />` will match "Meta Description"
 
 * Go To Settings -> FV Simpler SEO
 

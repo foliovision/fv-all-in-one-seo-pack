@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: post,google,seo,meta,meta keywords,meta description,title,posts,plugin, search engine optimization
 Requires at least: 3.4
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: trunk
 
 Simple and effective SEO. Non-invasive, elegant. Ideal for client facing projects.
@@ -42,6 +42,16 @@ Some features:
 * noindex and nofollow for each post (also excludes post from search and link rel prev/next attributes)
 
 == Changelog ==
+
+= 1.9.7 - 22nd December 2025 =
+* Updating wp_postmeta meta_key values to match All in One SEO Pack:
+* _aioseop_description => _aioseo_description
+* _aioseop_keywords => _aioseo_keywords
+* _aioseop_title => _aioseo_title
+* Basic JSON-LD support
+* Security: Fix for category SEO titles saving
+* PHP 8.x bugfixes
+* Tested with WordPress 6.9
 
 = 1.9.6 - 29th April 2025 =
 * Publishing post without meta description shows a modal popup asking the user to enter the meta description
