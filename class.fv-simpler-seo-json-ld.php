@@ -21,7 +21,7 @@ class FV_Simpler_SEO_JSON_LD {
 	public function get_data() {
 		global $post;
 
-		$description = get_post_meta( $post->ID, '_aioseop_description', true );
+		$description = get_post_meta( $post->ID, '_aioseo_description', true );
 		if ( ! $description ) {
 			$description = wp_trim_words( strip_shortcodes( strip_tags( $post->post_content ) ), 20, '...' );
 		}
