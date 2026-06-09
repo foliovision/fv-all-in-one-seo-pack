@@ -3970,7 +3970,9 @@ JS;
     }
 
     if( $ga4_id = $this->_get_setting('fvseo_ga4_id') ){
-      $track = "gtag('config', '" . trim($ga4_id) . "');";
+      $track = "if ( window.fv_seo_active_test_name && window.fv_seo_active_test_variant ) gtag('set', 'user_properties', {'active_test_name': fv_seo_active_test_name, 'active_test_variant': fv_seo_active_test_variant});";
+
+      $track .= "gtag('config', '" . trim($ga4_id) . "');";
 
       if ( count( $extra_dimensions_config ) > 0 ) {
         $config = array(
