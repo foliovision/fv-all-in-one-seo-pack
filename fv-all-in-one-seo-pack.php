@@ -804,7 +804,7 @@ jQuery( function($) {
       </div>\
       <div class="components-modal__footer">\
         <div class="components-flex components-h-stack items-justified-right">\
-          <button type="button" id="fv-seo-modal-publish" class="components-button is-next-40px-default-size is-primary"><?php _e("Publish", "fv_seo"); ?></button>\
+          <button type="button" id="fv-seo-modal-publish" class="components-button is-next-40px-default-size is-primary"></button>\
         </div>\
       </div>\
     </div>\
@@ -814,6 +814,8 @@ jQuery( function($) {
         // Add the modal to the page
         $('body').append($modal);
 
+        var publishButton = $modal.find('#fv-seo-modal-publish');
+
         // Close modal when clicking outside of it or on the close button
         $modal.on('click', function(e) {
           if ($(e.target).is('.fv-seo-modal') || $(e.target).closest('.fv-seo-modal-close').length) {
@@ -822,9 +824,10 @@ jQuery( function($) {
         });
 
         // Set up the publish button click handler
-        $('#fv-seo-modal-publish').on('click', function() {
+        publishButton.on('click', function() {
           $('#publish').trigger('click');
         });
+        publishButton.text( jQuery(target).val() );
         
         countChars( $modal.find('textarea')[0], $( '#fv-seo-modal-character-count span')[0], 'default');
 
