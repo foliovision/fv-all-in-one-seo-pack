@@ -43,6 +43,10 @@ Some features:
 
 == Changelog ==
 
+= 1.9.8 - 13th October 2026 =
+* Security: Fix for stored XSS via event date which could be exploited by Contributor+ users
+* Security: Improve input sanitization and escaping for the editing metabox
+
 = 1.9.7 - 22nd December 2025 =
 * Updating wp_postmeta meta_key values to match All in One SEO Pack:
 * _aioseop_description => _aioseo_description
