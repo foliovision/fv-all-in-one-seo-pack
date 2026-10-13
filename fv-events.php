@@ -115,9 +115,39 @@ class FV_Events{
     if( !$this->is_query( $query ) ) {
       return $where;
     }
-    
+
     global $wpdb;
-    return $where."AND fv_events_start.meta_key = '_fv_event_date' AND UNIX_TIMESTAMP(fv_events_start.meta_value) >= UNIX_TIMESTAMP('{$query->query_vars['fv_events_start']}') AND UNIX_TIMESTAMP(fv_events_start.meta_value) <= UNIX_TIMESTAMP('{$query->query_vars['fv_events_end']}') ";   
+
+    $start = $this->sanitize_event_datetime( isset( $query->query_vars['fv_events_start'] ) ? $query->query_vars['fv_events_start'] : '' );
+    $end   = $this->sanitize_event_datetime( isset( $query->query_vars['fv_events_end'] ) ? $query->query_vars['fv_events_end'] : '' );
+
+    // A malformed bound means we cannot build a safe range, so return no events rather than the whole site.
+    if( false === $start || false === $end ) {
+      return $where." AND 1=0 ";
+    }
+
+    return $where.$wpdb->prepare(
+      " AND fv_events_start.meta_key = '_fv_event_date' AND UNIX_TIMESTAMP(fv_events_start.meta_value) >= UNIX_TIMESTAMP(%s) AND UNIX_TIMESTAMP(fv_events_start.meta_value) <= UNIX_TIMESTAMP(%s) ",
+      $start,
+      $end
+    );
+  }
+
+  /**
+   * Accept only Y-m-d, optionally with H:i or H:i:s. Returns the value, or false when it does not match.
+   */
+  function sanitize_event_datetime( $value ) {
+    if( !is_scalar( $value ) ) {
+      return false;
+    }
+
+    $value = trim( (string) $value );
+
+    if( !preg_match( '/^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}(:\d{2})?)?$/', $value ) ) {
+      return false;
+    }
+
+    return $value;
   }
     
   
