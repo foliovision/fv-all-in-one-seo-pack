@@ -72,10 +72,6 @@ class FV_Events{
     add_filter( 'posts_join', array( $this, 'query_join' ), 10, 2 );
     add_filter( 'posts_where', array( $this, 'query_where' ), 10, 2 );
     add_filter( 'posts_orderby', array( $this, 'query_order_by' ), 10, 2) ;
-    
-    if( isset($_GET['fv_events_debug']) ) {
-      echo "<!--fv_events_debug:\ntWrap: ".$tWrap." vs. ".date( 'NHis',$tCurrent)."\nquery args: ".var_export($query,true)."-->\n\n";
-    }
   }
   
   
