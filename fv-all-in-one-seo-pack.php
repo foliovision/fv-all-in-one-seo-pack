@@ -989,17 +989,53 @@ foreach(
     'auth_callback' => 'fv_simpler_seo_meta_fields_auth_always_allow',
     'default' => '',
     'description' => $description,
-    'sanitize_callback' => 'fv_simpler_seo_meta_fields_no_sanitization', 
+    'sanitize_callback' => 'fv_simpler_seo_meta_fields_sanitize',
     'show_in_rest' => true,
     'single' => true,
     'type' => 'string'
   ) );  
 }
 
-function fv_simpler_seo_meta_fields_no_sanitization( $meta_value, $meta_key, $meta_type ) {
-  return $meta_value;
+/**
+ * Sanitize a plain text SEO field.
+ *
+ * qTranslate language markers (<!--:en-->...<!--:-->) are preserved, only the text between them is sanitized.
+ *
+ * @param string $value     Unslashed value.
+ * @param bool   $multiline Keep line breaks, used for the meta description.
+ *
+ * @return string
+ */
+function fv_simpler_seo_sanitize_text( $value, $multiline = false ) {
+  if ( ! is_scalar( $value ) ) {
+    return '';
+  }
+
+  $value    = (string) $value;
+  $sanitize = $multiline ? 'sanitize_textarea_field' : 'sanitize_text_field';
+
+  if ( false === strpos( $value, '<!--:' ) ) {
+    return $sanitize( $value );
+  }
+
+  // Odd indexes are the qTranslate markers, even indexes are the text
+  $parts = preg_split( '~(<!--:[a-z0-9_-]*-->)~i', $value, -1, PREG_SPLIT_DELIM_CAPTURE );
+  foreach ( $parts as $i => $part ) {
+    if ( 0 === $i % 2 ) {
+      $parts[ $i ] = $sanitize( $part );
+    }
+  }
+
+  return implode( '', $parts );
+}
+
+/**
+ * Runs for every add_post_meta() and update_post_meta() call on the registered keys, including REST API saves from the block editor.
+ */
+function fv_simpler_seo_meta_fields_sanitize( $meta_value, $meta_key, $meta_type ) {
+  return fv_simpler_seo_sanitize_text( $meta_value, '_aioseo_description' === $meta_key );
 }
 
 function fv_simpler_seo_meta_fields_auth_always_allow( $allowed, $meta_key, $post_id, $user_id, $cap, $caps ) {
-  return true;
+  return user_can( $user_id, 'edit_post', $post_id );
 }

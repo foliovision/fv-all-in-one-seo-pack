@@ -1864,104 +1864,88 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
   function post_meta_tags($id)
   {
-    if( isset( $_POST['fvseo_edit'] ) ) {
-      $awmp_edit = $_POST['fvseo_edit'];
-    }
-    if( isset( $_POST['nonce-fvseopedit'] ) ) {
-      $nonce = $_POST['nonce-fvseopedit'];
+    if ( empty( $_POST['fvseo_edit'] ) || empty( $_POST['nonce-fvseopedit'] ) ) {
+      return;
     }
 
-    if (isset($awmp_edit) && !empty($awmp_edit) && wp_verify_nonce($nonce, 'edit-fvseopnonce'))
-    {
-      $keywords = isset( $_POST["fvseo_keywords"] ) ? $_POST["fvseo_keywords"] : NULL;
-      if (function_exists('qtrans_getSortedLanguages')) {        
-        $languages = qtrans_getSortedLanguages();          
-        $title = '';
-        foreach($languages as $language) {
-          if ($_POST['fvseo_title_' . $language] != '') {
-            $title .= '<!--:' . $language . '-->' . $_POST['fvseo_title_' . $language] . '<!--:-->';
-          }
-        }                                                  
-        $description = '';
-        foreach($languages as $language) {
-          if ($_POST['fvseo_description_' . $language] != '')  {
-            $description .= '<!--:' . $language . '-->' . $_POST['fvseo_description_' . $language] . '<!--:-->';
-          }
-        }                    
-      }
-      else {        
-        $description = ( isset( $_POST["fvseo_description"] ) && $_POST["fvseo_description"] != 'Using post excerpt, type your SEO meta description here.' ) ? $_POST["fvseo_description"] : NULL;
-        $title = isset( $_POST["fvseo_title"] ) ? $_POST["fvseo_title"] : NULL;
-      }
-      $fvseo_meta = isset( $_POST["fvseo_meta"] ) ? trim($_POST["fvseo_meta"]) : NULL;
-      $fvseo_disable = isset( $_POST["fvseo_disable"] ) ? $_POST["fvseo_disable"] : NULL;
-      $fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? trim($_POST["fvseo_titleatr"]) : NULL;
-      $fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? trim($_POST["fvseo_menulabel"]) : NULL;
-      $fvseo_event_date = isset( $_POST["fvseo_event_date"] ) ? sanitize_text_field( wp_unslash( $_POST["fvseo_event_date"] ) ) : NULL;
-      $custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? trim($_POST["fvseo_custom_canonical"]) : NULL;  
-      $noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;       
-      $nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;             
-        
-      delete_post_meta($id, '_aioseo_keywords');
-      delete_post_meta($id, '_aioseo_description');
-      delete_post_meta($id, '_aioseo_title');
-      delete_post_meta($id, '_aioseop_titleatr');
-      delete_post_meta($id, '_aioseop_menulabel');
-      delete_post_meta($id, '_aioseop_custom_canonical');   
-      delete_post_meta($id, '_aioseop_noindex');    
-      delete_post_meta($id, '_aioseop_nofollow');         
-    
-      if ($this->is_admin())
-      {
-        delete_post_meta($id, '_aioseop_disable');
+    if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce-fvseopedit'] ) ), 'edit-fvseopnonce' ) ) {
+      return;
+    }
+
+    if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || wp_is_post_revision( $id ) ) {
+      return;
+    }
+
+    if ( ! current_user_can( 'edit_post', $id ) ) {
+      return;
+    }
+
+    $keywords = isset( $_POST['fvseo_keywords'] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_keywords'] ) ) : NULL;
+
+    if (function_exists('qtrans_getSortedLanguages')) {
+      $languages = qtrans_getSortedLanguages();
+
+      $title = '';
+      foreach($languages as $language) {
+        $localized_title = isset( $_POST['fvseo_title_' . $language] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_title_' . $language] ) ) : '';
+        if ( '' !== $localized_title ) {
+          $title .= '<!--:' . $language . '-->' . $localized_title . '<!--:-->';
+        }
       }
 
-      if (isset($keywords) && !empty($keywords))
-      {
-        add_post_meta($id, '_aioseo_keywords', $keywords);
+      $description = '';
+      foreach($languages as $language) {
+        $localized_description = isset( $_POST['fvseo_description_' . $language] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_description_' . $language] ), true ) : '';
+        if ( '' !== $localized_description ) {
+          $description .= '<!--:' . $language . '-->' . $localized_description . '<!--:-->';
+        }
       }
 
-      if (isset($description) && !empty($description))
-      {
-        add_post_meta($id, '_aioseo_description', $description);
+    } else {
+      $description = isset( $_POST['fvseo_description'] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_description'] ), true ) : NULL;
+      if ( 'Using post excerpt, type your SEO meta description here.' === $description ) {
+        $description = NULL;
       }
 
-      if (isset($title) && !empty($title) && $title != get_the_title( $id ) )
-      {
-        add_post_meta($id, '_aioseo_title', $title);
-      }
-        
-      if (isset($fvseo_titleatr) && !empty($fvseo_titleatr))
-      {
-        add_post_meta($id, '_aioseop_titleatr', $fvseo_titleatr);
-      }
+      $title = isset( $_POST['fvseo_title'] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_title'] ) ) : NULL;
+    }
 
-      if (isset($fvseo_menulabel) && !empty($fvseo_menulabel))
-      {
-        add_post_meta($id, '_aioseop_menulabel', $fvseo_menulabel);
-      }
-      
-      if( isset($fvseo_event_date) ) {
-        update_post_meta($id, '_fv_event_date', $fvseo_event_date);
-      }             
+    $fvseo_disable    = ! empty( $_POST['fvseo_disable'] ) ? 'on' : NULL;
+    $fvseo_titleatr   = isset( $_POST['fvseo_titleatr'] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_titleatr'] ) ) : NULL;
+    $fvseo_menulabel  = isset( $_POST['fvseo_menulabel'] ) ? fv_simpler_seo_sanitize_text( wp_unslash( $_POST['fvseo_menulabel'] ) ) : NULL;
+    $fvseo_event_date = isset( $_POST['fvseo_event_date'] ) ? sanitize_text_field( wp_unslash( $_POST['fvseo_event_date'] ) ) : NULL;
+    $custom_canonical = isset( $_POST['fvseo_custom_canonical'] ) ? trim( wp_unslash( $_POST['fvseo_custom_canonical'] ) ) : NULL;
+    $custom_canonical = $custom_canonical ? esc_url_raw( str_replace( ' ', '%20', $custom_canonical ) ) : NULL;
+    $noindex          = isset( $_POST['fvseo_noindex'] ) ? true : false;
+    $nofollow         = isset( $_POST['fvseo_nofollow'] ) ? true : false;
 
-      if (isset($fvseo_disable) && !empty($fvseo_disable) && $this->is_admin())
-      {
-        add_post_meta($id, '_aioseop_disable', $fvseo_disable);
-      }
+    // Update changed values in place rather than deleting and re-adding the rows
+    $meta = array(
+      '_aioseo_keywords'          => $keywords,
+      '_aioseo_description'       => $description,
+      '_aioseo_title'             => ( ! empty( $title ) && $title != get_the_title( $id ) ) ? $title : NULL,
+      '_aioseop_titleatr'         => $fvseo_titleatr,
+      '_aioseop_menulabel'        => $fvseo_menulabel,
+      '_fv_event_date'            => $fvseo_event_date,
+      '_aioseop_custom_canonical' => $custom_canonical,
+      '_aioseop_noindex'          => $noindex ? '1' : NULL,
+      '_aioseop_nofollow'         => $nofollow ? '1' : NULL,
+    );
 
-      if (isset($custom_canonical) && !empty($custom_canonical))
-      {
-        add_post_meta($id, '_aioseop_custom_canonical', str_replace(" ","%20", $custom_canonical ) );
-      }     
-      if (isset($noindex) && !empty($noindex))
-      {
-        add_post_meta($id, '_aioseop_noindex', true );
-      }   
-      if (isset($nofollow) && !empty($nofollow))
-      {
-        add_post_meta($id, '_aioseop_nofollow', true );
-      }         
+    // Only administrators can change this one
+    if ( $this->is_admin() ) {
+      $meta['_aioseop_disable'] = $fvseo_disable;
+    }
+
+    foreach ( $meta as $meta_key => $meta_value ) {
+      if ( empty( $meta_value ) ) {
+        delete_post_meta( $id, $meta_key );
+
+      } else {
+        // Values are sanitized above. update_post_meta() unslashes its input, so wp_slash() keeps backslashes intact.
+        // It does nothing if the value did not change.
+        update_post_meta( $id, $meta_key, wp_slash( $meta_value ) );
+      }
     }
   }
 
