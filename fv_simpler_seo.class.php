@@ -1897,7 +1897,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $fvseo_disable = isset( $_POST["fvseo_disable"] ) ? $_POST["fvseo_disable"] : NULL;
       $fvseo_titleatr = isset( $_POST["fvseo_titleatr"] ) ? trim($_POST["fvseo_titleatr"]) : NULL;
       $fvseo_menulabel = isset( $_POST["fvseo_menulabel"] ) ? trim($_POST["fvseo_menulabel"]) : NULL;
-      $fvseo_event_date = isset( $_POST["fvseo_event_date"] ) ? $_POST["fvseo_event_date"] : NULL;
+      $fvseo_event_date = isset( $_POST["fvseo_event_date"] ) ? sanitize_text_field( wp_unslash( $_POST["fvseo_event_date"] ) ) : NULL;
       $custom_canonical = isset( $_POST["fvseo_custom_canonical"] ) ? trim($_POST["fvseo_custom_canonical"]) : NULL;  
       $noindex = isset( $_POST["fvseo_noindex"] ) ? true : false;       
       $nofollow = isset( $_POST["fvseo_nofollow"] ) ? true : false;             

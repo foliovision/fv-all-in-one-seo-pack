@@ -38,7 +38,7 @@ class FV_Events{
       return;
     }
     
-    echo get_post_meta($post_id, '_fv_event_date', true);
+    echo esc_html( get_post_meta( $post_id, '_fv_event_date', true ) );
   }
 
   
