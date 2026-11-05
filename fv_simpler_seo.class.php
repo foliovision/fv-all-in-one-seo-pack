@@ -697,9 +697,8 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
 
     $meta_string = null;
 
-    if (is_single() || is_page())
-    {
-      $fvseo_disable = htmlspecialchars(stripcslashes(get_post_meta($post->ID, '_aioseop_disable', true)));
+    if ( ! empty( $post->ID ) && ( is_single() || is_page() ) ) {
+      $fvseo_disable = get_post_meta( $post->ID, '_aioseop_disable', true );
       if ($fvseo_disable)
       {
         return;
@@ -1348,8 +1347,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       $title = get_the_title($post->post_parent).' '.$post->post_title.' – '.get_option('blogname');
       $header = $this->replace_title($header,$title);
     }
-    else if (is_single())
-    {
+    else if ( ! empty( $post->ID ) && is_single() ) {
       // we're not in the loop :(
       $authordata = get_userdata($post->post_author);
       $title = $this->internationalize(get_post_meta($post->ID, "_aioseo_title", true));
