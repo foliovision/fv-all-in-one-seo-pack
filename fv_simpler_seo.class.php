@@ -608,8 +608,7 @@ class FV_Simpler_SEO_Pack extends FV_Simpler_SEO_Plugin
       return;
     }
 
-    if (is_single() || is_page())
-    {
+    if ( ! empty( $post->ID ) && ( is_single() || is_page() ) ) {
       $fvseo_disable = htmlspecialchars(stripcslashes(get_post_meta($post->ID, '_aioseop_disable', true)));
       
       if ($fvseo_disable)
